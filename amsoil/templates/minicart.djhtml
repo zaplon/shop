@@ -1,0 +1,14 @@
+{% load i18n %}
+<div id="mini-cart">
+     <div class="btn-group" role="group" id="cart-controls">
+        <button id="checkout" type="button" class="btn btn-primary">{% trans 'Checkout' %}</button>
+        <button id="cart" type="button" class="btn btn-default">{% trans 'Cart' %}</button>
+     </div>
+    <div id="details">
+        <div id="items-count">{% trans 'Products: ' %}{{ count }}</div>
+        <div id="total">{% trans 'Total: ' %}{{ total }}</div>
+    </div>
+    <div id="cart-icon">
+        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+    </div>
+</div>

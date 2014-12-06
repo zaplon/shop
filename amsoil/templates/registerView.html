@@ -1,0 +1,22 @@
+{% extends 'base.djhtml' %}
+{% load i18n %}
+{% block body %}
+    <div id="registerView" class="panel panel-default col-md-8 col-md-offset-2">
+        <h1>{% trans 'Register' %}</h1>
+        <div class="panel-body">
+            <form class="form-horizontal" role="form" action="/register/" method="POST">
+                {% for field in form %}
+                    <div class="form-group">
+                        {{ field.errors }}
+                        {{ field.label_tag }} {{ field }}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">{% trans 'Register' %}</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+         $('#registerView input[type!="checkbox"]').addClass('form-control');
+    </script>
+{% endblock %}

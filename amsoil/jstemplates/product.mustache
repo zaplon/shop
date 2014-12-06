@@ -1,0 +1,49 @@
+    <div class="panel panel-default product-container">
+        <div class="panel-body">
+        <div class="product-image pull-left" style="background-image:url('{{ product.image }}'); background-size:cover;
+                margin: auto;">
+        </div>
+        <div class="product-data pull-left">
+            <h4><a href="/shop/product/{{product.id}}/">{{ product.name }}</a></h4>
+            <div class="product-description">
+                {{ product.shortDescription }}
+            </div>
+            {{#product.single}}
+                <div>
+                    {{#product.variations}}
+                        {{ attributesString }} {{ price }}
+                    {{/product.variations}}
+                </div>
+                {{#product.noVars}}
+                    <button class="pull-right btn btn-primary add-to-cart" productId="{{ product.id }}" style="margin-top:20px;">
+                        {{ addToCart }}
+                     </button>
+                {{/product.noVars}}
+                {{^product.noVars}}
+                    {{#product.variations}}
+                    <button class="pull-right btn btn-primary add-to-cart variable single-var"
+                            productId="{{ id }}" style="margin-top:20px;">
+                        {{ addToCart }}
+                    </button>
+                    {{/product.variations}}
+                {{/product.noVars}}
+            {{/product.single}}
+            {{^product.single}}
+                <div>
+                    <select id="product-{{ product.id }}">
+                        {{#product.variations}}
+                            <option value="{{ id }}">{{ attributesString }} {{ price }}</option>
+                        {{/product.variations}}
+                    </select>
+                </div>
+                 <button class="pull-right btn btn-primary add-to-cart variable" productId="{{ product.id }}" style="margin-top:20px;">
+                    {{ addToCart }}
+                 </button>
+            {{/product.single}}
+        </div>
+    </div>
+    </div>
+    <div class="product-dec" style="">
+        <canvas height="20"></canvas>
+    </div>
+

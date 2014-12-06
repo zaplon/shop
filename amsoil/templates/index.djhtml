@@ -1,0 +1,103 @@
+{% extends 'base.djhtml' %}
+{% load i18n %}
+{% load tags %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">{% trans 'Contact' %}</div>
+                <div class="panel-body">
+                    {% quickContact %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="col-md-12 slider">
+                <div class="slide-right arrow pull-left"><span class="glyphicon glyphicon-chevron-left"></span></div>
+                <div class="slide pull-left"></div>
+                <div class="slide-right arrow pull-left"><span class="glyphicon glyphicon-chevron-right"></span></div>
+            </div>
+            <div class="col-md-12 margin-top20">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        Lorem ipsum sun doloret
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row gray">
+        <div class="col-md-4 col-sm-12">
+            <div class="">
+                <div class="service-title text-center">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        <h4>Dlaczego syntetyk i nanotechnologia?</h4>
+                 </div>
+                <div class="service-body">
+                    <p>
+                        Oleje syntetyczne w motoryzacji to nowa era zapoczątkowana przez AMSOIL. Zapewniają one wyższą ochronę
+                        przed
+                        tarciem i zużyciem, dłuższe okresy wymiany, dłuższą żywotność sprzętu, niższe spalanie a także lepsze
+                        całoroczne właściwości w skrajnych temperaturach. Oleje w pełni syntetyczne są tworzone na poziomie
+                        molekuł
+                        w formie czystej i nie zawierają zbędnych komponentów mogących obniżyć ich parametry oraz skrócić okres
+                        przydatności. Nanotechnologiczne modyfikatory tarcia Archoil zapewniają najwyższą skuteczność redukcji
+                        tarcia i zużycia oraz najlepsze osiągi.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="">
+                <div class="service-title text-center">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        <h4>Dlaczego syntetyk i nanotechnologia?</h4>
+                 </div>
+                <div class="service-body">
+                    <p>
+                        Oleje syntetyczne w motoryzacji to nowa era zapoczątkowana przez AMSOIL. Zapewniają one wyższą ochronę
+                        przed
+                        tarciem i zużyciem, dłuższe okresy wymiany, dłuższą żywotność sprzętu, niższe spalanie a także lepsze
+                        całoroczne właściwości w skrajnych temperaturach. Oleje w pełni syntetyczne są tworzone na poziomie
+                        molekuł
+                        w formie czystej i nie zawierają zbędnych komponentów mogących obniżyć ich parametry oraz skrócić okres
+                        przydatności. Nanotechnologiczne modyfikatory tarcia Archoil zapewniają najwyższą skuteczność redukcji
+                        tarcia i zużycia oraz najlepsze osiągi.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="">
+                <div class="text-center service-title">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        <h4>Dlaczego AMSOIL, Red Line, Penrite, Archoil?</h4>
+                </div>
+                <div class="service-body">
+                    <p>
+                        AMSOIL to pionier olejów syntetycznych na świecie stawiany za wzór dla innych. Red Line Synthetic Oil
+                        Corporation od 1979r. niezłomnie oferuje najwyższej jakości oleje uznane w motorsporcie oparte wyłącznie
+                        o najlepsze estrowe oleje bazowe wbrew powszechnemu trendowi cięcia kosztów. Penrite to duma Australii
+                        od 1926 roku - obecnie oferuje oleje oparte o własne opatentowane syntetyczne technologie i zatwierdzone
+                        przez wszystkich renomowanych producentów motoryzacyjnych. Archoil to światowy lider nanotechnologii.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block addScripts %}
+    <script>
+        $(document).ready(function($) {
+          $('#banner-fade').bjqs({
+            height      : 320,
+            width       : 620,
+            responsive  : true
+          });
+
+        });
+    </script>
+{% endblock %}

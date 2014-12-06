@@ -1,0 +1,20 @@
+{% load i18n %}
+
+<form id="quickContact" method="POST" action="/quickContact/">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="form-group">
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field.help_text }} {{ field }}
+        </div>
+    {% endfor %}
+    <input type="hidden" value="invoice" name="type" />
+    <button type="submit" class="col-md-6 col-md-offset-3 btn btn-primary">
+        {% trans 'Submit' %}
+    </button>
+</form>
+
+<script>
+     $('#quickContact textarea').addClass('form-control');
+     $('#quickContact input[type!="checkbox"]').addClass('form-control');
+</script>

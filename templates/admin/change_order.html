@@ -1,0 +1,9 @@
+{% extends 'admin/change_form.html' %}
+{% load tags %}
+
+{% block after_field_sets %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
+ {% if object_id %}
+     {% cartItems orderId=object_id %}
+ {% endif %}
+{% endblock %}

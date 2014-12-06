@@ -1,0 +1,159 @@
+{% extends 'base.djhtml' %}
+{% load i18n %}
+{% load tags %}
+{% load staticfiles %}
+
+{% block body %}
+    <div role="tabpanel" id="myAccount" class="col-md-10 col-md-offset-1">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a aria-controls="orders" role="tab" data-toggle="tab" href="#orders">
+                    {% trans 'Orders list' %}
+                </a>
+            </li>
+            <li role="presentation">
+                <a aria-controls="personal" role="tab" data-toggle="tab"
+                   href="#personal">{% trans 'Personal data' %}</a></li>
+            <li role="presentation" aria-controls="shipment" role="tab" data-toggle="tab">
+                <a aria-controls="shipment" role="tab" data-toggle="tab"
+                   href="#shipment">{% trans 'Shipping addresses' %}</a>
+            </li>
+        </ul>
+
+        <div class="tab-content row">
+            <div role="tabpanel" class="tab-pane active" id="orders">
+                <div class='col-md-12'>
+                    <table class="table">
+                        <thead>
+                            <th>{% trans 'Date' %}</th>
+                            <th colspan="3">{% trans 'Status' %}</th>
+                        </thead>
+                        {% for o in orders %}
+                            <tr>
+                                <td>{{ o.date }}</td>
+                                <td>{{ o.status }}</td>
+                                <td>
+                                    <button order="{{ o.id }}" class="show-details btn btn-default">
+                                        {% trans 'See details' %}
+                                    </button>
+                                </td>
+                                <td>
+                                    <button cart="{{ o.cart.id }}" class="take-cart btn btn-primary">
+                                        {% trans 'Renew' %}
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="order-details order-{{ o.id }}" style="display:none">
+                                <td colspan="4">
+                                    <table class="table">
+                                        {% for cp in o.cart.cartProducts.all %}
+                                            <tr>
+                                                <td>
+                                                    {{ cp.productVariation.product.name }}
+                                                </td>
+                                                <td>
+                                                    {{ cp.quantity }}
+                                                </td>
+                                                <td colspan="2">
+                                                    {{ cp.productVariation.price }}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="personal">
+                <div class='col-md-12'>
+                    {{ userChangeForm }}
+                    <h2>{% trans 'Invoice data' %}</h2>
+                    <form method="POST" action="/account/">
+                        {% csrf_token %}
+                        {% for field in invoiceForm %}
+                            <div class="form-group">
+                                {{ field.errors }}
+                                {{ field.label_tag }} {{ field.help_text }} {{ field }}
+                            </div>
+                        {% endfor %}
+                        <input type="hidden" value="invoice" name="type" />
+                        <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+                    </form>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="shipment">
+                <div class="checkbox col-md-12">
+                    <label>
+                        <input type="checkbox" id='addressesTheSame'> {% trans 'Payer address is shipment address' %}
+                    </label>
+                </div>
+                <div class='col-md-6' id="buyer-address">
+                    <h2>{% trans 'Buyer address' %}</h2>
+                    <form method="POST" action="/account/">
+                        {% csrf_token %}
+                        {% for field in payerForm %}
+                            <div class="form-group">
+                                {{ field.errors }}
+                                {{ field.label_tag }} {{ field.help_text }} {{ field }}
+
+                            </div>
+                        {% endfor %}
+                        <input type="hidden" value="payer" name="type" />
+                        <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+                    </form>
+                </div>
+                <div class='col-md-6' id="shipment-address">
+                    <h2>{% trans 'Shipment address' %}</h2>
+                    <form method="POST" action="/account/">
+                        {% csrf_token %}
+                        {% for field in shipmentForm %}
+                            <div class="form-group">
+                                {{ field.errors }}
+                                {{ field.label_tag }} {{ field.help_text }} {{ field }}
+
+                            </div>
+                        {% endfor %}
+                        <input type="hidden" value="shipment" name="type" />
+                        <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('.take-cart').click(function(){
+            id = $(this).attr('cart');
+            $.post('/takeCart/',{'id':id}, function() {
+                $.get('/miniCart', {}, function (res) {
+                    $('#mini-cart').html(Mustache.to_html(Mustache.TEMPLATES.miniCart,
+                            JSON.parse(res)));
+                });
+            });
+        });
+        $('.show-details').click(function(){
+            var o = $(this).attr('order');
+            var d = $('.order-'+o);
+            console.log(d);
+            if (d.hasClass('visible')) {
+                d.css('display','none');
+                d.removeClass('visible');
+            }
+            else {
+                d.css('display','block');
+                d.addClass('visible');
+            }
+        });
+        $('#addressesTheSame').click(function(){
+            console.log('elo');
+           if (!$(this).is(':checked'))
+            $('#shipment-address').css('display','initial');
+           else
+            $('#shipment-address').css('display','none');
+        });
+        $('#myAccount input[type!="checkbox"]').addClass('form-control');
+    </script>
+
+{% endblock %}

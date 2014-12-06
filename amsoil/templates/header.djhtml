@@ -1,0 +1,60 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load tags %}
+{% load jstemplate %}
+
+{% mustachejs "loginForm" %}
+{% mustachejs "registerForm" %}
+{% mustachejs "miniCart" %}
+
+<div id="top">
+     <div id="info">
+        <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+        <span>+48 502 819 238</span>
+        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+        <span>oleje.amsoil@gmail.com</span>
+        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+        <span>Okrężna 87, 02-933 Warszawa</span>
+     </div>
+     <div id="account">
+        {% if request.user.is_authenticated %}
+            <div class="dropdown">
+              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                  <span class="glyphicon glyphicon-user"></span>
+                  {% trans 'Hello, ' %} {{ request.user.username }}
+                  <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="/logout">{% trans 'Logout' %}</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="/account">{% trans 'My account' %}</a></li>
+              </ul>
+            </div>
+        {% else %}
+            <span id="login">{% trans 'Log in' %}</span>
+            <span id="register">{% trans 'Register' %}</span>
+        {% endif %}
+    </div>
+    <div style="clear:both"></div>
+</div>
+
+<header>
+    <div id="logo"></div>
+    <div id="main">
+
+        <div id="search-main">
+            <input type="text" id="search"></input>
+            <div id="submit-box">
+                <div id="submit">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </div>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+    </div>
+    <div id="meta">
+        {% cartData %}
+    </div>
+    <div style="clear:both"></div>
+</header>
+
+{% nav %}

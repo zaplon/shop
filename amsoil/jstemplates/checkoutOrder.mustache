@@ -1,0 +1,40 @@
+<div class="col-md-4">
+    <h4>{{#_}} Shipping method {{/_}}</h4>
+    <p class="bg-warning" id="no-shipping" style="display:none">
+        {{#_}} Please select a shipping method {{/_}}
+    </p>
+    <form id="shipping-method" role="form">
+    {{#shippingMethods}}
+        <div class="radio">
+            <label><input type="radio" name="shippingMethod" value="{{ id }}"/>
+                {{ name }} <strong>({{ price }}zł)</strong></label>
+        </div>
+    {{/shippingMethods}}
+    </form>
+</div>
+<div class="col-md-4">
+    <h4>{{#_}} Payment method {{/_}}</h4>
+    <p class="bg-warning" id="no-payment" style="display:none">
+        {{#_}} Please select a payment method {{/_}}
+    </p>
+    <form id="payment-method" role="form">
+    {{#paymentMethods}}
+        <div class="radio">
+            <label>
+                <input type="radio" name="paymentMethod" value="{{ id }}"/>
+                {{ name }} <strong>({{price}}zł)</strong>
+            </label>
+        </div>
+    {{/paymentMethods}}
+    </form>
+</div>
+<div class="col-md-4">
+    <h4>{{#_}} Totals {{/_}}</h4>
+
+    <div>{{#_}} Products price:{{/_}}<span class="pull-right">
+        <strong> {{ totals.products }}zł</strong></span></div>
+    <div>{{#_}} Shipping:{{/_}} <span class="pull-right"><strong>
+        {{ totals.shipping }}zł</strong></span></div>
+    <div>{{#_}} In total:{{/_}} <span class="pull-right">
+        <strong> {{ totals.total }}zł</strong></span></div>
+</div>

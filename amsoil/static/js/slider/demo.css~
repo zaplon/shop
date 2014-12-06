@@ -1,0 +1,133 @@
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+
+body{
+	/*background-image:url(../img/shattered_@2X.png);*/
+	background-size: 500px 500px; 
+	font-family: 'Open Sans', "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body{
+padding-top:20px!important;
+}
+
+h1,h3,h4,h5{
+	font-family: 'Coda', "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h2{
+	font-weight: normal;
+	color:#555;
+	font-size: 24px;
+}
+
+p + h3, div + h3, .download h3{
+	margin-top:40px;
+}
+
+pre {
+font-size: 18px;
+margin-bottom: 20px;
+font-family: "Source Code Pro";
+border:none;
+-webkit-border-radius: 0px;
+-moz-border-radius: 0px;
+border-radius: 0px;
+background: #272822;
+margin-bottom:40px;
+}
+
+.container,.span12{
+	width:620px;
+}
+
+header{
+	margin-bottom:40px;
+}
+
+#slider{
+	margin-bottom:80px;
+}
+
+.text{
+	background: #fff;
+/*	width:580px;
+	padding:20px;*/
+}
+
+.btn i{
+	margin-top:2px;
+	margin-right:4px;
+	color:#fff;
+}
+
+.download{
+	width: 260px;
+	float: left;
+}
+
+.ad-space{
+	float:right;
+	
+}
+
+.leaderboard-ad { margin-bottom:20px; margin-left: -40px; }
+
+.buttons .btn{
+	display: block;
+	width: 240px;
+	margin:10px 0 5px;
+	padding:10px;
+	background-image: none;
+	border:none;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+
+/* Basic jQuery Slider essential styles */
+
+ul.bjqs{position:relative; list-style:none;padding:0;margin:0;overflow:hidden; display:none;}
+li.bjqs-slide{position:absolute; display:none;}
+ul.bjqs-controls{list-style:none;margin:0;padding:0;z-index:9999;}
+ul.bjqs-controls.v-centered li a{position:absolute;}
+ul.bjqs-controls.v-centered li.bjqs-next a{right:0;}
+ul.bjqs-controls.v-centered li.bjqs-prev a{left:0;}
+ol.bjqs-markers{list-style: none; padding: 0; margin: 0; width:100%;}
+ol.bjqs-markers.h-centered{text-align: center;}
+ol.bjqs-markers li{display:inline;}
+ol.bjqs-markers li a{display:inline-block;}
+p.bjqs-caption{display:block;width:96%;margin:0;padding:2%;position:absolute;bottom:0;}
+
+
+ul.bjqs-controls.v-centered li a{
+	display:block;
+	padding:10px;
+	background:#fff;
+	color:#000;
+	text-decoration: none;
+}
+
+ul.bjqs-controls.v-centered li a:hover{
+	background:#000;
+	color:#fff;
+}
+
+ol.bjqs-markers li a{
+	padding:5px 10px;
+	background:#000;
+	color:#fff;
+	margin:5px;
+	text-decoration: none;
+}
+
+ol.bjqs-markers li.active-marker a,
+ol.bjqs-markers li a:hover{
+	background: #999;
+}
+
+p.bjqs-caption{
+	background: rgba(255,255,255,0.5);
+}

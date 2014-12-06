@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-16 20:23+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+
+#: amsoil/mails.py:7
+msgid "New order"
+msgstr ""
+
+#: amsoil/templates/cart.djhtml:5
+msgid "Name"
+msgstr ""
+
+#: amsoil/templates/cart.djhtml:5
+msgid "Quantity"
+msgstr ""
+
+#: amsoil/templates/cart.djhtml:5
+msgid "Price"
+msgstr ""
+
+#: amsoil/templates/cart.djhtml:17
+msgid "In total:"
+msgstr ""
+
+#: amsoil/templates/checkout.djhtml:12
+msgid "Login"
+msgstr ""
+
+#: amsoil/templates/checkout.djhtml:13 amsoil/templates/checkout.djhtml:80
+msgid "Addresses"
+msgstr ""
+
+#: amsoil/templates/checkout.djhtml:14
+msgid "Shippment and payment"
+msgstr ""
+
+#: amsoil/templates/checkout.djhtml:15
+msgid "Sum up"
+msgstr ""
+
+#: amsoil/templates/checkout.djhtml:43 amsoil/templates/checkout.djhtml:48
+#: amsoil/templates/header.djhtml:33
+msgid "Register"
+msgstr ""
+
+#: amsoil/templates/checkout.djhtml:53 amsoil/templates/checkout.djhtml:63
+#: amsoil/templates/checkout.djhtml:94 amsoil/templates/header.djhtml:32
+msgid "Log in"
+msgstr ""
+
+#: amsoil/templates/checkout.djhtml:56
+msgid "Username"
+msgstr ""
+
+#: amsoil/templates/checkout.djhtml:60
+msgid "Password"
+msgstr ""
+
+#: amsoil/templates/checkout.djhtml:71
+msgid "Buy without registration"
+msgstr ""
+
+#: amsoil/templates/checkout.djhtml:96
+msgid "Shipping and payment"
+msgstr ""
+
+#: amsoil/templates/checkout.djhtml:108 amsoil/templates/minicart.djhtml:5
+msgid "Cart"
+msgstr ""
+
+#: amsoil/templates/header.djhtml:23
+msgid "Hello, "
+msgstr ""
+
+#: amsoil/templates/header.djhtml:27
+msgid "My account"
+msgstr ""
+
+#: amsoil/templates/header.djhtml:28
+msgid "Logout"
+msgstr ""
+
+#: amsoil/templates/minicart.djhtml:4
+msgid "Checkout"
+msgstr ""
+
+#: amsoil/templates/minicart.djhtml:8
+msgid "Products: "
+msgstr ""
+
+#: amsoil/templates/minicart.djhtml:9
+msgid "Total: "
+msgstr ""
+
+#: amsoil/templates/shop.djhtml:12
+msgid "Shop"
+msgstr ""
+
+#: amsoil/templates/shop.djhtml:20
+msgid "Filter"
+msgstr ""
+
+#: shop/settings.py:34
+msgid "Polish"
+msgstr ""
+
+#: shop/settings.py:35
+msgid "English"
+msgstr ""

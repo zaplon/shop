@@ -1,0 +1,5 @@
+<ul class="breadcrumbs">
+    {% for c in crumbs %}
+        <li><a href="{{ c.url }}">{{ c.name }}</a></li><li>/</li>
+    {% endfor %}
+</ul>

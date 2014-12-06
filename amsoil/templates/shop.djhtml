@@ -1,0 +1,67 @@
+{% extends 'base.djhtml'  %}
+{% load jstemplate %}
+{% load tags %}
+{% load i18n %}
+
+{% block body %}
+    <div class="row">
+        <div style="margin-left:15px;">
+            {% breadcrumbs %}
+        </div>
+        {% mustachejs 'product' %}
+        <div class="sidebar-left col-md-3">
+            <div class="widget" id="view-as">
+                 <h3>{% trans 'View as' %}</h3>
+                <div class="panel panel-body">
+                    <div class="panel-body">
+                        <span id="show-as-grid" class="glyphicon glyphicon-th col-md-6 text-center"></span>
+                        <span id="show-as-list" class="glyphicon glyphicon-th-list col-md-6 text-center"></span>
+                        <div style="clear:both"></div>
+                    </div>
+                </div>
+            </div>
+            {% productCategories %}
+        </div>
+        <div id="content-shop" class="col-md-9">
+            <div id="shop-top" class="col-md-12">
+                   <h1 class="page-title">{% trans 'Shop' %}</h1>
+            </div>
+            <div id="page-meta" class="group">
+            </div>
+            {% mustachejs "productSmall" %}
+            <div id="products"></div>
+            <div style="clear:both"></div>
+            <div class="text-center">
+                <ul class="pagination" id="shop-pagination">
+                </ul>
+            </div>
+        </div>
+        <button class="btn btn-primary col-md-3" id="product-filter">
+            {% trans 'Filter' %}
+        </button>
+    </div>
+
+{% endblock %}
+
+{% block addScripts %}
+    <script>
+        var paths = window.location.pathname.split('/');
+        if (paths.indexOf('category') > -1) {
+            var cat = paths[paths.indexOf('category') + 1];
+            shop.filters.categories[cat] = 1;
+        }
+        shop.getProducts('products');
+        $('#product-filter').click(function(){
+            shop.currentPage = 1;
+            shop.getProducts('products');
+        });
+        $('#show-as-grid').click(function(){
+           shop.displayAs = 'grid';
+           shop.getProducts('products');
+        });
+        $('#show-as-list').click(function(){
+           shop.displayAs = 'list';
+           shop.getProducts('products');
+        });
+    </script>
+{% endblock %}

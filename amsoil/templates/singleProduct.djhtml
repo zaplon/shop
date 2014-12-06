@@ -1,0 +1,99 @@
+{% extends 'base.djhtml'  %}
+{% load jstemplate %}
+{% load tags %}
+{% load i18n %}
+
+{% block body %}
+    <div class="row">
+        {% breadcrumbs %}
+        <div class="col-md-9">
+                <div>
+                    <div class="pull-left single-product-image">
+                        <img width="150" height="300"
+                             src="/media/{{ product.mainImage }}"></img>
+                    </div>
+                    <div class="pull-left single-product-next-to-image">
+                        <div class="product-title">
+                            <h1>{{ product.name }}</h1>
+                         </div>
+                        {{ product.shortDescription }}
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+                <div class="margin-top10">
+                    <ul class="nav nav-tabs">
+                        <li class="active" role="presentation" >
+                            <a href="#">
+                                {% trans 'Product description' %}
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content margin-top10">
+                        <div role="tabpanel" class="tab-pane active">
+                            {{ product.description |safe }}
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="col-md-3 sidebar-right">
+
+            <div  class="widget panel panel-default">
+                <div class="body panel-body">
+                    {% for v in product.variations.all  %}
+                        <span class="item-price single-prod product-price product-{{ v.id }}">{{ v.price }}zł</span>
+                    {% endfor %}
+                    {% if product.variations.count == 0 %}
+                        <span class="item-price single-prod product-price product-{{ v.id }}">{{ product.price }}zł</span>
+                    {% endif %}
+
+                     {% if v in product.variations.count == 0 or product.variations.count == 1 %}
+                        <h4>{{ v.getAttributesString }}</h4>
+                    {% else %}
+                         <select id="product-variations">
+                            {% for v in product.variations.all %}
+                                <option value="{{ v.id }}">
+                                    {{ v.getAttributesString }}
+                                </option>
+                            {% endfor %}
+                         </select>
+                    {% endif %}
+                    <div class="form-group form-horizontal">
+                        <label class="control-label pull-left">{% trans 'Quantity' %}:</label>
+                        <input id="quantity" class="pull-right form-control" value="1" type="number" min="1"></input>
+                    </div>
+                    <div style="clear:both"></div>
+
+                    {% for v in product.variations.all  %}
+                        <button productId="{{ v.id }}"
+                                class="col-md-4 col-md-offset-8 btn btn-primary single-prod product-{{ v.id }} add-to-cart variable single-var">
+                            {% trans 'Add to cart' %}
+                        </button>
+                    {% endfor %}
+
+                    {% if product.variations.count == 0 %}
+                        <button productId="{{ p.id }}" class="col-md-4 col-md-offset-8 btn btn-primary add-to-cart">
+                            {% trans 'Add to cart' %}
+                        </button>
+                    {% endif %}
+
+                </div>
+            </div>
+
+            {% productCategories asLink=True %}
+
+        </div>
+    </div>
+    {% if product.variations.count > 0 %}
+        <script>
+            $('.single-prod').css('display','none');
+            $('.product-{{ product.variations.first.id }}').css('display','inherit');
+            $('#product-variations').change(function(){
+                $('.single-prod').css('display','none');
+                $('.product-'+$(this).val()).css('display','inherit');
+            });
+            $('#quantity').change(function(){
+               shop.quantity = $(this).val();
+            });
+        </script>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,12 @@
+<nav>
+    <ul>
+        {% for item in menuItems %}
+            <li style="width: calc(100%/{{ count }} - {{offset}}px)">
+                <a href="{{ item.getUrl }}">{{ item.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <canvas class="dec" height="30">
+
+    </canvas>
+</nav>
