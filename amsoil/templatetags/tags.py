@@ -82,7 +82,8 @@ def breadcrumbs(context):
     i = 1
     for e in els:
         if len(e) > 0:
-            res.append( { 'url': '/'.join(els[0:i]), 'name':e } )
+            if e != 'product' and e != 'category':
+                res.append( { 'url': '/'.join(els[0:i]), 'name':e } )
         i = i + 1
     return {
         'crumbs': res

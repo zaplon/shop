@@ -1,0 +1,36 @@
+{% load i18n %}
+
+<div id="slider-{{ slider.name }}" class="col-md-12 slider">
+    <div class="slide-left arrow pull-left"><span class="glyphicon glyphicon-chevron-left"></span></div>
+    <ul class="slide pull-left">
+        {% for slide in slides %}
+            <li>
+                <div class="data">
+                    <div class="title"><h3>{{ slide.title }}</h3></div>
+                    <div class="text">
+                        {{ slide.text }}
+                    </div>
+                    <div class="buttons">
+                        {% if slide.button1Url %}
+                            <button class="btn btn-primary">{% trans slide.button1Text %}</button>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="image">
+                    {% if slide.product %}
+                        <img src="{{ root }}{{ slide.product.mainImage }}" />
+                    {% else %}
+                        <img src="{{ slide.image }}"/>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="slide-right arrow pull-left"><span class="glyphicon glyphicon-chevron-right"></span></div>
+</div>
+
+<script>
+    $('#slider-{{ slider.name }}').slider({
+
+    });
+</script>

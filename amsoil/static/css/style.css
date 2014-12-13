@@ -26,11 +26,11 @@ footer {
 
 #top {
   color: #ffffff;
-  background-image: url("../images/pattern_dark.png");
-  padding: 10px;
-  height: 54px; }
+  background-image: url("../images/pattern_dark.png"); }
   #top #info {
-    float: left; }
+    float: left;
+    padding: 10px 0;
+    padding-left: 10px; }
     #top #info span {
       margin-right: 5px; }
   #top #account {
