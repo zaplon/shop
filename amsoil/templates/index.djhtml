@@ -13,11 +13,7 @@
             </div>
         </div>
         <div class="col-md-9">
-            <div class="col-md-12 slider">
-                <div class="slide-right arrow pull-left"><span class="glyphicon glyphicon-chevron-left"></span></div>
-                <div class="slide pull-left"></div>
-                <div class="slide-right arrow pull-left"><span class="glyphicon glyphicon-chevron-right"></span></div>
-            </div>
+            {% slider name='main' %}
             <div class="col-md-12 margin-top20">
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -90,14 +86,5 @@
 {% endblock %}
 
 {% block addScripts %}
-    <script>
-        $(document).ready(function($) {
-          $('#banner-fade').bjqs({
-            height      : 320,
-            width       : 620,
-            responsive  : true
-          });
 
-        });
-    </script>
 {% endblock %}

@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from django.shortcuts import render
-from django.shortcuts import render_to_response, RequestContext, HttpResponse, HttpResponseRedirect
+from django.shortcuts import render_to_response, RequestContext, HttpResponse, HttpResponseRedirect, render
 from amsoil.models import Page, Product, Cart, User, CartProduct, ProductVariation, \
     ShippingMethod, PaymentMethod, Order, Invoice, Shipment
 from rest_framework import viewsets
@@ -19,6 +18,8 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count, Sum
 from django.core import serializers
+
+from amsoil.mails import newOrder
 
 
 def home(request):
@@ -180,6 +181,10 @@ def checkout(request):
                 order.receiver = receiver
                 order.buyer = buyer
             order.save()
+
+
+            #wysyłanie emaili
+            newOrder(order, request)
 
             del request.session['cartId']
             return HttpResponse(json.dumps({'success': True, 'message': pm.instructions}))
@@ -361,8 +366,9 @@ def register(request):
                 return HttpResponseRedirect("/register/")
     else:
         form = UserCreationForm()
-    if 'source' in request.POST:
-        return HttpResponseRedirect("/" + request.POST['source'] + "/")
+    if 'source' in request.POST and request.POST['source'] == 'checkout':
+         return render_to_response('checkout.djhtml', {'creationForm': form,
+                                                       'products_in_cart': True}, context_instance=RequestContext(request))
     else:
         return render(request, "registerView.html", {
             'form': form,
@@ -371,7 +377,7 @@ def register(request):
 
 def logoutView(request):
     logout(request)
-    url = request.META['HTTP_REFERER'].split('/')[-2]
+    url = request.META['HTTP_REFERER'].split('/')[-1]
     return HttpResponseRedirect('/' + url)
 
 

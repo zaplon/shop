@@ -11,8 +11,11 @@
             {{#product.single}}
                 <div class="col-md-12 ">
                     {{#product.variations}}
-                       <div class="pull-left" style="padding:5px 0px"> {{ attributesString }} </div>
-                        <div class="pull-right item-price">{{ price }}</div>
+                       <div class="pull-left col-md-6" style="padding:5px 0px"> {{ attributesString }} </div>
+                        <div class="pull-right col-md-6">
+                            <span class="currency">pln</span>
+                            <span class="item-price">{{ price }}-</span>
+                        </div>
                         <div style="clear:both"></div>
                         <div class="margin-top10">
                             <button class="btn btn-primary add-to-cart variable single-var"

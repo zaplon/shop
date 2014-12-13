@@ -1,5 +1,26 @@
+{% load i18n %}
 <nav>
     <ul>
+        <li style="width: calc(100%/{{ count }} - {{offset}}px)">
+            <a href="/" class="glyphicon glyphicon-home"></a>
+        </li>
+        <li style="width: calc(100%/{{ count }} - {{offset}}px)">
+
+            <div class="btn-group">
+              <a href="/shop">Sklep</a>
+              <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">{% trans 'Toggle Dropdown' %}</span>
+              </a>
+              <ul class="dropdown-menu nav-dropdown" role="menu">
+                <li role="presentation" class="dropdown-header">{% trans 'Categories' %}</li>
+                {% for c in categories %}
+                    <li role="presentation"><a role="menuitem" href="/shop/category/{{ c.id }}">{{ c.name }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+
+        </li>
         {% for item in menuItems %}
             <li style="width: calc(100%/{{ count }} - {{offset}}px)">
                 <a href="{{ item.getUrl }}">{{ item.name }}</a>

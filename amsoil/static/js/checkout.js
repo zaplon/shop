@@ -30,6 +30,7 @@ function handlers(){
         else
             $('form#invoice-form').css('display','none');
     });
+
 }
 
 

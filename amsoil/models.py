@@ -127,7 +127,7 @@ class Cart(models.Model):
 class Shipment(models.Model):
     address = models.CharField(max_length=150)
     postalCode = models.CharField(max_length=6)
-    phone = models.CharField(max_length=10)
+    phone = models.CharField(max_length=15)
     name = models.CharField(max_length=100)
     surname = models.CharField(max_length=100)
     type = models.CharField(max_length=20,  choices=( ('BU','buyer'),('RE','receiver') ) )
@@ -139,6 +139,7 @@ class Invoice(models.Model):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=150)
     user = models.ForeignKey(User, blank=True, null=True)
+    order = models.ForeignKey('Order', blank=True, null=True)
 
 class Method(models.Model):
     #class Meta:
@@ -185,6 +186,7 @@ class MetaData(models.Model):
             v = None
         return v
 
+
 class MethodOption(MetaData):
     method = models.ForeignKey(Method)
 
@@ -196,3 +198,33 @@ class ShopMeta(MetaData):
 
 class UserMeta(MetaData):
     user = models.ForeignKey(User)
+    @staticmethod
+    def getValue(user,key):
+       try:
+           return UserMeta.objects.get(user=user, key=key).value
+       except:
+           return False
+    @staticmethod
+    def setValue(user,key,value):
+       try:
+           um = UserMeta.objects.get(user=user,key=key)
+           um.value = value
+           um.save()
+       except:
+           um = UserMeta(key=key,value=value,user=user)
+           um.save()
+
+
+class Slider(models.Model):
+    name = models.CharField(max_length=50)
+
+class Slide(models.Model):
+    slider = models.ForeignKey(Slider)
+    title = models.CharField(max_length=200)
+    text = models.CharField(max_length=500)
+    button1Text = models.CharField(max_length=50, default='Read more')
+    button1Url = models.CharField(max_length=50)
+    button2Text = models.CharField(max_length=50, null=True, blank=True)
+    button1Url = models.CharField(max_length=50, null=True, blank=True)
+    product = models.ForeignKey(Product, blank=True, null=True)
+    image = models.URLField(blank=True, null=True)

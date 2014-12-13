@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from django import template
-from amsoil.models import MenuItem, Category, CartProduct, Cart, Invoice, Shipment, Order
+from amsoil.models import MenuItem, Category, CartProduct, Cart, Invoice, Shipment, Order, Slider, Slide
 from django.db.models import Sum
 from amsoil.forms import QuickContactForm
 from django.utils.translation import ugettext as _
+from shop.settings import MEDIA_URL
+
 
 register = template.Library()
 
@@ -12,9 +14,10 @@ register = template.Library()
 def nav(name=None):
     mi = MenuItem.objects.filter(menu__name='main').order_by('order')
     return {
+        'categories': Category.objects.filter(forProducts=True),
         'menuItems': mi,
-        'count': mi.count(),
-        'offset': mi.count()
+        'count': mi.count()+2,
+        'offset': mi.count()+2
     }
 
 @register.inclusion_tag('productCategories.djhtml')
@@ -25,14 +28,19 @@ def productCategories(name=None,*args,**kwargs):
     }
 
 @register.inclusion_tag('minicart.djhtml', takes_context = True)
-def cartData(context):
+def cartData(context,*args, **kwargs):
     request = context['request']
+    if 'noButtons' in kwargs:
+        noButtons = True
+    else:
+        noButtons = False
     if 'cartId' in request.session:
         items = CartProduct.objects.filter(cart__id = request.session['cartId'])
         return {
+            'noButtons': noButtons,
             'items': items,
-            'total': str(items.aggregate(
-                total = Sum('price', field="price*quantity"))['total']) + 'zł',
+            'total': 'pln' + str(items.aggregate(
+                total = Sum('price', field="price*quantity"))['total']),
             'count' : items.aggregate(Sum('quantity')).values()[0]
         }
     else:
@@ -56,8 +64,8 @@ def cartItems(context, *args, **kwargs):
         items = CartProduct.objects.filter(cart__id = cartId)
         return {
             'items': items,
-            'total': str(items.aggregate(
-                total = Sum('price', field="price*quantity"))['total']) + 'zł',
+            'total': 'pln'+str(items.aggregate(
+                total = Sum('price', field="price*quantity"))['total']),
             'count' : items.aggregate(Sum('quantity')).values()[0]
         }
     else:
@@ -84,4 +92,13 @@ def breadcrumbs(context):
 def quickContact():
     return {
         'form': QuickContactForm
+    }
+
+@register.inclusion_tag('slider.html')
+def slider(*args, **kwargs):
+    slider = Slider.objects.get(name= kwargs['name'])
+    return {
+        'root': MEDIA_URL,
+        'slider': slider,
+        'slides': Slide.objects.filter(slider = slider)
     }

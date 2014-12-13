@@ -69,8 +69,7 @@
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <h2>{% trans 'Log in' %}</h2>
-                                    <form action="/login/" method="POST">
-                                        <input type="hidden" value="checkout" name="source" />
+                                    <form action="/login/" method="POST" id="login-form">
                                         <div class="form-group">
                                             <label>{% trans 'Username' %}:</label>
                                             <input name="username" type="text" />
@@ -79,8 +78,9 @@
                                             <label>{% trans 'Password' %}:</label>
                                             <input name="password" type="text" />
                                         </div>
-                                        <button type="submit" class="btn btn-primary">{% trans 'Log in' %}</button>
                                     </form>
+                                    <button class="do-login btn btn-primary">{% trans 'Log in' %}</button>
+                                    <div class="login-error margin-top10" style="display:none;"></div>
                                 </div>
                         </div>
                     </div>

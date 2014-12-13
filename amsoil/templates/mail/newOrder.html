@@ -1,4 +1,11 @@
-{% extends base.html %}
+{% extends 'mail/base.html' %}
+{% load tags %}
+{% load i18n %}
 
-{% block message %}
+{% block title %}
+    <title>{% trans 'New order' %}</title>
+{% endblock %}
+
+{% block content %}
+    {% cartData noButtons="1" %}
 {% endblock %}

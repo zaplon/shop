@@ -11,7 +11,7 @@ $(document).ready(function($){
        var isVariable = $(this).hasClass('variable');
        var singleVar =  $(this).hasClass('single-var');
        if (isVariable && !singleVar)
-        id = $('select #product-'+id).val();
+        id = $('select#product-'+id).val();
        shop.addToCart(id,isVariable);
     });
 
@@ -22,6 +22,10 @@ $(document).ready(function($){
                 res = JSON.parse(res);
                 if (res.success)
                     window.location.reload();
+                else {
+                    $('.login-error').css('display','block');
+                    $('.login-error').html(res.message);
+                }
             });
         });
     });
@@ -52,6 +56,21 @@ $(document).ready(function($){
     });
 
     shop.decorate();
+
+    $('.container-fluid').css('minHeight',($(window).height()-$('#top').height()-$('nav').height()-
+        $('header').height() - $('footer').height()-60)+'px');
+
+    //logowanie i rejestracja
+    $('.do-login').click(function(){
+        $.post('/login/', $('#login-form').serialize(),function(res){
+            res = JSON.parse(res);
+            if (res.success == false){
+                $('.login-error').css('display','block');
+                $('.login-error').html(res.message);
+            } else
+                window.location.reload();
+        })
+    });
 
 });
 
@@ -184,7 +203,7 @@ shop = {
                cont.appendChild(div);
 
                if (res.results[r].variations.length == 0)
-                res[r].noVars = true;
+                res.results[r].noVars = true;
                else
                 res.results[r].noVars = false;
 

@@ -90,7 +90,6 @@ class Migration(migrations.Migration):
                 ('NIP', models.CharField(max_length=20)),
                 ('name', models.CharField(max_length=100)),
                 ('address', models.CharField(max_length=150)),
-                ('user', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
             ],
             options={
             },
@@ -228,7 +227,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('address', models.CharField(max_length=150)),
                 ('postalCode', models.CharField(max_length=6)),
-                ('phone', models.CharField(max_length=10)),
+                ('phone', models.CharField(max_length=15)),
                 ('name', models.CharField(max_length=100)),
                 ('surname', models.CharField(max_length=100)),
                 ('type', models.CharField(max_length=20, choices=[(b'BU', b'buyer'), (b'RE', b'receiver')])),
@@ -358,6 +357,18 @@ class Migration(migrations.Migration):
             model_name='menuitem',
             name='page',
             field=models.ForeignKey(related_name=b'menuItems', blank=True, to='amsoil.Page', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='invoice',
+            name='order',
+            field=models.ForeignKey(blank=True, to='amsoil.Order', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='invoice',
+            name='user',
+            field=models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True),
             preserve_default=True,
         ),
         migrations.AddField(

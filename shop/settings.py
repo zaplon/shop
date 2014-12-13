@@ -126,3 +126,6 @@ JSTEMPLATE_DIRS = [
 ]
 
 FROM_MAIL = 'info@najlepszysyntetyk.pl'
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025

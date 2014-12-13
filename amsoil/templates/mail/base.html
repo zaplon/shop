@@ -1,31 +1,59 @@
-<html>
-    <head>
-        <style>
-            #content{
-                width:100%
-                text-align: center
-            }
-            #container{
-                width: 600px
-                margin: 0 auto;
-            }
-            #logo {
-                background-image: url('')
-                width:100px
-                height:50px
-            }
-        </style>
-    </head>
-    <body>
-        <div id="container">
-            <div id="content">
-                <div id="logo">
-                </div>
-                <div id="message">
-                    {% block content %}
-                    {% endblock %}
-                </div>
-            </div>
-        </div>
-    </body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+        body {
+            margin: 0 auto;
+            width: 600px;
+            text-align: center;
+            background-color: #ccc;
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+            font-size: 12px;
+        }
+
+        header {
+            margin: 10px 0;
+            border-bottom: 1px solid #333333;
+        }
+
+        header img {
+            margin: 0 auto;
+        }
+        .panel {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+            box-shadow: 0 1px 1px rgba(0,0,0,.05);
+        }
+        #container {
+            border-radius: 10px;
+            width: 90%;
+            background-color: white;
+            color: black;
+            padding: 10px;
+        }
+
+        footer {
+        }
+    </style>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+<div id="container" class="panel">
+    <header>
+        <img src="">
+        {% block title %}
+            <title></title>
+        {% endblock %}
+    </header>
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <footer>
+    </footer>
+</div>
+</body>
 </html>

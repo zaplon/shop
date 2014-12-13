@@ -4,42 +4,49 @@
                 margin: auto;">
         </div>
         <div class="product-data pull-left">
-            <h4><a href="/shop/product/{{product.id}}/">{{ product.name }}</a></h4>
             <div class="product-description">
-                {{ product.shortDescription }}
-            </div>
-            {{#product.single}}
-                <div>
-                    {{#product.variations}}
-                        {{ attributesString }} {{ price }}
-                    {{/product.variations}}
+                <div class="pull-left col-md-10">
+                    <h4><a href="/shop/product/{{product.id}}/">{{ product.name }}</a></h4>
+                    {{ product.shortDescription }}
                 </div>
-                {{#product.noVars}}
-                    <button class="pull-right btn btn-primary add-to-cart" productId="{{ product.id }}" style="margin-top:20px;">
+            </div>
+            <div class="pull-right col-md-2">
+
+                {{#product.single}}
+                    <span class="currency">pln</span>
+                    <span class="item-price" style="margin-bottom:8px">23-</span>
+                    <div>
+                        {{#product.variations}}
+                            {{ attributesString }}
+                        {{/product.variations}}
+                    </div>
+                    {{#product.noVars}}
+                        <button class="pull-right btn btn-primary add-to-cart" productId="{{ product.id }}" style="margin-top:20px;">
+                            {{ addToCart }}
+                         </button>
+                    {{/product.noVars}}
+                    {{^product.noVars}}
+                        {{#product.variations}}
+                        <button class="pull-right btn btn-primary add-to-cart variable single-var"
+                                productId="{{ id }}" style="margin-top:20px;">
+                            {{ addToCart }}
+                        </button>
+                        {{/product.variations}}
+                    {{/product.noVars}}
+                {{/product.single}}
+                {{^product.single}}
+                    <div>
+                        <select id="product-{{ product.id }}">
+                            {{#product.variations}}
+                                <option value="{{ id }}">{{ attributesString }} {{ price }}</option>
+                            {{/product.variations}}
+                        </select>
+                    </div>
+                     <button class="pull-right btn btn-primary add-to-cart variable" productId="{{ product.id }}" style="margin-top:20px;">
                         {{ addToCart }}
                      </button>
-                {{/product.noVars}}
-                {{^product.noVars}}
-                    {{#product.variations}}
-                    <button class="pull-right btn btn-primary add-to-cart variable single-var"
-                            productId="{{ id }}" style="margin-top:20px;">
-                        {{ addToCart }}
-                    </button>
-                    {{/product.variations}}
-                {{/product.noVars}}
-            {{/product.single}}
-            {{^product.single}}
-                <div>
-                    <select id="product-{{ product.id }}">
-                        {{#product.variations}}
-                            <option value="{{ id }}">{{ attributesString }} {{ price }}</option>
-                        {{/product.variations}}
-                    </select>
-                </div>
-                 <button class="pull-right btn btn-primary add-to-cart variable" productId="{{ product.id }}" style="margin-top:20px;">
-                    {{ addToCart }}
-                 </button>
-            {{/product.single}}
+                {{/product.single}}
+            </div>
         </div>
     </div>
     </div>
