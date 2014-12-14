@@ -13,7 +13,7 @@ from rest_framework.response import Response
 from rest_framework import status
 import django_filters, json, datetime
 from django.contrib.auth import authenticate, login, logout
-from amsoil.forms import ShippingForm, InvoiceForm
+from amsoil.forms import ShippingForm, InvoiceForm, QuickContactForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count, Sum
@@ -351,7 +351,7 @@ class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_class = ProductFilter
-    paginate_by = 10
+    paginate_by = 9
 
 
 @csrf_exempt
@@ -384,3 +384,11 @@ def logoutView(request):
 def singleProduct(request, id):
     product = Product.objects.get(id=id)
     return render_to_response('singleProduct.djhtml', {'product': product}, context_instance=RequestContext(request))
+
+
+def quickContact(request):
+    qc = QuickContactForm(request.POST)
+    if qc.is_valid():
+        pass
+    else:
+        return render_to_response('index.djhtml', {}, context_instance=RequestContext(request))

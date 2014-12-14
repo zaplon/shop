@@ -89,10 +89,15 @@ def breadcrumbs(context):
         'crumbs': res
     }
 
-@register.inclusion_tag('quickContact.html')
-def quickContact():
+@register.inclusion_tag('quickContact.html', takes_context = True)
+def quickContact(context):
+    request = context['request']
+    if request.POST:
+        form = QuickContactForm(request.POST)
+    else:
+        form = QuickContactForm()
     return {
-        'form': QuickContactForm
+        'form': form
     }
 
 @register.inclusion_tag('slider.html')

@@ -34,6 +34,8 @@ urlpatterns = patterns('',
     url(r'^removeFromCart/', views.removeFromCart, name='removeFromCart'),
     url(r'^updateCart/', views.updateCart, name='updateCart'),
 
+    url(r'^quickContact/', views.quickContact, name='contact'),
+
 )
 
 urlpatterns = urlpatterns + static(MEDIA_URL, document_root=MEDIA_ROOT)

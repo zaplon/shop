@@ -5,7 +5,7 @@
     {% for field in form %}
         <div class="form-group">
             {{ field.errors }}
-            {{ field.label_tag }} {{ field.help_text }} {{ field }}
+             {{ field.help_text }} {{ field }}
         </div>
     {% endfor %}
     <input type="hidden" value="invoice" name="type" />

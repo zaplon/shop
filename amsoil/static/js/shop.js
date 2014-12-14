@@ -195,6 +195,8 @@ shop = {
 
           $(aPage).addClass('active');
            for (r in res.results) {
+               if ((r) % 3 == 0)
+                $(cont).append('<div style="clear:both"></div>');
                var div = document.createElement('div');
                if (shop.displayAs == 'grid')
                 div.className = 'product product-grid col-md-4 col-sm-12';
@@ -211,8 +213,9 @@ shop = {
                 res.results[r].single = false;
                else
                 res.results[r].single = true;
-               if (shop.displayAs == 'grid')
-                $(div).html(Mustache.to_html(Mustache.TEMPLATES.productSmall, { 'addToCart':'Do koszyka', 'product': res.results[r] }));
+               if (shop.displayAs == 'grid') {
+                   $(div).html(Mustache.to_html(Mustache.TEMPLATES.productSmall, {'addToCart': 'Do koszyka', 'product': res.results[r] }));
+               }
                else
                 $(div).html(Mustache.to_html(Mustache.TEMPLATES.product, { 'addToCart':'Do koszyka', 'product': res.results[r] }));
            }

@@ -51,6 +51,8 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     forProducts = models.BooleanField(default=False)
     image = models.FileField(upload_to=MEDIA_ROOT+'images/', default='', blank=True)
+    def __unicode__(self):
+        return self.name
 
 class Tag(models.Model):
     name = models.CharField(max_length=100)
