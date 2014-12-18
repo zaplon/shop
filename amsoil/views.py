@@ -18,6 +18,8 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count, Sum
 from django.core import serializers
+from django.core.mail import send_mail
+from django.db.models import Q
 
 from amsoil.mails import newOrder
 
@@ -389,6 +391,18 @@ def singleProduct(request, id):
 def quickContact(request):
     qc = QuickContactForm(request.POST)
     if qc.is_valid():
-        pass
+        send_mail('Wiadomość kontaktowa', request.POST['body'], request.POST['email'],
+                  'oleje.amsoil@gmail.com', fail_silently=False)
     else:
         return render_to_response('index.djhtml', {}, context_instance=RequestContext(request))
+
+def search(request):
+    term = request.GET['term']
+    pages = Page.objects.filter(Q(body__contains=term) | Q(title__contains=term))
+    products = Product.objects.filter(Q(name__contains=term) | Q(description__contains=term))
+    res = []
+    for p in pages:
+        res.append( { 'id':p.id, 'except': p.body[0:200], 'title':p.title, 'link' : '/page/'+str(p.id) } )
+    for p in products:
+        res.append( { 'id':p.id, 'except': p.shortDescription[0:200], 'title':p.name, 'link' : '/shop/'+str(p.id)+'/' } )
+    return render_to_response('search.html', {'results': res, 'count': len(res)}, context_instance=RequestContext(request))

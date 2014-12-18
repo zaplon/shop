@@ -30,8 +30,10 @@
               </ul>
             </div>
         {% else %}
-            <span id="login">{% trans 'Log in' %}</span>
-            <span id="register">{% trans 'Register' %}</span>
+            <div style="padding:10px;">
+                <span id="login">{% trans 'Log in' %}</span>
+                <span id="register">{% trans 'Register' %}</span>
+            </div>
         {% endif %}
     </div>
     <div style="clear:both"></div>
@@ -40,16 +42,18 @@
 <header>
     <div id="logo"></div>
     <div id="main">
-
-        <div id="search-main">
-            <input type="text" id="search"></input>
-            <div id="submit-box">
-                <div id="submit">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        <form method="get" action="/search">
+            <div id="search-main">
+                <input type="text" id="search" name="term"></input>
+                <div id="submit-box">
+                    <div id="submit">
+                        <button style="border:none; background-color: transparent" type="submit"
+                                class="glyphicon glyphicon-search" aria-hidden="true">
+                    </div>
                 </div>
+                <div style="clear:both"></div>
             </div>
-            <div style="clear:both"></div>
-        </div>
+        </form>
     </div>
     <div id="meta">
         {% cartData %}

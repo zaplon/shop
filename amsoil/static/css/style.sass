@@ -9,6 +9,10 @@ $font-nav: white
 $border: 4px solid $nav-light
 $gray: #eeeeee
 
+
+.main-color
+  color: #2780e3
+
 body
   margin: 0
   font-family: $font
@@ -79,10 +83,10 @@ header
     float: left
     width: calc(100% - 560px)
     #search-main
-      border-radius: $radius
+      //border-radius: $radius
       border: $border
       #submit-box
-        border-radius: 0 $radius-inner $radius-inner 0
+        //border-radius: 0 $radius-inner $radius-inner 0
         background-color: $nav
         text-align: center
         float: right
@@ -95,11 +99,12 @@ header
         font-size: 30px
       #search
         border: none
-        border-radius: $radius-inner 0 0 $radius-inner
+        //border-radius: $radius-inner 0 0 $radius-inner
         float: left
         width: calc(100% - 50px)
         display: inline-block
         padding: 10px
+        color: black
 
 .sidebar-right
   margin-top: 20px
@@ -172,6 +177,10 @@ nav
 h1.page-title
   font-size: 25px
   font-weight: normal
+
+#promo-more
+  cursor: pointer
+  margin-left: 5px
 
 #content-shop
   float: left
@@ -433,3 +442,15 @@ ul.breadcrumbs
 
 .login-error
   color: red
+
+button.close
+  color: black
+button.close:hover
+  color: black
+
+.search-result
+  .panel-title
+    margin-left: 15px
+
+.tooltip-inner
+  width: 400px

@@ -4,6 +4,7 @@ $(document).ready(function($){
 //    var minh = $(document).height() - $('footer').height() - $('#top').height() - $('header').height();
 //    if ($('.container-fluid').height() < minh)
 //        $('.container-fluid').height(minh);
+    $('[data-toggle="tooltip"]').tooltip();
 
     $('.container-fluid').delegate('.add-to-cart', 'click', function(){
        console.log('add');
@@ -55,10 +56,12 @@ $(document).ready(function($){
        }
     });
 
+
+
     shop.decorate();
 
     $('.container-fluid').css('minHeight',($(window).height()-$('#top').height()-$('nav').height()-
-        $('header').height() - $('footer').height()-60)+'px');
+        $('header').height() - $('footer').height()-40)+'px');
 
     //logowanie i rejestracja
     $('.do-login').click(function(){

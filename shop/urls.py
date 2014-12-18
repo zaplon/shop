@@ -35,6 +35,7 @@ urlpatterns = patterns('',
     url(r'^updateCart/', views.updateCart, name='updateCart'),
 
     url(r'^quickContact/', views.quickContact, name='contact'),
+    url(r'^search/', views.search, name='search'),
 
 )
 

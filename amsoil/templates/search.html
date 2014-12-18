@@ -1,0 +1,29 @@
+{% extends 'base.djhtml' %}
+{% load i18n %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1 text-center">
+            {% if count == 0 %}
+                <div>
+                    {% trans 'No matches found' %}
+                </div>
+            {% endif %}
+            {% for r in results %}
+                <div class="panel panel-default text-left search-result">
+                    <div class="panel-title">
+                        {{ r.title }}
+                    </div>
+                    <div class="panel-body">
+                        <div>
+                            {{ r.except }}...
+                        </div>
+                        <div>
+                            <a href="{{ r.link }}">{% trans 'Read more' %}</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

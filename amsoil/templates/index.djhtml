@@ -17,7 +17,18 @@
             <div class="col-md-12 margin-top20">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        Lorem ipsum sun doloret
+                        <span class="glyphicon glyphicon-usd main-color" style="font-size:23px">
+                        </span>
+                        <div style="position:relative; top:-5px; display:inline-block; margin-left:10px;">
+                            <span>
+                                Atrakcyjne rabaty dla stałych klientów
+                            </span>
+                            <span id="promo-more" class="main-color" data-toggle="tooltip" data-html="true"
+                                    data-placement="top"
+                                    title="Roczne zakupy powyżej 200zł = roczny rabat w wysokości 10%">
+                                Dowiedz się więcej
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
