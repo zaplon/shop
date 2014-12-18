@@ -54,16 +54,19 @@ header {
   padding: 10px;
   color: white; }
   header #logo {
-    height: 50px;
+    height: 100%;
     float: left;
-    width: 200px; }
+    width: 220px;
+    background-image: url("../images/logo.png");
+    background-size: cover;
+    margin-right: 20px; }
   header #meta {
     height: 50px;
-    width: 315px;
+    width: 350px;
     float: right; }
   header #main {
     float: left;
-    width: calc(100% - 560px); }
+    width: calc(100% - 590px); }
     header #main #search-main {
       border: 4px solid #009cf2; }
       header #main #search-main #submit-box {
