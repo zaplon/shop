@@ -1,6 +1,6 @@
 from django.contrib import admin
 from amsoil.models import Menu, MenuItem, Product, Page, Category, ProductVariation, Attribute, AttributeGroup
-from amsoil.models import ShippingMethod, PaymentMethod, Order, Cart, Invoice, Slider, Slide
+from amsoil.models import ShippingMethod, PaymentMethod, Order, Cart, Invoice, Slider, Slide, Shipment
 from modeltranslation.admin import TranslationAdmin
 from shop.settings import ADMIN_TEMPLATES_ROOT
 
@@ -28,13 +28,22 @@ class CartInline(admin.TabularInline):
 
 class InvoiceInline(admin.TabularInline):
     model = Invoice
+    extra = 0
+
+class ShipmentInline(admin.StackedInline):
+    model = Shipment
+    extra = 0
+    exclude = ('user','type',)
+    fields = ('getTypeString','name','surname','address','postalCode','phone')
+    readonly_fields = ('getTypeString',)
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('status', 'date')
-    inlines = (InvoiceInline,)
+    inlines = (ShipmentInline, InvoiceInline,)
+    readonly_fields = ('date',)
     change_form_template = ADMIN_TEMPLATES_ROOT + 'change_order.html'
     fields = ('status','date','paymentMethod','shippingMethod',
-              'notes','receiver','buyer')
+              'notes')
 
 
 class VariationsInline(admin.TabularInline):

@@ -147,8 +147,9 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('status', models.CharField(default=b'PE', max_length=20, choices=[(b'PE', b'pending'), (b'CA', b'cancelled'), (b'FI', b'finished')])),
                 ('date', models.DateTimeField()),
-                ('notes', models.CharField(max_length=200)),
+                ('notes', models.CharField(max_length=200, null=True, blank=True)),
                 ('email', models.EmailField(max_length=75)),
+                ('cart', models.ForeignKey(to='amsoil.Cart')),
             ],
             options={
             },
@@ -231,6 +232,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=100)),
                 ('surname', models.CharField(max_length=100)),
                 ('type', models.CharField(max_length=20, choices=[(b'BU', b'buyer'), (b'RE', b'receiver')])),
+                ('order', models.ForeignKey(related_name=b'shipment', to='amsoil.Order')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -258,6 +260,32 @@ class Migration(migrations.Migration):
             ],
             options={
                 'abstract': False,
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Slide',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('title', models.CharField(max_length=200)),
+                ('text', models.CharField(max_length=500)),
+                ('button1Text', models.CharField(default=b'Read more', max_length=50)),
+                ('button2Text', models.CharField(max_length=50, null=True, blank=True)),
+                ('button1Url', models.CharField(max_length=50, null=True, blank=True)),
+                ('image', models.URLField(null=True, blank=True)),
+                ('product', models.ForeignKey(blank=True, to='amsoil.Product', null=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Slider',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=50)),
+            ],
+            options={
             },
             bases=(models.Model,),
         ),
@@ -294,6 +322,12 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.AddField(
+            model_name='slide',
+            name='slider',
+            field=models.ForeignKey(to='amsoil.Slider'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
             model_name='pagemeta',
             name='page',
             field=models.ForeignKey(to='amsoil.Page'),
@@ -313,26 +347,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='order',
-            name='buyer',
-            field=models.ForeignKey(related_name=b'buyerAddress', blank=True, to='amsoil.Shipment', null=True),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='order',
-            name='cart',
-            field=models.ForeignKey(to='amsoil.Cart'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='order',
             name='paymentMethod',
             field=models.ForeignKey(to='amsoil.PaymentMethod'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='order',
-            name='receiver',
-            field=models.ForeignKey(related_name=b'receiverAddress', blank=True, to='amsoil.Shipment', null=True),
             preserve_default=True,
         ),
         migrations.AddField(

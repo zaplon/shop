@@ -63,6 +63,7 @@ def cartItems(context, *args, **kwargs):
     if cartId:
         items = CartProduct.objects.filter(cart__id = cartId)
         return {
+            'noButtons': True if 'noButtons' in kwargs else False,
             'items': items,
             'total': 'pln'+str(items.aggregate(
                 total = Sum('price', field="price*quantity"))['total']),
@@ -83,8 +84,9 @@ def breadcrumbs(context):
     for e in els:
         if len(e) > 0:
             if e != 'product' and e != 'category':
-                res.append( { 'url': '/'.join(els[0:i]), 'name':e } )
+                res.append( { 'url': '/'.join(els[0:i]), 'name':e} )
         i = i + 1
+    res[-1]['last'] = True
     return {
         'crumbs': res
     }

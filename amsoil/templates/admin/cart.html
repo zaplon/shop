@@ -16,9 +16,9 @@
                 {% else %}
                     <td>{{ i.productVariation.product.name }}</td>
                 {% endif %}
-                <td><input product="{{ i.id }}" name="product-quantity" class="form-control" type="number" value="{{ i.quantity }}" min="0"></input></td>
-                <td>pln{{ i.price }}</td>
-                {% if not noButtons %}
+                {% if not noButtos %}
+                    <td><input product="{{ i.id }}" name="product-quantity" class="form-control" type="number" value="{{ i.quantity }}" min="0"></input></td>
+                    <td>pln{{ i.price }}</td>
                     <td><button product="{{ i.id }}" class="update-cart btn btn-primary">
                         {% trans 'Update' %}
                     </button></td>

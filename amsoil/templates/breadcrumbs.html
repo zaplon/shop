@@ -1,5 +1,9 @@
 <ul class="breadcrumbs">
     {% for c in crumbs %}
-        <li><a href="{{ c.url }}">{{ c.name }}</a></li><li>/</li>
+        {% if c.last %}
+            <li>{{ c.name }}</li>
+        {% else %}
+            <li><a href="{{ c.url }}">{{ c.name }}</a></li><li>/</li>
+        {% endif %}
     {% endfor %}
 </ul>

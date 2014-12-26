@@ -3,7 +3,7 @@
 
 from django.shortcuts import render_to_response, RequestContext, HttpResponse, HttpResponseRedirect, render
 from amsoil.models import Page, Product, Cart, User, CartProduct, ProductVariation, \
-    ShippingMethod, PaymentMethod, Order, Invoice, Shipment
+    ShippingMethod, PaymentMethod, Order, Invoice, Shipment, Category
 from rest_framework import viewsets
 from amsoil.serializers import ProductSerializer, PaymentMethodSerializer, ShippingMethodSerializer, \
     CartSerializer, CartProductSerializer
@@ -33,7 +33,14 @@ def page(request, id):
 
 
 def shop(request):
-    return render_to_response('shop.djhtml', [], context_instance=RequestContext(request))
+    path = request.path.split('/')
+
+    try:
+        cat_ind = path.index('category')
+        category_id = Category.objects.get(name = path[cat_ind+1])
+        return render_to_response('shop.djhtml', {'category': category_id}, context_instance=RequestContext(request))
+    except:
+        return render_to_response('shop.djhtml', {}, context_instance=RequestContext(request))
 
 def cart(request):
     return render_to_response('cartView.html', [], context_instance=RequestContext(request))
@@ -170,18 +177,16 @@ def checkout(request):
                 if order.shippingMethod.needsShipping:
                     receiver = receiver.save(commit=False)
                     receiver.user = request.user
-                    receiver.type = 'RE'
-                    receiver.save()
                     buyer = buyer.save(commit=False)
-                    buyer.type = 'BU'
                     buyer.user = request.user
-                    buyer.save()
             order.email = data['buyerEmail']
             if order.shippingMethod.needsShipping:
+                buyer.order = order
+                buyer.type = 'BU'
                 buyer.save()
+                receiver.type = 'RE'
+                receiver.order = order
                 receiver.save()
-                order.receiver = receiver
-                order.buyer = buyer
             order.save()
 
 
@@ -222,9 +227,13 @@ def checkout(request):
             receiver = ShippingForm()
             buyer = ShippingForm()
 
-    return render_to_response('checkout.djhtml', {'BuyerForm': buyer, 'ReceiverForm': receiver, 'creationForm': creationForm,
-                                                  'ShippingMethods': shippingMethods, 'InvoiceForm': invoice,
-                                                  'products_in_cart': products_in_cart},
+    return render_to_response('checkout.djhtml',
+                              {'BuyerForm': buyer, 'ReceiverForm': receiver, 'creationForm': creationForm,
+                              'ShippingMethods': shippingMethods, 'InvoiceForm': invoice,
+                              'products_in_cart': products_in_cart, 'step':3,
+                              'shippingMethod': data['shippingMethod'] if 'data' in request.POST else 0,
+                              'paymentMethod': data['paymentMethod'] if 'data' in request.POST else 0,
+                              'email': data['email'] if 'data' in request.POST else '' },
                               context_instance=RequestContext(request))
 
 def getOrderOptions(request):
@@ -383,8 +392,8 @@ def logoutView(request):
     return HttpResponseRedirect('/' + url)
 
 
-def singleProduct(request, id):
-    product = Product.objects.get(id=id)
+def singleProduct(request, name):
+    product = Product.objects.get(name=name)
     return render_to_response('singleProduct.djhtml', {'product': product}, context_instance=RequestContext(request))
 
 

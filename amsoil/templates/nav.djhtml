@@ -15,7 +15,7 @@
               <ul class="dropdown-menu nav-dropdown" role="menu">
                 <li role="presentation" class="dropdown-header">{% trans 'Categories' %}</li>
                 {% for c in categories %}
-                    <li role="presentation"><a role="menuitem" href="/shop/category/{{ c.id }}">{{ c.name }}</a></li>
+                    <li role="presentation"><a role="menuitem" href="/shop/category/{{ c.name }}">{{ c.name }}</a></li>
                 {% endfor %}
               </ul>
             </div>

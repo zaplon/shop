@@ -127,6 +127,9 @@ class Cart(models.Model):
 #    price = models.FloatField()
 
 class Shipment(models.Model):
+    class Meta:
+        verbose_name = 'Adres'
+        verbose_name_plural = 'Adresy'
     address = models.CharField(max_length=150)
     postalCode = models.CharField(max_length=6)
     phone = models.CharField(max_length=15)
@@ -134,7 +137,14 @@ class Shipment(models.Model):
     surname = models.CharField(max_length=100)
     type = models.CharField(max_length=20,  choices=( ('BU','buyer'),('RE','receiver') ) )
     user = models.ForeignKey(User)
-
+    order = models.ForeignKey('Order', related_name='shipment')
+    def getTypeString(self):
+        if self.type == 'RE':
+            return 'Odbiorca'
+        else:
+            return 'Kupiec'
+    def __unicode__(self):
+        return self.getTypeString() + ':' + self.name + ' ' + self.surname
 
 class Invoice(models.Model):
     NIP = models.CharField(max_length=20)
@@ -171,9 +181,7 @@ class Order(models.Model):
     date = models.DateTimeField()
     shippingMethod = models.ForeignKey(ShippingMethod)
     paymentMethod = models.ForeignKey(PaymentMethod)
-    notes = models.CharField(max_length=200)
-    receiver = models.ForeignKey(Shipment,related_name='receiverAddress', blank=True,null=True)
-    buyer = models.ForeignKey(Shipment,related_name='buyerAddress', blank=True,null=True)
+    notes = models.CharField(max_length=200, blank=True, null=True)
     email = models.EmailField()
 
 class MetaData(models.Model):

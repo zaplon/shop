@@ -4,6 +4,9 @@
 {% load i18n %}
 
 {% block body %}
+    <form id="shop-variables">
+        <input name="category" type="hidden" value="{{ category_id }}"></input>
+    </form>
     <div class="row">
         <div style="margin-left:15px;">
             {% breadcrumbs %}
@@ -45,11 +48,14 @@
 
 {% block addScripts %}
     <script>
-        var paths = window.location.pathname.split('/');
-        if (paths.indexOf('category') > -1) {
-            var cat = paths[paths.indexOf('category') + 1];
+        //var paths = window.location.pathname.split('/');
+        //if (paths.indexOf('category') > -1) {
+        //    var cat = paths[paths.indexOf('category') + 1];
+        //    shop.filters.categories[cat] = 1;
+        //}
+        var cat = $('#shop-variables input[name="category"]').val();
+        if(cat)
             shop.filters.categories[cat] = 1;
-        }
         shop.getProducts('products');
         $('#product-filter').click(function(){
             shop.currentPage = 1;

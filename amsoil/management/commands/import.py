@@ -230,4 +230,4 @@ class Command(BaseCommand):
   def handle(self,*args,**options):
     p = prices()
     p.doPrices()
-    p.doUsers()
+    #p.doUsers()

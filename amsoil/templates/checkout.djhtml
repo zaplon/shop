@@ -15,6 +15,11 @@
             </div>
         </div>
     {% else %}
+        <form id="checkout-variables">
+            <input type="hidden" value="{{ step }}" name="step"></input>
+            <input type="hidden" value="{{ shippingMethod }}" name="shippingMethod"></input>
+            <input type="hidden" value="{{ paymentMethod }}" name="paymentMethod"></input>
+        </form>
         <div id="checkout">
             <div class="row">
                 <div class="col-md-12">
@@ -120,6 +125,11 @@
                     </div>
                 </div>
                 <div class="row checkout-extra" id="shipping-forms">
+                    <div>
+                        <input class="show-on-click" type="checkbox" data-hide="receiver-div">
+                            {% trans 'Buyer address is the same as receiver address' %}
+                        </input>
+                    </div>
                     <div class="panel panel-default col-md-6 col-sm-12">
                         <div class="panel-body">
                             <h2>{% trans 'Buyer address' %}</h2>
@@ -134,7 +144,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6 col-sm-12 panel panel-default">
+                    <div id="receiver-div" class="col-md-6 col-sm-12 panel panel-default">
                         <div class="panel-body">
                             <h2>{% trans 'Receiver address' %}</h2>
                             <form id="receiver-address" class="form-horizontal col-md-12" role="form">
@@ -155,7 +165,8 @@
                         </p>
                         <label for="inputEmail" class="control-label col-xs-2">Email:</label>
                         <div class="col-xs-10">
-                            <input type="email" class="form-control" id="buyer-email" placeholder="Email">
+                            <input type="email" value="{{ email }}" class="form-control"
+                                   id="buyer-email" placeholder="Email">
                         </div>
                     </div>
                 </div>
@@ -181,7 +192,11 @@
                         </textarea>
                     </div>
                 </div>
-
+                <div class="checkbox row">
+                    <label><input type="checkbox" name="terms" value="1" />
+                        {% trans 'I accept terms & conditions' %}
+                    </label>
+                </div>
                 <div class="row">
                     <div class="col-md-12 checkout-nav">
                         <button class="pull-left btn btn-default checkout-back col-md-2">{% trans 'Cart' %}</button>

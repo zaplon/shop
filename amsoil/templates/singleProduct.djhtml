@@ -6,68 +6,78 @@
 {% block body %}
     <div class="row">
         <div style="padding-left:15px;" class="col-md-12 margin-bottom20">
-            <a href="/shop">
-                <span style="margin-left:5px;" class="glyphicon glyphicon-chevron-left">
-                    {% trans 'Return' %}
-                </span>
-            </a>
+{#            <a href="/shop">#}
+{#                <span style="margin-left:5px;" class="glyphicon glyphicon-chevron-left">#}
+{#                    {% trans 'Return' %}#}
+{#                </span>#}
+{#            </a>#}
+            {% breadcrumbs %}
         </div>
         <div class="col-md-12">
                 <div>
-                    <div class="pull-left single-product-image">
+                    <div class="col-md-8 col-sm-6 text-center" id="single-col-1">
+                         <div class="product-title col-md-12">
+                            <h1>{{ product.name }}</h1>
+                        </div>
                         <img width="150" height="300"
                              src="/media/{{ product.mainImage }}"></img>
                     </div>
-                    <div class="pull-left single-product-next-to-image">
-                        <div class="product-title col-md-12">
-                            <h1>{{ product.name }}</h1>
-                         </div>
-                        <div class="col-md-12">
-                            <div class="">
-                            {% for v in product.variations.all  %}
-                                <span class="item-price single-prod product-price product-{{ v.id }}"><span class='currency'>pln</span>{{ v.price }}-</span>
-                            {% endfor %}
-                            {% if product.variations.count == 0 %}
-                                <span class="item-price single-prod product-price product-{{ v.id }}"><span class='currency'>pln</span>{{ product.price }}-</span>
-                            {% endif %}
+                    <div class="col-md-4 col-sm-6 panel panel-default" id="single-col-2">
+                        <div class="panel-body">
+                            <div>
+                                <div class="">
+                                {% for v in product.variations.all  %}
+                                    <span class="item-price single-prod product-price product-{{ v.id }}"><span class='currency'>pln</span>{{ v.price }}-</span>
+                                {% endfor %}
+                                {% if product.variations.count == 0 %}
+                                    <span class="item-price single-prod product-price product-{{ v.id }}"><span class='currency'>pln</span>{{ product.price }}-</span>
+                                {% endif %}
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            {% if v in product.variations.count == 0 or product.variations.count == 1 %}
-                                <h4>{{ v.getAttributesString }}</h4>
-                            {% else %}
-                                 <select class="form-control col-md-2" id="product-variations">
-                                    {% for v in product.variations.all %}
-                                        <option value="{{ v.id }}">
-                                            {{ v.getAttributesString }}
-                                        </option>
+                            <div>
+                                {% if v in product.variations.count == 0 or product.variations.count == 1 %}
+                                    <h4>{{ v.getAttributesString }}</h4>
+                                {% else %}
+                                     <select class="form-control col-md-2" id="product-variations">
+                                        {% for v in product.variations.all %}
+                                            <option value="{{ v.id }}">
+                                                {{ v.getAttributesString }}
+                                            </option>
+                                        {% endfor %}
+                                     </select>
+                                {% endif %}
+                            </div>
+                            <div style="clear:both"></div>
+                            <div class="form-group form-horizontal single-product-buttons">
+                                <input id="quantity" class="form-control pull-left col-md-2" value="1" type="number" min="1"></input>
+                                {% if product.variations.count == 0 %}
+                                    <button productId="{{ p.id }}" class="btn btn-primary add-to-cart pull-right">
+                                        {% trans 'Add to cart' %}
+                                    </button>
+                                {% endif %}
+
+                                {% for v in product.variations.all  %}
+                                    <button productId="{{ v.id }}"
+                                            class="btn btn-primary single-prod product-{{ v.id }} add-to-cart variable single-var">
+                                        {% trans 'Add to cart' %}
+                                    </button>
+                                {% endfor %}
+                            </div>
+                            <div>
+                                <span style="font-weight:bold">{% trans 'Categories' %}: </span>
+                                <span>
+                                    {% for c in product.categories.all %}
+                                        {{ c.name }}
                                     {% endfor %}
-                                 </select>
-                            {% endif %}
+                                </span>
+                            </div>
+
+
+{#                        <div class="col-md-12">#}
+{#                            {{ product.shortDescription|linebreaks }}#}
+{#                         </div>#}
+
                         </div>
-                        <div style="clear:both"></div>
-                        <div class="form-group form-horizontal single-product-buttons col-md-4">
-                            <input id="quantity" class="form-control pull-left col-md-2" value="1" type="number" min="1"></input>
-                            {% if product.variations.count == 0 %}
-                                <button productId="{{ p.id }}" class="btn btn-primary add-to-cart pull-right">
-                                    {% trans 'Add to cart' %}
-                                </button>
-                            {% endif %}
-
-                            {% for v in product.variations.all  %}
-                                <button productId="{{ v.id }}"
-                                        class="btn btn-primary single-prod product-{{ v.id }} add-to-cart variable single-var">
-                                    {% trans 'Add to cart' %}
-                                </button>
-                            {% endfor %}
-                        </div>
-
-
-                        <div class="col-md-12">
-                            {{ product.shortDescription }}
-                         </div>
-
-
                     </div>
                 </div>
                 <div style="clear:both"></div>
@@ -81,12 +91,15 @@
                     </ul>
                     <div class="tab-content margin-top10">
                         <div role="tabpanel" class="tab-pane active">
-                            {{ product.description |safe }}
+                            {{ product.description|safe|linebreaks }}
                         </div>
                     </div>
                 </div>
         </div>
     </div>
+    <script>
+        $("#single-col-2").height($("#single-col-1").height());
+    </script>
     {% if product.variations.count > 0 %}
         <script>
             $('.single-prod').css('display','none');

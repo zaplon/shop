@@ -6,6 +6,17 @@ $(document).ready(function($){
 //        $('.container-fluid').height(minh);
     $('[data-toggle="tooltip"]').tooltip();
 
+    $('#logo').click(function(){
+       window.location = '/';
+    });
+
+    $('.show-on-click').click(function(){
+        if ($(this).is(':checked'))
+            $('#'+$(this).attr('data-hide')).css('display','none');
+        else
+            $('#'+$(this).attr('data-hide')).css('display','block');
+    })
+
     $('.container-fluid').delegate('.add-to-cart', 'click', function(){
        console.log('add');
        var id = $(this).attr('productId');

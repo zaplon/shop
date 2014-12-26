@@ -59,7 +59,8 @@ header {
     width: 220px;
     background-image: url("../images/logo.png");
     background-size: cover;
-    margin-right: 20px; }
+    margin-right: 20px;
+    cursor: pointer; }
   header #meta {
     height: 50px;
     width: 350px;

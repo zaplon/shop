@@ -13,7 +13,7 @@ class InvoiceForm(ModelForm):
 class ShippingForm(ModelForm):
     class Meta:
         model = Shipment
-        fields = ['name', 'surname', 'address', 'phone']
+        fields = ['name', 'surname', 'address','postalCode', 'phone']
 
 class UserEditForm(ModelForm):
     class Meta:

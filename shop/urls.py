@@ -9,9 +9,10 @@ urlpatterns = patterns('',
     # Examples:
 
     url(r'^$', views.home, name='home'),
-    url(r'^shop/product/(?P<id>[0-9]+)/$', views.singleProduct, name='singleProduct'),
-    url(r'^page/(?P<id>[0-9]+)/$', views.page, name='page'),
+    url(r'^shop/category/(?P<category>.*)/', views.shop, name='shopCategory'),
+    url(r'^shop/product/(?P<name>.*)/$', views.singleProduct, name='singleProduct'),
     url(r'^shop/', views.shop, name='shop'),
+    url(r'^page/(?P<id>[0-9]+)/$', views.page, name='page'),
     url(r'^checkout/', views.checkout, name='checkout'),
     url(r'^account/', views.account, name='account'),
     url(r'^cart/', views.cart, name='cart'),

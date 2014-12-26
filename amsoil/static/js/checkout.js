@@ -3,9 +3,13 @@ function handlers(){
 
     //$('.row').css('display','none');
     //$('.row:first').css('display','block');
-
-    $('.checkout-step').css('display','none');
-    $('.checkout-step:first').css('display','block');
+    var step = $('#checkout-variables input[name="step"]').val();
+    if (!isNaN(step))
+        checkout.forwardToStep(step);
+    else {
+        $('.checkout-step').css('display','none');
+        $('.checkout-step:first').css('display','block');
+    }
 
     $('.checkout-forward').click(function(){
         checkout.forward(this);
@@ -19,7 +23,9 @@ function handlers(){
     $('#checkout-process').click(function(){
         checkout.process();
     });
+
     checkout.getOrderOptions();
+
     $('#checkout-order').delegate('input[type="radio"]','change',function(){
         console.log('refresh');
         checkout.getOrderOptions();
@@ -45,6 +51,11 @@ checkout = {
         $('div.checkout-step[step="'+step+'"]').css('display','block');
         $('.progress-bar').animate({width:checkout.calcWidth(step)+'%'});
     },
+    forwardToStep: function(step){
+        $('.checkout-step').css('display','none');
+        $('div.checkout-step[step="'+step+'"]').css('display','block');
+        $('.progress-bar').animate({width:checkout.calcWidth(step)+'%'});
+    },
     getOrderOptions: function(){
       if ($("input[name='shippingMethod']:checked").length > 0)
         var shipping = $("input[name='shippingMethod']:checked").val();
@@ -54,6 +65,10 @@ checkout = {
         var payment = $("input[name='paymentMethod']:checked").val();
       else
         var payment = -1;
+
+      if (shipping == -1)
+        var shipping = $('#checkout-variables input[name="shippingMethod"]').val();
+
       $.ajax({
         url: '/getOrderOptions',
         data: {'shipping':shipping, 'payment':payment},
@@ -93,6 +108,7 @@ checkout = {
       data.shippingMethod = $("input[name='shippingMethod']:checked").val();
       data.paymentMethod = $("input[name='paymentMethod']:checked").val();
       data.buyerEmail = $('#buyer-email').val();
+      data.terms = $('input[name="terms"]').is(':checked');
 
       if (!data.shippingMethod) {
           $('#no-shipping').css('display', 'block');

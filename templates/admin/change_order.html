@@ -4,6 +4,8 @@
 {% block after_field_sets %}
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
  {% if object_id %}
-     {% cartItems orderId=object_id %}
+     <div style="margin-bottom:5px;">
+        {% cartItems orderId=object_id noButtons=True %}
+     </div>
  {% endif %}
 {% endblock %}
