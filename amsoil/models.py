@@ -26,6 +26,11 @@ class Product(Page):
     shortDescription = RichTextField(max_length=200, default='', blank=True, null=True)
     mainImage = models.FileField(upload_to='images/', default=None, blank=True)
     price = models.FloatField(default=0)
+    def getVariationsDetails(self):
+        res = []
+        for v in self.variations:
+            res.append({ 'id':v.id, 'price':v.price, 'amount':v.amount })
+        return res
     def __unicode__(self):
         return self.name
     def getMainImage(self):
