@@ -17,6 +17,14 @@ $(document).ready(function($){
             $('#'+$(this).attr('data-hide')).css('display','block');
     })
 
+    $('.variations-table').delegate('select','change', function(){
+    	var div = $('.variations-table["data-product='+$(this).attr('data-product')+'"]');
+    	var selectedVariation = shop.getSelectedVariation(div);
+     	$(div).find('.variation-details').css('display','none');
+     	$(div).find('.variation-details["data-variation='+selectedVariation+'"]').css('display','block');
+    });
+
+
     $('.container-fluid').delegate('.add-to-cart', 'click', function(){
        var id = $(this).attr('data-variation');
        //var isVariable = $(this).hasClass('variable');
@@ -172,6 +180,27 @@ shop = {
     },
     filters: {
         categories: {}
+    },
+    getSelectedVariation: function(div){
+        
+    	var selects = $(div).find('select');
+        var variations = [];
+        selects.forEach(function(el){
+    	    var opt = $(el).find(':selected');
+                variations.push($(opt).attr('data-variations').split(','));
+        });
+        var cands = variations[0];
+        variations.forEach(function(v){
+        	if (cands.length == 1)
+        		break;
+        	cands.forEach(function(c,ind){
+        		if (v.indexOf(c) == -1)
+        			cands.remove(c);
+        	});
+        });
+
+        return cands[0];
+
     },
     getProducts: function(container){
         var filters = '';

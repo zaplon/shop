@@ -26,11 +26,18 @@ class Product(Page):
     shortDescription = RichTextField(max_length=200, default='', blank=True, null=True)
     mainImage = models.FileField(upload_to='images/', default=None, blank=True)
     price = models.FloatField(default=0)
-    def hasManyVariations(self):
+    def __unicode__(self):
+        return self.name
+     def hasManyVariations(self):
         if self.getVariationsCount() > 1:
             return True
         else:
             return False
+    def getVariationsDetails(self):
+        res = []
+        for v in self.variations:
+            res.append({ 'id':v.id, 'price':v.price, 'amount':v.amount })
+        return res
     def getVariationsCount(self):
         return self.variations.count()
     def getVariations(self):
@@ -43,8 +50,6 @@ class Product(Page):
                     options[a.group.name][a.name] = []
                 options[a.group.name][a.name].append( { 'id':v.id, 'price': v.price })
         return options
-    def __unicode__(self):
-        return self.name
     def getMainImage(self):
         try:
             return self.mainImage.url
