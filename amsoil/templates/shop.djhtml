@@ -31,7 +31,8 @@
             </div>
             <div id="page-meta" class="group">
             </div>
-            {% mustachejs "productSmall" %}
+            {% handlebarsjs 'productSmall' precompile %}
+            {% handlebarsjs 'variations' register_partials %}
             <div id="products"></div>
             <div style="clear:both"></div>
             <div class="text-center">

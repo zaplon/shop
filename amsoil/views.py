@@ -37,8 +37,8 @@ def shop(request):
 
     try:
         cat_ind = path.index('category')
-        category_id = Category.objects.get(name = path[cat_ind+1])
-        return render_to_response('shop.djhtml', {'category': category_id}, context_instance=RequestContext(request))
+        category_id = Category.objects.get(name = path[cat_ind+1]).id
+        return render_to_response('shop.djhtml', {'category_id': category_id}, context_instance=RequestContext(request))
     except:
         return render_to_response('shop.djhtml', {}, context_instance=RequestContext(request))
 

@@ -18,13 +18,12 @@ $(document).ready(function($){
     })
 
     $('.container-fluid').delegate('.add-to-cart', 'click', function(){
-       console.log('add');
-       var id = $(this).attr('productId');
-       var isVariable = $(this).hasClass('variable');
-       var singleVar =  $(this).hasClass('single-var');
-       if (isVariable && !singleVar)
-        id = $('select#product-'+id).val();
-       shop.addToCart(id,isVariable);
+       var id = $(this).attr('data-variation');
+       //var isVariable = $(this).hasClass('variable');
+       //var singleVar =  $(this).hasClass('single-var');
+       //if (isVariable && !singleVar)
+       // id = $('select["data-product='+id + '"]').val();
+      shop.addToCart(id,true);
     });
 
     $('#account #login').click(function(){
@@ -223,12 +222,9 @@ shop = {
                else
                 res.results[r].noVars = false;
 
-               if (res.results[r].variations.length > 1)
-                res.results[r].single = false;
-               else
-                res.results[r].single = true;
                if (shop.displayAs == 'grid') {
-                   $(div).html(Mustache.to_html(Mustache.TEMPLATES.productSmall, {'addToCart': 'Do koszyka', 'product': res.results[r] }));
+                   $(div).html(Handlebars.templates['productSmall']( {'addToCart': 'Do koszyka', 'product': res.results[r] }));
+                   //$(div).html(Mustache.to_html(Mustache.TEMPLATES.productSmall, {'addToCart': 'Do koszyka', 'product': res.results[r] }));
                }
                else
                 $(div).html(Mustache.to_html(Mustache.TEMPLATES.product, { 'addToCart':'Do koszyka', 'product': res.results[r] }));

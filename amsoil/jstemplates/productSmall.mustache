@@ -5,51 +5,12 @@
         </div>
         <div class="product-data">
             <h4><a href="/shop/product/{{product.name}}/">{{ product.name }}</a></h4>
-            <!--<div class="product-description">-->
-            <!--{{{ product.shortDescription }}}-->
-            <!--</div>-->
-            {{#product.single}}
-                <div class="col-md-12 ">
-                    {{#product.variations}}
-                        <div class="pull-left col-md-6" style="padding:5px 0px"> {{ attributesString }} </div>
-                        <div class="pull-right col-md-6">
-                            <span class="currency">pln</span>
-                            <span class="item-price">{{ price }}-</span>
-                        </div>
-                        <div style="clear:both"></div>
-                        <div class="margin-top10">
-                            <button class="btn btn-primary add-to-cart variable single-var"
-                                    productId="{{ id }}">
-                                {{ addToCart }}
-                            </button>
-                        </div>
-                    {{/product.variations}}
-                </div>
-                {{#product.noVars}}
-                    <button class="btn btn-primary add-to-cart" productId="{{ product.id }}" style="margin-top:20px;">
-                        {{ addToCart }}
-                    </button>
-                {{/product.noVars}}
-                {{^product.noVars}}
-                    {{#product.variations}}
 
-                    {{/product.variations}}
-                {{/product.noVars}}
-            {{/product.single}}
-            {{^product.single}}
-                <div>
-                    <select class="form-control" id="product-{{ product.id }}">
-                        {{#product.variations}}
-                            <option value="{{ id }}">{{ attributesString }}
-                                <span class="item-price"><span class="currency">pln</span>{{ price }}-</span></option>
-                        {{/product.variations}}
-                    </select>
-                </div>
-                <button class="btn btn-primary add-to-cart variable" productId="{{ product.id }}"
-                        style="margin-top:20px;">
-                    {{ addToCart }}
-                </button>
-            {{/product.single}}
+            <!--{{{ product.shortDescription }}}-->
+
+
+           {{> variations }}
+
         </div>
     </div>
 </div>
