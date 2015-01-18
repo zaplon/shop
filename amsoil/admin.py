@@ -20,6 +20,7 @@ class SlideInline(admin.TabularInline):
 
 class SliderAdmin(admin.ModelAdmin):
     inlines = (SlideInline,)
+    list_display = ('name','getSlidesCount')
 
 class CartInline(admin.TabularInline):
     model = Cart
@@ -51,6 +52,7 @@ class VariationsInline(admin.TabularInline):
 
 class ProductAdmin(admin.ModelAdmin):
     inlines = (VariationsInline,)
+    list_display = ['name','mainImage']
     fields = ('name','shortName','description',('price','mainImage'),('categories','tags'),)
     #pass
 

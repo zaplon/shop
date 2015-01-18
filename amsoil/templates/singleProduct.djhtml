@@ -99,6 +99,7 @@
     </div>
     <script>
         $("#single-col-2").height($("#single-col-1").height());
+
     </script>
     {% if product.variations.count > 0 %}
         <script>

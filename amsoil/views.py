@@ -230,7 +230,7 @@ def checkout(request):
     return render_to_response('checkout.djhtml',
                               {'BuyerForm': buyer, 'ReceiverForm': receiver, 'creationForm': creationForm,
                               'ShippingMethods': shippingMethods, 'InvoiceForm': invoice,
-                              'products_in_cart': products_in_cart, 'step':3,
+                              'products_in_cart': products_in_cart, 'step': request.user.is_authenticated() if 2 else 1,
                               'shippingMethod': data['shippingMethod'] if 'data' in request.POST else 0,
                               'paymentMethod': data['paymentMethod'] if 'data' in request.POST else 0,
                               'email': data['email'] if 'data' in request.POST else '' },
@@ -411,7 +411,7 @@ def search(request):
     products = Product.objects.filter(Q(name__contains=term) | Q(description__contains=term))
     res = []
     for p in pages:
-        res.append( { 'id':p.id, 'except': p.body[0:200], 'title':p.title, 'link' : '/page/'+str(p.id) } )
+        res.append( { 'id':p.id, 'except': p.body[0:200], 'title':p.title, 'link' : '/page/'+p.name } )
     for p in products:
-        res.append( { 'id':p.id, 'except': p.shortDescription[0:200], 'title':p.name, 'link' : '/shop/'+str(p.id)+'/' } )
+        res.append( { 'id':p.id, 'except': p.shortDescription[0:200], 'title':p.name, 'link' : '/shop/'+p.name+'/' } )
     return render_to_response('search.html', {'results': res, 'count': len(res)}, context_instance=RequestContext(request))

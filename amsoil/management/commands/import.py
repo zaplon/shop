@@ -114,7 +114,8 @@ class prices:
                 if obj['_product_attributes'][a]['is_variation']:
                     isVar = True
                     vals = vals + obj['_product_attributes'][a]['value'].split(' | ')
-            #print obj['_product_attributes']       
+            print obj['_product_attributes']
+            print vals
             if isVar:
                 q = """
                         SELECT post.ID, meta.meta_key, meta.meta_value 
@@ -123,22 +124,23 @@ class prices:
                         WHERE meta.meta_key = '_price' AND post.post_type = 'product_variation' AND post.post_parent =
                         """ + str(p.ID) + ' ORDER BY meta.meta_value'
                 rows = db.execute(q).fetchall() 
+                i = 0
                 for row in rows:
-                    i = 0
                     pvms = db.wp_postmeta.filter(db.wp_postmeta.post_id == row[0]).all()
                     for pvm in pvms:
                         if pvm.meta_key == '_price':
                             obj['vars']['price'].append(pvm.meta_value)    
                         if pvm.meta_key in attr :
                             if i < len(vals):
-                                obj['vars']['name'].append(vals[i])
+                                obj['vars']['name'].append(pvm.meta_value)
                             else:
                                 obj['vars']['name'].append(pvm.meta_value.replace('-',' '))
-                    try:            
+                    try:
                         obj['vars']['np'].append(str(obj['vars']['name'][-1]) + '/' + str(obj['vars']['price'][-1]+'zł'))
                     except:
-                        obj['vars']['np'].append('')  
-                    i = i + 1          
+                        obj['vars']['np'].append('')
+                    i += 1
+                    #print(obj['vars'])
             elif len(attr) > 0:
                 #opakowania
                 #print obj
@@ -156,8 +158,9 @@ class prices:
                 try:
                     obj['vars']['name'].append(sizes[0][0])
                 except:
-                    #print obj['_product_attributes']
-                    obj['vars']['name'].append('')    
+                    print('------')
+                    print obj['_product_attributes']
+                    obj['vars']['name'].append(obj['_product_attributes']['opakowanie']['value'])
                 #obj['vars']['np'].append( str(price[0].meta_value) + '/' + obj['vars']['name'] )
             
             else:
@@ -209,6 +212,7 @@ class prices:
                 p.save()
                 #os.remove(name)
                 i = 0
+                #print o['vars']
                 for v in o['vars']['price']:
                     try:
                         a = Attribute.objects.get(name = o['vars']['name'][i])

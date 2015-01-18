@@ -32,6 +32,7 @@
             <div id="page-meta" class="group">
             </div>
             {% handlebarsjs 'productSmall' precompile %}
+            {% handlebarsjs 'product' precompile %}
             {% handlebarsjs 'variations' register_partials %}
             <div id="products"></div>
             <div style="clear:both"></div>

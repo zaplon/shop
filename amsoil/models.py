@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from django.db import models
 from shop.settings import MEDIA_ROOT
 from django.contrib.auth.models import User
@@ -28,16 +30,19 @@ class Product(Page):
     price = models.FloatField(default=0)
     def __unicode__(self):
         return self.name
-     def hasManyVariations(self):
+    def hasManyVariations(self):
         if self.getVariationsCount() > 1:
             return True
         else:
             return False
     def getVariationsDetails(self):
         res = []
-        for v in self.variations:
+        min = 100000
+        for v in self.variations.all():
+            if v.price < min:
+                min = v.price
             res.append({ 'id':v.id, 'price':v.price, 'amount':v.amount })
-        return res
+        return {'min':min, 'vars':res}
     def getVariationsCount(self):
         return self.variations.count()
     def getVariations(self):
@@ -59,9 +64,9 @@ class Product(Page):
 class ProductVariation(models.Model):
     product = models.ForeignKey(Product, related_name='variations')
     attributes = models.ManyToManyField('Attribute', related_name='products')
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, blank=True, null=True)
     price = models.FloatField(default=0)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='images/',blank=True, null=True)
     amount = models.IntegerField(default=0)
     def getAttributesString(self):
         name = ''
@@ -249,9 +254,14 @@ class UserMeta(MetaData):
 
 class Slider(models.Model):
     name = models.CharField(max_length=50)
+    def __unicode__(self):
+        return self.name
+    def getSlidesCount(self):
+        return self.slides.count()
+    getSlidesCount.short_description = 'Liczba slajdów'
 
 class Slide(models.Model):
-    slider = models.ForeignKey(Slider)
+    slider = models.ForeignKey(Slider, related_name='slides')
     title = models.CharField(max_length=200)
     text = models.CharField(max_length=500)
     button1Text = models.CharField(max_length=50, default='Read more')

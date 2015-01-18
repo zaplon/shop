@@ -11,41 +11,7 @@
                 </div>
             </div>
             <div class="pull-right col-md-2">
-
-                {{#product.single}}
-                    <span class="currency">pln</span>
-                    <span class="item-price" style="margin-bottom:8px">23-</span>
-                    <div>
-                        {{#product.variations}}
-                            {{ attributesString }}
-                        {{/product.variations}}
-                    </div>
-                    {{#product.noVars}}
-                        <button class="pull-right btn btn-primary add-to-cart" productId="{{ product.id }}" style="margin-top:20px;">
-                            {{ addToCart }}
-                         </button>
-                    {{/product.noVars}}
-                    {{^product.noVars}}
-                        {{#product.variations}}
-                        <button class="pull-right btn btn-primary add-to-cart variable single-var"
-                                productId="{{ id }}" style="margin-top:20px;">
-                            {{ addToCart }}
-                        </button>
-                        {{/product.variations}}
-                    {{/product.noVars}}
-                {{/product.single}}
-                {{^product.single}}
-                    <div>
-                        <select class="form-control" id="product-{{ product.id }}">
-                            {{#product.variations}}
-                                <option value="{{ id }}">{{ attributesString }} {{ price }}</option>
-                            {{/product.variations}}
-                        </select>
-                    </div>
-                     <button class="pull-right btn btn-primary add-to-cart variable" productId="{{ product.id }}" style="margin-top:20px;">
-                        {{ addToCart }}
-                     </button>
-                {{/product.single}}
+                {{> variations}}
             </div>
         </div>
     </div>
