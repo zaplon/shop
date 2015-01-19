@@ -104,6 +104,9 @@ header {
     .sidebar-left .widget ul {
       list-style: none; }
 
+.widget ul.list-group {
+  overflow-y: auto;
+  max-height: 295px; }
 .widget .body {
   padding: 10px;
   background-color: white; }
@@ -184,6 +187,9 @@ h1.page-title {
   position: fixed;
   bottom: 50px;
   left: 10px; }
+
+.product-filter .thick-box {
+  float: left; }
 
 .thick-box {
   margin-right: 10px;
@@ -412,5 +418,8 @@ button.close:hover {
 
 .variations-table label {
   margin-right: 10px; }
+
+#no-products {
+  text-align: center; }
 
 /*# sourceMappingURL=style.css.map */

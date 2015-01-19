@@ -23,6 +23,8 @@
                     </div>
                 </div>
             </div>
+            {% productFilter type='Lepkość' %}
+            {% productFilter type='Producent' %}
             {% productCategories %}
         </div>
         <div id="content-shop" class="col-md-9">

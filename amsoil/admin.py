@@ -10,6 +10,7 @@ admin.site.register(MenuItem)
 admin.site.register(Page)
 admin.site.register(Category,TranslationAdmin)
 admin.site.register(Attribute)
+admin.site.register(AttributeGroup)
 admin.site.register(ProductVariation)
 admin.site.register(ShippingMethod)
 admin.site.register(PaymentMethod)
@@ -46,14 +47,13 @@ class OrderAdmin(admin.ModelAdmin):
     fields = ('status','date','paymentMethod','shippingMethod',
               'notes')
 
-
 class VariationsInline(admin.TabularInline):
     model = ProductVariation
 
 class ProductAdmin(admin.ModelAdmin):
     inlines = (VariationsInline,)
     list_display = ['name','mainImage']
-    fields = ('name','shortName','description',('price','mainImage'),('categories','tags'),)
+    fields = ('name','shortName','description','attributes',('price','mainImage'),('categories','tags'),)
     #pass
 
 

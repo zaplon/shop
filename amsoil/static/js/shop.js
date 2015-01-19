@@ -69,6 +69,21 @@ $(document).ready(function($){
         window.location = '/cart';
     });
 
+    $('.product-filter .thick-box').click(function(){
+       var type = $(this).attr('data-type');
+       var id = $(this).attr('data-id');
+       if ($(this).hasClass('filter-active')){
+           $(this).removeClass('filter-active');
+           $(this).removeClass('glyphicon glyphicon-ok');
+           delete(shop.filters.attributes[id])
+       }
+       else {
+           $(this).addClass('filter-active');
+           $(this).addClass('glyphicon glyphicon-ok');
+           shop.filters.attributes[id] = true;
+       }
+    });
+
     $('#product-categories .thick-box').click(function(){
        if ($(this).hasClass('filter-active')){
            $(this).removeClass('filter-active');
@@ -187,7 +202,8 @@ shop = {
         });
     },
     filters: {
-        categories: {}
+        categories: {},
+        attributes: {}
     },
     getSelectedVariation: function(div){
         
@@ -212,15 +228,28 @@ shop = {
     getProducts: function(container){
         var filters = '';
         var cats = [];
+        var atts = [];
         var page = 1;
         for (f in this.filters.categories)
             cats.push(f);
         cats = cats.join(',');
+        for (f in this.filters.attributes)
+            atts.push(f);
+        atts = atts.join(',');
         filters = filters + 'page=' + shop.currentPage + '&';
         filters = filters + 'categories_in=' + cats;
+        filters = filters + '&attributes_in=' + atts;
         $.get('/products?' + filters).done(function(res){
            var cont = $('#'+container)[0];
            $('.product').remove();
+           $('#no-products').remove();
+
+          //brak productów
+          if (res.count == 0){
+              $(cont).html('<div id="no-products"><h3>Brak produktów</h3></div>');
+              $('#shop-pagination').children().remove();
+              return;
+          }
 
           //numeracja stron
           var pagination = $('#shop-pagination');

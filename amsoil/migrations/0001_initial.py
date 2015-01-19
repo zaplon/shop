@@ -211,9 +211,9 @@ class Migration(migrations.Migration):
             name='ProductVariation',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=100)),
+                ('name', models.CharField(max_length=100, null=True, blank=True)),
                 ('price', models.FloatField(default=0)),
-                ('image', models.ImageField(upload_to=b'images/')),
+                ('image', models.ImageField(null=True, upload_to=b'images/', blank=True)),
                 ('amount', models.IntegerField(default=0)),
                 ('attributes', models.ManyToManyField(related_name=b'products', to='amsoil.Attribute')),
                 ('product', models.ForeignKey(related_name=b'variations', to='amsoil.Product')),
@@ -236,6 +236,8 @@ class Migration(migrations.Migration):
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
+                'verbose_name': 'Adres',
+                'verbose_name_plural': 'Adresy',
             },
             bases=(models.Model,),
         ),
@@ -324,13 +326,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='slide',
             name='slider',
-            field=models.ForeignKey(to='amsoil.Slider'),
+            field=models.ForeignKey(related_name=b'slides', to='amsoil.Slider'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='pagemeta',
             name='page',
             field=models.ForeignKey(to='amsoil.Page'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='page',
+            name='attributes',
+            field=models.ManyToManyField(to='amsoil.Attribute', null=True, blank=True),
             preserve_default=True,
         ),
         migrations.AddField(

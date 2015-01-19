@@ -1,0 +1,15 @@
+<div class="widget product-filter">
+    <h3><div class="minus"></div>{{ type }}</h3>
+    <ul class="list-group">
+        {% for option in options %}
+            <li class="list-group-item">
+                {% if asLink %}
+                    <a href="/shop/category/{{ option.id }}">{{ option.name }}</a>
+                {% else %}
+                    <div data-type="{{ type }}"  class="thick-box" data-id="{{ option.id }}"></div>
+                    <span class="badge">{{ option.pages.count }}</span>{{ option.name }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>

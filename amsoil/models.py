@@ -16,6 +16,7 @@ class Page(models.Model):
     body = RichTextField(max_length=20000)
     tags = models.ManyToManyField('Tag', related_name='pages', blank=True)
     categories = models.ManyToManyField('Category', related_name='pages', blank=True)
+    attributes = models.ManyToManyField('Attribute', blank = True, null = True, related_name='pages')
     isMain = models.BooleanField(default=0)
     def __unicode__(self):
         return self.title
@@ -98,10 +99,12 @@ class Attachment(models.Model):
 class AttributeGroup(models.Model):
     name = models.CharField(max_length=100)
     forProductVariations = models.BooleanField(default=False)
+    def __unicode__(self):
+        return self.name
 
 class Attribute(models.Model):
     name = models.CharField(max_length=100)
-    value = models.CharField(max_length=100)
+    value = models.CharField(max_length=100, blank = True, null = True)
     group = models.ForeignKey(AttributeGroup, related_name='attributes')
     def __unicode__(self):
         if self.group:

@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from django import template
-from amsoil.models import MenuItem, Category, CartProduct, Cart, Invoice, Shipment, Order, Slider, Slide
+from amsoil.models import MenuItem, Category, CartProduct, Cart, Invoice, Shipment, Order, Slider, Slide, \
+    Attribute
 from django.db.models import Sum
 from amsoil.forms import QuickContactForm
 from django.utils.translation import ugettext as _
@@ -26,6 +27,15 @@ def productCategories(name=None,*args,**kwargs):
         'asLink': 'asLink' in kwargs if True else False,
         'categories': Category.objects.filter(forProducts=True),
     }
+
+@register.inclusion_tag('productFilter.html')
+def productFilter(type = None,*args):
+    options = Attribute.objects.filter(group__name = type, pages__isnull = False)
+    return {
+        'options': options,
+        'type': type
+    }
+
 
 @register.inclusion_tag('minicart.djhtml', takes_context = True)
 def cartData(context,*args, **kwargs):
