@@ -3,7 +3,7 @@
 from django import template
 from amsoil.models import MenuItem, Category, CartProduct, Cart, Invoice, Shipment, Order, Slider, Slide, \
     Attribute
-from django.db.models import Sum
+from django.db.models import Sum, Count
 from amsoil.forms import QuickContactForm
 from django.utils.translation import ugettext as _
 from shop.settings import MEDIA_URL
@@ -30,7 +30,7 @@ def productCategories(name=None,*args,**kwargs):
 
 @register.inclusion_tag('productFilter.html')
 def productFilter(type = None,*args):
-    options = Attribute.objects.filter(group__name = type, pages__isnull = False)
+    options = Attribute.objects.filter(group__name = type, pages__isnull = False).annotate(dcount=Count('id'))
     return {
         'options': options,
         'type': type
