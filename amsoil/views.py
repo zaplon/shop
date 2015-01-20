@@ -415,7 +415,7 @@ def quickContact(request):
     qc = QuickContactForm(request.POST)
     if qc.is_valid():
         send_mail('Wiadomość kontaktowa', request.POST['body'], request.POST['email'],
-                  'oleje.amsoil@gmail.com', fail_silently=False)
+                  ['oleje.amsoil@gmail.com'], fail_silently=False)
     else:
         return render_to_response('index.djhtml', {}, context_instance=RequestContext(request))
 
