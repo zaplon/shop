@@ -6,7 +6,7 @@
                 {% if asLink %}
                     <a href="/shop/category/{{ option.id }}">{{ option.name }}</a>
                 {% else %}
-                    <div data-type="{{ type }}"  class="thick-box" data-id="{{ option.id }}"></div>
+                    <div data-type="{{ type }}" data-attribute="{{ option.id }}"  class="thick-box" data-id="{{ option.id }}"></div>
                     <span class="badge">{{ option.pages.count }}</span>{{ option.name }}
                 {% endif %}
             </li>
