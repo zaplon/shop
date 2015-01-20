@@ -5,6 +5,7 @@
 
 {% block body %}
     <div class="row">
+        {% handlebarsjs 'variations' precompile %}
         <div style="padding-left:15px;" class="col-md-12 margin-bottom20">
 {#            <a href="/shop">#}
 {#                <span style="margin-left:5px;" class="glyphicon glyphicon-chevron-left">#}
@@ -24,45 +25,9 @@
                     </div>
                     <div class="col-md-4 col-sm-6 panel panel-default" id="single-col-2">
                         <div class="panel-body">
-                            <div>
-                                <div class="">
-                                {% for v in product.variations.all  %}
-                                    <span class="item-price single-prod product-price product-{{ v.id }}"><span class='currency'>pln</span>{{ v.price }}-</span>
-                                {% endfor %}
-                                {% if product.variations.count == 0 %}
-                                    <span class="item-price single-prod product-price product-{{ v.id }}"><span class='currency'>pln</span>{{ product.price }}-</span>
-                                {% endif %}
-                                </div>
-                            </div>
-                            <div>
-                                {% if v in product.variations.count == 0 or product.variations.count == 1 %}
-                                    <h4>{{ v.getAttributesString }}</h4>
-                                {% else %}
-                                     <select class="form-control col-md-2" id="product-variations">
-                                        {% for v in product.variations.all %}
-                                            <option value="{{ v.id }}">
-                                                {{ v.getAttributesString }}
-                                            </option>
-                                        {% endfor %}
-                                     </select>
-                                {% endif %}
+                            <div id="product-variations-container">
                             </div>
                             <div style="clear:both"></div>
-                            <div class="form-group form-horizontal single-product-buttons">
-                                <input id="quantity" class="form-control pull-left col-md-2" value="1" type="number" min="1"></input>
-                                {% if product.variations.count == 0 %}
-                                    <button productId="{{ p.id }}" class="btn btn-primary add-to-cart pull-right">
-                                        {% trans 'Add to cart' %}
-                                    </button>
-                                {% endif %}
-
-                                {% for v in product.variations.all  %}
-                                    <button productId="{{ v.id }}"
-                                            class="btn btn-primary single-prod product-{{ v.id }} add-to-cart variable single-var">
-                                        {% trans 'Add to cart' %}
-                                    </button>
-                                {% endfor %}
-                            </div>
                             <div>
                                 <span style="font-weight:bold">{% trans 'Categories' %}: </span>
                                 <span>
@@ -99,7 +64,9 @@
     </div>
     <script>
         $("#single-col-2").height($("#single-col-1").height());
-
+        $.get('/products?id={{product.id}}').success(function(res){
+            $('#product-variations-container').html(Handlebars.templates['variations']( { 'product': res }));
+        });
     </script>
     {% if product.variations.count > 0 %}
         <script>
