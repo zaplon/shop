@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 from django import template
 from amsoil.models import MenuItem, Category, CartProduct, Cart, Invoice, Shipment, Order, Slider, Slide, \
-    Attribute
+    Attribute, AttributeGroup
+from amsoil.models import getProductAttributesByGroupName    
 from django.db.models import Sum, Count
 from amsoil.forms import QuickContactForm
 from django.utils.translation import ugettext as _
@@ -14,6 +15,8 @@ register = template.Library()
 @register.inclusion_tag('nav.djhtml')
 def nav(name=None):
     mi = MenuItem.objects.filter(menu__name='main').order_by('order')
+    lp = getProductAttributesByGroupName('Lepkość')
+    pr = getProductAttributesByGroupName('Producent')
     return {
         'categories': Category.objects.filter(forProducts=True),
         'menuItems': mi,
