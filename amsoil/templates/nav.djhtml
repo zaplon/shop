@@ -13,10 +13,22 @@
                 <span class="sr-only">{% trans 'Toggle Dropdown' %}</span>
               </a>
               <ul class="dropdown-menu nav-dropdown" role="menu">
-                <li role="presentation" class="dropdown-header">{% trans 'Categories' %}</li>
-                {% for c in categories %}
-                    <li role="presentation"><a role="menuitem" href="/shop/category/{{ c.name }}">{{ c.name }}</a></li>
-                {% endfor %}
+                <li>
+                  <div class="row">
+                    <ul class="col-md-4">
+                        <li role="presentation" class="dropdown-header">{% trans 'Categories' %}</li>
+                        {% for c in categories %}
+                            <li role="presentation"><a role="menuitem" href="/shop/category/{{ c.name }}">{{ c.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    <ul class="col-md-4">
+                        <li role="presentation" class="dropdown-header">Producent</li>
+                        {% for b in brands %}
+                            <li role="presentation"><a role="menuitem" href="/shop/brand/{{ b.name }}">{{ b.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                  </div>
+                </li>
               </ul>
             </div>
 
