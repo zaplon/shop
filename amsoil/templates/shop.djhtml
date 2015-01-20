@@ -63,9 +63,20 @@
         if (atts)
             atts.forEach(function(val){
                 shop.filters.attributes[val] = 1;
+                var thick = $('div.thick-box[data-attribute='+val+']');
+                if (thick){
+                    thick.addClass('filter-active');
+                    thick.addClass('glyphicon glyphicon-ok');
+                }
             });
-        if(cat)
+        if(cat){
             shop.filters.categories[cat] = 1;
+            var thick = $('div.thick-box[data-category='+val+']');
+            if (thick){
+                thick.addClass('filter-active');
+                thick.addClass('glyphicon glyphicon-ok');
+            }
+        }
         shop.getProducts('products');
         $('#product-filter').click(function(){
             shop.currentPage = 1;
