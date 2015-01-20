@@ -112,6 +112,9 @@ class Attribute(models.Model):
         else:
             return self.name
 
+def getProductAttributesByGroupName(name):
+    return Attribute.objects.filter(group__name = name, pages__isnull = False).annotate(dcount=Count('id'))
+
 class Menu(models.Model):
     name = models.CharField(max_length=100)
     def __unicode__(self):
