@@ -43,9 +43,22 @@
 
 
     <div>
-        <button class="{{#unless product.hasManyVariations}}single-var {{/unless}}
-        btn btn-primary add-to-cart variable" data-product="{{ product.id}}"
-                style="margin-top:20px;">
-            {{ addToCart }}
-        </button>
+
+        {{#if showQuantity }}
+            <div style="margin-top:{{#if buttonMargin }}{{buttonMargin}}px{{else}}20px{{/if}};">
+                <input style="margin-right:10px;" type="number" aria-valuemin="0" value="1"
+                       id="quantity" class="pull-left form-control" />
+                <button class="{{#unless product.hasManyVariations}}single-var {{/unless}}
+                btn btn-primary add-to-cart variable pull-left " data-product="{{ product.id}}">
+                    {{ addToCart }}
+                </button>
+            </div>
+            <div style="clear:both"></div>
+        {{else}}
+            <button class="{{#unless product.hasManyVariations}}single-var {{/unless}}
+            btn btn-primary add-to-cart variable" data-product="{{ product.id}}"
+                style="margin-top:{{#if buttonMargin }}{{buttonMargin}}px{{else}}20px{{/if}};">
+                {{ addToCart }}
+            </button>
+        {{/if}}
     </div>

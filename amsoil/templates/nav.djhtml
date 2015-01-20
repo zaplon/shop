@@ -12,7 +12,7 @@
                 <span class="caret"></span>
                 <span class="sr-only">{% trans 'Toggle Dropdown' %}</span>
               </a>
-              <ul class="dropdown-menu nav-dropdown" role="menu">
+              <ul class="dropdown-menu nav-dropdown" role="menu" style="width:500px;">
                 <li>
                   <div class="row">
                     <ul class="col-md-4">
@@ -24,7 +24,13 @@
                     <ul class="col-md-4">
                         <li role="presentation" class="dropdown-header">Producent</li>
                         {% for b in brands %}
-                            <li role="presentation"><a role="menuitem" href="/shop/brand/{{ b.name }}">{{ b.name }}</a></li>
+                            <li role="presentation"><a role="menuitem" href="/shop/attributes/{{ b.name }}">{{ b.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                     <ul class="col-md-4">
+                        <li role="presentation" class="dropdown-header">Lepkość</li>
+                        {% for v in vis %}
+                            <li role="presentation"><a role="menuitem" href="/shop/attributes/{{ v.name }}">{{ v.name }}</a></li>
                         {% endfor %}
                     </ul>
                   </div>

@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-md-4 col-sm-6 panel panel-default" id="single-col-2">
                         <div class="panel-body">
-                            <div id="product-variations-container">
+                            <div id="product-variations-container" style="margin-bottom:20px;">
                             </div>
                             <div style="clear:both"></div>
                             <div>
@@ -65,20 +65,12 @@
     <script>
         $("#single-col-2").height($("#single-col-1").height());
         $.get('/products?id={{product.id}}').success(function(res){
-            $('#product-variations-container').html(Handlebars.templates['variations']( { 'product': res }));
-        });
-    </script>
-    {% if product.variations.count > 0 %}
-        <script>
-            $('.single-prod').css('display','none');
-            $('.product-{{ product.variations.first.id }}').css('display','inherit');
-            $('#product-variations').change(function(){
-                $('.single-prod').css('display','none');
-                $('.product-'+$(this).val()).css('display','inherit');
-            });
+            $('#product-variations-container').html(Handlebars.templates['variations'](
+                    { 'addToCart': 'Do koszyka', 'product': res.results[0], 'showQuantity': true,
+                    'buttonMargin':10}));
             $('#quantity').change(function(){
                shop.quantity = $(this).val();
             });
-        </script>
-    {% endif %}
+        });
+    </script>
 {% endblock %}

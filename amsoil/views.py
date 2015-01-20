@@ -3,7 +3,7 @@
 
 from django.shortcuts import render_to_response, RequestContext, HttpResponse, HttpResponseRedirect, render
 from amsoil.models import Page, Product, Cart, User, CartProduct, ProductVariation, \
-    ShippingMethod, PaymentMethod, Order, Invoice, Shipment, Category
+    ShippingMethod, PaymentMethod, Order, Invoice, Shipment, Category, Attribute
 from rest_framework import viewsets
 from amsoil.serializers import ProductSerializer, PaymentMethodSerializer, ShippingMethodSerializer, \
     CartSerializer, CartProductSerializer
@@ -35,18 +35,18 @@ def page(request, id):
 def shop(request):
     path = request.path.split('/')
 
-    attributes_id = False
+    attributes_id = -1
     try:
         attributes_id = []
         att_ind = path.index('attributes')
         atts = path[att_ind+1].split(',')
         for a in atts:
-            attributes_id.append( Attribute.objects.get(name = path[cat_ind+1]).id )
-        attributes_id = ','.join(attributes_id)
+            attributes_id.append( Attribute.objects.get(name = path[att_ind+1]).id )
+        attributes_id = ','.join(map(str,attributes_id))
     except:
-        pass
+        attributes_id = -1
 
-    category_id = False
+    category_id = -1
     try:
         cat_ind = path.index('category')
         category_id = Category.objects.get(name = path[cat_ind+1]).id

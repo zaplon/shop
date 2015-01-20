@@ -150,13 +150,34 @@ shop = {
           shop.drawElipse(context,w/2, 0, w-10, h-5);
       });
     },
+    showMessage: function(message, icon){
+        $('#decorative-message').remove();
+        $('body').append('<div id="decorative-message"><div class="icon"></div><div class="message"><span></span></div></div>');
+        var div = $('#decorative-message');
+        $('#decorative-message .message span').html(message);
+        $('#decorative-message .icon').addClass(icon);
+        div.animate({ opacity:'1'},500, function(){
+            window.setTimeout(function(){
+                div.animate({opacity:'0'},500, function(){
+                    div.remove();
+                });
+            },2000)}
+        );
+    },
     showTopMessage: function(message){
         $('#top-message').html(message);
+
         $('#top-message').animate({padding:'15px',borderWidth:'2px'},200);
         window.setTimeout(function(){
             $('#top-message').animate({padding:'0px',borderWidth:'0px'},200);
             $('#top-message').html('');
         },2000);
+
+//        $('#top-message').animate({padding:'15px',borderWidth:'2px'},200);
+//        window.setTimeout(function(){
+//            $('#top-message').animate({padding:'0px',borderWidth:'0px'},200);
+//            $('#top-message').html('');
+//        },2000);
     },
     showWindow: function(title,body,footer,buttons){
 
@@ -196,7 +217,8 @@ shop = {
                 $.get('/miniCart',{},function(res){
                     $('#mini-cart').html(Mustache.to_html(Mustache.TEMPLATES.miniCart,
                         JSON.parse(res)));
-                    shop.showTopMessage(tr('Product added to cart'));
+                    //shop.showTopMessage(tr('Product added to cart'));
+                    shop.showMessage(tr('Product added to cart'),'glyphicon glyphicon-shopping-cart');
                 });
             }
         });

@@ -19,6 +19,7 @@ def nav(name=None):
     pr = getProductAttributesByGroupName('Producent')
     return {
         'brands': pr,
+        'vis': lp,
         'categories': Category.objects.filter(forProducts=True),
         'menuItems': mi,
         'count': mi.count()+2,

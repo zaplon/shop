@@ -5,8 +5,12 @@
 
 {% block body %}
     <form id="shop-variables">
-        <input name="category" type="hidden" value="{{ category_id }}"></input>
-        <input name="attributes" type="hidden" value="{{ attributes_id }}"></input>
+        {% if category_id > 0 %}
+            <input name="category" type="hidden" value="{{ category_id }}"></input>
+        {% endif %}
+        {% if attributes_id > 0 %}
+            <input name="attributes" type="hidden" value="{{ attributes_id }}"></input>
+        {% endif %}
     </form>
     <div class="row">
         <div style="margin-left:15px;">
@@ -59,7 +63,10 @@
         //    shop.filters.categories[cat] = 1;
         //}
         var cat = $('#shop-variables input[name="category"]').val();
-        var atts = $('#shop-variables input[name="attributes"]').val().split(',');
+        if ( $('#shop-variables input[name="attributes"]').length )
+            var atts = $('#shop-variables input[name="attributes"]').val().split(',');
+        else
+            var atts = false;
         if (atts)
             atts.forEach(function(val){
                 shop.filters.attributes[val] = 1;
@@ -71,7 +78,7 @@
             });
         if(cat){
             shop.filters.categories[cat] = 1;
-            var thick = $('div.thick-box[data-category='+val+']');
+            var thick = $('div.thick-box[data-category='+cat+']');
             if (thick){
                 thick.addClass('filter-active');
                 thick.addClass('glyphicon glyphicon-ok');

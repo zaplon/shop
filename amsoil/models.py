@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
-from django.db.models import Sum
+from django.db.models import Sum, Count
 
 class UserProfile(models.Model):
     pass
