@@ -35,12 +35,25 @@ def page(request, id):
 def shop(request):
     path = request.path.split('/')
 
+    attributes_id = False
+    try:
+        attributes_id = []
+        att_ind = path.index('attributes')
+        atts = path[att_ind+1].split(',')
+        for a in atts:
+            attributes_id.append( Attribute.objects.get(name = path[cat_ind+1]).id )
+        attributes_id = ','.join(attributes_id)
+    except:
+        pass
+
+    category_id = False
     try:
         cat_ind = path.index('category')
         category_id = Category.objects.get(name = path[cat_ind+1]).id
-        return render_to_response('shop.djhtml', {'category_id': category_id}, context_instance=RequestContext(request))
+        #return render_to_response('shop.djhtml', {'category_id': category_id}, context_instance=RequestContext(request))
     except:
-        return render_to_response('shop.djhtml', {}, context_instance=RequestContext(request))
+        pass
+    return render_to_response('shop.djhtml', {'category_id':category_id, 'attributes_id':attributes_id}, context_instance=RequestContext(request))
 
 def cart(request):
     return render_to_response('cartView.html', [], context_instance=RequestContext(request))
