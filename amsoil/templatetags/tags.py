@@ -18,6 +18,7 @@ def nav(name=None):
     lp = getProductAttributesByGroupName('Lepkość')
     pr = getProductAttributesByGroupName('Producent')
     return {
+        'brands': pr,
         'categories': Category.objects.filter(forProducts=True),
         'menuItems': mi,
         'count': mi.count()+2,
