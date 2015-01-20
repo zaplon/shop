@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Django settings for shop project.
 
@@ -127,5 +130,9 @@ JSTEMPLATE_DIRS = [
 
 FROM_MAIL = 'info@najlepszysyntetyk.pl'
 
+#EMAIL_HOST = 'localhost'
+#EMAIL_PORT = 1025
+
 EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
+EMAIL_HOST_USER = 'amsoil-info'
+EMAIL_HOST_PASSWORD = "YUIOP{}|;'"
