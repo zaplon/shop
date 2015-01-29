@@ -7,5 +7,8 @@
 {% endblock %}
 
 {% block content %}
+    <div>
+        {% trans 'Confirmation for order nr:' %}<strong>{{ order.number }}</strong>
+    </div>
     {% cartData noButtons="1" %}
 {% endblock %}
