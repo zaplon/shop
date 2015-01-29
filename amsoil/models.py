@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import datetime
 from django.db import models, connection
 from shop.settings import MEDIA_ROOT
 from django.contrib.auth.models import User
@@ -231,11 +232,12 @@ class Order(models.Model):
     status = models.CharField(choices=(('PE','pending'),('CA','cancelled'),
                                        ('FI','finished')),max_length=20, default='PE')
     cart = models.ForeignKey(Cart)
-    date = models.DateTimeField()
+    date = models.DateTimeField(auto_now=True)
     shippingMethod = models.ForeignKey(ShippingMethod)
     paymentMethod = models.ForeignKey(PaymentMethod)
     notes = models.CharField(max_length=200, blank=True, null=True)
     email = models.EmailField()
+    number = models.CharField(max_length=20, default=lambda: datetime.datetime.now().strftime('%s')) 
 
 class MetaData(models.Model):
     class Meta:
