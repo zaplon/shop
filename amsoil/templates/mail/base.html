@@ -3,6 +3,41 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <style>
+        table {
+                width: 100%;
+                max-width: 100%;
+                margin-bottom: 21px;
+                border-collapse: collapse;
+                border-spacing: 0px;
+                border-color: gray;
+                box-sizing: border-box;
+        }
+        thead {
+                -webkit-font-smoothing: antialiased;
+                border-bottom-color: rgb(128, 128, 128);
+                border-collapse: collapse;
+                border-left-color: rgb(128, 128, 128);
+                border-right-color: rgb(128, 128, 128);
+                border-top-color: rgb(128, 128, 128);
+                box-sizing: border-box;
+                color: rgb(51, 51, 51);
+                display: table-header-group;
+                font-family: 'Source Sans Pro', Calibri, Candara, Arial, sans-serif;
+                font-size: 15px;
+                height: 38px;
+                line-height: 21.4285717010498px;
+                vertical-align: middle;
+        }
+        th {
+                vertical-align: bottom;
+                border-bottom: 2px solid #dddddd;
+        }
+        td {
+                padding: 8px;
+                line-height: 1.42857143;
+                vertical-align: top;
+                border-top: 1px solid #dddddd;
+        }
         body {
             margin: 0 auto;
             width: 600px;
@@ -13,7 +48,9 @@
         }
 
         header {
+            background-color:rgb(39, 128, 227);        
             margin: 10px 0;
+            border-color:#1a6ecc;
             border-bottom: 1px solid #333333;
         }
 
@@ -35,6 +72,9 @@
         }
 
         footer {
+                background-color: black;
+                width: 100px;
+                padding:10px;
         }
     </style>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -45,7 +85,7 @@
     <header>
         <img src="">
         {% block title %}
-            <title></title>
+            <title>Sklep najlepszysyntetyk.pl</title>
         {% endblock %}
     </header>
     <div id="content">
@@ -53,6 +93,10 @@
         {% endblock %}
     </div>
     <footer>
+        <div style="float:left">
+                ©PHU Iskra 2015
+        </div>
+        <div style="clear:both"></div>
     </footer>
 </div>
 </body>
