@@ -31,6 +31,8 @@ class Product(Page):
     price = models.FloatField(default=0)
     def __unicode__(self):
         return self.name
+    def getGroupedAttributes(self):
+        pass
     def hasManyVariations(self):
         if self.getVariationsCount() > 1:
             return True
