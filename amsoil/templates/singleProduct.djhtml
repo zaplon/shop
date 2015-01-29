@@ -36,7 +36,15 @@
                                     {% endfor %}
                                 </span>
                             </div>
-
+                                {%for a in product.getGroupedAttributes %}
+                                    <div>
+                                        <span style="font-weight:bold">{{a.name}}:</span>
+                                        <span>
+                                            a.atts
+                                        </span>
+                                    </div>
+                                {% endfor %}
+                            </div>
 
 {#                        <div class="col-md-12">#}
 {#                            {{ product.shortDescription|linebreaks }}#}
