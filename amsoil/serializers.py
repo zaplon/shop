@@ -20,10 +20,11 @@ class ProductSerializer(serializers.ModelSerializer):
     variations = serializers.CharField(source='getVariations', read_only=True)
     hasManyVariations = serializers.BooleanField(source='hasManyVariations', read_only=True)
     variationsDetails = serializers.CharField(source='getVariationsDetails', read_only=True)
+    groupedAttributes = serializers.CharField(source='getGroupedAttributes', read_only=True)
     class Meta:
         model = Product
         fields = ('id','name','description','price','image', 'shortDescription','variations','categories',
-                  'hasManyVariations', 'variationsDetails')
+                  'hasManyVariations', 'variationsDetails','groupedAttributes')
 
 class CartProductSerializer(serializers.ModelSerializer):
     productVariation = ProductVariationSerializer()
