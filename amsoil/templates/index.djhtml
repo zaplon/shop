@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3 hidden-sm">
             <div class="panel panel-default">
                 <div class="panel-heading">{% trans 'Contact' %}</div>
                 <div class="panel-body">
