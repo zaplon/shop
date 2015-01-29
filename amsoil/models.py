@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from django.db import models
+from django.db import models, connection
 from shop.settings import MEDIA_ROOT
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
@@ -21,6 +21,14 @@ class Page(models.Model):
     def __unicode__(self):
         return self.title
 
+def dictfetchall(cursor):
+    "Returns all rows from a cursor as a dict"
+    desc = cursor.description
+    return [
+        dict(zip([col[0] for col in desc], row))
+        for row in cursor.fetchall()
+    ]
+
 # Create your models here.
 class Product(Page):
     name = models.CharField(max_length=100)
@@ -32,7 +40,12 @@ class Product(Page):
     def __unicode__(self):
         return self.name
     def getGroupedAttributes(self):
-        pass
+        cursor = connection.cursor()
+        cursor.execute("""SELECT GROUP_CONCAT(a.name,', ') 
+        FROM amsoil_attribute a
+        INNER JOIN amsoil_attributegroup ag ON ag.id=a.group_id
+        INNER JOIN amsoil_product p ON """)
+        return dictfetchall(cursor)
     def hasManyVariations(self):
         if self.getVariationsCount() > 1:
             return True
