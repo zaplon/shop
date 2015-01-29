@@ -41,10 +41,15 @@ class Product(Page):
         return self.name
     def getGroupedAttributes(self):
         cursor = connection.cursor()
-        cursor.execute("""SELECT GROUP_CONCAT(a.name,', ') 
-        FROM amsoil_attribute a
-        INNER JOIN amsoil_attributegroup ag ON ag.id=a.group_id
-        INNER JOIN amsoil_product p ON """)
+        cursor.execute("""
+            SELECT ag.name, GROUP_CONCAT(a.name,', ') as atts 
+            FROM amsoil_attribute a
+            INNER JOIN amsoil_attributegroup ag ON ag.id=a.group_id
+            INNER JOIN amsoil_page_attributes pa ON pa.attribute_id = a.id
+            INNER JOIN amsoil_page p ON p.id = pa.page_id
+                INNER JOIN amsoil_product pr ON pr.page_ptr_id = p.id
+            WHERE p.id = %s 
+            GROUP BY ag.id """ % self.id )
         return dictfetchall(cursor)
     def hasManyVariations(self):
         if self.getVariationsCount() > 1:
