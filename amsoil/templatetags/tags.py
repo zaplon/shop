@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from django import template
 from amsoil.models import MenuItem, Category, CartProduct, Cart, Invoice, Shipment, Order, Slider, Slide, \
-    Attribute, AttributeGroup
+    Attribute, AttributeGroup, ProductVariation
 from amsoil.models import getProductAttributesByGroupName    
 from django.db.models import Sum, Count
 from amsoil.forms import QuickContactForm
@@ -11,6 +11,18 @@ from shop.settings import MEDIA_URL
 
 
 register = template.Library()
+
+@register.inclusion_tag('productsTabs.djhtml')
+def productsTabs():
+    newest = ProductVariation.objects.all().order_by('added_date')[0:5]
+    best = ProductVariation.objects.all().order_by('total_sale')[0:5]
+    promo = ProductVariation.objects.filter(product__categories__name = 'promotion')[0:5]
+    return {
+        'newest':newest,
+        'best':best,
+        'promo':promo
+    }
+
 
 @register.inclusion_tag('nav.djhtml')
 def nav(name=None):
