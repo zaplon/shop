@@ -19,11 +19,11 @@ def productsTabs():
     promo = ProductVariation.objects.filter(product__categories__name = 'promotion')[0:5]
     return {
         'newest': newest.count() == 0 if False else { 'name': 'Nowości', 'id': 'newest', 'products':newest, 
-        'width':int(12/newest.count()) },
+        'width': newest.count() >0 if int(12/newest.count()) else 0 },
         'best': best.count() == 0 if False else { 'name': 'Bestsellery', 'id': 'best', 'products':best,
-        'width':int(12/best.count())},
+        'width':best.count() >0 if int(12/newest.count()) else 0 },
         'promo': promo.count() == 0 if False else { 'name': 'Promocje', 'id': 'promo', 'products':promo, 
-        'width':int(12/promo.count())}
+        'width':promo.count() >0 if int(12/newest.count()) else 0 }
     }
 
 
