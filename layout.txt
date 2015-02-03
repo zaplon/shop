@@ -1,0 +1,5 @@
+STRONA GŁÓWNA
+  1. dowiedzieć się, gdzie jestem
+  2. zobaczyć produkty
+  3. przesłać zapytanie
+  4. promocje
