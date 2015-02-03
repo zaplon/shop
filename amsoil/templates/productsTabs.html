@@ -2,16 +2,16 @@
   {% for cat in cats %}
     {% if cat %}
       <li role="presentation">
-        <a aria-controls="{{ cat['id'] }}" href="#" data-toggle="pill">{{ cat['name'] }}</a>
+        <a aria-controls="{{ cat.id }}" href="#" data-toggle="pill">{{ cat.name }}</a>
       </li>
   {% endfor %}
 </ul>
 
 <div class="tab-content">
   {% for cat in cats %}
-    <div role="tabpanel" class="tab-pane" id="{{ cat['name'] }}">
-      {% for p in cat['products'] %}
-        <div class="col-md-{{cat['width']}}">
+    <div role="tabpanel" class="tab-pane" id="{{ cat.name }}">
+      {% for p in cat.products %}
+        <div class="col-md-{{cat.width}}">
           <h3>{{p.product.name}}</h3>
           <img class="text-center" src="{{p.product.getMainImage}}" />
           <span class="currency">pln</span><span class="item-price">{{p.price}}-</span>
