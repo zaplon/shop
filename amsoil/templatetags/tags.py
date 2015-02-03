@@ -18,12 +18,14 @@ def productsTabs():
     best = ProductVariation.objects.all().order_by('total_sale')[0:5]
     promo = ProductVariation.objects.filter(product__categories__name = 'promotion')[0:5]
     return {
-        'newest': newest.count() == 0 if False else { 'name': 'Nowości', 'id': 'newest', 'products':newest, 
-        'width': newest.count() >0 if int(12/newest.count()) else 0 },
-        'best': best.count() == 0 if False else { 'name': 'Bestsellery', 'id': 'best', 'products':best,
-        'width':best.count() >0 if int(12/newest.count()) else 0 },
-        'promo': promo.count() == 0 if False else { 'name': 'Promocje', 'id': 'promo', 'products':promo, 
-        'width':promo.count() >0 if int(12/newest.count()) else 0 }
+        'cats': {
+            'newest': newest.count() == 0 if False else { 'name': 'Nowości', 'id': 'newest', 'products':newest, 
+                                                          'width': newest.count() >0 if int(12/newest.count()) else 0 },
+            'best': best.count() == 0 if False else { 'name': 'Bestsellery', 'id': 'best', 'products':best,
+                                                      'width':best.count() >0 if int(12/newest.count()) else 0 },
+            'promo': promo.count() == 0 if False else { 'name': 'Promocje', 'id': 'promo', 'products':promo, 
+                                                        'width':promo.count() >0 if int(12/newest.count()) else 0 }
+        }
     }
 
 
