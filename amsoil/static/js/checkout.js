@@ -36,6 +36,11 @@ function handlers(){
         else
             $('form#invoice-form').css('display','none');
     });
+    
+    $('#checkout-control div').click(function(){
+       if ($(this).attr('step'))
+        checkout.forwardToStep($(this).attr('step'));
+    });
 
 }
 
