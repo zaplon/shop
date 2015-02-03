@@ -18,9 +18,12 @@ def productsTabs():
     best = ProductVariation.objects.all().order_by('total_sale')[0:5]
     promo = ProductVariation.objects.filter(product__categories__name = 'promotion')[0:5]
     return {
-        'newest': newest.count() == 0 if False else { 'name': 'Nowości', 'id': 'newest', 'products':newest },
-        'best': best.count() == 0 if False else { 'name': 'Bestsellery', 'id': 'best', 'products':best },
-        'promo': promo.count() == 0 if False else { 'name': 'Promocje', 'id': 'promo', 'products':promo }
+        'newest': newest.count() == 0 if False else { 'name': 'Nowości', 'id': 'newest', 'products':newest, 
+        'width':int(12/newest.count()) },
+        'best': best.count() == 0 if False else { 'name': 'Bestsellery', 'id': 'best', 'products':best,
+        'width':int(12/best.count())},
+        'promo': promo.count() == 0 if False else { 'name': 'Promocje', 'id': 'promo', 'products':promo, 
+        'width':int(12/promo.count())}
     }
 
 
