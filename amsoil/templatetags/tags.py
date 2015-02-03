@@ -12,15 +12,15 @@ from shop.settings import MEDIA_URL
 
 register = template.Library()
 
-@register.inclusion_tag('productsTabs.djhtml')
+@register.inclusion_tag('productsTabs.html')
 def productsTabs():
     newest = ProductVariation.objects.all().order_by('added_date')[0:5]
     best = ProductVariation.objects.all().order_by('total_sale')[0:5]
     promo = ProductVariation.objects.filter(product__categories__name = 'promotion')[0:5]
     return {
-        'newest':newest,
-        'best':best,
-        'promo':promo
+        'newest': newest.count() == 0 if False else { 'name': 'Nowości', 'id': 'newest', 'products':newest },
+        'best': best.count() == 0 if False else { 'name': 'Bestsellery', 'id': 'best', 'products':best },
+        'promo': promo.count() == 0 if False else { 'name': 'Promocje', 'id': 'promo', 'products':promo }
     }
 
 
