@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 """
 Django settings for shop project.
 
@@ -78,8 +75,8 @@ DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'shop',
-        'USER': 'root',
-        'PASSWORD': 'sadyba88',
+        'USER': 'shop_user',
+        'PASSWORD': 'shop_qaz!23',
         'HOST': 'localhost',
         'PORT': '',
         'OPTIONS': { 'init_command':'SET storage_engine=INNODB,character_set_connection=utf8,collation_connection=utf8_polish_ci'},
@@ -103,11 +100,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
-MEDIA_ROOT = '/home/jan/PycharmProjects/shop/media/'
+MEDIA_ROOT = '/home/jan/git/shop/media/'
 MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
-ADMIN_TEMPLATES_ROOT = '/home/jan/PycharmProjects/shop/templates/admin/'
+ADMIN_TEMPLATES_ROOT = '/home/jan/git/shop/templates/admin/'
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
 )
@@ -133,6 +130,16 @@ FROM_MAIL = 'info@najlepszysyntetyk.pl'
 #EMAIL_HOST = 'localhost'
 #EMAIL_PORT = 1025
 
-EMAIL_HOST = 'localhost'
-EMAIL_HOST_USER = 'amsoil-info'
-EMAIL_HOST_PASSWORD = "YUIOP{}|;'"
+#EMAIL_HOST = 'localhost'
+#EMAIL_HOST_USER = 'sklep_info'
+#EMAIL_HOST_PASSWORD = "qwer123"
+#EMAIL_USE_TLS = True
+#EMAIL_USE_SSL = True
+#EMAIL_PORT = 25
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'oleje.amsoil@gmail.com'
+EMAIL_HOST_PASSWORD = "iskra123"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+

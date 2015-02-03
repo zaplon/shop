@@ -14,18 +14,18 @@ register = template.Library()
 
 @register.inclusion_tag('productsTabs.html')
 def productsTabs():
-    newest = ProductVariation.objects.all().order_by('added_date')[0:5]
-    best = ProductVariation.objects.all().order_by('total_sale')[0:5]
-    promo = ProductVariation.objects.filter(product__categories__name = 'promotion')[0:5]
+    newest = ProductVariation.objects.all().order_by('added_date')[0:4]
+    best = ProductVariation.objects.all().order_by('total_sales')[0:4]
+    promo = ProductVariation.objects.filter(product__categories__name = 'promotion')[0:4]
     return {
-        'cats': {
-            'newest': newest.count() == 0 if False else { 'name': 'Nowości', 'id': 'newest', 'products':newest, 
-                                                          'width': newest.count() >0 if int(12/newest.count()) else 0 },
-            'best': best.count() == 0 if False else { 'name': 'Bestsellery', 'id': 'best', 'products':best,
-                                                      'width':best.count() >0 if int(12/newest.count()) else 0 },
-            'promo': promo.count() == 0 if False else { 'name': 'Promocje', 'id': 'promo', 'products':promo, 
-                                                        'width':promo.count() >0 if int(12/newest.count()) else 0 }
-        }
+        'cats': [
+            { 'name': 'Nowości', 'id': 'newest', 'products':newest, 'first':True, 
+              'width': 3 },
+            { 'name': 'Bestsellery', 'id': 'best', 'products':best,
+              'width': 3 },
+            { 'name': 'Promocje', 'id': 'promo', 'products':promo, 
+              'width': 3 }
+        ]
     }
 
 
