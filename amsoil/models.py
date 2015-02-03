@@ -90,6 +90,8 @@ class ProductVariation(models.Model):
     price = models.FloatField(default=0)
     image = models.ImageField(upload_to='images/',blank=True, null=True)
     amount = models.IntegerField(default=0)
+    total_sales = models.IntegerField(default=0)
+    added_date = models.DateTimeField(auto_now=True)
     def getAttributesString(self):
         name = ''
         for a in self.attributes.all():
