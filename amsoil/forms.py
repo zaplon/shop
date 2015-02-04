@@ -4,7 +4,6 @@ from amsoil.models import Order, Shipment, Invoice, User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
-
 class InvoiceForm(ModelForm):
     class Meta:
         model = Invoice
@@ -14,6 +13,15 @@ class ShippingForm(ModelForm):
     class Meta:
         model = Shipment
         fields = ['name', 'surname', 'address','postalCode', 'phone']
+        help_texts = {
+            'name': 'Name',
+            'email': 'Email',
+            'password': 'Password',
+            'postalCode': 'Postal code',
+            'phone': 'Phone',
+            'address': 'Address',
+            'surname': 'Surname'
+        }
 
 class UserEditForm(ModelForm):
     class Meta:

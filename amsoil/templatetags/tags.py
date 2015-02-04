@@ -21,6 +21,12 @@ def promoDiv(content, color=None, background=None, icon=None):
         'icon': icon
     }
 
+def placeholder(value):
+	value.field.widget.attrs["placeholder"] = value.help_text
+	return value
+
+register.filter(placeholder)
+
 @register.inclusion_tag('productsTabs.html')
 def productsTabs():
     newest = ProductVariation.objects.all().order_by('added_date')[0:4]

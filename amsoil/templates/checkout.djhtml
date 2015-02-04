@@ -53,7 +53,7 @@
             {% else %}
                 <div class="checkout-step" step="1">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-10 col-md-offset-1">
                                 <div class="col-md-6 col-sm-12">
                                     <h2>{% trans 'Register' %}</h2>
                                     <form method="POST" action="/register/">
@@ -100,10 +100,11 @@
             {% endif %}
             <div class="checkout-step" step="2">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-10 col-md-offset-1">
                         <h2>{% trans 'Cart' %}</h2>
                             {% cartItems %}
                     </div>
+                    <div class="clear:both"></div>
                 </div>
 
 
@@ -124,64 +125,72 @@
                         </div>
                     </div>
                 </div>
-                <div class="row checkout-extra" id="shipping-forms">
-                    <div>
-                        <input class="show-on-click" type="checkbox" data-hide="receiver-div">
-                            {% trans 'Buyer address is the same as receiver address' %}
-                        </input>
-                    </div>
-                    <div class="panel panel-default col-md-6 col-sm-12">
-                        <div class="panel-body">
-                            <h2>{% trans 'Buyer address' %}</h2>
-                            <form id="buyer-address" class="form-horizontal col-md-12" role="form">
-                                {% for field in BuyerForm %}
-                                    <div class="form-group">
-                                        {{ field.errors }}
-                                        {{ field.label_tag }} {{ field }}
-                                    </div>
-                                {% endfor %}
-                            </form>
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 panel panel-default form-horizontal">
+                         <div class="panel-body form-group col-md-4">
+                            <p class="bg-warning col-md-12" id="email-error" style="display:none">
+                                {% trans 'Please enter valid email' %}
+                            </p>
+                            <label for="inputEmail" class="control-label col-xs-2">Email:</label>
+                            <div class="col-xs-10">
+                                <input type="email" value="{{ email }}" class="form-control"
+                                       id="buyer-email" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="panel-body form-group col-md-4">
+                            <p class="bg-warning col-md-12" id="phone-error" style="display:none">
+                                {% trans 'Please enter valid phone' %}
+                            </p>
+                            <label for="inputPhone" class="control-label col-xs-2">{% trans 'Phone' %}:</label>
+                            <div class="col-xs-10">
+                                <input type="text" value="{{ phone }}" class="form-control"
+                                       id="buyer-phone" placeholder="{% trans 'Phone' %}">
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    <div id="receiver-div" class="col-md-6 col-sm-12 panel panel-default">
-                        <div class="panel-body">
-                            <h2>{% trans 'Receiver address' %}</h2>
-                            <form id="receiver-address" class="form-horizontal col-md-12" role="form">
-                                {% for field in ReceiverForm %}
-                                    <div class="form-group">
-                                        {{ field.errors }}
-                                        {{ field.label_tag }} {{ field }}
-                                    </div>
-                                {% endfor %}
-                            </form>
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 checkout-extra" id="shipping-forms">
+                        <div>
+                            <input class="show-on-click" type="checkbox" data-hide="receiver-div">
+                                {% trans 'Buyer address is the same as receiver address' %}
+                            </input>
+                        </div>
+                        <div class="panel panel-default col-md-6 col-sm-12">
+                            <div class="panel-body">
+                                <h2>{% trans 'Buyer address' %}</h2>
+                                <form id="buyer-address" class="form-horizontal col-md-12" role="form">
+                                    {% for field in BuyerForm %}
+                                        <div class="form-group">
+                                            {{ field.errors }}
+    {#                                        {{ field.label_tag }} #}
+                                            {{ field|placeholder }}
+                                        </div>
+                                    {% endfor %}
+                                </form>
+                            </div>
+                        </div>
+
+                        <div id="receiver-div" class="col-md-6 col-sm-12 panel panel-default">
+                            <div class="panel-body">
+                                <h2>{% trans 'Receiver address' %}</h2>
+                                <form id="receiver-address" class="form-horizontal col-md-12" role="form">
+                                    {% for field in ReceiverForm %}
+                                        <div class="form-group">
+                                            {{ field.errors }}
+    {#                                        {{ field.label_tag }} #}
+                                            {{ field|placeholder }}
+                                        </div>
+                                    {% endfor %}
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="row panel panel-default form-horizontal">
-                     <div class="panel-body form-group col-md-4">
-                        <p class="bg-warning col-md-12" id="email-error" style="display:none">
-                            {% trans 'Please enter valid email' %}
-                        </p>
-                        <label for="inputEmail" class="control-label col-xs-2">Email:</label>
-                        <div class="col-xs-10">
-                            <input type="email" value="{{ email }}" class="form-control"
-                                   id="buyer-email" placeholder="Email">
-                        </div>
-                    </div>
-                    <div class="panel-body form-group col-md-4">
-                        <p class="bg-warning col-md-12" id="phone-error" style="display:none">
-                            {% trans 'Please enter valid phone' %}
-                        </p>
-                        <label for="inputPhone" class="control-label col-xs-2">{% trans 'Phone' %}:</label>
-                        <div class="col-xs-10">
-                            <input type="text" value="{{ phone }}" class="form-control"
-                                   id="buyer-phone" placeholder="{% trans 'Phone' %}">
-                        </div>
-                    </div>
-                </div>
-                <div class="row panel panel-default">
-                    <div class="col-md-12 panel-body">
+
+                <div class="row">
+                    <div class="panel panel-default col-md-10 col-md-offset-1 panel-body">
                         <div class="checkbox">
                             <label><input type="checkbox" name="invoice" value="1" />{% trans 'Invoice ?' %}</label>
                         </div>
@@ -195,17 +204,19 @@
                          </form>
                     </div>
                 </div>
-                <div class="row panel panel-default">
-                    <div class="col-md-12 panel-body">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 panel-body panel panel-default">
                         <label>{% trans 'Order notes' %}:</label>
                         <textarea id="notes" class="form-control">
                         </textarea>
                     </div>
                 </div>
                 <div class="checkbox row">
-                    <label><input type="checkbox" name="terms" value="1" />
-                        {% trans 'I accept terms & conditions' %}
-                    </label>
+                    <div class="col-md-offset-10 col-md-offset-1">
+                        <label><input type="checkbox" name="terms" value="1" />
+                            {% trans 'I accept <a target="_blank" href="/terms"> terms & conditions</a>' %}
+                        </label>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12 checkout-nav">
@@ -217,7 +228,7 @@
             </div>
             <div class="checkout-step" step="4">
                 <div class="row">
-                    <div class="col-md-12" id="confirmation">
+                    <div class="col-md-10 col-md-offset-1" id="confirmation">
 
                     </div>
                 </div>
