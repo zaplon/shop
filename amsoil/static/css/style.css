@@ -291,7 +291,8 @@ h1.page-title {
     margin-bottom: 10px;
     padding: 10px 15px;
     text-align: center;
-    border: 1px solid #eeeeee; }
+    border: 1px solid #eeeeee;
+    cursor: pointer; }
   #checkout #checkout-3 .border {
     border: 1px solid #999999;
     border-radius: 10px;
@@ -447,5 +448,42 @@ button.close:hover {
     margin-top: 14px;
     width: 248px;
     text-align: center; }
+
+.product-tab-item {
+  cursor: pointer; }
+
+.product-tab-item:hover {
+  -moz-box-shadow: 0 0 5px #888;
+  -webkit-box-shadow: 0 0 5px #888;
+  box-shadow: 0 0 5px #888; }
+
+.promo-div {
+  padding: 2px;
+  background-color: #eee; }
+  .promo-div .border-middle {
+    background: #ffffff;
+    background: -moz-linear-gradient(top, #ffffff 0%, #f1f1f1 50%, #e1e1e1 51%, #f6f6f6 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(50%, #f1f1f1), color-stop(51%, #e1e1e1), color-stop(100%, #f6f6f6));
+    background: -webkit-linear-gradient(top, #ffffff 0%, #f1f1f1 50%, #e1e1e1 51%, #f6f6f6 100%);
+    background: -o-linear-gradient(top, #ffffff 0%, #f1f1f1 50%, #e1e1e1 51%, #f6f6f6 100%);
+    background: -ms-linear-gradient(top, #ffffff 0%, #f1f1f1 50%, #e1e1e1 51%, #f6f6f6 100%);
+    background: linear-gradient(to bottom, #ffffff 0%, #f1f1f1 50%, #e1e1e1 51%, #f6f6f6 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0 );
+    padding: 5px; }
+    .promo-div .border-middle .border-in {
+      padding: 2px;
+      background-color: #eee; }
+      .promo-div .border-middle .border-in .promo-body {
+        background-color: #007dc6;
+        color: #ffffff;
+        padding: 10px; }
+        .promo-div .border-middle .border-in .promo-body .promo-icon {
+          font-size: 32px;
+          display: inline;
+          margin-right: 15px;
+          vertical-align: middle; }
+        .promo-div .border-middle .border-in .promo-body .promo-text {
+          font-size: 18px;
+          display: inline; }
 
 /*# sourceMappingURL=style.css.map */

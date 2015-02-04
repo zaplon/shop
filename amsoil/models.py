@@ -240,6 +240,7 @@ class Order(models.Model):
     notes = models.CharField(max_length=200, blank=True, null=True)
     email = models.EmailField()
     number = models.CharField(max_length=20, default=lambda: datetime.datetime.now().strftime('%s')) 
+    phone = models.CharField(max_length=15, default=0)
 
 class MetaData(models.Model):
     class Meta:

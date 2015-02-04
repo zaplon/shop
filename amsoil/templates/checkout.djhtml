@@ -169,6 +169,16 @@
                                    id="buyer-email" placeholder="Email">
                         </div>
                     </div>
+                    <div class="panel-body form-group col-md-4">
+                        <p class="bg-warning col-md-12" id="phone-error" style="display:none">
+                            {% trans 'Please enter valid phone' %}
+                        </p>
+                        <label for="inputPhone" class="control-label col-xs-2">{% trans 'Phone' %}:</label>
+                        <div class="col-xs-10">
+                            <input type="text" value="{{ phone }}" class="form-control"
+                                   id="buyer-phone" placeholder="{% trans 'Phone' %}">
+                        </div>
+                    </div>
                 </div>
                 <div class="row panel panel-default">
                     <div class="col-md-12 panel-body">

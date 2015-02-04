@@ -1,23 +1,26 @@
-<ul class="nav nav-pills" role="tablist">
+<div style="margin:15px 0 25px 0;">
+<ul id="productsTabs" class="nav nav-pills" data-tabs="tabs">
   {% for cat in cats %}
-    {% if cat %}
-      <li role="presentation">
-        <a aria-controls="{{ cat.id }}" href="#" data-toggle="pill">{{ cat.name }}</a>
+    {% if cat.products.count > 0 %}
+      <li {% if cat.first %} class="active" {% endif %}>
+        <a  href="#{{cat.id}}" data-toggle="tab">{{ cat.name }}</a>
       </li>
     {% endif %}
   {% endfor %}
 </ul>
-
 <div class="tab-content">
   {% for cat in cats %}
-    {% if cat %}
-      <div role="tabpanel" class="tab-pane" id="{{ cat.name }}">
+    {% if cat.products.count > 0 %}
+      <div class="tab-pane {% if cat.first %} active {% endif %}" id="{{ cat.id }}">
         {% for p in cat.products %}
-          <div class="col-md-{{cat.width}}">
-            <h3>{{p.product.name}}</h3>
-            <img class="text-center" src="{{p.product.getMainImage}}" />
-            <span class="currency">pln</span><span class="item-price">{{p.price}}-</span>
-            <a class="btn btn-primary text-center">Zobacz</a>
+          <div data-product="{{p.product.name}}" class="col-md-{{cat.width}} product-tab-item">
+            <h5>{{p.product.name}}</h5>
+	    <div class="row text-center">
+            	<img style="height:100px;" src="{{p.product.getMainImage}}" />
+            </div>
+	    <div class="row text-center">
+            	<span class="currency">pln</span><span class="item-price">{{p.price}}-</span>
+	    </div>
           </div>
         {% endfor %}
         
@@ -25,3 +28,11 @@
     {% endif %}
   {% endfor %}
   </div>
+<div style="clear:both"></div>
+</div>
+
+<script>
+    $('.product-tab-item').click(function(){
+        window.location = '/shop/product/' + $(this).attr('data-product');
+    });
+</script>

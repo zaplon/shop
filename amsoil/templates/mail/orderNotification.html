@@ -1,0 +1,14 @@
+{% extends 'mail/base.html' %}
+{% load tags %}
+{% load i18n %}
+
+{% block title %}
+    <title>Nowe zamówienie</title>
+{% endblock %}
+
+{% block content %}
+    <div>
+        Zostało złożone nowe zamówienie o numerze: <strong>{{ order.number }}</strong>
+    </div>
+    {% cartData noButtons="1" %}
+{% endblock %}

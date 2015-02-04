@@ -21,7 +21,7 @@ from django.core import serializers
 from django.core.mail import send_mail
 from django.db.models import Q
 
-from amsoil.mails import newOrder
+from amsoil.mails import newOrder, orderNotification
 
 
 def home(request):
@@ -205,6 +205,7 @@ def checkout(request):
 
             #wysyłanie emaili
             newOrder(order, request)
+            orderNotification(order, request)
 
             del request.session['cartId']
             return HttpResponse(json.dumps({'success': True, 'message': pm.instructions}))

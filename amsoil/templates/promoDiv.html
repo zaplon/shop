@@ -1,0 +1,15 @@
+<div class="promo-div">
+    <div class="border-middle">
+        <div class="border-in">
+            <div class="promo-body" style="background-color:{{ background }};
+                    color:{{ color }}">
+                {% if icon %}
+                    <span class="promo-icon glyphicon {{ icon }}"></span>
+                {% endif %}
+                <span class="promo-text">
+                    {{ content }}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
