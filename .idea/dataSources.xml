@@ -5,8 +5,8 @@
       <driver-ref>sqlite.xerial</driver-ref>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://127.0.0.1/shop</jdbc-url>
-      <user-name>root</user-name>
-      <user-password>dfd9dfcbdfcedfd3dfc8dfcbdf92df92</user-password>
+      <user-name>shop_user</user-name>
+      <user-password>dfd9dfc2dfc5dfdadff5dfdbdfcbdfd0df8bdf98df99</user-password>
       <libraries />
     </data-source>
     <data-source source="LOCAL" name="MySQL - shop@localhost" uuid="e04113d8-6422-486b-93a0-7471e78233dd">
