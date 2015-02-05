@@ -88,8 +88,8 @@ def cartData(context, *args, **kwargs):
         return {
             'noButtons': noButtons,
             'items': items,
-            'total': 'pln' + str(items.aggregate(
-                total=Sum('price', field="price*quantity"))['total']),
+            'total': items.aggregate(
+                total=Sum('price', field="price*quantity"))['total'],
             'count': items.aggregate(Sum('quantity')).values()[0]
         }
     else:

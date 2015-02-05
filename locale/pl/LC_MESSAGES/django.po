@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-16 20:23+0000\n"
+"POT-Creation-Date: 2015-02-05 15:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,108 +19,191 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
-#: amsoil/mails.py:7
+#: amsoil/mails.py:18 amsoil/mails.py:27
 msgid "New order"
-msgstr ""
+msgstr "Nowe zamówienie"
 
-#: amsoil/templates/cart.djhtml:5
+#: amsoil/templates/cart.djhtml:7
 msgid "Name"
-msgstr ""
+msgstr "Nazwa"
 
-#: amsoil/templates/cart.djhtml:5
+#: amsoil/templates/cart.djhtml:7
 msgid "Quantity"
-msgstr ""
+msgstr "Ilość"
 
-#: amsoil/templates/cart.djhtml:5
+#: amsoil/templates/cart.djhtml:7
 msgid "Price"
-msgstr ""
+msgstr "Cena"
 
-#: amsoil/templates/cart.djhtml:17
+#: amsoil/templates/cart.djhtml:23
+msgid "Update"
+msgstr "Uaktualnij"
+
+#: amsoil/templates/cart.djhtml:30
 msgid "In total:"
-msgstr ""
+msgstr "W sumie:"
 
-#: amsoil/templates/checkout.djhtml:12
+#: amsoil/templates/cart.djhtml:50
+msgid "No items in the cart"
+msgstr "Brak produktów w koszyku"
+
+#: amsoil/templates/checkout.djhtml:13
+#| msgid "No items in the cart"
+msgid "No products in the cart"
+msgstr "Brak produktów w koszyku"
+
+#: amsoil/templates/checkout.djhtml:27
 msgid "Login"
-msgstr ""
+msgstr "Zaloguj"
 
-#: amsoil/templates/checkout.djhtml:13 amsoil/templates/checkout.djhtml:80
-msgid "Addresses"
-msgstr ""
-
-#: amsoil/templates/checkout.djhtml:14
-msgid "Shippment and payment"
-msgstr ""
-
-#: amsoil/templates/checkout.djhtml:15
-msgid "Sum up"
-msgstr ""
-
-#: amsoil/templates/checkout.djhtml:43 amsoil/templates/checkout.djhtml:48
-#: amsoil/templates/header.djhtml:33
-msgid "Register"
-msgstr ""
-
-#: amsoil/templates/checkout.djhtml:53 amsoil/templates/checkout.djhtml:63
-#: amsoil/templates/checkout.djhtml:94 amsoil/templates/header.djhtml:32
-msgid "Log in"
-msgstr ""
-
-#: amsoil/templates/checkout.djhtml:56
-msgid "Username"
-msgstr ""
-
-#: amsoil/templates/checkout.djhtml:60
-msgid "Password"
-msgstr ""
-
-#: amsoil/templates/checkout.djhtml:71
-msgid "Buy without registration"
-msgstr ""
-
-#: amsoil/templates/checkout.djhtml:96
-msgid "Shipping and payment"
-msgstr ""
-
-#: amsoil/templates/checkout.djhtml:108 amsoil/templates/minicart.djhtml:5
+#: amsoil/templates/checkout.djhtml:28 amsoil/templates/checkout.djhtml:104
+#: amsoil/templates/checkout.djhtml:224
 msgid "Cart"
-msgstr ""
+msgstr "Koszyk"
 
-#: amsoil/templates/header.djhtml:23
-msgid "Hello, "
-msgstr ""
+#: amsoil/templates/checkout.djhtml:29 amsoil/templates/checkout.djhtml:116
+msgid "Order"
+msgstr "Zamówienie"
 
-#: amsoil/templates/header.djhtml:27
-msgid "My account"
-msgstr ""
+#: amsoil/templates/checkout.djhtml:30
+#| msgid "Confirmation for order nr:"
+msgid "Confirmation"
+msgstr "Potwierdzenie zamówienia nr:"
+
+#: amsoil/templates/checkout.djhtml:58 amsoil/templates/checkout.djhtml:71
+#: amsoil/templates/header.djhtml:39
+msgid "Register"
+msgstr "Zarejestruj"
+
+#: amsoil/templates/checkout.djhtml:76 amsoil/templates/checkout.djhtml:87
+#: amsoil/templates/checkout.djhtml:114 amsoil/templates/header.djhtml:38
+msgid "Log in"
+msgstr "Zaloguj"
+
+#: amsoil/templates/checkout.djhtml:79
+msgid "Username"
+msgstr "Nazwa użytkownika"
+
+#: amsoil/templates/checkout.djhtml:83
+msgid "Password"
+msgstr "Hasło"
+
+#: amsoil/templates/checkout.djhtml:95
+msgid "Buy without registration"
+msgstr "Zakup bez rejestracji"
+
+#: amsoil/templates/checkout.djhtml:152
+#| msgid "Payer address is shipment address"
+msgid "Buyer address is the same as receiver address"
+msgstr "Adres nabywcy jest adresem dostawy"
+
+#: amsoil/templates/checkout.djhtml:157
+msgid "Buyer address"
+msgstr "Adres nabywcy"
+
+#: amsoil/templates/checkout.djhtml:173
+#| msgid "Buyer address"
+msgid "Receiver address"
+msgstr "Adres nabywcy"
+
+#: amsoil/templates/checkout.djhtml:193
+#| msgid "Invoice data"
+msgid "Invoice ?"
+msgstr "Dane do faktury"
+
+#: amsoil/templates/checkout.djhtml:209
+msgid "Order notes"
+msgstr "Notatki do zamówienia"
+
+#: amsoil/templates/checkout.djhtml:218
+msgid "I accept <a target=\"_blank\" href=\"/terms\"> terms & conditions</a>"
+msgstr "Akceptuje <a target=\"_blank\" href=\"/regulamin\">regulamin</a>"
+
+#: amsoil/templates/checkout.djhtml:225
+msgid "Purchase"
+msgstr "Kup"
 
 #: amsoil/templates/header.djhtml:28
+msgid "Hello, "
+msgstr "Witaj, "
+
+#: amsoil/templates/header.djhtml:32
 msgid "Logout"
-msgstr ""
+msgstr "Wyloguj"
 
-#: amsoil/templates/minicart.djhtml:4
-msgid "Checkout"
-msgstr ""
+#: amsoil/templates/header.djhtml:33
+msgid "My account"
+msgstr "Moje konto"
 
-#: amsoil/templates/minicart.djhtml:8
-msgid "Products: "
-msgstr ""
+#: amsoil/templates/index.djhtml:9
+msgid "Contact"
+msgstr "Kontakt"
 
-#: amsoil/templates/minicart.djhtml:9
-msgid "Total: "
-msgstr ""
+#: amsoil/templates/nav.djhtml:13
+msgid "Toggle Dropdown"
+msgstr "Rozwiń menu"
 
-#: amsoil/templates/shop.djhtml:12
+#: amsoil/templates/nav.djhtml:19 amsoil/templates/singleProduct.djhtml:35
+msgid "Categories"
+msgstr "Kategorie"
+
+#: amsoil/templates/shop.djhtml:22
+msgid "View as"
+msgstr "Pokaż jako"
+
+#: amsoil/templates/shop.djhtml:37
 msgid "Shop"
-msgstr ""
+msgstr "Sklep"
 
-#: amsoil/templates/shop.djhtml:20
+#: amsoil/templates/shop.djhtml:52
 msgid "Filter"
-msgstr ""
+msgstr "Filtruj"
+
+#: amsoil/templates/singleProduct.djhtml:61
+msgid "Product description"
+msgstr "Opis produktu"
+
+#: amsoil/templatetags/tags.py:131
+msgid "home"
+msgstr "Strona domowa"
 
 #: shop/settings.py:34
 msgid "Polish"
-msgstr ""
+msgstr "Polski"
 
 #: shop/settings.py:35
 msgid "English"
-msgstr ""
+msgstr "Angielski"
+
+msgid "Personal data"
+msgstr "Dane personalne"
+
+msgid "Shipping addresses"
+msgstr "Adres dostawy"
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "See details"
+msgstr "Zobacz szczegóły"
+
+msgid "Renew"
+msgstr "Ponów"
+
+msgid "Save"
+msgstr "Zapisz"
+
+msgid "Shipment address"
+msgstr "Adres dostawy"
+
+msgid "Submit"
+msgstr "Wyślij"
+
+msgid "No matches found"
+msgstr "Nic nie znaleziono"
+
+msgid "Read more"
+msgstr "Czytaj więcej"

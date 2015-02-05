@@ -8,7 +8,7 @@
 {% mustachejs "miniCart" %}
 
 <div id="top">
-     <div id="info">
+     <div id="info" class="hidden-sm visible-md visible-lg">
         <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
         <span>+48 502 819 238</span>
         <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
@@ -45,7 +45,7 @@
 
 <header>
     <div id="logo"></div>
-    <div id="main">
+    <div id="main" class="visible-md visible-lg">
         <form method="get" action="/search">
             <div id="search-main">
                 <input type="text" id="search" name="term"></input>
@@ -59,7 +59,7 @@
             </div>
         </form>
     </div>
-    <div id="meta">
+    <div id="meta" class="visible-lg visible-md">
         {% cartData %}
     </div>
     <div style="clear:both"></div>

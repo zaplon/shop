@@ -1,6 +1,6 @@
 import paypalrestsdk
 
-
+#https://devtools-paypal.com/guide/pay_paypal/python?env=sandbox
 def paypal(order):
     paypalrestsdk.configure({
         'mode': 'sandbox',
