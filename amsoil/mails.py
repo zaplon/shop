@@ -15,8 +15,8 @@ def newOrder(order, request):
     c = Context({'request':request})
     html = html.render(c)
 
-    send_mail(translation.ugettext('New order'), html, FROM_MAIL,
-              (order.email,), fail_silently=False)
+    send_mail(translation.ugettext('New order'), translation.ugettext('New order'), FROM_MAIL,
+              (order.email,), fail_silently=False, html_message=html)
 
 
 def orderNotification(order, request):
@@ -24,5 +24,5 @@ def orderNotification(order, request):
     c = Context({'request':request})
     html = html.render(c)
 
-    send_mail('Nowe zamówienie', html, FROM_MAIL,
-              ('janek.zapal@gmail.com',), fail_silently=False)
+    send_mail('Nowe zamówienie', translation.ugettext('New order'), FROM_MAIL,
+              ('janek.zapal@gmail.com',), fail_silently=False, html_message=html)

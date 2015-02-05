@@ -8,6 +8,20 @@ class InvoiceForm(ModelForm):
     class Meta:
         model = Invoice
         fields = ['NIP','name','address']
+        help_texts = {
+            'NIP':'NIP',
+            'name':'Nazwa firmy',
+            'address':'Adres firmy'
+        }
+
+
+class CheckoutBasicForm(Form):
+    email = forms.CharField(max_length=100, widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
+    tel = forms.CharField(max_length=20, required=False, widget=forms.TextInput(attrs={'placeholder': 'Telefon'}))
+    help_texts = {
+        'email':'Email',
+        'tel': 'Phone'
+    }
 
 class ShippingForm(ModelForm):
     class Meta:

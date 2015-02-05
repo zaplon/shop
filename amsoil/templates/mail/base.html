@@ -1,108 +1,31 @@
+{% load inlinecss %}
+{% load staticfiles %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <style>
-           table {
-                width: 100%;
-                max-width: 100%;
-                margin-bottom: 21px;
-                border-collapse: collapse;
-                border-spacing: 0px;
-                border-color: gray;
-                box-sizing: border-box;
-        }
-        thead {
-                -webkit-font-smoothing: antialiased;
-                border-bottom-color: rgb(128, 128, 128);
-                border-collapse: collapse;
-                border-left-color: rgb(128, 128, 128);
-                border-right-color: rgb(128, 128, 128);
-                border-top-color: rgb(128, 128, 128);
-                box-sizing: border-box;
-                color: rgb(51, 51, 51);
-                display: table-header-group;
-                font-family: 'Source Sans Pro', Calibri, Candara, Arial, sans-serif;
-                font-size: 15px;
-                height: 38px;
-                line-height: 21.4285717010498px;
-                vertical-align: middle;
-        }
-        th {
-                vertical-align: bottom;
-                border-bottom: 2px solid #dddddd;
-        }
-        td {
-                padding: 8px;
-                line-height: 1.42857143;
-                vertical-align: top;
-                border-top: 1px solid #dddddd;
-        }
-        body {
-            margin: 0 auto;
-            width: 600px;
-            text-align: center;
-            background-color: #ccc;
-            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-            font-size: 12px;
-        }
-        header {
-            background-color:rgb(39, 128, 227);        
-            border-color:#1a6ecc;
-            border-bottom: 1px solid #333333;
-			padding: 20px 10px 10px 20px;
-        }
-        header img {
-            margin: 0 auto;
-        }
-        .panel {
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
-            box-shadow: 0 1px 1px rgba(0,0,0,.05);
-        }
-        #container {
-            border-radius: 10px;
-            width: 90%;
-            background-color: white;
-            color: black;
-			margin: 0 auto;
-			margin-top: 20px;
-			border: 1px solid #aaaaaa;
-			
-        }
-		#content {
-			padding: 10px;
-		}
-        footer {
-                padding:10px;
-				border-top: 2px solid #dddddd;
-				text-align: center;
-        }
-		h1 {
-			color: white;
-			font-weight: bold;
-			font-size: 30px;
-		}
-    </style>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
-<div id="container" class="panel">
-    <header>
-        <img src="">
-        {% block title %}
-            <h1>Sklep najlepszysyntetyk.pl</h1>
-        {% endblock %}
-    </header>
+{% inlinecss "css/mail.css" %}
+<div id="container">
     <div id="content">
-        {% block content %}
-        {% endblock %}
+        <div class="header">
+            <img src="">
+            {% block title %}
+                <h1>Sklep najlepszysyntetyk.pl</h1>
+            {% endblock %}
+        </div>
+        <div class="body">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div class="footer">
+            ©PHU Iskra 2015 <br/> <a href="najlepszysyntetyk.pl">najlepszysyntetyk.pl</a>
+        </div>
     </div>
-    <footer>
-        ©PHU Iskra 2015 <br/> <a href="najlepszysyntetyk.pl">najlepszysyntetyk.pl</a>
-    </footer>
 </div>
+{% endinlinecss %}
 </body>
 </html>

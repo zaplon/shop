@@ -126,26 +126,20 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1 panel panel-default form-horizontal">
-                         <div class="panel-body form-group col-md-4">
-                            <p class="bg-warning col-md-12" id="email-error" style="display:none">
-                                {% trans 'Please enter valid email' %}
-                            </p>
-                            <label for="inputEmail" class="control-label col-xs-2">Email:</label>
-                            <div class="col-xs-10">
-                                <input type="email" value="{{ email }}" class="form-control"
-                                       id="buyer-email" placeholder="Email">
-                            </div>
-                        </div>
-                        <div class="panel-body form-group col-md-4">
-                            <p class="bg-warning col-md-12" id="phone-error" style="display:none">
-                                {% trans 'Please enter valid phone' %}
-                            </p>
-                            <label for="inputPhone" class="control-label col-xs-2">{% trans 'Phone' %}:</label>
-                            <div class="col-xs-10">
-                                <input type="text" value="{{ phone }}" class="form-control"
-                                       id="buyer-phone" placeholder="{% trans 'Phone' %}">
-                            </div>
+                    <div class="panel panel-default col-md-10 col-md-offset-1">
+                        <div class="panel-body form-horizontal">
+                             <form class="form-inline" role="form" id="basic">
+                                 <div class="form-group col-md-6">
+{#                                    <label for="email">Email:</label>#}
+                                     {{ CheckoutBasicForm.email.errors }}
+                                     {{ CheckoutBasicForm.email }}
+                                  </div>
+                                  <div class="form-group col-md-6">
+{#                                    <label for="pwd">{% trans 'Phone' %}:</label>#}
+                                      {{ CheckoutBasicForm.tel.errors }}
+                                      {{ CheckoutBasicForm.tel }}
+                                  </div>
+                             </form>
                         </div>
                     </div>
                 </div>
@@ -153,7 +147,8 @@
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1 checkout-extra" id="shipping-forms">
                         <div>
-                            <input class="show-on-click" type="checkbox" data-hide="receiver-div">
+                            <input {% if buyerAsReceiver %} checked="checked" {% endif %}
+                                    class="show-on-click" type="checkbox" data-hide="receiver-div">
                                 {% trans 'Buyer address is the same as receiver address' %}
                             </input>
                         </div>
@@ -172,7 +167,8 @@
                             </div>
                         </div>
 
-                        <div id="receiver-div" class="col-md-6 col-sm-12 panel panel-default">
+                        <div id="receiver-div" class="col-md-6 col-sm-12 panel panel-default"
+                                style="{% if buyerAsReceiver %} display:none; {% endif %}">
                             <div class="panel-body">
                                 <h2>{% trans 'Receiver address' %}</h2>
                                 <form id="receiver-address" class="form-horizontal col-md-12" role="form">
@@ -192,13 +188,17 @@
                 <div class="row">
                     <div class="panel panel-default col-md-10 col-md-offset-1 panel-body">
                         <div class="checkbox">
-                            <label><input type="checkbox" name="invoice" value="1" />{% trans 'Invoice ?' %}</label>
+                            <label>
+                                <input {% if hasInvoice %} checked="checked" {% endif %} type="checkbox" name="invoice" value="1" />
+                                {% trans 'Invoice ?' %}
+                            </label>
                         </div>
-                        <form id="invoice-form" style="display:none">
+                        <form id="invoice-form" {% if not hasInvoice %} style="display:none" {% endif %}>
                              {% for field in InvoiceForm %}
                                 <div class="form-group">
                                     {{ field.errors }}
-                                    {{ field.label_tag }} {{ field }}
+{#                                    {{ field.label_tag }} #}
+                                    {{ field|placeholder }}
                                 </div>
                              {% endfor %}
                          </form>
@@ -213,7 +213,8 @@
                 </div>
                 <div class="checkbox row">
                     <div class="col-md-offset-10 col-md-offset-1">
-                        <label><input type="checkbox" name="terms" value="1" />
+                        <p class="bg-warning" id="no-terms" style="display:none"> Proszę zaznaczyć, że akceptujesz regulamin </p>
+                        <label><input type="checkbox" name="terms" value="1" {% if terms %} checked="checked" {% endif %} />
                             {% trans 'I accept <a target="_blank" href="/terms"> terms & conditions</a>' %}
                         </label>
                     </div>

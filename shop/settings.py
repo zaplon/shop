@@ -51,6 +51,7 @@ INSTALLED_APPS = (
     'amsoil',
     'ckeditor',
     'jstemplate',
+    'django_inlinecss'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -75,8 +76,8 @@ DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'shop',
-        'USER': 'shop_user',
-        'PASSWORD': 'shop_qaz!23',
+        'USER': 'root',
+        'PASSWORD': 'sadyba88',
         'HOST': 'localhost',
         'PORT': '',
         'OPTIONS': { 'init_command':'SET storage_engine=INNODB,character_set_connection=utf8,collation_connection=utf8_polish_ci'},
@@ -100,11 +101,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
-MEDIA_ROOT = '/home/jan/git/shop/media/'
+MEDIA_ROOT = '/home/jan/PycharmProjects/shop/media/'
 MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
-ADMIN_TEMPLATES_ROOT = '/home/jan/git/shop/templates/admin/'
+ADMIN_TEMPLATES_ROOT = '/home/jan/PycharmProjects/shop/templates/admin/'
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
 )

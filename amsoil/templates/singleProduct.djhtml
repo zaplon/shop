@@ -4,6 +4,7 @@
 {% load i18n %}
 
 {% block body %}
+
     <div class="row">
         {% handlebarsjs 'variations' precompile %}
         <div style="padding-left:15px;" class="col-md-12 margin-bottom20">
@@ -14,60 +15,58 @@
 {#            </a>#}
             {% breadcrumbs %}
         </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-12">
-                <div>
-                    <div class="col-md-8 col-sm-6 text-center" id="single-col-1">
-                         <div class="product-title col-md-12">
-                            <h1>{{ product.name }}</h1>
-                        </div>
-                        <img width="150" height="300"
-                             src="/media/{{ product.mainImage }}"></img>
+            <div class="col-md-8 col-sm-6 text-center" id="single-col-1">
+                 <div class="product-title col-md-12">
+                    <h1>{{ product.name }}</h1>
+                </div>
+                <img width="150" height="300"
+                     src="/media/{{ product.mainImage }}"></img>
+            </div>
+            <div class="col-md-4 col-sm-6 panel panel-default" id="single-col-2">
+                <div class="panel-body">
+                    <div id="product-variations-container" style="margin-bottom:20px;">
                     </div>
-                    <div class="col-md-4 col-sm-6 panel panel-default" id="single-col-2">
-                        <div class="panel-body">
-                            <div id="product-variations-container" style="margin-bottom:20px;">
-                            </div>
-                            <div style="clear:both"></div>
+                    <div style="clear:both"></div>
+                    <div>
+                        <span style="font-weight:bold">{% trans 'Categories' %}: </span>
+                        <span>
+                            {% for c in product.categories.all %}
+                                {{ c.name }}
+                            {% endfor %}
+                        </span>
+                    </div>
+                    <div>
+                        {%for a in product.getGroupedAttributes %}
                             <div>
-                                <span style="font-weight:bold">{% trans 'Categories' %}: </span>
+                                <span style="font-weight:bold">{{a.name}}:</span>
                                 <span>
-                                    {% for c in product.categories.all %}
-                                        {{ c.name }}
-                                    {% endfor %}
+                                    {{a.atts}}
                                 </span>
                             </div>
-                                {%for a in product.getGroupedAttributes %}
-                                    <div>
-                                        <span style="font-weight:bold">{{a.name}}:</span>
-                                        <span>
-                                            {{a.atts}}
-                                        </span>
-                                    </div>
-                                {% endfor %}
-                            </div>
-
-{#                        <div class="col-md-12">#}
-{#                            {{ product.shortDescription|linebreaks }}#}
-{#                         </div>#}
-
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
-                <div style="clear:both"></div>
-                <div class="margin-top10">
-                    <ul class="nav nav-tabs">
-                        <li class="active" role="presentation" >
-                            <a href="#">
-                                {% trans 'Product description' %}
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content margin-top10">
-                        <div role="tabpanel" class="tab-pane active">
-                            {{ product.description|safe|linebreaks }}
-                        </div>
-                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs">
+                <li class="active" role="presentation" >
+                    <a href="#">
+                        {% trans 'Product description' %}
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content margin-top10">
+                <div role="tabpanel" class="tab-pane active">
+                    {{ product.description|safe|linebreaks }}
                 </div>
+            </div>
         </div>
     </div>
     <script>

@@ -13,7 +13,7 @@ from rest_framework.response import Response
 from rest_framework import status
 import django_filters, json, datetime
 from django.contrib.auth import authenticate, login, logout
-from amsoil.forms import ShippingForm, InvoiceForm, QuickContactForm
+from amsoil.forms import ShippingForm, InvoiceForm, QuickContactForm, CheckoutBasicForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count, Sum
@@ -27,9 +27,10 @@ from amsoil.mails import newOrder, orderNotification
 def home(request):
     return render_to_response('index.djhtml', {}, context_instance=RequestContext(request))
 
+
 def page(request, id):
     page = Page.objects.get(id=id)
-    return render_to_response('page.html', {'page':page}, context_instance=RequestContext(request))
+    return render_to_response('page.html', {'page': page}, context_instance=RequestContext(request))
 
 
 def shop(request):
@@ -39,40 +40,44 @@ def shop(request):
     try:
         attributes_id = []
         att_ind = path.index('attributes')
-        atts = path[att_ind+1].split(',')
+        atts = path[att_ind + 1].split(',')
         for a in atts:
-            attributes_id.append( Attribute.objects.get(name = path[att_ind+1]).id )
-        attributes_id = ','.join(map(str,attributes_id))
+            attributes_id.append(Attribute.objects.get(name=path[att_ind + 1]).id)
+        attributes_id = ','.join(map(str, attributes_id))
     except:
         attributes_id = -1
 
     category_id = -1
     try:
         cat_ind = path.index('category')
-        category_id = Category.objects.get(name = path[cat_ind+1]).id
-        #return render_to_response('shop.djhtml', {'category_id': category_id}, context_instance=RequestContext(request))
+        category_id = Category.objects.get(name=path[cat_ind + 1]).id
+        # return render_to_response('shop.djhtml', {'category_id': category_id}, context_instance=RequestContext(request))
     except:
         pass
-    return render_to_response('shop.djhtml', {'category_id':category_id, 'attributes_id':attributes_id}, context_instance=RequestContext(request))
+    return render_to_response('shop.djhtml', {'category_id': category_id, 'attributes_id': attributes_id},
+                              context_instance=RequestContext(request))
+
 
 def cart(request):
     return render_to_response('cartView.html', [], context_instance=RequestContext(request))
 
+
 def register(request):
-    return render_to_response('registerView.html', {'form':UserCreationForm}, context_instance=RequestContext(request))
+    return render_to_response('registerView.html', {'form': UserCreationForm}, context_instance=RequestContext(request))
+
 
 def account(request):
     us = request.user
     try:
-        invoice = InvoiceForm(instance=Invoice.objects.get(user = us))
+        invoice = InvoiceForm(instance=Invoice.objects.get(user=us))
     except:
         invoice = InvoiceForm()
     try:
-        payer = ShippingForm(instance=Shipment.objects.get(user = us, type='PA'))
+        payer = ShippingForm(instance=Shipment.objects.get(user=us, type='PA'))
     except:
         payer = ShippingForm()
     try:
-        shipment = ShippingForm(instance=Shipment.objects.get(user = us, type='RE'))
+        shipment = ShippingForm(instance=Shipment.objects.get(user=us, type='RE'))
     except:
         shipment = ShippingForm()
 
@@ -99,17 +104,17 @@ def account(request):
                 shi.save()
 
     if request.user.is_authenticated():
-        orders = Order.objects.filter(user = request.user)
+        orders = Order.objects.filter(user=request.user)
     else:
         orders = []
 
     return render_to_response('myAccount.html', {
-        'userChangeForm': '', #UserChangeForm(us),
+        'userChangeForm': '',  # UserChangeForm(us),
         'invoiceForm': invoice,
         'shipmentForm': shipment,
         'payerForm': payer,
         'orders': orders,
-    }, context_instance=RequestContext(request) )
+    }, context_instance=RequestContext(request))
 
 
 def processOrder(data):
@@ -117,26 +122,26 @@ def processOrder(data):
 
 
 def takeCart(request):
-    cart = Cart.objects.get(id = request.POST['id'])
+    cart = Cart.objects.get(id=request.POST['id'])
     request.session['cartId'] = cart.id
-    return HttpResponse(json.dumps({'success':True}))
+    return HttpResponse(json.dumps({'success': True}))
+
 
 def minicart(request):
     if 'cartId' in request.session:
-        items = CartProduct.objects.filter(cart__id = request.session['cartId'])
+        items = CartProduct.objects.filter(cart__id=request.session['cartId'])
         return HttpResponse(json.dumps({
             'items': CartProductSerializer(items, many=True).data,
-            'total':  str(items.aggregate(
-                total = Sum('price', field="price*quantity"))['total']) + 'zł',
-            'count' : items.aggregate(Sum('quantity')).values()[0]
+            'total': str(items.aggregate(
+                total=Sum('price', field="price*quantity"))['total']) + 'zł',
+            'count': items.aggregate(Sum('quantity')).values()[0]
         }))
     else:
         return HttpResponse(json.dumps({
             'items': [],
             'total': 0,
-            'count' : 0,
+            'count': 0,
         }))
-
 
 
 def checkout(request):
@@ -144,6 +149,11 @@ def checkout(request):
         hasErrors = False
         data = json.loads(request.POST['data'])
         sm = ShippingMethod.objects.get(id=data['shippingMethod'])
+
+        basics = CheckoutBasicForm(data['checkoutBasic'])
+        if not basics.is_valid():
+            hasErrors = True
+
         if sm.needsShipping:
             if 'receiver' in data:
                 receiver = ShippingForm(data['receiver'])
@@ -178,21 +188,23 @@ def checkout(request):
                                   date=datetime.datetime.now(), notes=data['notes'], status='PENDING')
                     order.save()
 
-            order = Order(paymentMethod=pm, shippingMethod=sm, cart = c, email = data['email'],
-                          date=datetime.datetime.now(), notes=data['notes'], status='PENDING')
+            order = Order(paymentMethod=pm, shippingMethod=sm, cart=c, email=basics.cleaned_data['email'],
+                          phone=basics.cleaned_data['tel'], date=datetime.datetime.now(), notes=data['notes'],
+                          status='PENDING')
             order.save()
             c.json = CartSerializer(c).data
-            #c.order = order
+            # c.order = order
             c.save()
 
             if request.user.is_authenticated():
                 order.user = request.user
                 if order.shippingMethod.needsShipping:
+                    if not 'receiver' in data:
+                        receiver = buyer
                     receiver = receiver.save(commit=False)
                     receiver.user = request.user
                     buyer = buyer.save(commit=False)
                     buyer.user = request.user
-            order.email = data['buyerEmail']
             if order.shippingMethod.needsShipping:
                 buyer.order = order
                 buyer.type = 'BU'
@@ -218,8 +230,9 @@ def checkout(request):
                 invoice = InvoiceForm()
         else:
             invoice = InvoiceForm()
+        basics = CheckoutBasicForm()
     try:
-        products_in_cart = CartProduct.objects.filter(cart__id = request.session['cartId']).count()
+        products_in_cart = CartProduct.objects.filter(cart__id=request.session['cartId']).count()
     except:
         products_in_cart = 0
     creationForm = UserCreationForm()
@@ -230,25 +243,43 @@ def checkout(request):
     except:
         if request.user.is_authenticated():
             try:
-                receiver = ShippingForm(instance=Shipment.objects.get(user=request.user,type='RE'))
+                receiver = ShippingForm(instance=Shipment.objects.get(user=request.user, type='RE'))
             except:
                 receiver = ShippingForm()
-            try:
-                buyer = ShippingForm(instance=Shipment.objects.get(user=request.user,type='BU'))
-            except:
-                buyer = ShippingForm()
         else:
             receiver = ShippingForm()
-            buyer = ShippingForm()
 
+        # jeżeli z jakiś przyczyn tego nie ma wcześniej
+        try:
+            buyer
+        except:
+            if request.user.is_authenticated():
+                try:
+                    buyer = ShippingForm(instance=Shipment.objects.get(user=request.user, type='BU'))
+                except:
+                    buyer = ShippingForm()
+            else:
+                buyer = ShippingForm()
+
+    try:
+        data
+    except:
+        data = {}
     return render_to_response('checkout.djhtml',
                               {'BuyerForm': buyer, 'ReceiverForm': receiver, 'creationForm': creationForm,
-                              'ShippingMethods': shippingMethods, 'InvoiceForm': invoice,
-                              'products_in_cart': products_in_cart, 'step': request.user.is_authenticated() if 2 else 1,
-                              'shippingMethod': data['shippingMethod'] if 'data' in request.POST else 0,
-                              'paymentMethod': data['paymentMethod'] if 'data' in request.POST else 0,
-                              'email': data['email'] if 'data' in request.POST else '' },
+                               'ShippingMethods': shippingMethods, 'InvoiceForm': invoice,
+                               'CheckoutBasicForm': basics,
+                               'hasInvoice': True if 'hasInvoice' in data else False,
+                               'buyerAsReceiver': True if not 'receiver' in data else False,
+                               'products_in_cart': products_in_cart,
+                               'step': request.user.is_authenticated() if 2 else 1,
+                               'shippingMethod': data['shippingMethod'] if 'data' in request.POST else 0,
+                               'paymentMethod': data['paymentMethod'] if 'data' in request.POST else 0,
+                               'step': 3 if 'data' in request.POST else 2 if request.user.is_authenticated() else 1,
+                               'terms': True if 'terms' in data and data['terms'] == True else False
+                              },
                               context_instance=RequestContext(request))
+
 
 def getOrderOptions(request):
     try:
@@ -299,7 +330,7 @@ def loginView(request):
 
 # class CartProductsList(APIView):
 # """
-#     List all snippets, or create a new snippet.
+# List all snippets, or create a new snippet.
 #     """
 #     def get(self, request, format=None):
 #         cartProducts = ProductCart.objects.all()
@@ -315,16 +346,18 @@ def loginView(request):
 
 def removeFromCart(request):
     id = request.GET['product']
-    CartProduct.objects.get(id = id).delete()
+    CartProduct.objects.get(id=id).delete()
     return HttpResponse(json.dumps({'success': True}))
+
 
 def updateCart(request):
     id = request.GET['product']
     quantity = request.GET['quantity']
-    cp = CartProduct.objects.get(id = id)
+    cp = CartProduct.objects.get(id=id)
     cp.quantity = quantity
     cp.save()
     return HttpResponse(json.dumps({'success': True}))
+
 
 def addToCart(request):
     if 'quantity' in request.POST:
@@ -393,8 +426,9 @@ def register(request):
     else:
         form = UserCreationForm()
     if 'source' in request.POST and request.POST['source'] == 'checkout':
-         return render_to_response('checkout.djhtml', {'creationForm': form,
-                                                       'products_in_cart': True}, context_instance=RequestContext(request))
+        return render_to_response('checkout.djhtml', {'creationForm': form,
+                                                      'products_in_cart': True},
+                                  context_instance=RequestContext(request))
     else:
         return render(request, "registerView.html", {
             'form': form,
@@ -420,13 +454,15 @@ def quickContact(request):
     else:
         return render_to_response('index.djhtml', {}, context_instance=RequestContext(request))
 
+
 def search(request):
     term = request.GET['term']
     pages = Page.objects.filter(Q(body__contains=term) | Q(title__contains=term))
     products = Product.objects.filter(Q(name__contains=term) | Q(description__contains=term))
     res = []
     for p in pages:
-        res.append( { 'id':p.id, 'except': p.body[0:200], 'title':p.title, 'link' : '/page/'+p.name } )
+        res.append({'id': p.id, 'except': p.body[0:200], 'title': p.title, 'link': '/page/' + p.name})
     for p in products:
-        res.append( { 'id':p.id, 'except': p.shortDescription[0:200], 'title':p.name, 'link' : '/shop/'+p.name+'/' } )
-    return render_to_response('search.html', {'results': res, 'count': len(res)}, context_instance=RequestContext(request))
+        res.append({'id': p.id, 'except': p.shortDescription[0:200], 'title': p.name, 'link': '/shop/' + p.name + '/'})
+    return render_to_response('search.html', {'results': res, 'count': len(res)},
+                              context_instance=RequestContext(request))

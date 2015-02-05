@@ -1,0 +1,84 @@
+      table {
+                width: 100%;
+                max-width: 100%;
+                margin-bottom: 21px;
+                border-collapse: collapse;
+                border-spacing: 0px;
+                border-color: gray;
+                box-sizing: border-box;
+        }
+        thead {
+                -webkit-font-smoothing: antialiased;
+                border-bottom-color: rgb(128, 128, 128);
+                border-collapse: collapse;
+                border-left-color: rgb(128, 128, 128);
+                border-right-color: rgb(128, 128, 128);
+                border-top-color: rgb(128, 128, 128);
+                box-sizing: border-box;
+                color: rgb(51, 51, 51);
+                display: table-header-group;
+                font-family: 'Source Sans Pro', Calibri, Candara, Arial, sans-serif;
+                font-size: 15px;
+                height: 38px;
+                line-height: 21.4285717010498px;
+                vertical-align: middle;
+        }
+        th {
+                vertical-align: bottom;
+                border-bottom: 2px solid #dddddd;
+        }
+        td {
+                padding: 8px;
+                line-height: 1.42857143;
+                vertical-align: top;
+                border-top: 1px solid #dddddd;
+        }
+        body {
+            margin: 0 auto;
+            width: 600px;
+            text-align: center;
+            background-color: #ccc;
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+            font-size: 12px;
+        }
+        .header {
+            background-color:rgb(39, 128, 227);
+            border-color:#1a6ecc;
+            border-bottom: 1px solid #333333;
+			padding: 20px 10px 10px 20px;
+            border-radius: 10px 10px 0 0;
+        }
+        .header img {
+            margin: 0 auto;
+        }
+        #container {
+            color: black;
+			margin: 0 auto;
+			margin-top: 20px;
+			background-color:#eee;
+            padding: 70px 0 70px 0;
+        }
+		#content {
+			padding: 0;
+            background-color:white;
+            color: black;
+            width: 90%;
+            margin: 0 auto;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+		}
+        .body {
+            margin: 10px 0;
+            padding: 10px;
+        }
+        .footer {
+                padding:10px;
+				border-top: 2px solid #dddddd;
+				text-align: center;
+                margin: 0 20px;
+        }
+		h1 {
+			color: white;
+			font-weight: bold;
+			font-size: 24px;
+		}

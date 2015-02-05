@@ -108,13 +108,14 @@ checkout = {
       data = {};
       if ($('form#buyer-address').length > 0)
         data.buyer = this.getFormData($('form#buyer-address'));
-      if ($('form#receiver-address').length > 0)
+      if ($('form#receiver-address:visible').length > 0)
         data.receiver = this.getFormData($('form#receiver-address'));
       data.shippingMethod = $("input[name='shippingMethod']:checked").val();
       data.paymentMethod = $("input[name='paymentMethod']:checked").val();
-      data.buyerEmail = $('#buyer-email').val();
       data.terms = $('input[name="terms"]').is(':checked');
-
+      if (!data.shippingMethod) {
+          $('#no-terms').css('display', 'block');
+      }
       if (!data.shippingMethod) {
           $('#no-shipping').css('display', 'block');
       }
@@ -122,20 +123,13 @@ checkout = {
           $('#no-payment').css('display', 'block');
       }
 
-      if ( $('#buyer-email').val().length < 3){
-          $('#email-error').css('display', 'block');
-      }
-      else {
-          $('#email-error').css('display', 'none');
-          data.email = $('#buyer-email').val();
-      }
-
-      if (!data.paymentMethod || !data.shippingMethod || !data.email)
+      if (!data.paymentMethod || !data.shippingMethod )
         return;
 
       data.hasInvoice = $('input[name="invoice"]').is(':checked');
       data.invoice = this.getFormData($('form#invoice-form'));
       data.notes = $('#notes').val();
+      data.checkoutBasic = this.getFormData($('form#basic'));
 
         $.ajax({
             method: 'POST',
