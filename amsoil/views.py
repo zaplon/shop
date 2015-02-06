@@ -449,9 +449,17 @@ def singleProduct(request, name):
 def quickContact(request):
     qc = QuickContactForm(request.POST)
     if qc.is_valid():
-        send_mail('Wiadomość kontaktowa', request.POST['body'], request.POST['email'],
-                  ['oleje.amsoil@gmail.com'], fail_silently=False)
-        return render_to_response('index.djhtml', {}, context_instance=RequestContext(request))
+        if send_mail('Wiadomość kontaktowa', request.POST['body'], request.POST['email'],
+                  ['oleje.amsoil@gmail.com'], fail_silently=False):
+            return render_to_response('index.djhtml',
+                                      {'message':'Wiadomość wysłana','message_icon':'glyphicon glyphicon-ok'},
+                                      context_instance=RequestContext(request))
+        else:
+            return render_to_response('index.djhtml',
+                                      {'message':'Wystąpił błąd podczas wysyłania wiadomości',
+                                       'message_icon':'glyphicon glyphicon-remove'},
+                                      context_instance=RequestContext(request))
+
     else:
         return render_to_response('index.djhtml', {}, context_instance=RequestContext(request))
 

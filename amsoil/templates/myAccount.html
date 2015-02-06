@@ -75,7 +75,7 @@
                         {% for field in invoiceForm %}
                             <div class="form-group">
                                 {{ field.errors }}
-                                {{ field.label_tag }} {{ field.help_text }} {{ field }}
+                                {{ field.label_tag }}{{ field }}
                             </div>
                         {% endfor %}
                         <input type="hidden" value="invoice" name="type" />
@@ -96,7 +96,7 @@
                         {% for field in payerForm %}
                             <div class="form-group">
                                 {{ field.errors }}
-                                {{ field.label_tag }} {{ field.help_text }} {{ field }}
+                                {{ field.label_tag }} {{ field }}
 
                             </div>
                         {% endfor %}
@@ -111,7 +111,7 @@
                         {% for field in shipmentForm %}
                             <div class="form-group">
                                 {{ field.errors }}
-                                {{ field.label_tag }} {{ field.help_text }} {{ field }}
+                                {{ field.label_tag }} {{ field }}
 
                             </div>
                         {% endfor %}

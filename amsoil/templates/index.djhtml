@@ -122,6 +122,12 @@
         </div>
     </div>
 
+    {% if message %}
+        <script>
+            shop.showMessage({{ message }},{{ message_icon }});
+        </script>
+    {% endif %}
+
 {% endblock %}
 
 {% block addScripts %}
