@@ -458,6 +458,7 @@ button.close:hover {
   box-shadow: 0 0 5px #888; }
 
 .promo-div {
+  cursor: pointer;
   padding: 2px;
   background-color: #eee; }
   .promo-div .border-middle {

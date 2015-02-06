@@ -16,13 +16,13 @@
             {% slider name='main' %}
             <div class="col-md-12" style="margin-top:12px;">
                  <div class="col-md-4">
-                    {% promoDiv icon="glyphicon-plus" content='Lorem ipsum sin doloret' background='purple' %}
+                    {% promoDiv icon="glyphicon-tint" content='Zamów analizę oleju' background='purple' %}
                 </div>
                 <div class="col-md-4">
-                    {% promoDiv icon="glyphicon-usd" content='Atrakcyjne rabaty' background='orange' %}
+                    {% promoDiv icon="glyphicon-usd" content='Atrakcyjne rabaty' background='midnightblue' %}
                 </div>
                 <div class="col-md-4">
-                    {% promoDiv icon="glyphicon-gift" content='Lorem ipsum sin doloret' background='green' %}
+                    {% promoDiv icon="glyphicon-comment" content='Poznaj opinie klientów' background='green' %}
                 </div>
                 <div class="panel panel-default hidden">
                     <div class="panel-body">
@@ -45,7 +45,7 @@
     </div>
     <div class="row hidden" style="margin-top: 20px; margin-bottom: 20px;">
         <div class="col-md-3">
-            {% promoDiv icon="glyphicon-plane" content='Lorem ipsum sin doloret' background='green' %}
+            {% promoDiv icon="glyphicon glyphicon-tint" content='Zamów analizę oleju' background='green' %}
         </div>
         <div class="col-md-3">
             {% promoDiv icon="glyphicon-plus" content='Lorem ipsum sin doloret' background='purple' %}
