@@ -12,7 +12,7 @@ translation.get_language()
 def newOrder(order, request):
 
     html = get_template('mail/newOrder.html')
-    c = Context({'request':request})
+    c = Context({'request':request, 'order':order})
     html = html.render(c)
 
     send_mail(translation.ugettext('New order'), translation.ugettext('New order'), FROM_MAIL,
@@ -21,7 +21,7 @@ def newOrder(order, request):
 
 def orderNotification(order, request):
     html = get_template('mail/orderNotification.html')
-    c = Context({'request':request})
+    c = Context({'request':request,'order':order})
     html = html.render(c)
 
     send_mail('Nowe zamówienie', translation.ugettext('New order'), FROM_MAIL,
