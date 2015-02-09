@@ -156,7 +156,7 @@ class MenuItem(models.Model):
             return self.url
     def getUrl(self):
         try:
-            return '/page/'+ str(self.page.id)
+            return str(self.page.title)
         except:
             return self.url
 
@@ -184,10 +184,10 @@ class Cart(models.Model):
         elif total >= 300:
             discount = 10
         if user.is_authenticated():
-            if UserMeta(user,'discount'):
-                database_discount = UserMeta(user,'discount')
+            if UserMeta.getValue(user,'discount'):
+                database_discount = UserMeta.getValue(user,'discount')
         if int(database_discount) > discount:
-            discount = total * float(UserMeta(user,'discount')/10)
+            discount = total * float(UserMeta.getValue(user,'discount')/10)
         else:
             discount = total * discount/100
         return discount

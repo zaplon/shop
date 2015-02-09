@@ -9,13 +9,13 @@ urlpatterns = patterns('',
     # Examples:
 
     url(r'^$', views.home, name='home'),
-    url(r'^shop/category/(?P<category>.*)/', views.shop, name='shopCategory'),
-    url(r'^shop/product/(?P<name>.*)/$', views.singleProduct, name='singleProduct'),
-    url(r'^shop/', views.shop, name='shop'),
+    url(r'^sklep/kategoria/(?P<category>.*)/', views.shop, name='shopCategory'),
+    url(r'^sklep/produkt/(?P<name>.*)/$', views.singleProduct, name='singleProduct'),
+    url(r'^sklep/', views.shop, name='shop'),
     url(r'^page/(?P<id>[0-9]+)/$', views.page, name='page'),
-    url(r'^checkout/', views.checkout, name='checkout'),
-    url(r'^account/', views.account, name='account'),
-    url(r'^cart/', views.cart, name='cart'),
+    url(r'^zamowienie/', views.checkout, name='checkout'),
+    url(r'^konto/', views.account, name='account'),
+    url(r'^koszyk/', views.cart, name='cart'),
     url(r'^takeCart/', views.takeCart, name='takeCart'),
     url(r'^getOrderOptions/', views.getOrderOptions, name='checkoutOptions'),
 
@@ -24,19 +24,20 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^ckeditor/', include('ckeditor.urls')),
     url(r'^miniCart/', views.minicart, name='minicart'),
-    url(r'^products/', views.ProductListView.as_view(model=Product), name='product-list'),
+    url(r'^produkty/', views.ProductListView.as_view(model=Product), name='product-list'),
     #url(r'^carts/', views.CartDetail.as_view()),
 
     url(r'^login/', views.loginView, name='login'),
     url(r'^logout/', views.logoutView, name='logout'),
-    url(r'^register/', views.register, name='register'),
+    url(r'^zarejestruj/', views.register, name='register'),
 
     url(r'^addToCart/', views.addToCart, name='addToCart'),
     url(r'^removeFromCart/', views.removeFromCart, name='removeFromCart'),
     url(r'^updateCart/', views.updateCart, name='updateCart'),
 
     url(r'^quickContact/', views.quickContact, name='contact'),
-    url(r'^search/', views.search, name='search'),
+    url(r'^szukaj/', views.search, name='search'),
+    url(r'^(?P<title>.*)/$', views.page, name='page'),
 
 )
 

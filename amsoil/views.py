@@ -29,8 +29,8 @@ def home(request):
     return render_to_response('index.djhtml', {}, context_instance=RequestContext(request))
 
 
-def page(request, id):
-    page = Page.objects.get(id=id)
+def page(request, title):
+    page = Page.objects.get(title=title)
     return render_to_response('page.html', {'page': page}, context_instance=RequestContext(request))
 
 
@@ -40,7 +40,7 @@ def shop(request):
     attributes_id = -1
     try:
         attributes_id = []
-        att_ind = path.index('attributes')
+        att_ind = path.index('atrybuty')
         atts = path[att_ind + 1].split(',')
         for a in atts:
             attributes_id.append(Attribute.objects.get(name=path[att_ind + 1]).id)

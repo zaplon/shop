@@ -58,15 +58,15 @@ $(document).ready(function($){
     });
 
      $('#account #register').click(function(){
-        window.location = '/register'
+        window.location = '/zarejestruj'
      });
 
     $('header').delegate('#checkout','click',function(){
-        window.location = '/checkout';
+        window.location = '/zamowienie';
     });
 
     $('header').delegate('#cart','click',function(){
-        window.location = '/cart';
+        window.location = '/koszyk';
     });
 
     $('.product-filter .thick-box').click(function(){
@@ -218,7 +218,7 @@ shop = {
                     $('#mini-cart').html(Mustache.to_html(Mustache.TEMPLATES.miniCart,
                         JSON.parse(res)));
                     //shop.showTopMessage(tr('Product added to cart'));
-                    shop.showMessage(tr('Product added to cart'),'glyphicon glyphicon-shopping-cart');
+                    shop.showMessage(tr('Produkt dodany do koszyka'),'glyphicon glyphicon-shopping-cart');
                 });
             }
         });
@@ -261,7 +261,7 @@ shop = {
         filters = filters + 'page=' + shop.currentPage + '&';
         filters = filters + 'categories_in=' + cats;
         filters = filters + '&attributes_in=' + atts;
-        $.get('/products?' + filters).done(function(res){
+        $.get('/produkty?' + filters).done(function(res){
            var cont = $('#'+container)[0];
            $('.product').remove();
            $('#no-products').remove();

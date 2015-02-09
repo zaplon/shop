@@ -10,7 +10,17 @@ from django.utils.translation import ugettext as _
 from shop.settings import MEDIA_URL
 
 
+from django import template
+from django.template import RequestContext
+from django.template import Template
+
 register = template.Library()
+
+@register.inclusion_tag('render_tags.html',takes_context=True)
+def render_tags(context,value):
+    t = Template( '{%load tags%}' + value)
+    c = RequestContext(context['request'])
+    return  { 'val':t.render(c) }
 
 @register.inclusion_tag('promoDiv.html')
 def promoDiv(content, color=None, background=None, icon=None, image=None, size=None):

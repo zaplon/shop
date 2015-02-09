@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="panel panel-default col-md-10">
+                    <div class="panel panel-default col-md-12">
                         <div class="panel-body form-horizontal">
                              <form class="form-inline" role="form" id="basic">
                                  <div class="form-group col-md-6">
@@ -212,7 +212,7 @@
                     </div>
                 </div>
                 <div class="checkbox row">
-                    <div class="col-md-offset-12">
+                    <div class="col-md-12">
                         <p class="bg-warning" id="no-terms" style="display:none"> Proszę zaznaczyć, że akceptujesz regulamin </p>
                         <label><input type="checkbox" name="terms" value="1" {% if terms %} checked="checked" {% endif %} />
                             {% trans 'I accept <a target="_blank" href="/terms"> terms & conditions</a>' %}

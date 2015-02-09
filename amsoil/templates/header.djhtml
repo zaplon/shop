@@ -46,7 +46,7 @@
 <header>
     <div id="logo"></div>
     <div id="main" class="visible-md visible-lg">
-        <form method="get" action="/search">
+        <form method="get" action="/szukaj">
             <div id="search-main">
                 <input type="text" id="search" name="term"></input>
                 <div id="submit-box">
