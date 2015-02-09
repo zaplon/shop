@@ -40,7 +40,7 @@ class prices:
 
         metas = dict(metas.items() + billing.items() + shipping.items() + invoice.items())
 
-        db = sqlsoup.SQLSoup('mysql://shop_user:shop_qaz!23@localhost/amsoil_new?charset=utf8')
+        db = sqlsoup.SQLSoup('mysql://shop_user:shop_qaz!23@archoil.pl/amsoil_new?charset=utf8')
         users = db.wp_users.all()
         keys = self.getKeys(metas)
         for user in users:
@@ -87,7 +87,7 @@ class prices:
 
     def doPrices(self):    
 
-        db = sqlsoup.SQLSoup('mysql://shop_user:shop_qaz!23@localhost/amsoil_new?charset=utf8')
+        db = sqlsoup.SQLSoup('mysql://shop_user:shop_qaz!23@archoil.pl/amsoil_new?charset=utf8')
     
         where = (db.wp_posts.post_type =='product')
         posts = db.wp_posts.filter(where).all()

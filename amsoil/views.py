@@ -12,9 +12,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 import django_filters, json, datetime
-from django.contrib.auth import authenticate, login, logout
 from amsoil.forms import ShippingForm, InvoiceForm, QuickContactForm, CheckoutBasicForm
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count, Sum
 from django.core import serializers
@@ -24,6 +23,7 @@ from shop.settings import CHECKOUT_THANK_YOU
 
 from amsoil.mails import newOrder, orderNotification
 
+from authentication.admin import UserCreationForm
 
 def home(request):
     return render_to_response('index.djhtml', {}, context_instance=RequestContext(request))
@@ -261,7 +261,7 @@ def checkout(request):
         products_in_cart = CartProduct.objects.filter(cart__id=request.session['cartId']).count()
     except:
         products_in_cart = 0
-    creationForm = UserCreationForm()
+    creationForm = RegisterForm()
     shippingMethods = ShippingMethod.objects.all()
 
     try:
@@ -331,28 +331,6 @@ def getOrderOptions(request):
     return HttpResponse(json.dumps({'success': True, 'totals': totals, 'shippingMethods': shippingMethods,
                                     'paymentMethods': paymentMethods,
                                     'needsShipping': needsShipping}))
-
-
-@csrf_exempt
-def loginView(request):
-    user = authenticate(username=request.POST['username'], password=request.POST['password'])
-    if user is not None:
-        # the password verified for the user
-        if user.is_active:
-            login(request, user)
-            if 'source' in request.POST:
-                return HttpResponseRedirect(request.POST['source'])
-            else:
-                return HttpResponse(json.dumps({'success': True}))
-        else:
-            if 'source' in request.POST:
-                return HttpResponseRedirect(request.POST['source'])
-            else:
-                return HttpResponse(json.dumps({'success': False,
-                                                'message': "The password is valid, but the account has been disabled!"}))
-    else:
-        # the authentication system was unable to verify the username and password
-        return HttpResponse(json.dumps({'success': False, 'message': "The username and password were incorrect."}))
 
 
 # class CartProductsList(APIView):
@@ -443,7 +421,7 @@ class ProductListView(generics.ListAPIView):
 @csrf_exempt
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
             new_user = form.save()
             if 'source' in request.POST:
@@ -451,22 +429,16 @@ def register(request):
             else:
                 return HttpResponseRedirect("/register/")
     else:
-        form = UserCreationForm()
+        form = RegisterForm()
     if 'source' in request.POST and request.POST['source'] == 'checkout':
         return render_to_response('checkout.djhtml', {'creationForm': form,
-                                                      'products_in_cart': True},
+                                                      'products_in_cart': True,
+                                                      'step':2},
                                   context_instance=RequestContext(request))
     else:
         return render(request, "registerView.html", {
             'form': form,
         })
-
-
-def logoutView(request):
-    logout(request)
-    url = request.META['HTTP_REFERER'].split('/')[-1]
-    return HttpResponseRedirect('/' + url)
-
 
 def singleProduct(request, name):
     product = Product.objects.get(name=name)

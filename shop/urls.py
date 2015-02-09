@@ -4,6 +4,7 @@ from amsoil import views
 from amsoil.models import Product
 from shop.settings import MEDIA_URL, MEDIA_ROOT
 from django.conf.urls.static import static
+from authentication.views import loginView, logoutView, register
 
 urlpatterns = patterns('',
     # Examples:
@@ -27,9 +28,9 @@ urlpatterns = patterns('',
     url(r'^produkty/', views.ProductListView.as_view(model=Product), name='product-list'),
     #url(r'^carts/', views.CartDetail.as_view()),
 
-    url(r'^login/', views.loginView, name='login'),
-    url(r'^logout/', views.logoutView, name='logout'),
-    url(r'^zarejestruj/', views.register, name='register'),
+    url(r'^login/', loginView, name='login'),
+    url(r'^logout/', logoutView, name='logout'),
+    url(r'^zarejestruj/', register, name='register'),
 
     url(r'^addToCart/', views.addToCart, name='addToCart'),
     url(r'^removeFromCart/', views.removeFromCart, name='removeFromCart'),
@@ -38,6 +39,8 @@ urlpatterns = patterns('',
     url(r'^quickContact/', views.quickContact, name='contact'),
     url(r'^szukaj/', views.search, name='search'),
     url(r'^(?P<title>.*)/$', views.page, name='page'),
+
+    url(r'^authentication/', include('authentication.urls', namespace='accounts')),
 
 )
 

@@ -3,11 +3,12 @@
 import datetime
 from django.db import models, connection
 from shop.settings import MEDIA_ROOT
-from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
 from django.db.models import Sum, Count
+
+from authentication.models import User
 
 class UserProfile(models.Model):
     pass
