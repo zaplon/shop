@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-3 hidden-sm">
+        <div class="hidden">
             <div class="panel panel-primary">
                 <div class="panel-heading">{% trans 'Contact' %}</div>
                 <div class="panel-body">
@@ -12,18 +12,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-12">
             {% slider name='main' %}
-            <div class="col-md-12" style="margin-top:12px;">
-                 <div class="col-md-4">
-                    {% promoDiv icon="glyphicon-tint" content='Zamów analizę oleju' background='purple' %}
-                </div>
-                <div class="col-md-4">
-                    {% promoDiv icon="glyphicon-usd" content='Atrakcyjne rabaty' background='midnightblue' %}
-                </div>
-                <div class="col-md-4">
-                    {% promoDiv icon="glyphicon-comment" content='Poznaj opinie klientów' background='green' %}
-                </div>
+            <div class="col-md-12 hidden" style="margin-top:12px;">
+
                 <div class="panel panel-default hidden">
                     <div class="panel-body">
                         <span class="glyphicon glyphicon-usd main-color" style="font-size:23px">
@@ -43,18 +35,33 @@
             </div>
         </div>
     </div>
-    <div class="row hidden" style="margin-top: 20px; margin-bottom: 20px;">
-        <div class="col-md-3">
-            {% promoDiv icon="glyphicon glyphicon-tint" content='Zamów analizę oleju' background='green' %}
+    <div class="row">
+         <div class="col-md-3">
+            {% promoDiv image="static/images/archoil.gif" content='' background='black' size='64px' %}
         </div>
         <div class="col-md-3">
-            {% promoDiv icon="glyphicon-plus" content='Lorem ipsum sin doloret' background='purple' %}
+            {% promoDiv content='Oleje do aut < 2006' background='darkred' %}
         </div>
         <div class="col-md-3">
-            {% promoDiv icon="glyphicon-usd" content='Lorem ipsum sin doloret' background='orange' %}
+            {% promoDiv content='Oleje do aut > 2006' background='orange' %}
         </div>
         <div class="col-md-3">
-            {% promoDiv icon="glyphicon-gift" content='Lorem ipsum sin doloret' background='blue' %}
+            {% promoDiv image="static/images/meguin.jpg" content='' background='white' size='64px' color='black' %}
+        </div>
+        <div style="clear:both"></div>
+    </div>
+    <div class="row margin-top10">
+        <div class="col-md-3">
+            {% promoDiv image="static/images/penrite.jpg" content='' background='white' size="64px" %}
+        </div>
+        <div class="col-md-3">
+            {% promoDiv content='Motorsport' background='green' size="32px" %}
+        </div>
+        <div class="col-md-3">
+            {% promoDiv content='Motocykle 2T 4T Marine' background='navy' size="32px" %}
+        </div>
+        <div class="col-md-3">
+            {% promoDiv image="static/images/amsoil.jpg" content='' background='white' size="64px" %}
         </div>
     </div>
     <div class="row">

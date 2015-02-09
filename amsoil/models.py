@@ -172,7 +172,25 @@ class Cart(models.Model):
     json = models.CharField(max_length=1000)
     #order = models.ForeignKey('Order', default = None,null = True)
     def getTotal(self):
-        return self.cartProducts.aggregate(Sum('price')).values()[0]
+        return CartProduct.objects.filter(cart=self).aggregate(total=Sum('price', field="price*quantity"))['total']
+    def getDiscount(self,user):
+        discount = 0
+        database_discount = 0
+        total = self.getTotal()
+        if total >= 1000:
+            discount = 20
+        elif total >= 500:
+            discount = 15
+        elif total >= 300:
+            discount = 10
+        if user.is_authenticated():
+            if UserMeta(user,'discount'):
+                database_discount = UserMeta(user,'discount')
+        if int(database_discount) > discount:
+            discount = total * float(UserMeta(user,'discount')/10)
+        else:
+            discount = total * discount/100
+        return discount
     #quantity = models.IntegerField(default=1)
     #sessionId = models.CharField(max_length=20)
 
@@ -241,6 +259,7 @@ class Order(models.Model):
     email = models.EmailField()
     number = models.CharField(max_length=20, default=lambda: datetime.datetime.now().strftime('%s')) 
     phone = models.CharField(max_length=15, default=0)
+    total = models.FloatField(default=0)
 
 class MetaData(models.Model):
     class Meta:
@@ -301,3 +320,6 @@ class Slide(models.Model):
     button1Url = models.CharField(max_length=50, null=True, blank=True)
     product = models.ForeignKey(Product, blank=True, null=True)
     image = models.URLField(blank=True, null=True)
+
+class NewsletterReceiver(models.Model):
+    email = models.EmailField()

@@ -35,6 +35,10 @@
         <strong> {{ totals.products }}zł</strong></span></div>
     <div>{{#_}} Shipping:{{/_}} <span class="pull-right"><strong>
         {{ totals.shipping }}zł</strong></span></div>
+    {{#totals.discount}}
+        <div>{{#_}} Discount:{{/_}} <span class="pull-right"><strong>
+            {{ totals.discount }}zł</strong></span></div>
+    {{/totals.discount}}
     <div>{{#_}} In total:{{/_}} <span class="pull-right">
         <strong> {{ totals.total }}zł</strong></span></div>
 </div>

@@ -13,9 +13,17 @@ $gray: #eeeeee
 .main-color
   color: #2780e3
 
+
+.page-container
+  background-color: white
+  padding: 0!important
+
 body
   margin: 0
   font-family: $font
+  background-color: #dddddd!important
+  background-image: url('../images/pattern_back.png')
+  background-repeat: repeat
 
 .span9
   width: calc(100% / 4 * 3)
@@ -33,13 +41,15 @@ body
 footer
   //position: fixed
   margin-top: 20px
-  height: 30px
   background-color: black
   background-image: url('../images/pattern_dark.png')
   bottom: 0px
   left: 0px
   right: 0px
   margin-bottom: 0px
+  color: white
+  padding: 15px
+  padding-bottom: 0px
 
 #top
   color: #ffffff
@@ -529,6 +539,9 @@ button.close:hover
         background-color: $nav
         color: #ffffff
         padding: 10px
+        min-height: 84px
+        img
+          margin: 0 auto
         .promo-icon
           font-size: 32px
           display: inline
@@ -537,3 +550,12 @@ button.close:hover
         .promo-text
           font-size: 18px
           display: inline
+          text-shadow: 2px 3px 3px rgba(0,0,0,0.3)
+#newsletter
+  margin: -15px -15px 0 0
+
+#footer-bottom
+  background-color: black
+  margin-bottom: 0px
+  margin-top: 20px
+  padding-top: 8px

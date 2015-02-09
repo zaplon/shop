@@ -3,7 +3,7 @@
 
 from django.shortcuts import render_to_response, RequestContext, HttpResponse, HttpResponseRedirect, render
 from amsoil.models import Page, Product, Cart, User, CartProduct, ProductVariation, \
-    ShippingMethod, PaymentMethod, Order, Invoice, Shipment, Category, Attribute
+    ShippingMethod, PaymentMethod, Order, Invoice, Shipment, Category, Attribute, UserMeta
 from rest_framework import viewsets
 from amsoil.serializers import ProductSerializer, PaymentMethodSerializer, ShippingMethodSerializer, \
     CartSerializer, CartProductSerializer
@@ -20,6 +20,7 @@ from django.db.models import Count, Sum
 from django.core import serializers
 from django.core.mail import send_mail
 from django.db.models import Q
+from shop.settings import CHECKOUT_THANK_YOU
 
 from amsoil.mails import newOrder, orderNotification
 
@@ -179,18 +180,20 @@ def checkout(request):
         if not hasErrors:
             pm = PaymentMethod.objects.get(id=data['paymentMethod'])
             c = Cart.objects.get(id=request.session['cartId'])
+            processed = False
             if pm.needsProcessing:
                 [status, message] = processOrder(data)
                 if not status:
                     return HttpResponse(json.dumps({'success': status, 'message': message}))
                 else:
-                    order = Order(paymentMethod=pm, shippingMethod=sm, cart=c,
-                                  date=datetime.datetime.now(), notes=data['notes'], status='PENDING')
-                    order.save()
+                    processed = True
+                    #order = Order(paymentMethod=pm, shippingMethod=sm, cart=c,
+                    #              date=datetime.datetime.now(), notes=data['notes'], status='PENDING')
+                    #order.save()
 
             order = Order(paymentMethod=pm, shippingMethod=sm, cart=c, email=basics.cleaned_data['email'],
                           phone=basics.cleaned_data['tel'], date=datetime.datetime.now(), notes=data['notes'],
-                          status='PENDING')
+                          status='PENDING' if not processed else 'FINISHED')
             order.save()
             c.json = CartSerializer(c).data
             # c.order = order
@@ -212,6 +215,28 @@ def checkout(request):
                 receiver.type = 'RE'
                 receiver.order = order
                 receiver.save()
+
+            order.total = order.cart.getTotal()
+            #znizki
+            if request.user.is_authenticated():
+                now_date=datetime.datetime.now()
+                last_12_months = Order.objects.filter(user=request.user,date__gte=now_date-datetime.timedelta(years=1)).\
+                    aggregate(Sum('total')).values()[0]
+                if last_12_months > 1000:
+                    UserMeta.setValue(request.user,'discount','20')
+                    UserMeta.setValue(request.user,'discount_ends',now_date.strftime('%Y-%m-%d'))
+                elif last_12_months > 500:
+                    UserMeta.setValue(request.user,'discount','15')
+                    UserMeta.setValue(request.user,'discount_ends',now_date.strftime('%Y-%m-%d'))
+                elif last_12_months > 300:
+                    UserMeta.setValue(request.user,'discount','10')
+                    UserMeta.setValue(request.user,'discount_ends',now_date.strftime('%Y-%m-%d'))
+
+                if UserMeta.getValue(request.user,'discount'):
+                    end_date = datetime.datetime.strptime(UserMeta.getValue(request.user,'discount_ends'),'%Y-%m-%d')
+                    if end_date > now_date:
+                        order.total = order.total - order.total * UserMeta.getValue(request.user,'discount')
+
             order.save()
 
 
@@ -220,7 +245,8 @@ def checkout(request):
             orderNotification(order, request)
 
             del request.session['cartId']
-            return HttpResponse(json.dumps({'success': True, 'message': pm.instructions}))
+            thanks_message = CHECKOUT_THANK_YOU
+            return HttpResponse(json.dumps({'success': True, 'message': thanks_message+pm.instructions.encode('utf8')}))
 
     else:
         if request.user.is_authenticated():
@@ -298,6 +324,7 @@ def getOrderOptions(request):
         paymentMethods = PaymentMethod.objects.all()
         needsShipping = False
     totals['total'] = totals['products'] + totals['shipping']
+    totals['discount'] = cart.getDiscount(request.user)
     shippingMethods = ShippingMethodSerializer(ShippingMethod.objects.all(), many=True).data
     paymentMethods = PaymentMethodSerializer(paymentMethods, many=True).data
 

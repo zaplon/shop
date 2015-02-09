@@ -30,15 +30,21 @@
         <div style="padding:0px; border-width:0px" class="alert alert-success" role="alert" id="top-message">
 
         </div>
-         {% include 'header.djhtml' %}
-        <form id="variables">
-            <input type="hidden" id="sessionId" value="{{ request.session.session_id }}"></input>
-        </form>
-        <div class="container-fluid">
-                {% block body %}
-                {% endblock %}
-        </div>
-        {% include 'footer.html' %}
+
+            <div class="col-md-10 col-md-offset-1 page-container col-sm-12 col-sx-12">
+                {% include 'header.djhtml' %}
+                <form id="variables">
+                    <input type="hidden" id="sessionId" value="{{ request.session.session_id }}"></input>
+                </form>
+
+                <div class="container-fluid">
+                        {% block body %}
+                        {% endblock %}
+                </div>
+
+                <div style="clear:both"></div>
+                {% include 'footer.html' %}
+            </div>
     </body>
     {% block addScripts %}
     {% endblock %}

@@ -53,7 +53,7 @@
             {% else %}
                 <div class="checkout-step" step="1">
                     <div class="row">
-                        <div class="col-md-10 col-md-offset-1">
+                        <div class="col-md-12">
                                 <div class="col-md-6 col-sm-12">
                                     <h2>{% trans 'Register' %}</h2>
                                     <form method="POST" action="/register/">
@@ -100,7 +100,7 @@
             {% endif %}
             <div class="checkout-step" step="2">
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-12">
                         <h2>{% trans 'Cart' %}</h2>
                             {% cartItems %}
                     </div>
@@ -119,14 +119,14 @@
             </div>
             <div class="checkout-step col-md-12" step="3" id="checkout-3">
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1 panel panel-default">
+                    <div class="col-md-12 panel panel-default">
                         <div class="panel-body" id="checkout-order">
                             {% mustachejs "checkoutOrder" %}
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="panel panel-default col-md-10 col-md-offset-1">
+                    <div class="panel panel-default col-md-10">
                         <div class="panel-body form-horizontal">
                              <form class="form-inline" role="form" id="basic">
                                  <div class="form-group col-md-6">
@@ -145,7 +145,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1 checkout-extra" id="shipping-forms">
+                    <div class="col-md-12 checkout-extra" id="shipping-forms">
                         <div>
                             <input {% if buyerAsReceiver %} checked="checked" {% endif %}
                                     class="show-on-click" type="checkbox" data-hide="receiver-div">
@@ -186,7 +186,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="panel panel-default col-md-10 col-md-offset-1 panel-body">
+                    <div class="panel panel-default col-md-12 panel-body">
                         <div class="checkbox">
                             <label>
                                 <input {% if hasInvoice %} checked="checked" {% endif %} type="checkbox" name="invoice" value="1" />
@@ -205,14 +205,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1 panel-body panel panel-default">
+                    <div class="col-md-12 panel-body panel panel-default">
                         <label>{% trans 'Order notes' %}:</label>
                         <textarea id="notes" class="form-control">
                         </textarea>
                     </div>
                 </div>
                 <div class="checkbox row">
-                    <div class="col-md-offset-10 col-md-offset-1">
+                    <div class="col-md-offset-12">
                         <p class="bg-warning" id="no-terms" style="display:none"> Proszę zaznaczyć, że akceptujesz regulamin </p>
                         <label><input type="checkbox" name="terms" value="1" {% if terms %} checked="checked" {% endif %} />
                             {% trans 'I accept <a target="_blank" href="/terms"> terms & conditions</a>' %}
@@ -229,7 +229,7 @@
             </div>
             <div class="checkout-step" step="4">
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1" id="confirmation">
+                    <div class="col-md-12" id="confirmation">
 
                     </div>
                 </div>

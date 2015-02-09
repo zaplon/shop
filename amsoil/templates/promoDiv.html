@@ -2,11 +2,15 @@
     <div class="border-middle">
         <div class="border-in">
             <div class="promo-body" style="background-color:{{ background }};
-                    color:{{ color }}">
+                    color:{{ color }}; {% if image  %} text-align:center; {% endif %}
+                    {% if not icon and not image %} text-align:center; padding-top:27px; {% endif %}">
+                {% if image %}
+                    <img src="{{ image }}" class="promo-icon" {% if size %} style="height:{{ size }}" {% endif %} />
+                {% endif %}
                 {% if icon %}
                     <span class="promo-icon glyphicon {{ icon }}"></span>
                 {% endif %}
-                <span class="promo-text">
+                <span class="promo-text" style="{% if not icon and not image %} margin-top:20px; {% endif %}">
                     {{ content }}
                 </span>
             </div>

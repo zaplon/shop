@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from django import template
 from amsoil.models import MenuItem, Category, CartProduct, Cart, Invoice, Shipment, Order, Slider, Slide, \
-    Attribute, AttributeGroup, ProductVariation
+    Attribute, AttributeGroup, ProductVariation, UserMeta
 from amsoil.models import getProductAttributesByGroupName
 from django.db.models import Sum, Count
 from amsoil.forms import QuickContactForm
@@ -13,12 +13,14 @@ from shop.settings import MEDIA_URL
 register = template.Library()
 
 @register.inclusion_tag('promoDiv.html')
-def promoDiv(content, color=None, background=None, icon=None):
+def promoDiv(content, color=None, background=None, icon=None, image=None, size=None):
     return {
         'color': color,
         'background': background,
         'content': content,
-        'icon': icon
+        'icon': icon,
+        'image': image,
+        'size': size
     }
 
 def placeholder(value):
@@ -110,16 +112,22 @@ def cartItems(context, *args, **kwargs):
     else:
         cartId = None
     if cartId:
-        items = CartProduct.objects.filter(cart__id=cartId)
+        cart = Cart.objects.get(id=cartId)
+        items = CartProduct.objects.filter(cart=cart)
+        total = cart.getTotal()
+        discount = cart.getDiscount(request.user)
+        if discount:
+            total -= discount
         return {
+            'discount': discount,
             'noButtons': True if 'noButtons' in kwargs else False,
             'items': items,
-            'total': 'pln' + str(items.aggregate(
-                total=Sum('price', field="price*quantity"))['total']),
+            'total': 'pln' + str(total),
             'count': items.aggregate(Sum('quantity')).values()[0]
         }
     else:
         return {
+            'discount': False,
             'items': [],
             'total': 0,
             'count': 0,

@@ -1,20 +1,19 @@
-
     <div class="variations-details" data-product="{{product.id}}">
         {{#if product.hasManyVariations}}
             <div class="price-from">
                 <span class="currency">od</span>
-                <span class="currency">pln</span>
+                <span class="currency">PLN</span>
                 <span class="item-price">
-                    {{ product.variationsDetails.min }}-
+                    {{ product.variationsDetails.min }}
                 </span>
             </div>
         {{/if}}
         {{#each product.variationsDetails.vars }}
             <div {{#if ../product.hasManyVariations }}style="display:none;"{{/if}}
                     class="variation-details" data-variation="{{id}}">
-                <span class="currency">pln</span>
+                <span class="currency">PLN</span>
                 <span class="item-price">
-                    {{ price }}-
+                    {{ price }}
                 </span>
             </div>
         {{/each}}
