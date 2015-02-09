@@ -56,7 +56,7 @@
                         <div class="col-md-12">
                                 <div class="col-md-6 col-sm-12">
                                     <h2>{% trans 'Register' %}</h2>
-                                    <form method="POST" action="/register/">
+                                    <form method="POST" action="/zarejestruj/">
 
                                          {% for field in creationForm %}
                                             <div class="form-group">

@@ -13,6 +13,7 @@ from rest_framework.response import Response
 from rest_framework import status
 import django_filters, json, datetime
 from amsoil.forms import ShippingForm, InvoiceForm, QuickContactForm, CheckoutBasicForm
+from authentication.admin import UserCreationForm
 
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count, Sum
@@ -261,7 +262,7 @@ def checkout(request):
         products_in_cart = CartProduct.objects.filter(cart__id=request.session['cartId']).count()
     except:
         products_in_cart = 0
-    creationForm = RegisterForm()
+    creationForm = UserCreationForm()
     shippingMethods = ShippingMethod.objects.all()
 
     try:
@@ -421,7 +422,7 @@ class ProductListView(generics.ListAPIView):
 @csrf_exempt
 def register(request):
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
             new_user = form.save()
             if 'source' in request.POST:
@@ -429,7 +430,7 @@ def register(request):
             else:
                 return HttpResponseRedirect("/register/")
     else:
-        form = RegisterForm()
+        form = UserCreationForm()
     if 'source' in request.POST and request.POST['source'] == 'checkout':
         return render_to_response('checkout.djhtml', {'creationForm': form,
                                                       'products_in_cart': True,

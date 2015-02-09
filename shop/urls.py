@@ -21,6 +21,9 @@ urlpatterns = patterns('',
     url(r'^getOrderOptions/', views.getOrderOptions, name='checkoutOptions'),
 
     # url(r'^blog/', include('blog.urls')),
+
+    url(r'^authentication/', include('authentication.urls', namespace='authentication')),
+
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^ckeditor/', include('ckeditor.urls')),
@@ -40,7 +43,7 @@ urlpatterns = patterns('',
     url(r'^szukaj/', views.search, name='search'),
     url(r'^(?P<title>.*)/$', views.page, name='page'),
 
-    url(r'^authentication/', include('authentication.urls', namespace='accounts')),
+    #(r'^accounts/', include('registration.backends.default.urls')),
 
 )
 

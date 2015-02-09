@@ -23,7 +23,7 @@ class RegistrationView(CreateView):
     def form_invalid(self, form):
         if 'source' in form.data and form.data['source'] == 'checkout':
             return render_to_response('checkout.djhtml', {'creationForm': form,
-                                      'products_in_cart': True}, context_instance=RequestContext(self.request))
+                                      'products_in_cart': True, 'step':1}, context_instance=RequestContext(self.request))
 
 
 @csrf_exempt
@@ -40,7 +40,7 @@ def register(request):
         form = UserCreationForm()
     if 'source' in request.POST and request.POST['source'] == 'checkout':
         return render_to_response('checkout.djhtml', {'creationForm': form,
-                                                      'products_in_cart': True},
+                                                      'products_in_cart': True, 'step':1},
                                   context_instance=RequestContext(request))
     else:
         return render(request, "registerView.html", {

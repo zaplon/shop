@@ -3,7 +3,7 @@ from django.conf.urls import url
 from authentication import views
 
 urlpatterns = [
-    url(r'^register/$', views.register, name='register'),
+    #url(r'^register/$', views.register, name='register'),
     #url(r'^register/$', views.RegistrationView.as_view(), name='register'),
     url(r'^register/verify/$', 'password_reset', {
         'template_name': 'registration/initial_password.html',
