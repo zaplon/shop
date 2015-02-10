@@ -357,9 +357,13 @@ function csrfSafeMethod(method) {
 }
 $.ajaxSetup({
     beforeSend: function(xhr, settings) {
+        shop.mask(1);
         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         }
+    },
+    complete: function(){
+        shop.mask(-1);
     }
 });
 
