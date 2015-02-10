@@ -30,7 +30,7 @@
               </button>
               <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                 <li role="presentation"><a role="menuitem" tabindex="-1" href="/logout">{% trans 'Logout' %}</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="/account">{% trans 'My account' %}</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="/konto">{% trans 'My account' %}</a></li>
               </ul>
             </div>
         {% else %}
