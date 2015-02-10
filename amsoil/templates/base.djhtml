@@ -36,7 +36,7 @@
                 <form id="variables">
                     <input type="hidden" id="sessionId" value="{{ request.session.session_id }}"></input>
                 </form>
-
+		<div id="mask" style="display:none;"></div>
                 <div class="container-fluid">
                         {% block body %}
                         {% endblock %}
