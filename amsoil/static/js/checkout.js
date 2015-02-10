@@ -113,7 +113,7 @@ checkout = {
       data.shippingMethod = $("input[name='shippingMethod']:checked").val();
       data.paymentMethod = $("input[name='paymentMethod']:checked").val();
       data.terms = $('input[name="terms"]').is(':checked');
-      if (!data.shippingMethod) {
+      if (!data.terms) {
           $('#no-terms').css('display', 'block');
       }
       if (!data.shippingMethod) {
@@ -123,7 +123,7 @@ checkout = {
           $('#no-payment').css('display', 'block');
       }
 
-      if (!data.paymentMethod || !data.shippingMethod )
+      if (!data.paymentMethod || !data.shippingMethod || !data.terms )
         return;
 
       data.hasInvoice = $('input[name="invoice"]').is(':checked');
