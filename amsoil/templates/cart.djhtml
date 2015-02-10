@@ -1,6 +1,7 @@
 {% load i18n %}
 {% load tags %}
 {% if items.count %}
+    {% autoescape off %}
     <table class="table">
         <thead>
             <tr>
@@ -40,6 +41,7 @@
                 <td></td><td>{% trans 'In total:' %}</td><td colspan="3">{{ total|currency }}</td>
             </tr>
         </tfoot>
+        {% autoescape on %}
     </table>
 
     <script>
