@@ -232,6 +232,9 @@
                             </div>
                             <div class="panel-body">
                                 <textarea id="notes" class="form-control">
+                                    {% if notes %}
+                                        {{ notes }}
+                                    {% endif %}
                                 </textarea>
                             </div>
                         </div>
