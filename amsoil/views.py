@@ -297,7 +297,7 @@ def checkout(request):
                                'ShippingMethods': shippingMethods, 'InvoiceForm': invoice,
                                'CheckoutBasicForm': basics,
                                'notes': 'notes' in data if data['notes'] else False,
-                               'hasInvoice': True if 'hasInvoice' in data else False,
+                               'hasInvoice': True if 'hasInvoice' in data and data['hasInvoice']==True else False,
                                'buyerAsReceiver': True if not 'receiver' in data else False,
                                'products_in_cart': products_in_cart,
                                'step': request.user.is_authenticated() if 2 else 1,
