@@ -133,7 +133,7 @@ checkout = {
 
         $.ajax({
             method: 'POST',
-            url: '/checkout/',
+            url: '/zamowienie/',
             data: { 'data':JSON.stringify(data)},
             success: function(res){
                 if (res[0] == '{'){
