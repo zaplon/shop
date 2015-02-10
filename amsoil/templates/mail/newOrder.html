@@ -9,7 +9,7 @@
 {% block content %}
     <div>
         {% trans 'Confirmation for order nr:' %}<strong>{{ order.number }}</strong>
-        {{ thank_you }}
+        {{ thank_you|safe }}
     </div>
     <div>
     <p>Zamówione zostały następujące produkty:</p>
