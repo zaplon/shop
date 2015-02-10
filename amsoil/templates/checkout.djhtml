@@ -152,15 +152,15 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="checkout-extra" id="shipping-forms">
+                <div class="checkout-extra" id="shipping-forms">
+                    <div class="row">
+                        <input {% if buyerAsReceiver %} checked="checked" {% endif %}
+                                class="show-on-click" type="checkbox" data-hide="receiver-div">
+                            {% trans 'Buyer address is the same as receiver address' %}
+                        </input>
+                    </div>
+                    <div class="row">
                         <div class="col-md-6 col-sm-12">
-                            <div>
-                                <input {% if buyerAsReceiver %} checked="checked" {% endif %}
-                                        class="show-on-click" type="checkbox" data-hide="receiver-div">
-                                    {% trans 'Buyer address is the same as receiver address' %}
-                                </input>
-                            </div>
                             <div class="panel panel-default">
                                 <div class="panel-heading">{% trans 'Buyer address' %}</div>
                                 <div class="panel-body">
