@@ -160,34 +160,37 @@
                                 {% trans 'Buyer address is the same as receiver address' %}
                             </input>
                         </div>
-                        <div class="panel panel-default col-md-6 col-sm-12">
-                            <div class="panel-heading">{% trans 'Buyer address' %}</div>
-                            <div class="panel-body">
-                                <form id="buyer-address" class="form-horizontal col-md-12" role="form">
-                                    {% for field in BuyerForm %}
-                                        <div class="form-group">
-                                            {{ field.errors }}
-    {#                                        {{ field.label_tag }} #}
-                                            {{ field|placeholder }}
-                                        </div>
-                                    {% endfor %}
-                                </form>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">{% trans 'Buyer address' %}</div>
+                                <div class="panel-body">
+                                    <form id="buyer-address" class="form-horizontal col-md-12" role="form">
+                                        {% for field in BuyerForm %}
+                                            <div class="form-group">
+                                                {{ field.errors }}
+        {#                                        {{ field.label_tag }} #}
+                                                {{ field|placeholder }}
+                                            </div>
+                                        {% endfor %}
+                                    </form>
+                                </div>
                             </div>
                         </div>
-
-                        <div id="receiver-div" class="col-md-6 col-sm-12 panel panel-default"
-                                style="{% if buyerAsReceiver %} display:none; {% endif %}">
-                            <div class="panel-heading">{% trans 'Receiver address' %}</div>    
-                            <div class="panel-body">
-                                <form id="receiver-address" class="form-horizontal col-md-12" role="form">
-                                    {% for field in ReceiverForm %}
-                                        <div class="form-group">
-                                            {{ field.errors }}
-    {#                                        {{ field.label_tag }} #}
-                                            {{ field|placeholder }}
-                                        </div>
-                                    {% endfor %}
-                                </form>
+                        <div class="col-md-6 col-sm-12">
+                            <div id="receiver-div" class="panel panel-default"
+                                    style="{% if buyerAsReceiver %} display:none; {% endif %}">
+                                <div class="panel-heading">{% trans 'Receiver address' %}</div>    
+                                <div class="panel-body">
+                                    <form id="receiver-address" class="form-horizontal col-md-12" role="form">
+                                        {% for field in ReceiverForm %}
+                                            <div class="form-group">
+                                                {{ field.errors }}
+        {#                                        {{ field.label_tag }} #}
+                                                {{ field|placeholder }}
+                                            </div>
+                                        {% endfor %}
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
