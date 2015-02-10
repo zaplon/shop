@@ -137,7 +137,7 @@ def cartItems(context, *args, **kwargs):
             'discount': discount,
             'noButtons': True if 'noButtons' in kwargs else False,
             'items': items,
-            'total': 'pln' + str(total),
+            'total': str(total),
             'count': items.aggregate(Sum('quantity')).values()[0]
         }
     else:
