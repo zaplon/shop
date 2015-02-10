@@ -1,7 +1,10 @@
-{% extends 'base.djhtml' %}
+{% extends 'base_page.html' %}
 {% load tags %}
 
-{% block body %}
+{% block header %}
+    {% trans 'Cart' %}
+{% endblock %}
+{% block content %}
     <div class="col-md-10 col-md-offset-1">
         {% cartItems %}
     </div>
