@@ -35,8 +35,9 @@ def promoDiv(content, color=None, background=None, icon=None, image=None, size=N
 
 @register.filter(is_safe=True,needs_autoescape=False)
 def currency(value):
-	return '<span class="currency">PLN</span><span class="item-price">'+str(value)+'</span>'
-
+	#return '<span class="currency">PLN</span><span class="item-price">'+str(value)+'</span>'
+	return 'PLN' + str(value)
+	
 def placeholder(value):
 	value.field.widget.attrs["placeholder"] = value.help_text
 	return value
