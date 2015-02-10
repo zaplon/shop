@@ -296,7 +296,7 @@ def checkout(request):
                               {'BuyerForm': buyer, 'ReceiverForm': receiver, 'creationForm': creationForm,
                                'ShippingMethods': shippingMethods, 'InvoiceForm': invoice,
                                'CheckoutBasicForm': basics,
-                               'notes': 'notes' in data if data['notes'] else False,
+                               'notes':  data['notes'] if 'notes' in data else False,
                                'hasInvoice': True if 'hasInvoice' in data and data['hasInvoice']==True else False,
                                'buyerAsReceiver': True if not 'receiver' in data else False,
                                'products_in_cart': products_in_cart,
