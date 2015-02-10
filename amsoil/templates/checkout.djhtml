@@ -123,7 +123,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">Dostawa i zapłata</div>
                             <div class="panel-body" id="checkout-order">
-                                {% handlebarsjs 'checkoutOrder' %}
+                                {% handlebarsjs 'checkoutOrder' precompile %}
                                 {% handlebarsjs 'price' register_partials %}
                             </div>
                         </div>
