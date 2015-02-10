@@ -66,14 +66,14 @@ checkout = {
         var shipping = $("input[name='shippingMethod']:checked").val();
       else
         if (parseInt($('input[name="shippingMethod"]').val() > 0))
-            var shipping = parseInt($('input[name="shippingMethod"]').val();
+            var shipping = parseInt($('input[name="shippingMethod"]')).val();
         else
             var shipping = -1;
       if ($("input[name='paymentMethod']:checked").length > 0)
         var payment = $("input[name='paymentMethod']:checked").val();
       else
         if (parseInt($('input[name="paymentMethod"]').val() > 0))
-            var payment = parseInt($('input[name="paymentMethod"]').val();
+            var payment = parseInt($('input[name="paymentMethod"]')).val();
         else
             var payment = -1;
 
