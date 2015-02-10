@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load tags %}
 {% if items.count %}
     <table class="table">
         <thead>
@@ -16,8 +17,12 @@
                 {% else %}
                     <td>{{ i.productVariation.product.name }}</td>
                 {% endif %}
-                <td><input product="{{ i.id }}" name="product-quantity" class="form-control" type="number" value="{{ i.quantity }}" min="0"></input></td>
-                <td>pln{{ i.price }}</td>
+                {% if noButtons %}
+                    <td>{{i.quantity}}</td>
+                {% else %}
+                    <td><input product="{{ i.id }}" name="product-quantity" class="form-control" type="number" value="{{ i.quantity }}" min="0"></input></td>
+                {% endif %}
+                <td>{{ i.price|currency}}</td>
                 {% if not noButtons %}
                     <td><button product="{{ i.id }}" class="update-cart btn btn-primary">
                         {% trans 'Update' %}
@@ -28,11 +33,11 @@
         <tfoot>
             {% if discount %}
                 <tr>
-                    <td></td><td>{% trans 'Discount:' %}</td><td colspan="3">PLN{{ discount }}</td>
+                    <td></td><td>{% trans 'Discount:' %}</td><td colspan="3">{{ discount|currency }}</td>
                 </tr>
             {% endif %}
             <tr>
-                <td></td><td>{% trans 'In total:' %}</td><td colspan="3">{{ total }}</td>
+                <td></td><td>{% trans 'In total:' %}</td><td colspan="3">{{ total|currency }}</td>
             </tr>
         </tfoot>
     </table>
