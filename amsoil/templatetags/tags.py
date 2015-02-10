@@ -33,7 +33,7 @@ def promoDiv(content, color=None, background=None, icon=None, image=None, size=N
         'size': size
     }
 
-@register.filter(is_safe=True)
+@register.filter(is_safe=True,needs_autoescape=False)
 def currency(value):
 	return '<span class="currency">PLN</span><span class="item-price">'+str(value)+'</span>'
 
