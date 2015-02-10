@@ -82,10 +82,10 @@ checkout = {
             //$('#checkout-order').html(Mustache.to_html(Mustache.TEMPLATES.checkoutOrder, res ));
             $('#checkout-order').html(Handlebars.templates['checkoutOrder'](res));
             $("input[name='shippingMethod'][value='"+shipping+"']").attr('checked', 'true');
-            window.setTimeout(300,function(){
+            window.setTimeout(function(){
                 if (parseInt(payment) > -1)
                     $("input[name='paymentMethod'][value='"+payment+"']").attr('checked', 'true');
-            });
+            },300);
             
             //ukrywanie zbędnych formularzy
             $('.checkout-extra').css('display','none');
