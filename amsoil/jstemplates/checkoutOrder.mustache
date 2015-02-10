@@ -7,7 +7,7 @@
     {{#shippingMethods}}
         <div class="radio">
             <label><input type="radio" name="shippingMethod" value="{{ id }}"/>
-                {{ name }} <strong>({{ price }}zł)</strong></label>
+                {{ name }} <strong>(PLN{{ price }})</strong></label>
         </div>
     {{/shippingMethods}}
     </form>
@@ -22,7 +22,7 @@
         <div class="radio">
             <label>
                 <input type="radio" name="paymentMethod" value="{{ id }}"/>
-                {{ name }} <strong>({{price}}zł)</strong>
+                {{ name }} <strong>(PLN{{price}})</strong>
             </label>
         </div>
     {{/paymentMethods}}
@@ -32,13 +32,13 @@
     <h4>{{#_}} Totals {{/_}}</h4>
 
     <div>{{#_}} Products price:{{/_}}<span class="pull-right">
-        <strong> {{ totals.products }}zł</strong></span></div>
+        <strong> PLN{{ totals.products }}</strong></span></div>
     <div>{{#_}} Shipping:{{/_}} <span class="pull-right"><strong>
-        {{ totals.shipping }}zł</strong></span></div>
+        PLN{{ totals.shipping }}</strong></span></div>
     {{#totals.discount}}
         <div>{{#_}} Discount:{{/_}} <span class="pull-right"><strong>
-            {{ totals.discount }}zł</strong></span></div>
+            PLN{{ totals.discount }}</strong></span></div>
     {{/totals.discount}}
     <div>{{#_}} In total:{{/_}} <span class="pull-right">
-        <strong> {{ totals.total }}zł</strong></span></div>
+        <strong> PLN{{ totals.total }}</strong></span></div>
 </div>
