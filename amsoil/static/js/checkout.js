@@ -83,7 +83,7 @@ checkout = {
             $('#checkout-order').html(Handlebars.templates['checkoutOrder'](res));
             $("input[name='shippingMethod'][value='"+shipping+"']").attr('checked', 'true');
             window.setTimeout(300,function(){
-                if (payment > -1)
+                if (parseInt(payment) > -1)
                     $("input[name='paymentMethod'][value='"+payment+"']").attr('checked', 'true');
             });
             
