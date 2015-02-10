@@ -247,6 +247,16 @@ shop = {
         return cands[0];
 
     },
+    mask: function(type){
+        var cont = $('.container-fluid');
+        var mask = $('#mask');
+        if (type == 1){
+            mask.css('height', cont.height()+'px');
+            mask.css('display','block');
+        }
+        else 
+            mask.css('display','none');
+    },
     getProducts: function(container){
         var filters = '';
         var cats = [];
