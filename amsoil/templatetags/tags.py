@@ -35,7 +35,7 @@ def promoDiv(content, color=None, background=None, icon=None, image=None, size=N
 
 
 def currency(value):
-	return '<span class="currency">PLN</span><span class="item-price">'+value+'</span>'
+	return '<span class="currency">PLN</span><span class="item-price">'+str(value)+'</span>'
 
 register.filter(currency)
 
