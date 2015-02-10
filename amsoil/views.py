@@ -221,7 +221,7 @@ def checkout(request):
             #znizki
             if request.user.is_authenticated():
                 now_date=datetime.datetime.now()
-                last_12_months = Order.objects.filter(user=request.user,date__gte=now_date-datetime.timedelta(years=1)).\
+                last_12_months = Order.objects.filter(user=request.user,date__gte=now_date-datetime.timedelta(days=365)).\
                     aggregate(Sum('total')).values()[0]
                 if last_12_months > 1000:
                     UserMeta.setValue(request.user,'discount','20')
@@ -296,6 +296,7 @@ def checkout(request):
                               {'BuyerForm': buyer, 'ReceiverForm': receiver, 'creationForm': creationForm,
                                'ShippingMethods': shippingMethods, 'InvoiceForm': invoice,
                                'CheckoutBasicForm': basics,
+                               'notes': 'notes' in data if data['notes'] else False,
                                'hasInvoice': True if 'hasInvoice' in data else False,
                                'buyerAsReceiver': True if not 'receiver' in data else False,
                                'products_in_cart': products_in_cart,
