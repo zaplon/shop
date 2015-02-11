@@ -3,16 +3,16 @@
 
 from django.shortcuts import render_to_response, RequestContext, HttpResponse, HttpResponseRedirect, render
 from amsoil.models import Page, Product, Cart, User, CartProduct, ProductVariation, \
-    ShippingMethod, PaymentMethod, Order, Invoice, Shipment, Category, Attribute, UserMeta
+    ShippingMethod, PaymentMethod, Order, Invoice, Shipment, Category, Attribute, UserMeta, NewsletterReceiver
 from rest_framework import viewsets
 from amsoil.serializers import ProductSerializer, PaymentMethodSerializer, ShippingMethodSerializer, \
-    CartSerializer, CartProductSerializer
+    CartSerializer, CartProductSerializer, NewsletterReceiverSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 import django_filters, json, datetime
-from amsoil.forms import ShippingForm, InvoiceForm, QuickContactForm, CheckoutBasicForm
+from amsoil.forms import ShippingForm, InvoiceForm, QuickContactForm, CheckoutBasicForm, UserEditForm
 from authentication.admin import UserCreationForm
 
 from django.views.decorators.csrf import csrf_exempt
@@ -20,7 +20,8 @@ from django.db.models import Count, Sum
 from django.core import serializers
 from django.core.mail import send_mail
 from django.db.models import Q
-from shop.settings import CHECKOUT_THANK_YOU
+from shop.settings import CHECKOUT_THANK_YOU, CHECKOUT_FAILED
+from payments import paypal_step_1, paypal_step_2
 
 from amsoil.mails import newOrder, orderNotification
 
@@ -75,7 +76,7 @@ def account(request):
     except:
         invoice = InvoiceForm()
     try:
-        payer = ShippingForm(instance=Shipment.objects.get(user=us, type='PA'))
+        payer = ShippingForm(instance=Shipment.objects.get(user=us, type='BU'))
     except:
         payer = ShippingForm()
     try:
@@ -95,7 +96,7 @@ def account(request):
             if payer.is_valid():
                 pay = payer.save(commit=False)
                 pay.user = us
-                pay.type = 'PA'
+                pay.type = 'BU'
                 pay.save()
         if request.POST['type'] == 'shipment':
             shipment = ShippingForm(request.POST)
@@ -105,13 +106,19 @@ def account(request):
                 shi.user = us
                 shi.save()
 
+        if request.POST['type'] == 'user':
+            userForm = UserEditForm(request.POST)
+            if userForm.is_valid():
+                uf = userForm.save(commit=False)
+                uf.save()
+
     if request.user.is_authenticated():
         orders = Order.objects.filter(user=request.user)
     else:
         orders = []
 
     return render_to_response('myAccount.html', {
-        'userChangeForm': '',  # UserChangeForm(us),
+        'userChangeForm': UserEditForm(instance=us),
         'invoiceForm': invoice,
         'shipmentForm': shipment,
         'payerForm': payer,
@@ -119,8 +126,9 @@ def account(request):
     }, context_instance=RequestContext(request))
 
 
-def processOrder(data):
-    pass
+def processOrder(order):
+    if order.paymentMethod.code == 'paypal':
+        paypal_step_1(order)
 
 
 def takeCart(request):
@@ -147,7 +155,18 @@ def minicart(request):
 
 
 def checkout(request):
-    if request.method == 'POST':
+
+    #potwierdzenie z paypal
+    if request.method == 'GET' and 'paymentId' in request.GET:
+        order = paypal_step_2(request)
+        if not order:
+            return render_to_response('checkout_success.html', {'message':CHECKOUT_FAILED})
+        order.save()
+        msg = CHECKOUT_THANK_YOU
+        return render_to_response('checkout_success.html', {'message':msg})
+
+
+    elif request.method == 'POST':
         hasErrors = False
         data = json.loads(request.POST['data'])
         sm = ShippingMethod.objects.get(id=data['shippingMethod'])
@@ -182,19 +201,24 @@ def checkout(request):
             pm = PaymentMethod.objects.get(id=data['paymentMethod'])
             c = Cart.objects.get(id=request.session['cartId'])
             processed = False
+            order = False
             if pm.needsProcessing:
-                [status, message] = processOrder(data)
+                order = Order(paymentMethod=pm, shippingMethod=sm, cart=c, email=basics.cleaned_data['email'],
+                          phone=basics.cleaned_data['tel'], date=datetime.datetime.now(), notes=data['notes'],
+                          status='PENDING')
+                order.save()
+                processOrder(order)
                 if not status:
-                    return HttpResponse(json.dumps({'success': status, 'message': message}))
+                    pass
+                    #return HttpResponse(json.dumps({'success': status, 'message': message}))
                 else:
                     processed = True
-                    #order = Order(paymentMethod=pm, shippingMethod=sm, cart=c,
-                    #              date=datetime.datetime.now(), notes=data['notes'], status='PENDING')
-                    #order.save()
-
-            order = Order(paymentMethod=pm, shippingMethod=sm, cart=c, email=basics.cleaned_data['email'],
-                          phone=basics.cleaned_data['tel'], date=datetime.datetime.now(), notes=data['notes'],
-                          status='PENDING' if not processed else 'FINISHED')
+            if not order:
+                order = Order(paymentMethod=pm, shippingMethod=sm, cart=c, email=basics.cleaned_data['email'],
+                              phone=basics.cleaned_data['tel'], date=datetime.datetime.now(), notes=data['notes'],
+                              status='PENDING' if not processed else 'FINISHED')
+            else:
+                order.status = 'FINISHED'
             order.save()
             c.json = CartSerializer(c).data
             # c.order = order
@@ -408,6 +432,12 @@ class ProductFilter(django_filters.FilterSet):
     class Meta:
         model = Product
         fields = ('id', 'min_price', 'max_price', 'categories_in', 'attributes_in')
+
+
+
+class NewsletterReceiverListCreateView(generics.ListCreateAPIView):
+    queryset = NewsletterReceiver.objects.all()
+    serializer_class = NewsletterReceiverSerializer
 
 
 class ProductListView(generics.ListAPIView):

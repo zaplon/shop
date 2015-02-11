@@ -331,6 +331,9 @@ h1.page-title
     padding: 10px
     margin: 10px 0 20px 0
   #checkout-control
+    .inactive
+      cursor: inherit
+      color: gray
     div
       margin-bottom: 10px
       padding: 10px 15px
@@ -488,17 +491,18 @@ button.close:hover
   position: fixed
   top: 200px
   right: 50px
-  height: 50px
+  min-height: 50px
   opacity: 0
+  z-index: 10
   border: 1px solid #DDD
   background-color: white
-  width: 310px
+  width: 350px
   .icon
     padding: 12px
     font-size: 24px
     position: relative
     top: -1px
-    height: 50px
+    min-height: 50px
     background-color: $nav
     color: white
     float: left
@@ -559,3 +563,17 @@ button.close:hover
   margin-bottom: 0px
   margin-top: 20px
   padding-top: 8px
+
+#mask
+  opacity: 0.7
+  z-index: 2
+  position: absolute
+  width: 100%
+  background-color: #dddddd
+
+.container-fluid
+  position: relative
+  z-index: 1
+
+.margin-left
+  margin-left: 10px!important

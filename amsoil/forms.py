@@ -20,7 +20,7 @@ class CheckoutBasicForm(Form):
     tel = forms.CharField(max_length=20, required=False, widget=forms.TextInput(attrs={'placeholder': 'Telefon'}))
     help_texts = {
         'email':'Email',
-        'tel': 'Phone'
+        'tel': 'Telefon'
     }
 
 class ShippingForm(ModelForm):
@@ -28,17 +28,17 @@ class ShippingForm(ModelForm):
         model = Shipment
         fields = ['name', 'surname', 'address','postalCode', 'phone']
         help_texts = {
-            'name': 'Name',
+            'name': 'Imię',
             'email': 'Email',
-            'password': 'Password',
-            'postalCode': 'Postal code',
-            'phone': 'Phone',
-            'address': 'Address',
-            'surname': 'Surname'
+            'postalCode': 'Kod pocztowy',
+            'phone': 'Telefon',
+            'address': 'Adres',
+            'surname': 'Nazwisko'
         }
 
 class UserEditForm(ModelForm):
     class Meta:
+        fields = ['email','username']
         model = User
 
 class QuickContactForm(Form):

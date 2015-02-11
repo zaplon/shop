@@ -1,0 +1,17 @@
+{% extends "password_reset/base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block header %}{% trans "Password recovery" %}{% endblock %}
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block content %}
+	<form method="post" action="{{ url }}">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button class="btn btn-primary" type="submit">
+            {% trans "Recover my password" %}
+        </button>
+	</form>
+{% endblock %}

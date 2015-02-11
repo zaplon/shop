@@ -38,7 +38,7 @@ function handlers(){
     });
     
     $('#checkout-control div').click(function(){
-       if ($(this).attr('step'))
+       if ($(this).attr('step') && !($(this).hasClass('inactive')))
         checkout.forwardToStep($(this).attr('step'));
     });
 
@@ -57,9 +57,11 @@ checkout = {
         $('.progress-bar').animate({width:checkout.calcWidth(step)+'%'});
     },
     forwardToStep: function(step){
-        $('.checkout-step').css('display','none');
-        $('div.checkout-step[step="'+step+'"]').css('display','block');
-        $('.progress-bar').animate({width:checkout.calcWidth(step)+'%'});
+        if (step!=4) {
+            $('.checkout-step').css('display', 'none');
+            $('div.checkout-step[step="' + step + '"]').css('display', 'block');
+            $('.progress-bar').animate({width: checkout.calcWidth(step) + '%'});
+        }
     },
     getOrderOptions: function(){
       if ($("input[name='shippingMethod']:checked").length > 0)

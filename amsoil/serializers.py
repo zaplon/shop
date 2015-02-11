@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from amsoil.models import Product, Cart, CartProduct, ProductVariation, ShippingMethod, PaymentMethod
+from amsoil.models import Product, Cart, CartProduct, ProductVariation, ShippingMethod, PaymentMethod, NewsletterReceiver
 
 class ShippingMethodSerializer(serializers.ModelSerializer):
     class Meta:
@@ -39,3 +39,8 @@ class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
         fields = ('cartProducts',)
+
+
+class NewsletterReceiverSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NewsletterReceiver

@@ -212,7 +212,7 @@ class Shipment(models.Model):
     surname = models.CharField(max_length=100)
     type = models.CharField(max_length=20,  choices=( ('BU','buyer'),('RE','receiver') ) )
     user = models.ForeignKey(User)
-    order = models.ForeignKey('Order', related_name='shipment')
+    order = models.ForeignKey('Order', related_name='shipment', blank=True, null=True)
     def getTypeString(self):
         if self.type == 'RE':
             return 'Odbiorca'
@@ -261,6 +261,8 @@ class Order(models.Model):
     number = models.CharField(max_length=20, default=lambda: datetime.datetime.now().strftime('%s')) 
     phone = models.CharField(max_length=15, default=0)
     total = models.FloatField(default=0)
+    token = models.CharField(max_length=30, blank=True, null=True)
+    paypalData = models.CharField(max_length=300, blank=True, null=True)
 
 class MetaData(models.Model):
     class Meta:
@@ -323,4 +325,11 @@ class Slide(models.Model):
     image = models.URLField(blank=True, null=True)
 
 class NewsletterReceiver(models.Model):
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
+
+#@receiver(pre_save, sender=NewsletterReceiver)
+#def ensure_receiver_not_exists(instance, sender, **kwargs):
+#    if len(NewsletterReceiver.objects.filter(email=instance.email)) > 0:
+#        return False
+#    return True
+

@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from .admin import UserCreationForm
 from authentication.models import User
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.views import password_reset, password_reset_done
 from django.shortcuts import HttpResponse, HttpResponseRedirect,render, render_to_response, RequestContext
 
 
@@ -75,3 +76,10 @@ def logoutView(request):
     logout(request)
     url = request.META['HTTP_REFERER'].split('/')[-1]
     return HttpResponseRedirect('/' + url)
+
+
+def password_reset_view(request):
+    password_reset(request)
+
+def password_reset_done_view(request):
+    password_reset_done(request)

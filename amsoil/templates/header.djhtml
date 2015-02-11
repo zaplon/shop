@@ -3,6 +3,10 @@
 {% load tags %}
 {% load jstemplate %}
 
+<form id="header-variables">
+    <input type="hidden" value="{% url "password_reset_recover" %}" name="password-reset"/>
+</form>
+
 {% mustachejs "loginForm" %}
 {% mustachejs "registerForm" %}
 {% mustachejs "miniCart" %}

@@ -24,10 +24,14 @@
             <div class="row">
                 <div class="col-md-12">
                      <div id="checkout-control">
-                         <div class="col-md-3" step="1">{% trans 'Login' %}</div>
+                         {% if request.user.is_authenticated %}
+                            <div class="col-md-3 inactive" step="1">{% trans 'Login' %}</div>
+                         {% else %}
+                            <div class="col-md-3" step="1">{% trans 'Login' %}</div>
+                         {% endif %}
                          <div class="col-md-3" step="2">{% trans 'Cart' %}</div>
                          <div class="col-md-3" step="3">{% trans 'Order' %}</div>
-                         <div class="col-md-3"  step="4">{% trans 'Confirmation' %}</div>
+                         <div class="col-md-3 inactive"   step="4">{% trans 'Confirmation' %}</div>
                      </div>
                 </div>
             </div>

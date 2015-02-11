@@ -5,7 +5,7 @@
 
 {% block header %}{% trans 'My account' %}{% endblock %}
 {% block content %}
-    <div role="tabpanel" id="myAccount">
+    <div role="tabpanel" id="mykonto">
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
                 <a aria-controls="orders" role="tab" data-toggle="tab" href="#orders">
@@ -15,6 +15,10 @@
             <li role="presentation">
                 <a aria-controls="personal" role="tab" data-toggle="tab"
                    href="#personal">{% trans 'Personal data' %}</a></li>
+            <li role="presentation" aria-controls="invoice" role="tab" data-toggle="tab">
+                <a aria-controls="invoice" role="tab" data-toggle="tab"
+                   href="#invoice">{% trans 'Invoice data' %}</a>
+            </li>
             <li role="presentation" aria-controls="shipment" role="tab" data-toggle="tab">
                 <a aria-controls="shipment" role="tab" data-toggle="tab"
                    href="#shipment">{% trans 'Shipping addresses' %}</a>
@@ -69,9 +73,28 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="personal">
                 <div class='col-md-12'>
-                    {{ userChangeForm }}
-                    <h2>{% trans 'Invoice data' %}</h2>
-                    <form method="POST" action="/account/">
+                     <h2>{% trans 'User data' %}</h2>
+                     <form method="POST" action="/konto/">
+                        {% csrf_token %}
+                        {% for field in userChangeForm %}
+                            <div class="form-group">
+                                {{ field.errors }}
+                                {{ field.label_tag }}{{ field }}
+                            </div>
+                        {% endfor %}
+                        <input type="hidden" value="user" name="type" />
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+                            <a href="{% url "password_reset_recover" %}" type="submit"
+                               class="btn btn-default  margin-left">{% trans "Password recovery" %}</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="invoice">
+                <h2>{% trans 'Invoice data' %}</h2>
+                    <form method="POST" action="/konto/">
                         {% csrf_token %}
                         {% for field in invoiceForm %}
                             <div class="form-group">
@@ -82,7 +105,6 @@
                         <input type="hidden" value="invoice" name="type" />
                         <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
                     </form>
-                </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="shipment">
                 <div class="checkbox col-md-12">
@@ -92,7 +114,7 @@
                 </div>
                 <div class='col-md-6' id="buyer-address">
                     <h2>{% trans 'Buyer address' %}</h2>
-                    <form method="POST" action="/account/">
+                    <form method="POST" action="/konto/">
                         {% csrf_token %}
                         {% for field in payerForm %}
                             <div class="form-group">
@@ -107,7 +129,7 @@
                 </div>
                 <div class='col-md-6' id="shipment-address">
                     <h2>{% trans 'Shipment address' %}</h2>
-                    <form method="POST" action="/account/">
+                    <form method="POST" action="/konto/">
                         {% csrf_token %}
                         {% for field in shipmentForm %}
                             <div class="form-group">
@@ -154,7 +176,7 @@
            else
             $('#shipment-address').css('display','none');
         });
-        $('#myAccount input[type!="checkbox"]').addClass('form-control');
+        $('#mykonto input[type!="checkbox"]').addClass('form-control');
     </script>
 
 {% endblock %}

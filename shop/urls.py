@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^authentication/', include('authentication.urls', namespace='authentication')),
+    url(r'^',include('password_reset.urls')),
 
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
@@ -41,7 +42,12 @@ urlpatterns = patterns('',
 
     url(r'^quickContact/', views.quickContact, name='contact'),
     url(r'^szukaj/', views.search, name='search'),
+
+    url(r'^newsletter-receiver/', views.NewsletterReceiverListCreateView.as_view(), name='newsletter-receiver'),
+
+
     url(r'^(?P<title>.*)/$', views.page, name='page'),
+
 
     #(r'^accounts/', include('registration.backends.default.urls')),
 

@@ -26,12 +26,21 @@
                 <div class="panel-heading">
                     <h4>Newsletter</h4>
                     <p>Bądź nabieżąco z nowościami i promocjami</p>
-                     <div class="input-group">
-                      <input type="text" class="form-control" placeholder="E-mail">
+                    <div class="input-group">
+                      <input type="text" class="form-control" placeholder="E-mail" id="newsletter-email">
                       <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">Zapisz się</button>
+                        <button class="btn btn-default" id="newsletter-subscribe" type="button">Zapisz się</button>
                       </span>
                     </div>
+                    <script>
+                        $('#newsletter-subscribe').click(function(){
+                            $.post('/newsletter-receiver/', {'email': $('#newsletter-email').val()}).success(function(){
+                                shop.showMessage('Adres email zapisany poprawnie','glyphicon-ok');
+                            }).fail(function(){
+                                shop.showMessage('Wystąpił błąd podczas zapisywania adresu email','glyphicon-remove');
+                            });
+                        });
+                    </script>
                 </div>
             </div>
         </div>
