@@ -19,7 +19,7 @@
             	<img style="height:100px;" src="{{p.product.getMainImage}}" />
             </div>
 	    <div class="row text-center">
-            	<span class="currency">pln</span><span class="item-price">{{p.price}}-</span>
+            	{{p.price|currency}}
 	    </div>
           </div>
         {% endfor %}
