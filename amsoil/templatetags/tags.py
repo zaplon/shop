@@ -45,6 +45,11 @@ def placeholder(value):
 register.filter(placeholder)
 
 
+@register.inclusion_tag('sorter.html')
+def sorter():
+   return {
+   }
+
 @register.inclusion_tag('priceFilter.html')
 def priceFilter():
     pvs = ProductVariation.objects.all()
