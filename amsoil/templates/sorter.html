@@ -1,15 +1,15 @@
 
 <div class="btn-group" role="group" id='sorter' aria-label="...">
-  <button type="button" data-sort="name" class="btn btn-default btn-primary">Nazwa</button>
-  <button type="button" data-sort="price" class="btn btn-default">Cena</button>
-  <button type="button" data-sort="added_date" class="btn btn-default">Data dodanie</button>
+  <button type="button" data-sort="name" class="btn btn-default btn-primary btn-sm">Nazwa</button>
+  <button type="button" data-sort="price" class="btn btn-default btn-sm">Cena</button>
+  <button type="button" data-sort="added_date" class="btn btn-default btn-sm">Data dodanie</button>
 </div>
 
 <script>
-  $('#sorter div').click(function(){
-    $('#sorter div').removeClass('btn-primary');
-    $('#sorter div').removeClass('btn-default');
-    $('#sorter div').addClass('btn-default');
+  $('#sorter button').click(function(){
+    $('#sorter button').removeClass('btn-primary');
+    $('#sorter button').removeClass('btn-default');
+    $('#sorter button').addClass('btn-default');
     $(this).addClass('btn-primary');
     shop.filters.sortBy = $(this).attr('data-sort');
   });
