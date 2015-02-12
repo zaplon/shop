@@ -432,8 +432,7 @@ class ProductFilter(django_filters.FilterSet):
 
     class Meta:
         model = Product
-        ordering_fields = ('name', 'price')
-        ordering = ('name',)
+        order_by = ['price','name']
         fields = ('id', 'min_price', 'max_price', 'categories_in', 'attributes_in','price_in')
 
 
