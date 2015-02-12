@@ -430,7 +430,7 @@ class RangeFilter(django_filters.filters.RangeFilter):
             def __init__(self, value):
                 self.start, self.stop = value.split(',')
 
-        return super(MyRangeFilter, self).filter(self, qs, Value(value))
+        return super(RangeFilter, self).filter(self, qs, Value(value))
 
 
 class ProductFilter(django_filters.FilterSet):
