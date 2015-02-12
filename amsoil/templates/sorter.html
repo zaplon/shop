@@ -6,11 +6,12 @@
 </div>
 
 <script>
-  shop.filters.sortBy = 'name'
   $('#sorter div').click(function(){
     $('#sorter div').removeClass('btn-primary');
+    $('#sorter div').removeClass('btn-default');
+    $('#sorter div').addClass('btn-default');
     $(this).addClass('btn-primary');
     shop.filters.sortBy = $(this).attr('data-sort');
-  })
+  });
 </script>
 
