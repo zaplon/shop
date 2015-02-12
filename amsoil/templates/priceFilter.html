@@ -1,0 +1,8 @@
+{% load tags %}
+<b>{{min|currency}}</b> 
+<input id="ex2" type="text" class="span2" value="" data-slider-min="{{min}}" data-slider-max="1000" data-slider-step="5" 
+data-slider-value="[{{min}},{{max}}]"/> <b>{{max|currency}}</b>
+
+<script>
+$("#ex2").slider({});
+</script>
