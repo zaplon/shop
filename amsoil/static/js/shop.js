@@ -121,6 +121,7 @@ $(document).ready(function($){
 
 shop = {
     currentPage: 1,
+    sortBy = 'name',
     displayAs: 'grid',
     quantity: 1,
     drawElipse: function drawEllipse(context,centerX, centerY, width, height) {
@@ -276,6 +277,7 @@ shop = {
             var p = $('#price-filter').attr('data').split(':')[1];
             filters = filters + '&price_in=' + p.substr(2,p.length-3);
         }
+        filters = filters + '&o=' + shop.filters.sortBy;
         $.get('/produkty?' + filters).done(function(res){
            var cont = $('#'+container)[0];
            $('.product').remove();
