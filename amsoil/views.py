@@ -428,11 +428,11 @@ class ProductFilter(django_filters.FilterSet):
     max_price = django_filters.NumberFilter(name="price", lookup_type='lte')
     categories_in = IntegerListFilter(name='categories__id', lookup_type='in')
     attributes_in = IntegerListFilter(name='attributes__id', lookup_type='in')
-    price_in = IntegerListFilter(name='variations__price', lookup_type='range')
+    price_in = IntegerListFilter(name='variations__price', lookup_type='range', distinct=True)
 
     class Meta:
         model = Product
-        order_by = ['price','name']
+        order_by = ['price','name','-name']
         fields = ('id', 'min_price', 'max_price', 'categories_in', 'attributes_in','price_in')
 
 
