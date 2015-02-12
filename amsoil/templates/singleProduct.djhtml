@@ -71,7 +71,7 @@
     </div>
     <script>
         $("#single-col-2").height($("#single-col-1").height());
-        $.get('/products?id={{product.id}}').success(function(res){
+        $.get('/produkty?id={{product.id}}').success(function(res){
             $('#product-variations-container').html(Handlebars.templates['variations'](
                     { 'addToCart': 'Do koszyka', 'product': res.results[0], 'showQuantity': true,
                     'buttonMargin':10}));
