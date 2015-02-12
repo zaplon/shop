@@ -428,10 +428,11 @@ class ProductFilter(django_filters.FilterSet):
     max_price = django_filters.NumberFilter(name="price", lookup_type='lte')
     categories_in = IntegerListFilter(name='categories__id', lookup_type='in')
     attributes_in = IntegerListFilter(name='attributes__id', lookup_type='in')
+    price_in = IntegerListFilter(name='variations__price__in', lookup_type='in')
 
     class Meta:
         model = Product
-        fields = ('id', 'min_price', 'max_price', 'categories_in', 'attributes_in')
+        fields = ('id', 'min_price', 'max_price', 'categories_in', 'attributes_in','price_in')
 
 
 
@@ -448,6 +449,8 @@ class ProductListView(generics.ListAPIView):
     serializer_class = ProductSerializer
     filter_class = ProductFilter
     paginate_by = 9
+    ordering_fields = ('name', 'price')
+    ordering = ('name',)
 
 
 @csrf_exempt
