@@ -29,6 +29,13 @@
                 </div>
             </div>
             
+             <div class="widget">
+                 <h3>{% trans 'Sort by' %}</h3>
+                <div class="panel panel-body">
+                    {% sorter %}
+                </div>
+            </div>
+            
             <div class="widget">
                  <h3>{% trans 'Price' %}</h3>
                 <div class="panel panel-body">
