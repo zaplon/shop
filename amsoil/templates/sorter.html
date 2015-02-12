@@ -4,7 +4,7 @@
   <button type="button" data-sort="price_in" class="btn btn-default btn-sm">Cena</button>
   <button type="button" data-sort="added_date" class="btn btn-default btn-sm">Data</button>
 </div>
-<div class="btn-group margin-top" role="group" id='sorter-order' aria-label="...">
+<div class="btn-group" style="margin-top:10px;" role="group" id='sorter-order' aria-label="...">
   <button type="button" data-sort="" class="btn btn-default btn-primary btn-sm">Rosnąco</button>
   <button type="button" data-sort="-" class="btn btn-default btn-sm">Malejąco</button>
 </div>
@@ -15,15 +15,20 @@
     $('#sorter button').removeClass('btn-default');
     $('#sorter button').addClass('btn-default');
     $(this).addClass('btn-primary');
-    shop.filters.sortBy = $(this).attr('data-sort');
+    if (shop.filters.sortBy[1] == '-')
+      shop.filters.sortBy = '-' + $(this).attr('data-sort');
+    else
+      shop.filters.sortBy = $(this).attr('data-sort');
   });
   $('#sorter-order').click(function(){
     $('#sorter-order button').removeClass('btn-primary');
     $('#sorter-order button').removeClass('btn-default');
     $('#sorter-order button').addClass('btn-default');
     $(this).addClass('btn-primary');
-    
-    //shop.filters.sortBy = $(this).attr('data-sort') + shop.filters.sortBy;
+    $(this).removeClass('btn-default');
+    shop.filters.sortBy = $(this).attr('data-sort') + shop.filters.sortBy;
+    if (shop.filters.sortBy[1] == '-')
+      shop.filters.sortBy = shop.filters.sortBy.substr(1, shop.filters.sortBy.length-1);
   })
 </script>
 
