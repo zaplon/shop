@@ -29,6 +29,8 @@
     shop.filters.sortBy = $(this).attr('data-sort') + shop.filters.sortBy;
     if (shop.filters.sortBy[1] == '-')
       shop.filters.sortBy = shop.filters.sortBy.substr(1, shop.filters.sortBy.length-1);
+    if ($(this).attr('data-sort') != '-' && shop.filters.sortBy[0] == '-')
+      shop.filters.sortBy = shop.filters.sortBy.substr(1, shop.filters.sortBy.length-1);
   })
 </script>
 
