@@ -121,7 +121,6 @@ $(document).ready(function($){
 
 shop = {
     currentPage: 1,
-    sortBy: 'name',
     displayAs: 'grid',
     quantity: 1,
     drawElipse: function drawEllipse(context,centerX, centerY, width, height) {
@@ -227,7 +226,8 @@ shop = {
     },
     filters: {
         categories: {},
-        attributes: {}
+        attributes: {},
+        sortBy: 'name',
     },
     getSelectedVariation: function(div){
         
