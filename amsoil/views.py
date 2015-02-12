@@ -432,6 +432,8 @@ class ProductFilter(django_filters.FilterSet):
 
     class Meta:
         model = Product
+        ordering_fields = ('name', 'price')
+        ordering = ('name',)
         fields = ('id', 'min_price', 'max_price', 'categories_in', 'attributes_in','price_in')
 
 
@@ -449,8 +451,7 @@ class ProductListView(generics.ListAPIView):
     serializer_class = ProductSerializer
     filter_class = ProductFilter
     paginate_by = 9
-    ordering_fields = ('name', 'price')
-    ordering = ('name',)
+
 
 
 @csrf_exempt
