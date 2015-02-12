@@ -272,8 +272,10 @@ shop = {
         filters = filters + 'page=' + shop.currentPage + '&';
         filters = filters + 'categories_in=' + cats;
         filters = filters + '&attributes_in=' + atts;
-        if ($('#price-filter').attr('data'))
-            filters = filters + '&price_in=' + $('#price-filter').attr('data').split(':')[1].replace(' ','').replace("'","");
+        if ($('#price-filter').attr('data')){
+            var p = $('#price-filter').attr('data').split(':')[1];
+            filters = filters + '&price_in=' + p.substr(2,p.length-3);
+        }
         $.get('/produkty?' + filters).done(function(res){
            var cont = $('#'+container)[0];
            $('.product').remove();
