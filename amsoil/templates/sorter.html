@@ -1,6 +1,16 @@
-<div class="col-md-12" id="sorter">
-  <div data-sort="name" class="col-md-3">Nazwa</div>
-  <div data-sort="price" class="col-md-3">Cena</div>
-  <div data-sort="added-date" class="col-md-3">Data dodania</div>
+
+<div class="btn-group" role="group" id='sorter' aria-label="...">
+  <button type="button" data-sort="name" class="btn btn-default btn-primary">Nazwa</button>
+  <button type="button" data-sort="price" class="btn btn-default">Cena</button>
+  <button type="button" data-sort="added_date" class="btn btn-default">Data dodanie</button>
 </div>
+
+<script>
+  shop.filters.sortBy = 'name'
+  $('#sorter div').click(function(){
+    $('#sorter div').removeClass('btn-primary');
+    $(this).addClass('btn-primary');
+    shop.filters.sortBy = $(this).attr('data-sort');
+  })
+</script>
 
