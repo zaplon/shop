@@ -4,7 +4,7 @@
   <button type="button" data-sort="price_in" class="btn btn-default btn-sm">Cena</button>
   <button type="button" data-sort="added_date" class="btn btn-default btn-sm">Data</button>
 </div>
-<div class="btn-group" role="group" id='sorter-order' aria-label="...">
+<div class="btn-group margin-top" role="group" id='sorter-order' aria-label="...">
   <button type="button" data-sort="" class="btn btn-default btn-primary btn-sm">Rosnąco</button>
   <button type="button" data-sort="-" class="btn btn-default btn-sm">Malejąco</button>
 </div>
@@ -21,7 +21,9 @@
     $('#sorter-order button').removeClass('btn-primary');
     $('#sorter-order button').removeClass('btn-default');
     $('#sorter-order button').addClass('btn-default');
-    shop.filters.sortBy = $(this).attr('data-sort') + shop.filters.sortBy
+    $(this).addClass('btn-primary');
+    
+    //shop.filters.sortBy = $(this).attr('data-sort') + shop.filters.sortBy;
   })
 </script>
 
