@@ -1,7 +1,11 @@
-{% extends 'base.djhtml' %}
+{% extends 'page_base.djhtml' %}
 {% load i18n %}
 
-{% block body %}
+{% block heading %}
+{% trans 'Search' %}
+{% endblock %}
+
+{% block content %}
     <div class="row">
         <div class="col-md-10 col-md-offset-1 text-center">
             {% if count == 0 %}
