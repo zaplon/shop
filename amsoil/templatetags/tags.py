@@ -48,8 +48,8 @@ register.filter(placeholder)
 @register.inclusion_tag('priceFilter.html')
 def priceFilter():
     pvs = ProductVariation.objects.all()
-    minimum = pvs.aggregate(Min('price'))
-    maximum = pvs.aggregate(Max('price'))
+    minimum = pvs.aggregate(Min('price')).values()[0]
+    maximum = pvs.aggregate(Max('price')).values()[0]
     return {
     	'min': minimum,
     	'max': maximum
