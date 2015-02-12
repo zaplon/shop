@@ -423,25 +423,16 @@ class IntegerListFilter(django_filters.Filter):
         return qs
 
 
-class RangeFilter(django_filters.filters.RangeFilter):
-    # field_class = django_filters.fields.RangeField   # not supported
-    def filter(self, qs, value):
-        class Value(object):
-            def __init__(self, value):
-                self.start, self.stop = value.split(',')
-
-        return super(RangeFilter, self).filter(self, qs, Value(value))
-
-
 class ProductFilter(django_filters.FilterSet):
     min_price = django_filters.NumberFilter(name="price", lookup_type='gte')
     max_price = django_filters.NumberFilter(name="price", lookup_type='lte')
     categories_in = IntegerListFilter(name='categories__id', lookup_type='in')
     attributes_in = IntegerListFilter(name='attributes__id', lookup_type='in')
-    price_in = RangeFilter(name='variations__price', distinct=True)
+    price_in = IntegerListFilter(name='variations__price', lookup_type='range')
 
     class Meta:
         model = Product
+        distinct = True
         order_by = ['price_in','name','-name','-price_in','variations__added_date','variations__price','-variations__added_date','-variations__price']
         fields = ('id', 'min_price', 'max_price', 'categories_in', 'attributes_in','price_in','variations__added_date','variations__price')
 
