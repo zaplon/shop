@@ -4,7 +4,7 @@ from django import template
 from amsoil.models import MenuItem, Category, CartProduct, Cart, Invoice, Shipment, Order, Slider, Slide, \
     Attribute, AttributeGroup, ProductVariation, UserMeta
 from amsoil.models import getProductAttributesByGroupName
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, Min, Max
 from amsoil.forms import QuickContactForm
 from django.utils.translation import ugettext as _
 from shop.settings import MEDIA_URL
@@ -43,6 +43,17 @@ def placeholder(value):
 	return value
 
 register.filter(placeholder)
+
+
+@register.inclusion_tag('priceFilter.html')
+def priceFilter():
+    pvs = ProductVariation.objects.all()
+    minimum = pvs.aggregate(Min('price'))
+    maximum = pvs.aggregate(Max('price'))
+    return {
+    	'min': minimum,
+    	'max': maximum
+    }
 
 @register.inclusion_tag('productsTabs.html')
 def productsTabs():
