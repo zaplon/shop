@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load tags %}
 <div id="mini-cart">
      <div class="btn-group" role="group" id="cart-controls">
         <button id="checkout" type="button" class="btn btn-primary">Do kasy</button>
@@ -6,7 +7,7 @@
      </div>
     <div id="details">
         <div id="items-count">Produkty:{% if count %}{{ count }} {% else %} 0 {% endif %}</div>
-        <div id="total">W sumie: {% if total %}{{ total }} {% else %}0{% endif %}pln</div>
+        <div id="total">W sumie: {% if total %}{{ total|currency }} {% else %}0{% endif %}pln</div>
     </div>
     <div id="cart-icon">
         <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
