@@ -28,6 +28,14 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="widget">
+                 <h3>{% trans 'Price' %}</h3>
+                <div class="panel panel-body">
+                    {% priceFilter %}
+                </div>
+            </div>
+            
             {% productFilter type='Lepkość' %}
             {% productFilter type='Producent' %}
             {% productCategories %}
