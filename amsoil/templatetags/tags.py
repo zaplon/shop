@@ -136,7 +136,9 @@ def cartData(context, *args, **kwargs):
 @register.inclusion_tag('cart.djhtml', takes_context=True)
 def cartItems(context, *args, **kwargs):
     request = context['request']
-    if 'orderId' in kwargs:
+    if 'cart' in kwargs:
+        cartId = kwargs['cart'].id
+    elif 'orderId' in kwargs:
         cartId = Order.objects.get(id=kwargs['orderId']).cart.id
     elif 'cartId' in request.session:
         cartId = request.session['cartId']
@@ -151,6 +153,7 @@ def cartItems(context, *args, **kwargs):
             total -= discount
         return {
             'discount': discount,
+            'withCheckoutButton': 'withCheckoutButton' in kwargs,
             'noButtons': True if 'noButtons' in kwargs else False,
             'items': items,
             'total': str(total),
@@ -201,3 +204,7 @@ def slider(*args, **kwargs):
         'slider': slider,
         'slides': Slide.objects.filter(slider=slider)
     }
+
+
+def get_products_query_set():
+    pass

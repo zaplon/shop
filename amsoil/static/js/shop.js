@@ -250,7 +250,7 @@ shop = {
 
     },
     mask: function(type){
-        var cont = $('.container-fluid');
+        var cont = $('.page-container');
         var mask = $('#mask');
         if (type == 1){
             mask.css('height', cont.height()+'px');

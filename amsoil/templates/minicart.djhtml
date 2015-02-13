@@ -7,7 +7,7 @@
      </div>
     <div id="details">
         <div id="items-count">Produkty:{% if count %}{{ count }} {% else %} 0 {% endif %}</div>
-        <div id="total">W sumie: {% if total %}{{ total|currency }} {% else %}0{% endif %}pln</div>
+        <div id="total">W sumie: {% if total %}{{ total|currency }} {% else %}0{% endif %}</div>
     </div>
     <div id="cart-icon">
         <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>

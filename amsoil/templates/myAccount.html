@@ -50,22 +50,25 @@
                             </tr>
                             <tr class="order-details order-{{ o.id }}" style="display:none">
                                 <td colspan="4">
-                                    <table class="table">
-                                        {% for cp in o.cart.cartProducts.all %}
-                                            <tr>
-                                                <td>
-                                                    {{ cp.productVariation.product.name }}
-                                                </td>
-                                                <td>
-                                                    {{ cp.quantity }}
-                                                </td>
-                                                <td colspan="2">
-                                                    {{ cp.productVariation.price }}
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
-                                    </table>
+                                    {% cartItems noButtons=1 cart=o.cart %}
                                 </td>
+{#                                <td colspan="4">#}
+{#                                    <table class="table">#}
+{#                                        {% for cp in o.cart.cartProducts.all %}#}
+{#                                            <tr>#}
+{#                                                <td>#}
+{#                                                    {{ cp.productVariation.product.name }}#}
+{#                                                </td>#}
+{#                                                <td>#}
+{#                                                    {{ cp.quantity }}#}
+{#                                                </td>#}
+{#                                                <td colspan="2">#}
+{#                                                    {{ cp.productVariation.price }}#}
+{#                                                </td>#}
+{#                                            </tr>#}
+{#                                        {% endfor %}#}
+{#                                    </table>#}
+{#                                </td>#}
                             </tr>
                         {% endfor %}
                     </table>
@@ -165,7 +168,7 @@
                 d.removeClass('visible');
             }
             else {
-                d.css('display','block');
+                d.css('display','table-row');
                 d.addClass('visible');
             }
         });

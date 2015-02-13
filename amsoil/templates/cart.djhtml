@@ -11,7 +11,11 @@
         </thead>
         {% for i in items %}
             <tr>
-                <td><div product="{{ i.id }}" class="remove-from-cart glyphicon glyphicon-remove"></div></td>
+                <td>
+                    {% if not noButtons %}
+                        <div product="{{ i.id }}" class="remove-from-cart glyphicon glyphicon-remove"></div>
+                    {% endif %}
+                </td>
                 {% if i.product %}
                     <td>{{ i.product.name }}</td>
                 {% else %}
@@ -41,6 +45,9 @@
             </tr>
         </tfoot>
     </table>
+    {% if withCheckoutButton %}
+        <a class="btn btn-primary pull-right" href="/zamowienie">{% trans 'Checkout' %}</a>
+    {% endif %}
 
     <script>
         $('.update-cart').click(function(){

@@ -126,9 +126,9 @@ def account(request):
     }, context_instance=RequestContext(request))
 
 
-def processOrder(order):
-    if order.paymentMethod.code == 'paypal':
-        paypal_step_1(order)
+def processOrder(order, request):
+    if order.paymentMethod.code == 'pp':
+        paypal_step_1(order,request)
 
 
 def takeCart(request):
@@ -201,45 +201,11 @@ def checkout(request):
             pm = PaymentMethod.objects.get(id=data['paymentMethod'])
             c = Cart.objects.get(id=request.session['cartId'])
             processed = False
-            order = False
-            if pm.needsProcessing:
-                order = Order(paymentMethod=pm, shippingMethod=sm, cart=c, email=basics.cleaned_data['email'],
-                          phone=basics.cleaned_data['tel'], date=datetime.datetime.now(), notes=data['notes'],
-                          status='PENDING')
-                order.save()
-                processOrder(order)
-                if not status:
-                    pass
-                    #return HttpResponse(json.dumps({'success': status, 'message': message}))
-                else:
-                    processed = True
-            if not order:
-                order = Order(paymentMethod=pm, shippingMethod=sm, cart=c, email=basics.cleaned_data['email'],
-                              phone=basics.cleaned_data['tel'], date=datetime.datetime.now(), notes=data['notes'],
-                              status='PENDING' if not processed else 'FINISHED')
-            else:
-                order.status = 'FINISHED'
-            order.save()
-            c.json = CartSerializer(c).data
-            # c.order = order
-            c.save()
 
-            if request.user.is_authenticated():
-                order.user = request.user
-                if order.shippingMethod.needsShipping:
-                    if not 'receiver' in data:
-                        receiver = buyer
-                    receiver = receiver.save(commit=False)
-                    receiver.user = request.user
-                    buyer = buyer.save(commit=False)
-                    buyer.user = request.user
-            if order.shippingMethod.needsShipping:
-                buyer.order = order
-                buyer.type = 'BU'
-                buyer.save()
-                receiver.type = 'RE'
-                receiver.order = order
-                receiver.save()
+            order = Order(paymentMethod=pm, shippingMethod=sm, cart=c, email=basics.cleaned_data['email'],
+                              phone=basics.cleaned_data['tel'], date=datetime.datetime.now(), notes=data['notes'],
+                              status='PENDING')
+
 
             order.total = order.cart.getTotal()
             #znizki
@@ -261,6 +227,34 @@ def checkout(request):
                     end_date = datetime.datetime.strptime(UserMeta.getValue(request.user,'discount_ends'),'%Y-%m-%d')
                     if end_date > now_date:
                         order.total = order.total - order.total * UserMeta.getValue(request.user,'discount')
+
+            order.total += order.paymentMethod.price + order.shippingMethod.price
+
+            if pm.needsProcessing:
+                processOrder(order,request)
+                processed = True
+
+            c.json = CartSerializer(c).data
+            # c.order = order
+            c.save()
+
+            if request.user.is_authenticated():
+                order.user = request.user
+                if order.shippingMethod.needsShipping:
+                    if not 'receiver' in data:
+                        receiver = buyer
+                    receiver = receiver.save(commit=False)
+                    receiver.user = request.user
+                    buyer = buyer.save(commit=False)
+                    buyer.user = request.user
+            if order.shippingMethod.needsShipping:
+                buyer.order = order
+                buyer.type = 'BU'
+                buyer.save()
+                receiver.type = 'RE'
+                receiver.order = order
+                receiver.save()
+
 
             order.save()
 
@@ -422,14 +416,20 @@ class IntegerListFilter(django_filters.Filter):
             return qs.filter(**{'%s__%s' % (self.name, self.lookup_type): integers})
         return qs
 
+class GeekRangeFilter(django_filters.Filter):
+    def filter(self, qs, value):
+        if value not in (None, ''):
+            integers = [int(v) for v in value.split(',')]
+            return qs.filter(**{'%s__%s' % (self.name, self.lookup_type): integers}).distinct()
+        return qs
 
 class ProductFilter(django_filters.FilterSet):
-    min_price = django_filters.NumberFilter(name="price", lookup_type='gte')
-    max_price = django_filters.NumberFilter(name="price", lookup_type='lte')
+    min_price = django_filters.NumberFilter(name="variations__price", lookup_type='gte')
+    max_price = django_filters.NumberFilter(name="variations__price", lookup_type='lte')
     categories_in = IntegerListFilter(name='categories__id', lookup_type='in')
     attributes_in = IntegerListFilter(name='attributes__id', lookup_type='in')
-    #price_in = IntegerListFilter(name='variations__price', lookup_type='range')
-    price_in = django_filters.RangeFilter(name='variations__price', distinct=True)
+    price_in = GeekRangeFilter(name='variations__price', lookup_type='range')
+    #price_in = django_filters.RangeFilter(name='variations__price', distinct=True)
 
     class Meta:
         model = Product
@@ -508,6 +508,6 @@ def search(request):
     for p in pages:
         res.append({'id': p.id, 'except': p.body[0:200], 'title': p.title, 'link': '/page/' + p.name})
     for p in products:
-        res.append({'id': p.id, 'except': p.shortDescription[0:200], 'title': p.name, 'link': '/shop/' + p.name + '/'})
+        res.append({'id': p.id, 'except': p.shortDescription[0:200], 'title': p.name, 'link': '/sklep/' + p.name + '/'})
     return render_to_response('search.html', {'results': res, 'count': len(res)},
                               context_instance=RequestContext(request))

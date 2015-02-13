@@ -1,0 +1,38 @@
+{% extends 'shop.djhtml' %}
+
+{% block sidebar %}
+    <div class="sidebar-left col-md-3">
+        <div class="widget" id="view-as">
+             <h3>{% trans 'View as' %}</h3>
+            <div class="panel panel-body">
+                <div class="panel-body">
+                    <span id="show-as-grid" class="glyphicon glyphicon-th col-md-6 text-center"></span>
+                    <span id="show-as-list" class="glyphicon glyphicon-th-list col-md-6 text-center"></span>
+                    <div style="clear:both"></div>
+                </div>
+            </div>
+        </div>
+
+         <div class="widget">
+             <h3>{% trans 'Sort by' %}</h3>
+            <div class="panel panel-body">
+                {% sorter %}
+            </div>
+        </div>
+
+        <div class="widget">
+             <h3>{% trans 'Price' %}</h3>
+            <div class="panel panel-body">
+                {% priceFilter %}
+            </div>
+        </div>
+        {% for f in filters %}
+            {% productFilter type='{{ f }}' %}
+        {% endfor %}
+        {% productCategories %}
+        <button data-spy="affix" data-offset-top="60" data-target=".page-container"
+                class="btn btn-primary col-md-10 col-md-offset-1" id="product-filter">
+            {% trans 'Filter' %}
+        </button>
+    </div>
+{% endblock %}

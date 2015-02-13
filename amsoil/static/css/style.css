@@ -193,9 +193,7 @@ h1.page-title {
   float: left; }
 
 #product-filter {
-  position: fixed;
-  bottom: 50px;
-  left: 10px; }
+  margin-top: 20px; }
 
 .product-filter .thick-box {
   float: left; }
@@ -514,11 +512,11 @@ button.close:hover {
   padding-top: 8px; }
 
 #mask {
-  opacity: 0.7;
+  opacity: 0.6;
   z-index: 2;
   position: absolute;
   width: 100%;
-  background-color: #dddddd; }
+  background-color: #eeeeee; }
 
 .container-fluid {
   position: relative;
@@ -526,5 +524,8 @@ button.close:hover {
 
 .margin-left {
   margin-left: 10px !important; }
+
+.slider .slider-horizontal {
+  width: 100%; }
 
 /*# sourceMappingURL=style.css.map */
