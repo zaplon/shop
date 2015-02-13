@@ -327,12 +327,19 @@ shop = {
                 res.results[r].noVars = false;
 
                if (shop.displayAs == 'grid') {
-                   $(div).html(Handlebars.templates['productSmall']( {'addToCart': 'Do koszyka', 'product': res.results[r] }));
+                   p = res.results[r];
+                   p.variationsDetails = JSON.parse(p.variationsDetails.replace(/'/g, '"'));
+                   p.variations = JSON.parse(p.variations.replace(/'/g, '"'));
+                   $(div).html(Handlebars.templates['productSmall']( {'addToCart': 'Do koszyka', 'product': p }));
                    //$(div).html(Mustache.to_html(Mustache.TEMPLATES.productSmall, {'addToCart': 'Do koszyka', 'product': res.results[r] }));
                }
-               else
-                $(div).html(Handlebars.templates['product']( {'addToCart': 'Do koszyka', 'product': res.results[r] }));
-                //$(div).html(Mustache.to_html(Mustache.TEMPLATES.product, { 'addToCart':'Do koszyka', 'product': res.results[r] }));
+               else {
+                   p = res.results[r];
+                   p.variationsDetails = JSON.parse(p.variationsDetails.replace(/'/g, '"'));
+                   p.variations = JSON.parse(p.variations.replace(/'/g, '"'));
+                   $(div).html(Handlebars.templates['product']({'addToCart': 'Do koszyka', 'product': p }));
+                   //$(div).html(Mustache.to_html(Mustache.TEMPLATES.product, { 'addToCart':'Do koszyka', 'product': res.results[r] }));
+               }
            }
            shop.decorate();
         });;

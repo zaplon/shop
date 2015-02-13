@@ -88,7 +88,8 @@ checkout = {
         success: function(res){
             res = JSON.parse(res);
             //$('#checkout-order').html(Mustache.to_html(Mustache.TEMPLATES.checkoutOrder, res ));
-            $('#checkout-order').html(Handlebars.templates['checkoutOrder'](res));
+            if ($('#checkout-order'))
+                $('#checkout-order').html(Handlebars.templates['checkoutOrder'](res));
             $("input[name='shippingMethod'][value='"+shipping+"']").attr('checked', 'true');
            
             $("input[name='paymentMethod'][value='"+payment+"']").attr('checked', 'true');

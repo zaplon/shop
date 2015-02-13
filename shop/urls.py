@@ -29,7 +29,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^ckeditor/', include('ckeditor.urls')),
     url(r'^miniCart/', views.minicart, name='minicart'),
-    url(r'^produkty/', views.ProductListView.as_view(model=Product), name='product-list'),
+    url(r'^produkty/', views.ProductListView.as_view(), name='product-list'),
     #url(r'^carts/', views.CartDetail.as_view()),
 
     url(r'^login/', loginView, name='login'),

@@ -64,7 +64,7 @@ class Product(Page):
         for v in self.variations.all():
             if v.price < min:
                 min = v.price
-            res.append({ 'id':v.id, 'price':v.price, 'amount':v.amount })
+            res.append({ 'id':int(v.id), 'price':float(v.price), 'amount':int(v.amount) })
         return {'min':min, 'vars':res}
     def getVariationsCount(self):
         return self.variations.count()
@@ -72,11 +72,11 @@ class Product(Page):
         options = {}
         for v in self.variations.all():
             for a in v.attributes.all():
-                if not a.group.name in options:
-                    options[a.group.name] = {}
-                if not a.name in options[a.group.name]:
-                    options[a.group.name][a.name] = []
-                options[a.group.name][a.name].append( { 'id':v.id, 'price': v.price })
+                if not str(a.group.name) in options:
+                    options[str(a.group.name)] = {}
+                if not str(a.name) in options[str(a.group.name)]:
+                    options[str(a.group.name)][str(a.name)] = []
+                options[str(a.group.name)][str(a.name)].append( { 'id':int(v.id), 'price': float(v.price) })
         return options
     def getMainImage(self):
         try:

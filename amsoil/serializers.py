@@ -18,7 +18,7 @@ class ProductVariationSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     image = serializers.CharField(source='getMainImage', read_only=True)
     variations = serializers.CharField(source='getVariations', read_only=True)
-    hasManyVariations = serializers.BooleanField(source='hasManyVariations', read_only=True)
+    hasManyVariations = serializers.BooleanField(read_only=True)
     variationsDetails = serializers.CharField(source='getVariationsDetails', read_only=True)
     groupedAttributes = serializers.CharField(source='getGroupedAttributes', read_only=True)
     class Meta:
