@@ -71,7 +71,7 @@ def sorter():
    }
 
 @register.inclusion_tag('priceFilter.html', takes_context=True)
-def priceFilter(context,limited,*args, **kwargs):
+def priceFilter(context,limited=None,*args, **kwargs):
     if limited:
         products = get_products_query_set(context)
         pvs = ProductVariation.objects.filter(product__in = products)
@@ -117,7 +117,7 @@ def nav(name=None):
 
 
 @register.inclusion_tag('productCategories.djhtml', takes_context=True)
-def productCategories(context, limited, name=None, *args, **kwargs):
+def productCategories(context, limited=None, name=None, *args, **kwargs):
     if limited:
         products = get_products_query_set(context)
         categories = Category.objects.filter(forProducts=True, pages__in = products).annotate(dcount=Count('pages__id'))
@@ -130,7 +130,7 @@ def productCategories(context, limited, name=None, *args, **kwargs):
 
 
 @register.inclusion_tag('productFilter.html', takes_context=True)
-def productFilter(context,limited, type=None, *args):
+def productFilter(context,limited=None, type=None, *args):
     if limited:
         products = get_products_query_set(context)
         #options = Attribute.objects.filter(group__name=type, pages__isnull=False, products__in = products).\

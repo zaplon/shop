@@ -2,7 +2,7 @@
 
 <div id="slider-{{ slider.name }}" class="col-md-12 slider">
     <div class="slide-left arrow pull-left"><span class="glyphicon glyphicon-chevron-left"></span></div>
-    <ul class="slide pull-left">
+    <ul class="slide pull-left text-center">
         {% for slide in slides %}
             <li>
                 <div class="data">
@@ -12,7 +12,7 @@
                     </div>
                     <div class="buttons">
                         {% if slide.button1Url %}
-                            <button class="btn btn-primary">{% trans slide.button1Text %}</button>
+                            <a href="{{ slide.button1Url }}" class="btn btn-primary">{% trans slide.button1Text %}</a>
                         {% endif %}
                     </div>
                 </div>

@@ -224,7 +224,8 @@ h1.page-title {
       margin: auto;
       text-align: center; }
       #products .product-grid .product-container .product-data h4 {
-        font-size: 14px; }
+        font-size: 14px;
+        height: 20px; }
 
 #mini-cart #cart-controls {
   float: right;
@@ -427,8 +428,10 @@ button.close:hover {
 .tooltip-inner {
   width: 400px; }
 
-.variations-table label {
-  margin-right: 10px; }
+.variations-table {
+  height: 70px; }
+  .variations-table label {
+    margin-right: 10px; }
 
 #no-products {
   text-align: center; }
