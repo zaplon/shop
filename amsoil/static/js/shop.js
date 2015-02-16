@@ -18,8 +18,24 @@ $(document).ready(function($){
     })
 
     $('.container-fluid').delegate('.variations-table select','change', function(){
-    	var div = $('.variations-table[data-product='+$(this).attr('data-product')+']');
-    	var selectedVariation = shop.getSelectedVariation(div);
+        var pId = $(this).attr('data-product');
+        var button = $('button.add-to-cart[data-product='+pId+']');
+        var div = $('.variations-table[data-product='+$(this).attr('data-product')+']');
+        var selectedVariation = shop.getSelectedVariation(div);
+        var amount = $('input.amount[data-variation='+selectedVariation+']').val();
+        button.removeClass('hidden');
+        if (amount > 0){
+            button.removeClass('btn-primary add-to-cart');
+            button.addClass('btn-primary add-to-cart');
+            button.prop('disabled', false);
+            button.html('Do koszyka');
+        }
+        else {
+            button.removeClass('btn-default btn-primary');
+            button.addClass('btn-default');
+            button.prop('disabled', true);
+            button.html('Brak w magazynie');
+        }
         var dtls = $('.variations-details[data-product='+$(this).attr('data-product')+']');
      	$(dtls).find('.variation-details').css('display','none');
         $(dtls).find('.price-from').css('display','none');
@@ -39,7 +55,8 @@ $(document).ready(function($){
        //var singleVar =  $(this).hasClass('single-var');
        //if (isVariable && !singleVar)
        // id = $('select["data-product='+id + '"]').val();
-      shop.addToCart(id,isVariable);
+      if (('input.amount[data-variation='+id+']').val() > 0)
+        shop.addToCart(id,isVariable);
     });
 
     $('#account #login').click(function(){

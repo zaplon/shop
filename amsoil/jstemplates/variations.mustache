@@ -9,6 +9,7 @@
             </div>
         {{/if}}
         {{#each product.variationsDetails.vars }}
+            <input class="amount" data-variation="{{id}}" type="hidden" value="{{amount}}" />
             <div {{#if ../product.hasManyVariations }}style="display:none;"{{/if}}
                     class="variation-details" data-variation="{{id}}">
                 <span class="currency">PLN</span>
@@ -26,7 +27,7 @@
                 <div class="input-group">
                     {{#if ../product.hasManyVariations }}
                         <select class="form-control pull-right" data-product="{{ ../../product.id }}">
-                            <option>Wybierz...</option>
+                            <option class="default">Wybierz...</option>
                             {{#each . }}
                                 <option data-variations="{{#each .}}{{id}} {{/each}}" value="{{#each .}}{{id}} {{/each}}">
                                     {{@key}}
@@ -41,7 +42,7 @@
     </div>
 
 
-    <div>
+    <div style="height:60px;">
 
         {{#if showQuantity }}
             <div style="margin-top:{{#if buttonMargin }}{{buttonMargin}}px{{else}}20px{{/if}};">
@@ -55,8 +56,9 @@
             <div style="clear:both"></div>
         {{else}}
             <button class="{{#unless product.hasManyVariations}}single-var {{/unless}}
-            btn btn-primary add-to-cart variable" data-product="{{ product.id}}"
-                style="margin-top:{{#if buttonMargin }}{{butsotonMargin}}px{{else}}20px{{/if}};">
+            {{#if product.hasManyVariations}} hidden {{/if}} btn btn-primary add-to-cart variable"
+            data-product="{{ product.id}}"
+            style="margin-top:{{#if buttonMargin }}{{buttonMargin}}px{{else}}20px{{/if}};">
                 {{ addToCart }}
             </button>
         {{/if}}
