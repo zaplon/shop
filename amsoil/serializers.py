@@ -27,15 +27,15 @@ class ProductSerializer(serializers.ModelSerializer):
                   'hasManyVariations', 'variationsDetails','groupedAttributes')
 
 class CartProductSerializer(serializers.ModelSerializer):
-    productVariation = ProductVariationSerializer(many=True, read_only=True)
-    product = ProductSerializer(many=True, read_only=True)
+    productVariation = ProductVariationSerializer()
+    product = ProductSerializer()
     class Meta:
         model = CartProduct
         fields = ('quantity', 'price','product','productVariation',)
 
 
 class CartSerializer(serializers.ModelSerializer):
-    cartProducts = CartProductSerializer()
+    cartProducts = CartProductSerializer(many=True)
     class Meta:
         model = Cart
         fields = ('cartProducts',)
