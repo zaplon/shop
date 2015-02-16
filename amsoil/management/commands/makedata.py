@@ -28,9 +28,7 @@ class Command(BaseCommand):
       s3 = ShippingMethod(name='Przesyłka kurierska pobraniowa', price='15', needsShipping=True)
       s3.save()
       s3.paymentMethods.add(p1)
-      s1.save()
-      s2.save()
-      s3.save()
+
 
   def makePages(self):
       p1 = Page(title='Kontakt',body='', url='Kontakt')

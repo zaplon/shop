@@ -227,7 +227,9 @@ shop = {
     filters: {
         categories: {},
         attributes: {},
-        sortBy: 'name',
+        onlyCategories: '',
+        onlyAttributes: '',
+        sortBy: 'name'
     },
     getSelectedVariation: function(div){
         
@@ -273,6 +275,11 @@ shop = {
         filters = filters + 'page=' + shop.currentPage + '&';
         filters = filters + 'categories_in=' + cats;
         filters = filters + '&attributes_in=' + atts;
+
+        //stałe parametry
+        filters = filters + '&category__id=' + this.filters.onlyCategories;
+        filters = filters + '&attributes__id=' + this.filters.onlyAttributes;
+
         if ($('#price-filter').attr('data')){
             var p = $('#price-filter').attr('data').split(':')[1];
             filters = filters + '&price_in=' + p.substr(2,p.length-3);

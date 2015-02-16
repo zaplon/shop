@@ -438,7 +438,8 @@ class ProductFilter(django_filters.FilterSet):
         model = Product
         distinct = True
         order_by = ['name','-name','variations__added_date','variations__price','-variations__added_date','-variations__price']
-        fields = ('id', 'min_price', 'max_price', 'categories_in', 'attributes_in','price_in','variations__added_date','variations__price')
+        fields = ('id', 'min_price', 'max_price', 'categories_in', 'attributes_in','price_in',
+                  'variations__added_date','variations__price','attributes__id','categories__id')
 
 
 

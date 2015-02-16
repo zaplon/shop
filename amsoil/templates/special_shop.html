@@ -12,6 +12,14 @@
         {% if attributes_ids %}
             <input name="attributes" type="hidden" value="{{ attributes_ids|join:","  }}"></input>
         {% endif %}
+
+         {% if categories_ids %}
+            <input name="only_category" type="hidden" value="{{ categories_ids|join:"," }}"></input>
+        {% endif %}
+        {% if attributes_ids %}
+            <input name="only_attributes" type="hidden" value="{{ attributes_ids|join:","  }}"></input>
+        {% endif %}
+
     </form>
     <div class="row">
         {% mustachejs 'product' %}
@@ -73,11 +81,12 @@
 
 {% block addScripts %}
     <script>
-        //var paths = window.location.pathname.split('/');
-        //if (paths.indexOf('category') > -1) {
-        //    var cat = paths[paths.indexOf('category') + 1];
-        //    shop.filters.categories[cat] = 1;
-        //}
+
+        if ($('#shop-variables input[name="only_category"]').val())
+            shop.filters.onlyCategories = $('#shop-variables input[name="only_category"]').val();
+        if ($('#shop-variables input[name="only_attributes"]').val())
+            shop.filters.onlyAttributes = $('#shop-variables input[name="only_attributes"]').val();
+
         var cat = $('#shop-variables input[name="category"]').val();
         if ( $('#shop-variables input[name="attributes"]').length )
             var atts = $('#shop-variables input[name="attributes"]').val().split(',');
