@@ -1,38 +1,120 @@
-{% extends 'shop.djhtml' %}
 
-{% block sidebar %}
-    <div class="sidebar-left col-md-3">
-        <div class="widget" id="view-as">
-             <h3>{% trans 'View as' %}</h3>
-            <div class="panel panel-body">
-                <div class="panel-body">
-                    <span id="show-as-grid" class="glyphicon glyphicon-th col-md-6 text-center"></span>
-                    <span id="show-as-list" class="glyphicon glyphicon-th-list col-md-6 text-center"></span>
-                    <div style="clear:both"></div>
+{% load i18n %}
+{% load tags %}
+{% load jstemplate %}
+
+
+{% block body %}
+    <form id="shop-variables">
+        {% if categories_ids %}
+            <input name="category" type="hidden" value="{{ categories_ids|join:"," }}"></input>
+        {% endif %}
+        {% if attributes_ids %}
+            <input name="attributes" type="hidden" value="{{ attributes_ids|join:","  }}"></input>
+        {% endif %}
+    </form>
+    <div class="row">
+        <div style="margin-left:15px;">
+            {% breadcrumbs %}
+        </div>
+        {% mustachejs 'product' %}
+        {% block sidebar %}
+            <div class="sidebar-left col-md-3">
+                <div class="widget" id="view-as">
+                     <h3>{% trans 'View as' %}</h3>
+                    <div class="panel panel-body">
+                        <div class="panel-body">
+                            <span id="show-as-grid" class="glyphicon glyphicon-th col-md-6 text-center"></span>
+                            <span id="show-as-list" class="glyphicon glyphicon-th-list col-md-6 text-center"></span>
+                            <div style="clear:both"></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-         <div class="widget">
-             <h3>{% trans 'Sort by' %}</h3>
-            <div class="panel panel-body">
-                {% sorter %}
-            </div>
-        </div>
+                 <div class="widget">
+                     <h3>{% trans 'Sort by' %}</h3>
+                    <div class="panel panel-body">
+                        {% sorter %}
+                    </div>
+                </div>
 
-        <div class="widget">
-             <h3>{% trans 'Price' %}</h3>
-            <div class="panel panel-body">
-                {% priceFilter %}
+                <div class="widget">
+                     <h3>{% trans 'Price' %}</h3>
+                    <div class="panel panel-body">
+                        {% priceFilter limited=1 %}
+                    </div>
+                </div>
+                {% for f in filters %}
+                    {% productFilter type=f limited=1 %}
+                {% endfor %}
+                {% productCategories limited=1 %}
+                <button data-spy="affix" data-offset-top="60" data-target=".page-container"
+                        class="btn btn-primary col-md-10 col-md-offset-1" id="product-filter">
+                    {% trans 'Filter' %}
+                </button>
+            </div>
+        {% endblock %}
+        <div id="content-shop" class="col-md-9">
+            <div id="shop-top" class="col-md-12">
+                   <h1 class="page-title">{% trans 'Shop' %}</h1>
+            </div>
+            <div id="page-meta" class="group">
+            </div>
+            {% handlebarsjs 'productSmall' precompile %}
+            {% handlebarsjs 'product' precompile %}
+            {% handlebarsjs 'variations' register_partials %}
+            <div id="products"></div>
+            <div style="clear:both"></div>
+            <div class="text-center">
+                <ul class="pagination" id="shop-pagination">
+                </ul>
             </div>
         </div>
-        {% for f in filters %}
-            {% productFilter type='{{ f }}' %}
-        {% endfor %}
-        {% productCategories %}
-        <button data-spy="affix" data-offset-top="60" data-target=".page-container"
-                class="btn btn-primary col-md-10 col-md-offset-1" id="product-filter">
-            {% trans 'Filter' %}
-        </button>
     </div>
+
+{% endblock %}
+
+{% block addScripts %}
+    <script>
+        //var paths = window.location.pathname.split('/');
+        //if (paths.indexOf('category') > -1) {
+        //    var cat = paths[paths.indexOf('category') + 1];
+        //    shop.filters.categories[cat] = 1;
+        //}
+        var cat = $('#shop-variables input[name="category"]').val();
+        if ( $('#shop-variables input[name="attributes"]').length )
+            var atts = $('#shop-variables input[name="attributes"]').val().split(',');
+        else
+            var atts = false;
+        if (atts)
+            atts.forEach(function(val){
+                shop.filters.attributes[val] = 1;
+                var thick = $('div.thick-box[data-attribute='+val+']');
+                if (thick){
+                    thick.addClass('filter-active');
+                    thick.addClass('glyphicon glyphicon-ok');
+                }
+            });
+        if(cat){
+            shop.filters.categories[cat] = 1;
+            var thick = $('div.thick-box[data-category='+cat+']');
+            if (thick){
+                thick.addClass('filter-active');
+                thick.addClass('glyphicon glyphicon-ok');
+            }
+        }
+        shop.getProducts('products');
+        $('#product-filter').click(function(){
+            shop.currentPage = 1;
+            shop.getProducts('products');
+        });
+        $('#show-as-grid').click(function(){
+           shop.displayAs = 'grid';
+           shop.getProducts('products');
+        });
+        $('#show-as-list').click(function(){
+           shop.displayAs = 'list';
+           shop.getProducts('products');
+        });
+    </script>
 {% endblock %}

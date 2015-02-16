@@ -32,7 +32,10 @@ def home(request):
 
 
 def page(request, title):
-    page = Page.objects.get(title=title)
+    try:
+        page = Page.objects.get(title=title)
+    except:
+        page = Page.objects.get(url=title)
     return render_to_response('page.html', {'page': page}, context_instance=RequestContext(request))
 
 

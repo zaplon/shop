@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import datetime
+import datetime, re
 from django.db import models, connection
 from shop.settings import MEDIA_ROOT
 from ckeditor.fields import RichTextField
@@ -16,12 +16,28 @@ class UserProfile(models.Model):
 class Page(models.Model):
     title = models.CharField(max_length=100)
     body = RichTextField(max_length=20000)
+    url = models.CharField(default='', max_length=100)
     tags = models.ManyToManyField('Tag', related_name='pages', blank=True)
     categories = models.ManyToManyField('Category', related_name='pages', blank=True)
     attributes = models.ManyToManyField('Attribute', blank = True, null = True, related_name='pages')
     isMain = models.BooleanField(default=0)
+    full_width = models.BooleanField(default=0, verbose_name='Szerokość całej strony')
     def __unicode__(self):
         return self.title
+
+
+@receiver(pre_save, sender=Page)
+def prepare_page_data(instance, sender, **kwargs):
+     def do_replace(m):
+        s = m.group(0)
+        return s.replace('&nbsp;',' ').replace('&#39;',"'")
+     body = instance.body
+     pattern = re.compile(r'\{%(.*?)\%}')
+     instance.body = re.sub(pattern,do_replace,instance.body)
+     return True
+
+
+
 
 def dictfetchall(cursor):
     "Returns all rows from a cursor as a dict"
@@ -190,7 +206,8 @@ class Cart(models.Model):
         if int(database_discount) > discount:
             discount = total * float(UserMeta.getValue(user,'discount')/10)
         else:
-            discount = total * discount/100
+            if total is not None:
+                discount = total * discount/100
         return discount
     #quantity = models.IntegerField(default=1)
     #sessionId = models.CharField(max_length=20)

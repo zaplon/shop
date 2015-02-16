@@ -88,7 +88,7 @@ checkout = {
         success: function(res){
             res = JSON.parse(res);
             //$('#checkout-order').html(Mustache.to_html(Mustache.TEMPLATES.checkoutOrder, res ));
-            if ($('#checkout-order'))
+            if (Handlebars.templates)
                 $('#checkout-order').html(Handlebars.templates['checkoutOrder'](res));
             $("input[name='shippingMethod'][value='"+shipping+"']").attr('checked', 'true');
            

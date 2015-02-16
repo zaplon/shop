@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from django import template
 from amsoil.models import MenuItem, Category, CartProduct, Cart, Invoice, Shipment, Order, Slider, Slide, \
-    Attribute, AttributeGroup, ProductVariation, UserMeta
+    Attribute, AttributeGroup, ProductVariation, UserMeta, Product
 from amsoil.models import getProductAttributesByGroupName
 from django.db.models import Sum, Count, Min, Max
 from amsoil.forms import QuickContactForm
@@ -15,6 +15,26 @@ from django.template import RequestContext
 from django.template import Template
 
 register = template.Library()
+
+
+@register.inclusion_tag('special_shop.html',takes_context=True)
+def special_shop(context, *args, **kwargs):
+    categories_names = kwargs['filters'].encode('utf8').split(',') if 'filters' in kwargs else []
+    attributes_names = kwargs['attributes'].encode('utf8').split(',') if 'attributes' in kwargs else []
+    attributes = Attribute.objects.filter(name__in = attributes_names)
+    categories = Category.objects.filter(name__in = categories_names)
+    attributes_ids = [a.id for a in attributes]
+    categories_ids = [c.id for c in categories]
+
+    return {
+        'filters': kwargs['filters'].encode('utf8').split(',') if 'filters' in kwargs else [],
+        'attributes': attributes_names,
+        'categories': categories_names,
+        'categories_ids': categories_ids,
+        'attributes_ids': attributes_ids,
+        'request': context['request']
+    }
+
 
 @register.inclusion_tag('render_tags.html',takes_context=True)
 def render_tags(context,value):
@@ -50,9 +70,13 @@ def sorter():
    return {
    }
 
-@register.inclusion_tag('priceFilter.html')
-def priceFilter():
-    pvs = ProductVariation.objects.all()
+@register.inclusion_tag('priceFilter.html', takes_context=True)
+def priceFilter(context,limited,*args, **kwargs):
+    if limited:
+        products = get_products_query_set(context)
+        pvs = ProductVariation.objects.filter(product__in = products)
+    else:
+        pvs = ProductVariation.objects.all()
     minimum = int(pvs.aggregate(Min('price')).values()[0])
     maximum = int(pvs.aggregate(Max('price')).values()[0])
     return {
@@ -92,17 +116,28 @@ def nav(name=None):
     }
 
 
-@register.inclusion_tag('productCategories.djhtml')
-def productCategories(name=None, *args, **kwargs):
+@register.inclusion_tag('productCategories.djhtml', takes_context=True)
+def productCategories(context, limited, name=None, *args, **kwargs):
+    if limited:
+        products = get_products_query_set(context)
+        categories = Category.objects.filter(forProducts=True, pages__in = products).annotate(dcount=Count('pages__id'))
+    else:
+        categories = Category.objects.filter(forProducts=True).annotate(dcount=Count('pages__id'))
     return {
         'asLink': 'asLink' in kwargs if True else False,
-        'categories': Category.objects.filter(forProducts=True),
+        'categories': categories,
     }
 
 
-@register.inclusion_tag('productFilter.html')
-def productFilter(type=None, *args):
-    options = Attribute.objects.filter(group__name=type, pages__isnull=False).annotate(dcount=Count('id'))
+@register.inclusion_tag('productFilter.html', takes_context=True)
+def productFilter(context,limited, type=None, *args):
+    if limited:
+        products = get_products_query_set(context)
+        #options = Attribute.objects.filter(group__name=type, pages__isnull=False, products__in = products).\
+        #    annotate(dcount=Count('id'))
+        options = Attribute.objects.filter(group__name=type, products__in = products).annotate(dcount=Count('products__id'))
+    else:
+        options = Attribute.objects.filter(group__name=type, pages__isnull=False).annotate(dcount=Count('products__id'))
     return {
         'options': options,
         'type': type
@@ -206,5 +241,10 @@ def slider(*args, **kwargs):
     }
 
 
-def get_products_query_set():
-    pass
+def get_products_query_set(context):
+    pr = Product.objects.all()
+    if 'attributes' in context.dicts[1]:
+        pr = Product.objects.filter(attributes__name__in=context.dicts[1]['attributes'])
+    if 'categories' in context.dicts[1]:
+        pr = pr | Product.objects.filter(categories__name__in=context.dicts[1]['categories'])
+    return pr
