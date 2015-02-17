@@ -63,7 +63,7 @@
         {{else}}
             <button {{#unless product.variationsDetails.vars.0.amount }} disabled {{/unless}}
                     class="{{#unless product.hasManyVariations}}single-var {{/unless}}
-            {{#if product.hasManyVariations}} hidden {{/if}} btn variable
+            {{#if product.hasManyVariations}} hidden  variable {{/if}} btn
             {{#if product.variationsDetails.vars.0.amount }} btn-primary add-to-cart {{else}} btn-default{{/if}}"
             data-product="{{ product.id}}"
             style="margin-top:{{#if buttonMargin }}{{buttonMargin}}px{{else}}20px{{/if}};">

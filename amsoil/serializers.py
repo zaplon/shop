@@ -10,10 +10,11 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
         model = PaymentMethod
 
 class ProductVariationSerializer(serializers.ModelSerializer):
-    attributesString = serializers.CharField(source='getAttributesString')
+    attributesString = serializers.CharField(source='getAttributesString',read_only=True)
+    name = serializers.CharField(source='product.name', read_only=True)
     class Meta:
         model = ProductVariation
-        fields = ('id','price', 'attributesString',)
+        fields = ('product', 'name', 'attributesString', 'id', 'price','amount',)
 
 class ProductSerializer(serializers.ModelSerializer):
     image = serializers.CharField(source='getMainImage', read_only=True)

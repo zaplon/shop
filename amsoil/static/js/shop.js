@@ -56,7 +56,7 @@ $(document).ready(function($){
        //var singleVar =  $(this).hasClass('single-var');
        //if (isVariable && !singleVar)
        // id = $('select["data-product='+id + '"]').val();
-      if ($('input.amount[data-variation='+id+']').val() > 0)
+      if ($('input.amount[data-variation='+id+']').val() > 0 || hasSingleVariation)
         shop.addToCart(id,isVariable);
     });
 

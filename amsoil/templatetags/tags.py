@@ -8,6 +8,7 @@ from django.db.models import Sum, Count, Min, Max
 from amsoil.forms import QuickContactForm
 from django.utils.translation import ugettext as _
 from shop.settings import MEDIA_URL
+from amsoil.forms import ShippingForm
 
 
 from django import template
@@ -168,13 +169,22 @@ def cartData(context, *args, **kwargs):
         }
 
 
+@register.inclusion_tag('addresses.html', takes_context=True)
+def addresses(context, order, *args, **kwargs):
+    receiver = Shipment.objects.filter(order=order,type='RE')
+    return {
+        'receiver': ShippingForm(receiver)
+    }
+
+
 @register.inclusion_tag('cart.djhtml', takes_context=True)
-def cartItems(context, *args, **kwargs):
+def cartItems(context, order=False, *args, **kwargs):
     request = context['request']
     if 'cart' in kwargs:
         cartId = kwargs['cart'].id
     elif 'orderId' in kwargs:
-        cartId = Order.objects.get(id=kwargs['orderId']).cart.id
+        order = Order.objects.get(id=kwargs['orderId'])
+        cartId = order.cart.id
     elif 'cartId' in request.session:
         cartId = request.session['cartId']
     else:
@@ -186,13 +196,16 @@ def cartItems(context, *args, **kwargs):
         discount = cart.getDiscount(request.user)
         if discount:
             total -= discount
+        if order:
+            total = total + order.shippingMethod.price
         return {
             'discount': discount,
             'withCheckoutButton': 'withCheckoutButton' in kwargs,
             'noButtons': True if 'noButtons' in kwargs else False,
             'items': items,
             'total': str(total),
-            'count': items.aggregate(Sum('quantity')).values()[0]
+            'count': items.aggregate(Sum('quantity')).values()[0],
+            'order': order
         }
     else:
         return {

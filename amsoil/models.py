@@ -222,7 +222,7 @@ class Cart(models.Model):
             if UserMeta.getValue(user,'discount'):
                 database_discount = UserMeta.getValue(user,'discount')
         if int(database_discount) > discount:
-            discount = total * float(UserMeta.getValue(user,'discount')/10)
+            discount = total * float(UserMeta.getValue(user,'discount'))/100
         else:
             if total is not None:
                 discount = total * discount/100

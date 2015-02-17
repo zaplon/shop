@@ -6,7 +6,7 @@ from amsoil.models import Page, Product, Cart, User, CartProduct, ProductVariati
     ShippingMethod, PaymentMethod, Order, Invoice, Shipment, Category, Attribute, UserMeta, NewsletterReceiver
 from rest_framework import viewsets
 from amsoil.serializers import ProductSerializer, PaymentMethodSerializer, ShippingMethodSerializer, \
-    CartSerializer, CartProductSerializer, NewsletterReceiverSerializer
+    CartSerializer, CartProductSerializer, NewsletterReceiverSerializer, ProductVariationSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -401,7 +401,8 @@ def addToCart(request):
             c = Cart.objects.get(id=request.session['cartId'])
         if 'product' in request.POST:
             p = Product.objects.get(id=request.POST['product'])
-            cp = CartProduct(product=p, cart=c, price=p.price, quantity=quantity)
+            pv = p.variations.first()
+            cp = CartProduct(productVariation=pv, cart=c, price=pv.price, quantity=quantity)
         else:
             pv = ProductVariation.objects.get(id=request.POST['productVariation'])
             if pv.amount < int(quantity):
@@ -517,3 +518,8 @@ def search(request):
         res.append({'id': p.id, 'except': p.shortDescription[0:200], 'title': p.name, 'link': '/sklep/' + p.name + '/'})
     return render_to_response('search.html', {'results': res, 'count': len(res)},
                               context_instance=RequestContext(request))
+
+
+class ProductVariationViewSet(viewsets.ModelViewSet):
+    queryset = ProductVariation.objects.all()
+    serializer_class = ProductVariationSerializer

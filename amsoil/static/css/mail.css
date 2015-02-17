@@ -7,6 +7,9 @@
                 border-color: gray;
                 box-sizing: border-box;
         }
+        tfoot {
+            font-weight: bold
+        }
         thead {
                 -webkit-font-smoothing: antialiased;
                 border-bottom-color: rgb(128, 128, 128);

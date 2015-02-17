@@ -10,5 +10,10 @@
     <div>
         Zostało złożone nowe zamówienie o numerze: <strong>{{ order.number }}</strong>
     </div>
-    {% cartItems noButtons="1" %}
+    {% cartItems noButtons="1" order=order %}
+
+    {% if order.shippingMethod.needsShipping %}
+
+    {% endif %}
+
 {% endblock %}

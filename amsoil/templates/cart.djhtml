@@ -37,12 +37,21 @@
         <tfoot>
             {% if discount %}
                 <tr>
-                    <td></td><td>{% trans 'Discount:' %}</td><td colspan="3">{{ discount|currency }}</td>
+                    <td></td><td>{% trans 'Discount:' %}</td><td></td><td colspan="3">{{ discount|currency }}</td>
                 </tr>
             {% endif %}
+
+            {% if order %}
+                <tr>
+                    <td></td><td>{% trans 'Shipping' %} ({{ order.shippingMethod.name }}):</td><td></td>
+                    <td colspan="3">{{ order.shippingMethod.price|currency }}</td>
+                </tr>
+            {% endif %}
+
             <tr>
-                <td></td><td>{% trans 'In total:' %}</td><td colspan="3">{{ total|currency }}</td>
+                <td></td><td>{% trans 'In total:' %}</td><td></td><td colspan="3">{{ total|currency }}</td>
             </tr>
+
         </tfoot>
     </table>
     {% if withCheckoutButton %}

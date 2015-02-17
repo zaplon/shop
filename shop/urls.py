@@ -6,8 +6,17 @@ from shop.settings import MEDIA_URL, MEDIA_ROOT
 from django.conf.urls.static import static
 from authentication.views import loginView, logoutView, register
 
+from amsoil.views import ProductVariationViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'productVariations', ProductVariationViewSet)
+#urlpatterns = router.urls
+
 urlpatterns = patterns('',
-    # Examples:
+
+    #api
+    url(r'api/', include(router.urls)),
 
     url(r'^$', views.home, name='home'),
     url(r'^sklep/kategoria/(?P<category>.*)/', views.shop, name='shopCategory'),
@@ -27,6 +36,7 @@ urlpatterns = patterns('',
 
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
+
     url(r'^ckeditor/', include('ckeditor.urls')),
     url(r'^miniCart/', views.minicart, name='minicart'),
     url(r'^produkty/', views.ProductListView.as_view(), name='product-list'),

@@ -8,11 +8,15 @@
 
 {% block content %}
     <div>
-        {% trans 'Confirmation for order nr:' %}<strong>{{ order.number }}</strong>
+        {% trans 'Confirmation for order nr:' %}<strong> {{ order.number }}</strong>
         {{ thank_you|safe }}
+        <p>{{order.paymentMethod.instruction}}</p>
     </div>
     <div>
     <p>Podsumowanie zamówienia:</p>
-    {% cartItems noButtons="1" %}
+    {% cartItems noButtons="1" order=order %}
+    {% if order.shippingMethod.needsProcessing %}
+        {% addresses order=order %}
+    {% endif %}
     </div>
 {% endblock %}
