@@ -232,6 +232,11 @@ class prices:
 class Command(BaseCommand):
 
   def handle(self,*args,**options):
+    Category.objects.all().delete()
+    Attribute.objects.all().delete()
+    AttributeGroup.objects.all().delete()
+    ProductVariation.objects.all().delete()
+    Product.objects.all().delete()
     p = prices()
     p.doPrices()
     #p.doUsers()

@@ -18,8 +18,9 @@ $(document).ready(function($){
     })
 
     $('.container-fluid').delegate('.variations-table select','change', function(){
+        $(this).find('option')[0].setAttribute('disabled',true);
         var pId = $(this).attr('data-product');
-        var button = $('button.add-to-cart[data-product='+pId+']');
+        var button = $('button[data-product='+pId+']');
         var div = $('.variations-table[data-product='+$(this).attr('data-product')+']');
         var selectedVariation = shop.getSelectedVariation(div);
         var amount = $('input.amount[data-variation='+selectedVariation+']').val();
@@ -55,7 +56,7 @@ $(document).ready(function($){
        //var singleVar =  $(this).hasClass('single-var');
        //if (isVariable && !singleVar)
        // id = $('select["data-product='+id + '"]').val();
-      if (('input.amount[data-variation='+id+']').val() > 0)
+      if ($('input.amount[data-variation='+id+']').val() > 0)
         shop.addToCart(id,isVariable);
     });
 

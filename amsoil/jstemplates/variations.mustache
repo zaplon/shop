@@ -48,18 +48,30 @@
             <div style="margin-top:{{#if buttonMargin }}{{buttonMargin}}px{{else}}20px{{/if}};">
                 <input style="margin-right:10px;" type="number" aria-valuemin="0" value="1"
                        id="quantity" class="pull-left form-control" />
-                <button class="{{#unless product.hasManyVariations}}single-var {{/unless}}
-                btn btn-primary add-to-cart variable pull-left " data-product="{{ product.id}}">
-                    {{ addToCart }}
+                <button {{#unless product.variationsDetails.vars.0.amount }} disabled {{/unless}}
+                        class="{{#unless product.hasManyVariations}}single-var {{/unless}}
+                {{#if product.variationsDetails.vars.0.amount }} btn-primary add-to-cart {{else}}
+                 btn-default{{/if}} variable btn pull-left " data-product="{{ product.id}}">
+                    {{#if product.variationsDetails.vars.0.amount }}
+                        {{ addToCart }}
+                    {{else}}
+                        Brak w magazynie
+                    {{/if}}
                 </button>
             </div>
             <div style="clear:both"></div>
         {{else}}
-            <button class="{{#unless product.hasManyVariations}}single-var {{/unless}}
-            {{#if product.hasManyVariations}} hidden {{/if}} btn btn-primary add-to-cart variable"
+            <button {{#unless product.variationsDetails.vars.0.amount }} disabled {{/unless}}
+                    class="{{#unless product.hasManyVariations}}single-var {{/unless}}
+            {{#if product.hasManyVariations}} hidden {{/if}} btn variable
+            {{#if product.variationsDetails.vars.0.amount }} btn-primary add-to-cart {{else}} btn-default{{/if}}"
             data-product="{{ product.id}}"
             style="margin-top:{{#if buttonMargin }}{{buttonMargin}}px{{else}}20px{{/if}};">
-                {{ addToCart }}
+                {{#if product.variationsDetails.vars.0.amount }}
+                        {{ addToCart }}
+                    {{else}}
+                        Brak w magazynie
+                    {{/if}}
             </button>
         {{/if}}
     </div>

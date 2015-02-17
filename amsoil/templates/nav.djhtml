@@ -1,5 +1,5 @@
 {% load i18n %}
-<nav>
+<nav style="">
     <ul>
         <li style="width: calc(100%/{{ count }} - {{offset}}px)">
             <a href="/" class="glyphicon glyphicon-home"></a>
@@ -45,7 +45,7 @@
             </li>
         {% endfor %}
     </ul>
-    <canvas class="dec" height="30">
+    <canvas class="dec" height="25">
 
     </canvas>
 </nav>

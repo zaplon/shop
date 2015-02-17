@@ -346,8 +346,8 @@ def getOrderOptions(request):
         totals['shipping'] = ShippingMethod.objects.first().price
         paymentMethods = PaymentMethod.objects.all()
         needsShipping = False
-    totals['total'] = totals['products'] + totals['shipping']
     totals['discount'] = cart.getDiscount(request.user)
+    totals['total'] = totals['products'] + totals['shipping'] - totals['discount']
     shippingMethods = ShippingMethodSerializer(ShippingMethod.objects.all(), many=True).data
     paymentMethods = PaymentMethodSerializer(paymentMethods, many=True).data
 
@@ -404,7 +404,7 @@ def addToCart(request):
             cp = CartProduct(product=p, cart=c, price=p.price, quantity=quantity)
         else:
             pv = ProductVariation.objects.get(id=request.POST['productVariation'])
-            if pv.amount < quantity:
+            if pv.amount < int(quantity):
                 return HttpResponse(json.dumps({'success': False}))
             cp = CartProduct(productVariation=pv, cart=c, price=pv.price,
                              quantity=quantity)

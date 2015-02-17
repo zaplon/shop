@@ -14,6 +14,9 @@ class UserProfile(models.Model):
     pass
 
 class Page(models.Model):
+    class Meta:
+        verbose_name = 'Strona'
+        verbose_name_plural = 'Strony'
     title = models.CharField(max_length=100)
     body = RichTextField(max_length=20000)
     url = models.CharField(default='', max_length=100)
@@ -49,9 +52,12 @@ def dictfetchall(cursor):
 
 # Create your models here.
 class Product(Page):
+    class Meta:
+        verbose_name = 'Produkt'
+        verbose_name_plural = 'Produkty'
     name = models.CharField(max_length=100)
     shortName = models.CharField(max_length=100, default='', blank=True, null=True)
-    description = RichTextField(max_length=2000, default='', blank=True, null=True)
+    description = RichTextField(max_length=3000, default='', blank=True, null=True)
     shortDescription = RichTextField(max_length=200, default='', blank=True, null=True)
     mainImage = models.FileField(upload_to='images/', default=None, blank=True)
     price = models.FloatField(default=0)
@@ -101,6 +107,9 @@ class Product(Page):
             return 'no image'
 
 class ProductVariation(models.Model):
+    class Meta:
+        verbose_name = 'Wariant produktu'
+        verbose_name_plural = 'Warianty produktów'
     product = models.ForeignKey(Product, related_name='variations')
     attributes = models.ManyToManyField('Attribute', related_name='products')
     name = models.CharField(max_length=100, blank=True, null=True)
@@ -116,6 +125,9 @@ class ProductVariation(models.Model):
         return name
 
 class Category(models.Model):
+    class Meta:
+        verbose_name = 'Kategoria'
+        verbose_name_plural = 'Kategorie'
     name = models.CharField(max_length=100)
     forProducts = models.BooleanField(default=False)
     image = models.FileField(upload_to=MEDIA_ROOT+'images/', default='', blank=True)
@@ -137,12 +149,18 @@ class Attachment(models.Model):
     page = models.ForeignKey(Page, related_name='attachments')
 
 class AttributeGroup(models.Model):
+    class Meta:
+        verbose_name = 'Grupa atrybutów'
+        verbose_name_plural = 'Grupy atrybutów'
     name = models.CharField(max_length=100)
     forProductVariations = models.BooleanField(default=False)
     def __unicode__(self):
         return self.name
 
 class Attribute(models.Model):
+    class Meta:
+        verbose_name = 'Atrybut'
+        verbose_name_plural = 'Grupy atrybutów'
     name = models.CharField(max_length=100)
     value = models.CharField(max_length=100, blank = True, null = True)
     group = models.ForeignKey(AttributeGroup, related_name='attributes')
@@ -239,6 +257,9 @@ class Shipment(models.Model):
         return self.getTypeString() + ':' + self.name + ' ' + self.surname
 
 class Invoice(models.Model):
+    class Meta:
+        verbose_name = 'Faktura'
+        verbose_name_plural = 'Faktury'
     NIP = models.CharField(max_length=20)
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=150)
@@ -254,18 +275,27 @@ class Method(models.Model):
         return self.name
 
 class PaymentMethod(Method):
+    class Meta:
+        verbose_name = 'Metoda zapłaty'
+        verbose_name_plural = 'Metody zapłaty'
     instructions = models.CharField(max_length=500, blank = True, null = True)
     code = models.CharField(max_length='3')
     needsProcessing = models.BooleanField(default = False)
     price = models.FloatField(default=0, blank = True, null = True)
 
 class ShippingMethod(Method):
+    class Meta:
+        verbose_name = 'Metoda wysyłki'
+        verbose_name_plural = 'Metody wysyłki'
     needsShipping = models.BooleanField(default = False)
     price = models.FloatField(default=0)
     paymentMethods = models.ManyToManyField(PaymentMethod, related_name='shippingMethods')
     pass
 
 class Order(models.Model):
+    class Meta:
+        verbose_name = 'Zamówienie'
+        verbose_name_plural = 'Zamówienia'
     user = models.ForeignKey(User, null=True, blank=True)
     status = models.CharField(choices=(('PE','pending'),('CA','cancelled'),
                                        ('FI','finished')),max_length=20, default='PE')

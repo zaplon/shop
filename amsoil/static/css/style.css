@@ -368,6 +368,9 @@ ul.breadcrumbs {
 .service-body p {
   text-align: justify; }
 
+.slide-background {
+  margin: 0; }
+
 .slider {
   height: 320px; }
   .slider div {

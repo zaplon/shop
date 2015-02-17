@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from amsoil.models import Product, Cart, CartProduct, ProductVariation, ShippingMethod, PaymentMethod, NewsletterReceiver
+from amsoil.models import Product, Cart, CartProduct, ProductVariation, ShippingMethod, PaymentMethod, NewsletterReceiver\
+    , Attribute, AttributeGroup
 
 class ShippingMethodSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,22 +10,33 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
     class Meta:
         model = PaymentMethod
 
+class AttributeGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AttributeGroup
+
+class AttributeSerializer(serializers.ModelSerializer):
+    group = AttributeGroupSerializer()
+    class Meta:
+        model = Attribute
+        fields = ('id','name','group',)
+
+
 class ProductVariationSerializer(serializers.ModelSerializer):
-    attributesString = serializers.CharField(source='getAttributesString')
+    #attributesString = serializers.CharField(source='getAttributesString')
+    attributes = AttributeSerializer(many=True)
     class Meta:
         model = ProductVariation
-        fields = ('id','price', 'attributesString',)
+        fields = ('id','price','attributes',)
 
 class ProductSerializer(serializers.ModelSerializer):
     image = serializers.CharField(source='getMainImage', read_only=True)
-    variations = serializers.CharField(source='getVariations', read_only=True)
-    hasManyVariations = serializers.BooleanField(read_only=True)
-    variationsDetails = serializers.CharField(source='getVariationsDetails', read_only=True)
-    groupedAttributes = serializers.CharField(source='getGroupedAttributes', read_only=True)
+    variations = ProductVariationSerializer(many=True)
+    #hasManyVariations = serializers.BooleanField(read_only=True)
+    #variationsDetails = serializers.CharField(source='getVariationsDetails', read_only=True)
+    #groupedAttributes = serializers.CharField(source='getGroupedAttributes', read_only=True)
     class Meta:
         model = Product
-        fields = ('id','name','description','price','image', 'shortDescription','categories', 'variations',
-                  'hasManyVariations', 'variationsDetails','groupedAttributes')
+        fields = ('id','name','description','price','image', 'shortDescription','categories', 'variations',)
 
 class CartProductSerializer(serializers.ModelSerializer):
     productVariation = ProductVariationSerializer()
