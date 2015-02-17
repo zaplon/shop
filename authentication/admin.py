@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import Group
@@ -39,7 +42,8 @@ class UserChangeForm(forms.ModelForm):
     the user, but replaces the password field with admin's
     password hash display field.
     """
-    password = ReadOnlyPasswordHashField()
+    password = ReadOnlyPasswordHashField(label= ("Password"),
+                                         help_text= ("""Zmiana hasła za pomocą <a href=\"password/\">tego formularza</a>."""))
 
     class Meta:
         model = User
