@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from amsoil.models import Product, Cart, CartProduct, ProductVariation, ShippingMethod, PaymentMethod, NewsletterReceiver
+from amsoil.models import Product, Cart, CartProduct, ProductVariation, ShippingMethod, PaymentMethod, NewsletterReceiver,\
+    Attribute
 
 class ShippingMethodSerializer(serializers.ModelSerializer):
     class Meta:
@@ -45,3 +46,28 @@ class CartSerializer(serializers.ModelSerializer):
 class NewsletterReceiverSerializer(serializers.ModelSerializer):
     class Meta:
         model = NewsletterReceiver
+
+
+
+
+class ShopAttributeSerializer(serializers.ModelSerializer):
+    group = serializers.CharField(source='group.name', read_only=True)
+    class Meta:
+        model = Attribute
+        fields = ('id','name','group')
+
+class ShopProductVariationSerializer(serializers.ModelSerializer):
+    attributes = ShopAttributeSerializer(many=True, read_only=True)
+    class Meta:
+        model = ProductVariation
+        fields = ('id', 'price','amount','image','attributes')
+
+class ShopProductSerializer(serializers.ModelSerializer):
+    image = serializers.CharField(source='getMainImage', read_only=True)
+    variations = ShopProductVariationSerializer(many=True, read_only=True)
+    grouped_variations = serializers.CharField(source='getVariations', read_only=True)
+
+    class Meta:
+        model = Product
+        fields = ('id','name','image','shortDescription','categories', 'variations','grouped_variations',
+                  'hasManyVariations')

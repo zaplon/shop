@@ -1,77 +1,57 @@
-    <div class="variations-details" data-product="{{product.id}}">
-        {{#if product.hasManyVariations}}
-            <div class="price-from">
-                <span class="currency">od</span>
-                <span class="currency">PLN</span>
-                <span class="item-price">
-                    {{ product.variationsDetails.min }}
-                </span>
+<div class="variations-details" data-product="{{product.id}}">
+    {{#if product.hasManyVariations}}
+        <div class="price-from">
+            <span class="currency">od</span>
+            <span class="item-price">
+                {{ product.min_price }}
+            </span>
+            <span class="currency">zł</span>
+        </div>
+    {{/if}}
+    {{#each product.variations }}
+        <div {{#if ../product.hasManyVariations }}style="display:none;"{{/if}}
+                class="variation-details" data-variation="{{id}}">
+            <span class="item-price">
+                {{ price }}
+            </span>
+            <span class="currency">zł</span>
+        </div>
+    {{/each}}
+</div>
+<div class="input-group form-inline variations-table" data-product="{{ product.id }}">
+    {{#each product.grouped_variations }}
+            <div class="form-group">
+                <label>{{@key}}</label>
             </div>
-        {{/if}}
-        {{#each product.variationsDetails.vars }}
-            <input class="amount" data-variation="{{id}}" type="hidden" value="{{amount}}" />
-            <div {{#if ../product.hasManyVariations }}style="display:none;"{{/if}}
-                    class="variation-details" data-variation="{{id}}">
-                <span class="currency">PLN</span>
-                <span class="item-price">
-                    {{ price }}
-                </span>
+            <div class="input-group">
+                {{#if ../product.hasManyVariations }}
+                    <select class="form-control pull-right" data-product="{{ ../../product.id }}">
+                        <option class="default">Wybierz...</option>
+                        {{#each . }}
+                            <option data-variations="{{#each .}}{{id}} {{/each}}" value="{{#each .}}{{id}} {{/each}}">
+                                {{@key}}
+                            </option>
+                        {{/each}}
+                    </select>
+                {{else}}
+                    <span style="position:relative; top:-3px;">{{#each . }}{{@key}}{{/each}}</span>
+                {{/if}}
             </div>
-        {{/each}}
-    </div>
-    <div class="input-group form-inline variations-table" data-product="{{ product.id }}">
-        {{#each product.variations }}
-                <div class="form-group">
-                    <label>{{@key}}</label>
-                </div>
-                <div class="input-group">
-                    {{#if ../product.hasManyVariations }}
-                        <select class="form-control pull-right" data-product="{{ ../../product.id }}">
-                            <option class="default">Wybierz...</option>
-                            {{#each . }}
-                                <option data-variations="{{#each .}}{{id}} {{/each}}" value="{{#each .}}{{id}} {{/each}}">
-                                    {{@key}}
-                                </option>
-                            {{/each}}
-                        </select>
-                    {{else}}
-                        <span style="position:relative; top:-3px;">{{#each . }}{{@key}}{{/each}}</span>
-                    {{/if}}
-                </div>
-        {{/each}}
-    </div>
-
-
-    <div style="height:60px;">
-
-        {{#if showQuantity }}
-            <div style="margin-top:{{#if buttonMargin }}{{buttonMargin}}px{{else}}20px{{/if}};">
-                <input style="margin-right:10px;" type="number" aria-valuemin="0" value="1"
-                       id="quantity" class="pull-left form-control" />
-                <button {{#unless product.variationsDetails.vars.0.amount }} disabled {{/unless}}
-                        class="{{#unless product.hasManyVariations}}single-var {{/unless}}
-                {{#if product.variationsDetails.vars.0.amount }} btn-primary add-to-cart {{else}}
-                 btn-default{{/if}} variable btn pull-left " data-product="{{ product.id}}">
-                    {{#if product.variationsDetails.vars.0.amount }}
-                        {{ addToCart }}
-                    {{else}}
-                        Brak w magazynie
-                    {{/if}}
-                </button>
-            </div>
-            <div style="clear:both"></div>
-        {{else}}
-            <button {{#unless product.variationsDetails.vars.0.amount }} disabled {{/unless}}
-                    class="{{#unless product.hasManyVariations}}single-var {{/unless}}
-            {{#if product.hasManyVariations}} hidden  variable {{/if}} btn
-            {{#if product.variationsDetails.vars.0.amount }} btn-primary add-to-cart {{else}} btn-default{{/if}}"
-            data-product="{{ product.id}}"
+    {{/each}}
+</div>
+<div class="variations-buttons">
+    {{#if showQuantity}}
+        <input style="margin-right:10px;" type="number" aria-valuemin="0" value="1" id="quantity"
+               class="pull-left form-control" />
+    {{/if}}
+    <button class="btn add-to-cart {{#if product.variations.0.amount}}btn-primary{{else}}disabled btn-default{{/if}}
+        {{#if product.hasManyVariations}}variable hidden{{else}}single-var{{/if}}
+        {{#if showQuantity}}pull-left{{/if}}" data-product="{{product.id}}"
             style="margin-top:{{#if buttonMargin }}{{buttonMargin}}px{{else}}20px{{/if}};">
-                {{#if product.variationsDetails.vars.0.amount }}
-                        {{ addToCart }}
-                    {{else}}
-                        Brak w magazynie
-                    {{/if}}
-            </button>
+        {{#if product.variations.0.amount }}
+            {{ addToCart }}
+        {{else}}
+            Brak w magazynie
         {{/if}}
-    </div>
+    </button>
+</div>

@@ -17,6 +17,7 @@ urlpatterns = patterns('',
 
     #api
     url(r'api/', include(router.urls)),
+    url(r'api/products/',views.ShopProductListView.as_view(), name='api-product-list'),
 
     url(r'^$', views.home, name='home'),
     url(r'^sklep/kategoria/(?P<category>.*)/', views.shop, name='shopCategory'),

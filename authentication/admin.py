@@ -13,8 +13,8 @@ from authentication.models import User
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password1 = forms.CharField(label='Hasło', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Potwierdź hasło', widget=forms.PasswordInput)
 
     class Meta:
         model = User

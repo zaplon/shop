@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db import models
 
@@ -27,7 +29,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
 
-    username = models.CharField(max_length=30)
+    username = models.CharField(max_length=30, verbose_name='Nazwa użytkownika')
     email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)

@@ -31,7 +31,7 @@
                     <div id="product-variations-container" style="margin-bottom:20px;">
                     </div>
                     <div style="clear:both"></div>
-                    <div>
+                    <div style="margin-top:10px">
                         <span style="font-weight:bold">{% trans 'Categories' %}: </span>
                         <span>
                             {% for c in product.categories.all %}
@@ -71,10 +71,13 @@
     </div>
     <script>
         $("#single-col-2").height($("#single-col-1").height());
-        $.get('/produkty?id={{product.id}}').success(function(res){
+        $.get('/api/products?id={{product.id}}').success(function(res){
+            p = res.results[0];
+            shop.products = res.results;
+            p.grouped_variations = JSON.parse(p.grouped_variations.replace(/'/g, '"'));
             $('#product-variations-container').html(Handlebars.templates['variations'](
-                    { 'addToCart': 'Do koszyka', 'product': res.results[0], 'showQuantity': true,
-                    'buttonMargin':10}));
+                    { 'addToCart': 'Do koszyka', 'product': p, 'showQuantity': true,
+                    'buttonMargin':1}));
             $('#quantity').change(function(){
                shop.quantity = $(this).val();
             });

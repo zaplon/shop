@@ -23,7 +23,12 @@ $(document).ready(function($){
         var button = $('button[data-product='+pId+']');
         var div = $('.variations-table[data-product='+$(this).attr('data-product')+']');
         var selectedVariation = shop.getSelectedVariation(div);
-        var amount = $('input.amount[data-variation='+selectedVariation+']').val();
+
+        //var amount = $('input.amount[data-variation='+selectedVariation+']').val();
+        var product = shop.products.filter(function(p){ if (p.id == pId)  return true })[0];
+        var variation = product.variations.filter(function(v){ if (v.id == selectedVariation) return true });
+        var amount = variation.amount;
+
         button.removeClass('hidden');
         if (amount > 0){
             button.removeClass('btn-primary add-to-cart');
@@ -45,19 +50,17 @@ $(document).ready(function($){
 
 
     $('.container-fluid').delegate('.add-to-cart', 'click', function(){
-       var id = $(this).attr('data-variation');
+       var id = $(this).attr('data-product');
        var isVariable = $(this).hasClass('variable');
        var hasSingleVariation = $(this).hasClass('single-var');
        if (isVariable && !hasSingleVariation) {
-           var id = shop.getSelectedVariation($('.variations-table[data-product=' + $(this).attr('data-product') + ']'));
+           var pv = shop.getSelectedVariation($('.variations-table[data-product=' + $(this).attr('data-product') + ']'));
        }
-       if (hasSingleVariation)
-        id = $(this).attr('data-product');
-       //var singleVar =  $(this).hasClass('single-var');
-       //if (isVariable && !singleVar)
-       // id = $('select["data-product='+id + '"]').val();
-      if ($('input.amount[data-variation='+id+']').val() > 0 || hasSingleVariation)
-        shop.addToCart(id,isVariable);
+       if (hasSingleVariation) {
+           pv = shop.products.filter(function(p){ if  (p.id == id) return true  })[0].variations[0];
+       }
+      if (pv.amount > 0)
+        shop.addToCart(pv.id, true);
     });
 
     $('#account #login').click(function(){
@@ -303,7 +306,7 @@ shop = {
             filters = filters + '&price_in=' + p.substr(2,p.length-3);
         }
         filters = filters + '&o=' + shop.filters.sortBy;
-        $.get('/produkty?' + filters).done(function(res){
+        $.get('/api/products?' + filters).done(function(res){
            var cont = $('#'+container)[0];
            $('.product').remove();
            $('#no-products').remove();
@@ -336,6 +339,7 @@ shop = {
           });
 
           $(aPage).addClass('active');
+           shop.products = res.results;
            for (r in res.results) {
                if ((r) % 3 == 0)
                 $(cont).append('<div style="clear:both"></div>');
@@ -353,15 +357,13 @@ shop = {
 
                if (shop.displayAs == 'grid') {
                    p = res.results[r];
-                   p.variationsDetails = JSON.parse(p.variationsDetails.replace(/'/g, '"'));
-                   p.variations = JSON.parse(p.variations.replace(/'/g, '"'));
+                   p.grouped_variations = JSON.parse(p.grouped_variations.replace(/'/g, '"'));
                    $(div).html(Handlebars.templates['productSmall']( {'addToCart': 'Do koszyka', 'product': p }));
                    //$(div).html(Mustache.to_html(Mustache.TEMPLATES.productSmall, {'addToCart': 'Do koszyka', 'product': res.results[r] }));
                }
                else {
                    p = res.results[r];
-                   p.variationsDetails = JSON.parse(p.variationsDetails.replace(/'/g, '"'));
-                   p.variations = JSON.parse(p.variations.replace(/'/g, '"'));
+                   p.grouped_variations = JSON.parse(p.grouped_variations.replace(/'/g, '"'));
                    $(div).html(Handlebars.templates['product']({'addToCart': 'Do koszyka', 'product': p }));
                    //$(div).html(Mustache.to_html(Mustache.TEMPLATES.product, { 'addToCart':'Do koszyka', 'product': res.results[r] }));
                }

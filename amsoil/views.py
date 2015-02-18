@@ -6,7 +6,8 @@ from amsoil.models import Page, Product, Cart, User, CartProduct, ProductVariati
     ShippingMethod, PaymentMethod, Order, Invoice, Shipment, Category, Attribute, UserMeta, NewsletterReceiver
 from rest_framework import viewsets
 from amsoil.serializers import ProductSerializer, PaymentMethodSerializer, ShippingMethodSerializer, \
-    CartSerializer, CartProductSerializer, NewsletterReceiverSerializer, ProductVariationSerializer
+    CartSerializer, CartProductSerializer, NewsletterReceiverSerializer, ProductVariationSerializer,\
+    ShopProductSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -241,25 +242,32 @@ def checkout(request):
             # c.order = order
             c.save()
 
+            order.save()
+
+            #pierwsze i ostanie zapisanie faktury
+            if data['hasInvoice']:
+                invoice.order = order
+                invoice.save()
+
+            #zapisywanie adresów
             if request.user.is_authenticated():
                 order.user = request.user
                 if order.shippingMethod.needsShipping:
-                    if not 'receiver' in data:
-                        receiver = buyer
-                    receiver = receiver.save(commit=False)
-                    receiver.user = request.user
+                    if 'receiver' in data:
+                        receiver = receiver.save(commit=False)
+                        receiver.user = request.user
                     buyer = buyer.save(commit=False)
                     buyer.user = request.user
+
+
             if order.shippingMethod.needsShipping:
-                buyer.order = order
                 buyer.type = 'BU'
+                buyer.order = order
                 buyer.save()
-                receiver.type = 'RE'
-                receiver.order = order
-                receiver.save()
-
-
-            order.save()
+                if 'receiver' in data:
+                    receiver.type = 'RE'
+                    receiver.order = order
+                    receiver.save()
 
 
             #wysyłanie emaili
@@ -278,7 +286,11 @@ def checkout(request):
                 invoice = InvoiceForm()
         else:
             invoice = InvoiceForm()
-        basics = CheckoutBasicForm()
+
+        if request.user.is_authenticated():
+            basics = CheckoutBasicForm(initial={'email': request.user.email})
+        else:
+            basics = CheckoutBasicForm()
     try:
         products_in_cart = CartProduct.objects.filter(cart__id=request.session['cartId']).count()
     except:
@@ -460,6 +472,18 @@ class ProductListView(generics.ListAPIView):
     filter_class = ProductFilter
     paginate_by = 9
 
+
+class ShopProductListView(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ShopProductSerializer
+    filter_class = ProductFilter
+    paginate_by = 9
+    def get(self, request, format=None):
+        list = self.list(request)
+        for p in list.data['results']:
+            p['min_price'] = min(p['variations'], key=lambda x: x['price'])['price']
+
+        return list
 
 
 @csrf_exempt

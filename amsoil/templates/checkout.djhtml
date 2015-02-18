@@ -80,8 +80,8 @@
                                     <h2>{% trans 'Log in' %}</h2>
                                     <form action="/login/" method="POST" id="login-form">
                                         <div class="form-group">
-                                            <label>{% trans 'Username' %}:</label>
-                                            <input name="username" type="text" />
+                                            <label>Email:</label>
+                                            <input name="email" type="text" />
                                         </div>
                                         <div class="form-group">
                                             <label>{% trans 'Password' %}:</label>
@@ -235,11 +235,7 @@
                                 {% trans 'Order notes' %}
                             </div>
                             <div class="panel-body">
-                                <textarea id="notes" class="form-control">
-                                    {% if notes %}
-                                        {{ notes }}
-                                    {% endif %}
-                                </textarea>
+                                <textarea id="notes" class="form-control">{% if notes %}{{ notes }}{% endif %}</textarea>
                             </div>
                         </div>
                     </div>
