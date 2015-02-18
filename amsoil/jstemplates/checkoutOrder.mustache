@@ -31,14 +31,14 @@
 <div class="col-md-4">
     <h4>{{#_}} Totals {{/_}}</h4>
 
-    <div>{{#_}} Products price:{{/_}}<span class="pull-right">
+    <div>{{#_}} Products price{{/_}}:<span class="pull-right">
         <strong>{{> price totals.products }}</strong></span></div>
-    <div>{{#_}} Shipping:{{/_}} <span class="pull-right"><strong>
+    <div>{{#_}} Shipping{{/_}}: <span class="pull-right"><strong>
         {{> price totals.shipping }}</strong></span></div>
     {{#totals.discount}}
-        <div>{{#_}} Discount:{{/_}} <span class="pull-right"><strong>
-            {{> price totals.discount }}</strong></span></div>
+        <div>{{#_}} Discount{{/_}}: <span class="pull-right"><strong>
+            {{ . }} zł</strong></span></div>
     {{/totals.discount}}
-    <div>{{#_}} In total:{{/_}} <span class="pull-right">
+    <div>{{#_}} In total{{/_}}: <span class="pull-right">
         <strong>{{> price totals.total }}</strong></span></div>
 </div>
