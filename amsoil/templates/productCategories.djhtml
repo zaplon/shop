@@ -9,6 +9,19 @@
                 <div class="thick-box" data-category="{{ cat.id }}" category="{{ cat.id }}"></div>
                 <span class="badge">{{ cat.dcount }}</span>{{ cat.name }}
             {% endif %}
+            
+            <ul class="list-unstyled">
+                {% for cc in cat.children.all %}
+                    <li>
+                        {% if asLink %}
+                            <a href="/shop/category/{{ cc.id }}">{{ cc.name }}</a>
+                        {% else %}
+                            <div class="thick-box" data-category="{{ cc.id }}" category="{{ cc.id }}"></div>
+                            <span class="badge">{{ cc.dcount }}</span>{{ cc.name }}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
         </li>
     {% endfor %}
     </ul>
