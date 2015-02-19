@@ -22,11 +22,11 @@
                     <td>{{ i.productVariation.product.name }}</td>
                 {% endif %}
                 {% if noButtons %}
-                    <td class="text-center">{{i.quantity}}</td>
+                    <td class="table-text-align">{{i.quantity}}</td>
                 {% else %}
-                    <td class="text-center"><input product="{{ i.id }}" name="product-quantity" class="form-control" type="number" value="{{ i.quantity }}" min="0"></input></td>
+                    <td class="table-text-align"><input product="{{ i.id }}" name="product-quantity" class="form-control" type="number" value="{{ i.quantity }}" min="0"></input></td>
                 {% endif %}
-                <td class="text-center">{{ i.price|currency}}</td>
+                <td class="table-text-align">{{ i.price|currency}}</td>
                 {% if not noButtons %}
                     <td><button product="{{ i.id }}" class="update-cart btn btn-primary">
                         {% trans 'Update' %}
@@ -36,23 +36,23 @@
         {% endfor %}
         <tfoot>
             <tr>
-                <td colspan="4"></td>
+                <td colspan="5">&nbsp;</td>
             </tr>
             {% if discount %}
                 <tr>
-                    <td></td><td>{% trans 'Discount:' %}</td><td></td><td class="text-center" colspan="3">{{ discount|currency }}</td>
+                    <td></td><td>{% trans 'Discount:' %}</td><td></td><td class="table-text-align" colspan="3">{{ discount|currency }}</td>
                 </tr>
             {% endif %}
 
             {% if order %}
                 <tr>
                     <td></td><td>{% trans 'Shipping' %} ({{ order.shippingMethod.name }}):</td><td></td>
-                    <td colspan="3" class="text-center">{{ order.shippingMethod.price|currency }}</td>
+                    <td colspan="3" class="table-text-align">{{ order.shippingMethod.price|currency }}</td>
                 </tr>
             {% endif %}
 
             <tr>
-                <td></td><td>{% trans 'In total:' %}</td><td></td><td class="text-center" colspan="3">{{ total|currency }}</td>
+                <td></td><td>{% trans 'In total:' %}</td><td></td><td class="table-text-align" colspan="3">{{ total|currency }}</td>
             </tr>
 
         </tfoot>

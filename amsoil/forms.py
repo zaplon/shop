@@ -16,7 +16,7 @@ class InvoiceForm(ModelForm):
 
 
 class CheckoutBasicForm(Form):
-    email = forms.CharField(max_length=100, widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
+    email = forms.CharField(max_length=100, widget=forms.EmailInput(attrs={'placeholder': 'Email*'}))
     tel = forms.CharField(max_length=20, required=False, widget=forms.TextInput(attrs={'placeholder': 'Telefon'}))
     help_texts = {
         'email':'Email',

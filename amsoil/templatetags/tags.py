@@ -17,6 +17,16 @@ from django.template import Template
 
 register = template.Library()
 
+@register.inclusion_tag('tags/discount_info.html',takes_context=True)
+def discount_info(context):
+    request = context['request']
+    if UserMeta.getValue(request.user,'discount'):
+        return {
+            'discount': {'ends': UserMeta.getValue(request.user,'discount_ends'),
+                         'size': UserMeta.getValue(request.user,'discount') }
+        }
+    else:
+        return {'discount': False}
 
 @register.inclusion_tag('special_shop.html',takes_context=True)
 def special_shop(context, *args, **kwargs):
@@ -171,9 +181,17 @@ def cartData(context, *args, **kwargs):
 
 @register.inclusion_tag('addresses.html', takes_context=True)
 def addresses(context, order, *args, **kwargs):
-    receiver = Shipment.objects.filter(order=order,type='RE')
+    try:
+        receiver = ShippingForm(instance=Shipment.objects.get(order=order,type='RE'))
+    except:
+        receiver = False
+    try:
+        buyer = ShippingForm(instance=Shipment.objects.get(order=order,type='BU'))
+    except:
+        buyer = False
     return {
-        'receiver': ShippingForm(receiver)
+        'buyer': buyer,
+        'receiver': receiver
     }
 
 

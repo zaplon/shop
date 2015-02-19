@@ -215,17 +215,19 @@ def checkout(request):
             #znizki
             if request.user.is_authenticated():
                 now_date=datetime.datetime.now()
+                next_year = now_date + datetime.timedelta(days=365)
+
                 last_12_months = Order.objects.filter(user=request.user,date__gte=now_date-datetime.timedelta(days=365)).\
                     aggregate(Sum('total')).values()[0]
                 if last_12_months > 1000:
                     UserMeta.setValue(request.user,'discount','20')
-                    UserMeta.setValue(request.user,'discount_ends',now_date.strftime('%Y-%m-%d'))
+                    UserMeta.setValue(request.user,'discount_ends',next_year.strftime('%Y-%m-%d'))
                 elif last_12_months > 500:
                     UserMeta.setValue(request.user,'discount','15')
-                    UserMeta.setValue(request.user,'discount_ends',now_date.strftime('%Y-%m-%d'))
+                    UserMeta.setValue(request.user,'discount_ends',next_year.strftime('%Y-%m-%d'))
                 elif last_12_months > 300:
                     UserMeta.setValue(request.user,'discount','10')
-                    UserMeta.setValue(request.user,'discount_ends',now_date.strftime('%Y-%m-%d'))
+                    UserMeta.setValue(request.user,'discount_ends',next_year.strftime('%Y-%m-%d'))
 
                 if UserMeta.getValue(request.user,'discount'):
                     end_date = datetime.datetime.strptime(UserMeta.getValue(request.user,'discount_ends'),'%Y-%m-%d')
@@ -250,25 +252,30 @@ def checkout(request):
                 invoice.save()
 
             #zapisywanie adresów
+            if order.shippingMethod.needsShipping:
+                buyer = buyer.save(commit=False)
+                if 'receiver' in data:
+                    receiver = receiver.save(commit=False)
+
             if request.user.is_authenticated():
                 order.user = request.user
                 if order.shippingMethod.needsShipping:
                     if 'receiver' in data:
-                        receiver = receiver.save(commit=False)
                         receiver.user = request.user
-                    buyer = buyer.save(commit=False)
                     buyer.user = request.user
 
 
             if order.shippingMethod.needsShipping:
                 buyer.type = 'BU'
                 buyer.order = order
-                buyer.save()
                 if 'receiver' in data:
                     receiver.type = 'RE'
                     receiver.order = order
+                buyer.save()
+                if 'receiver' in data:
                     receiver.save()
 
+            order.save()
 
             #wysyłanie emaili
             newOrder(order, request)

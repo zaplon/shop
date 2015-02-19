@@ -8,12 +8,15 @@
 
 {% block content %}
     <div>
-        Zostało złożone nowe zamówienie o numerze: <strong>{{ order.number }}</strong>
+        <p>Zostało złożone nowe zamówienie o numerze: <strong>{{ order.number }}</strong></p>
+    </div>
+    <div>
+        <p>Podsumowanie zamówienia:</p>
     </div>
     {% cartItems noButtons="1" order=order %}
 
     {% if order.shippingMethod.needsShipping %}
-
+        {% addresses order=order %}
     {% endif %}
 
 {% endblock %}

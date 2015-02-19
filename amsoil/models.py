@@ -130,7 +130,7 @@ class Category(models.Model):
         verbose_name_plural = 'Kategorie'
     name = models.CharField(max_length=100)
     forProducts = models.BooleanField(default=False)
-    parent = models.ForeignKey(self, verbose_name='rodzic', blank=True, null=True, related_name='children')
+    parent = models.ForeignKey('self', verbose_name='rodzic', blank=True, null=True, related_name='children')
     image = models.FileField(upload_to=MEDIA_ROOT+'images/', default='', blank=True)
     def __unicode__(self):
         return self.name
@@ -223,7 +223,10 @@ class Cart(models.Model):
             if UserMeta.getValue(user,'discount'):
                 database_discount = UserMeta.getValue(user,'discount')
         if int(database_discount) > discount:
-            discount = total * float(UserMeta.getValue(user,'discount'))/100
+            try:
+                discount = total * float(UserMeta.getValue(user,'discount'))/100
+            except:
+                pass
         else:
             if total is not None:
                 discount = total * discount/100
@@ -247,7 +250,7 @@ class Shipment(models.Model):
     name = models.CharField(max_length=100)
     surname = models.CharField(max_length=100)
     type = models.CharField(max_length=20,  choices=( ('BU','buyer'),('RE','receiver') ) )
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, blank=True, null=True)
     order = models.ForeignKey('Order', related_name='shipment', blank=True, null=True)
     def getTypeString(self):
         if self.type == 'RE':
@@ -306,11 +309,16 @@ class Order(models.Model):
     paymentMethod = models.ForeignKey(PaymentMethod)
     notes = models.CharField(max_length=200, blank=True, null=True)
     email = models.EmailField()
-    number = models.CharField(max_length=20, default=lambda: datetime.datetime.now().strftime('%s')) 
+    number = models.CharField(max_length=20, default='')
     phone = models.CharField(max_length=15, default=0)
     total = models.FloatField(default=0)
     token = models.CharField(max_length=30, blank=True, null=True)
     paypalData = models.CharField(max_length=300, blank=True, null=True)
+
+@receiver(pre_save, sender=Order)
+def createOrderNr(instance, sender, **kwargs):
+    instance.number = str(datetime.datetime.now().strftime('%s'))
+
 
 class MetaData(models.Model):
     class Meta:

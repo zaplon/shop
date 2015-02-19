@@ -441,11 +441,11 @@ button.close:hover {
 .product-grid .variations-buttons {
   height: 60px;
   margin-top: 0px; }
-
-.variations-table {
+.product-grid .variations-table {
   height: 70px; }
-  .variations-table label {
-    margin-right: 10px; }
+
+.variations-table label {
+  margin-right: 10px; }
 
 #no-products {
   text-align: center; }
