@@ -130,7 +130,7 @@ class Category(models.Model):
         verbose_name_plural = 'Kategorie'
     name = models.CharField(max_length=100)
     forProducts = models.BooleanField(default=False)
-    parent = models.ForeignKey(self)
+    parent = models.ForeignKey(self, verbose_name='rodzic')
     image = models.FileField(upload_to=MEDIA_ROOT+'images/', default='', blank=True)
     def __unicode__(self):
         return self.name
