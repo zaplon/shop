@@ -15,6 +15,7 @@ from rest_framework import status
 import django_filters, json, datetime
 from amsoil.forms import ShippingForm, InvoiceForm, QuickContactForm, CheckoutBasicForm, UserEditForm
 from authentication.admin import UserCreationForm
+from amsoil.templatetags.tags import currency
 
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count, Sum
@@ -188,6 +189,7 @@ def checkout(request):
                     pass
                 else:
                     hasErrors = True
+
         if data['hasInvoice']:
             invoice = InvoiceForm(data['invoice'])
             if invoice.is_valid():
@@ -228,7 +230,7 @@ def checkout(request):
                 if UserMeta.getValue(request.user,'discount'):
                     end_date = datetime.datetime.strptime(UserMeta.getValue(request.user,'discount_ends'),'%Y-%m-%d')
                     if end_date > now_date:
-                        order.total = order.total - order.total * UserMeta.getValue(request.user,'discount')
+                        order.total = order.total - order.total * float(UserMeta.getValue(request.user,'discount'))/100
 
             order.total += order.paymentMethod.price + order.shippingMethod.price
 
@@ -253,12 +255,12 @@ def checkout(request):
                 if 'receiver' in data:
                     receiver = receiver.save(commit=False)
 
-            if request.user.is_authenticated():
-                order.user = request.user
-                if order.shippingMethod.needsShipping:
-                    if 'receiver' in data:
-                        receiver.user = request.user
-                    buyer.user = request.user
+            #if request.user.is_authenticated():
+            #    order.user = request.user
+            #    if order.shippingMethod.needsShipping:
+            #        if 'receiver' in data:
+            #            receiver.user = request.user
+            #        buyer.user = request.user
 
 
             if order.shippingMethod.needsShipping:
@@ -362,7 +364,10 @@ def getOrderOptions(request):
         paymentMethods = PaymentMethod.objects.all()
         needsShipping = False
     totals['discount'] = cart.getDiscount(request.user)
-    totals['total'] = totals['products'] + totals['shipping'] - totals['discount']
+    totals['total'] = currency(totals['products'] + totals['shipping'] - totals['discount'])
+    totals['shipping'] = currency(totals['shipping'])
+    totals['discount'] = currency(totals['discount'])
+    totals['products'] = currency(totals['products'])
     shippingMethods = ShippingMethodSerializer(ShippingMethod.objects.all(), many=True).data
     paymentMethods = PaymentMethodSerializer(paymentMethods, many=True).data
 

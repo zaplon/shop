@@ -32,13 +32,13 @@
     <h4>{{#_}} Totals {{/_}}</h4>
 
     <div>{{#_}} Products price{{/_}}:<span class="pull-right">
-        <strong>{{> price totals.products }}</strong></span></div>
+        <strong>{{  totals.products }}</strong></span></div>
     <div>{{#_}} Shipping{{/_}}: <span class="pull-right"><strong>
-        {{> price totals.shipping }}</strong></span></div>
+        {{ totals.shipping }}</strong></span></div>
     {{#totals.discount}}
         <div>{{#_}} Discount{{/_}}: <span class="pull-right"><strong>
-            {{ . }} zł</strong></span></div>
+            {{ . }}</strong></span></div>
     {{/totals.discount}}
     <div>{{#_}} In total{{/_}}: <span class="pull-right">
-        <strong>{{> price totals.total }}</strong></span></div>
+        <strong>{{ totals.total }}</strong></span></div>
 </div>

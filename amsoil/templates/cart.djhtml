@@ -40,7 +40,7 @@
             </tr>
             {% if discount %}
                 <tr>
-                    <td></td><td>{% trans 'Discount:' %}</td><td></td><td class="table-text-align" colspan="3">{{ discount|currency }}</td>
+                    <td></td><td>Zniżka:</td><td></td><td class="table-text-align" colspan="3">{{ discount|currency }}</td>
                 </tr>
             {% endif %}
 

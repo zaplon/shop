@@ -65,8 +65,10 @@
 			margin-top: 20px;
 			background-color:#eee;
             padding: 70px 0 70px 0;
+            text-align: center;
         }
 		#content {
+            text-align: justify;
 			padding: 0;
             background-color:white;
             color: black!important;

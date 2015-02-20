@@ -26,13 +26,14 @@ $(document).ready(function($){
 
         //var amount = $('input.amount[data-variation='+selectedVariation+']').val();
         var product = shop.products.filter(function(p){ if (p.id == pId)  return true })[0];
-        var variation = product.variations.filter(function(v){ if (v.id == selectedVariation) return true });
+        var variation = product.variations.filter(function(v){ if (v.id == selectedVariation) return true })[0];
         var amount = variation.amount;
 
         button.removeClass('hidden');
         if (amount > 0){
             button.removeClass('btn-primary add-to-cart');
             button.addClass('btn-primary add-to-cart');
+            //button.attr('data-variation',selectedVariation);
             button.prop('disabled', false);
             button.html('Do koszyka');
         }
@@ -55,6 +56,8 @@ $(document).ready(function($){
        var hasSingleVariation = $(this).hasClass('single-var');
        if (isVariable && !hasSingleVariation) {
            var pv = shop.getSelectedVariation($('.variations-table[data-product=' + $(this).attr('data-product') + ']'));
+           p = shop.products.filter(function(p){ if  (p.id == id) return true  })[0];
+           pv = p.variations.filter(function(v){ if (v.id == pv) return true })[0];
        }
        if (hasSingleVariation) {
            pv = shop.products.filter(function(p){ if  (p.id == id) return true  })[0].variations[0];

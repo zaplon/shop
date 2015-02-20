@@ -15,6 +15,7 @@
             </div>
         </div>
     {% else %}
+        {% discount_info %}
         <form id="checkout-variables">
             <input type="hidden" value="{{ step }}" name="step"></input>
             <input type="hidden" value="{{ shippingMethod }}" name="shippingMethod"></input>
