@@ -2,7 +2,7 @@
 {% load jstemplate %}
 {% load tags %}
 {% load i18n %}
-
+{% load static %}
 {% block body %}
 
     <div class="row">
@@ -24,7 +24,7 @@
                     <h1>{{ product.name }}</h1>
                 </div>
                 <img width="150" height="300"
-                     src="/media/{{ product.mainImage }}"></img>
+                     src="{{ MEDIA_URL }}{{ product.mainImage }}"></img>
             </div>
             <div class="col-md-4 col-sm-6 panel panel-default" id="single-col-2">
                 <div class="panel-body">
