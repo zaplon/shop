@@ -513,8 +513,8 @@ def quickContact(request):
 
 def search(request):
     term = request.GET['term']
-    pages = Page.objects.filter(Q(body__contains=term) | Q(title__contains=term))
-    products = Product.objects.filter(Q(name__contains=term) | Q(description__contains=term))
+    pages = Page.objects.filter(Q(body__icontains=term) | Q(title__icontains=term))
+    products = Product.objects.filter(Q(name__icontains=term) | Q(description__icontains=term))
     res = []
     for p in pages:
         res.append({'id': p.id, 'except': p.body[0:200], 'title': p.title, 'link': '/page/' + p.name})
