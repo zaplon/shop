@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Django settings for shop project.
 
@@ -38,6 +41,7 @@ LANGUAGES = (
 # Application definition
 
 INSTALLED_APPS = (
+    #'suit',
     'grappelli',
     'django_filters',
     'rest_framework',
@@ -51,11 +55,17 @@ INSTALLED_APPS = (
     'amsoil',
     'ckeditor',
     'jstemplate',
-    'django_inlinecss'
+    'django_inlinecss',
+    #'registration',
+    'authentication',
+    'password_reset',
+    'corsheaders'
 )
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.locale.LocaleMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -87,7 +97,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pl'
 
 TIME_ZONE = 'UTC'
 
@@ -105,6 +115,7 @@ MEDIA_ROOT = '/home/jan/PycharmProjects/shop/media/'
 MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/home/jan/PycharmProjects/shop/static/'
 ADMIN_TEMPLATES_ROOT = '/home/jan/PycharmProjects/shop/templates/admin/'
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
@@ -144,3 +155,19 @@ EMAIL_HOST_PASSWORD = "iskra123"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+LOCALE_PATHS = (
+    '/home/jan/PycharmProjects/shop/locale', # replace with correct path here
+)
+
+LANGUAGES = (
+    ('pl', 'Polski'),
+)
+
+CHECKOUT_THANK_YOU = '<h2>Dziękujemy,</h2><p>Twoje zamówienie zostało zarejestrowane w systemie</p>'
+CHECKOUT_FAILED ='<h2>Błąd</h2><p>Podczas przetwarzania płatności wystąpił błąd</p>'
+
+AUTH_USER_MODEL = 'authentication.User'
+
+DEBUG = True
+
+CORS_ORIGIN_ALLOW_ALL = True
