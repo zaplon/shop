@@ -244,11 +244,11 @@ class Shipment(models.Model):
     class Meta:
         verbose_name = 'Adres'
         verbose_name_plural = 'Adresy'
-    address = models.CharField(max_length=150)
-    postalCode = models.CharField(max_length=6)
-    phone = models.CharField(max_length=15)
-    name = models.CharField(max_length=100)
-    surname = models.CharField(max_length=100)
+    address = models.CharField(max_length=150, verbose_name='Adres')
+    postalCode = models.CharField(max_length=6, verbose_name='Kod pocztowy')
+    phone = models.CharField(max_length=15, verbose_name='Telefon')
+    name = models.CharField(max_length=100, verbose_name='Imię')
+    surname = models.CharField(max_length=100, verbose_name='Nazwisko')
     type = models.CharField(max_length=20,  choices=( ('BU','buyer'),('RE','receiver') ) )
     user = models.ForeignKey(User, blank=True, null=True)
     order = models.ForeignKey('Order', related_name='shipment', blank=True, null=True)
@@ -265,8 +265,8 @@ class Invoice(models.Model):
         verbose_name = 'Faktura'
         verbose_name_plural = 'Faktury'
     NIP = models.CharField(max_length=20)
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=150)
+    name = models.CharField(max_length=100, verbose_name='Nazwa')
+    address = models.CharField(max_length=150, verbose_name='Adres')
     user = models.ForeignKey(User, blank=True, null=True)
     order = models.ForeignKey('Order', blank=True, null=True)
 
