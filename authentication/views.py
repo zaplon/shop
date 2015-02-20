@@ -36,7 +36,7 @@ def register(request):
             if 'source' in request.POST:
                 return HttpResponseRedirect("/" + request.POST['source'] + "/")
             else:
-                return HttpResponseRedirect("/zarejestruj/")
+                return render_to_response('registration_complete.html', {}, context_instance=RequestContext(request) )
     else:
         form = UserCreationForm()
     if 'source' in request.POST and request.POST['source'] == 'checkout':

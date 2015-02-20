@@ -69,10 +69,6 @@ def cart(request):
     return render_to_response('cartView.html', [], context_instance=RequestContext(request))
 
 
-def register(request):
-    return render_to_response('registerView.html', {'form': UserCreationForm}, context_instance=RequestContext(request))
-
-
 def account(request):
     us = request.user
     try:
@@ -491,29 +487,6 @@ class ShopProductListView(generics.ListAPIView):
             p['min_price'] = min(p['variations'], key=lambda x: x['price'])['price']
 
         return list
-
-
-@csrf_exempt
-def register(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            new_user = form.save()
-            if 'source' in request.POST:
-                return HttpResponseRedirect("/" + request.POST['source'] + "/")
-            else:
-                return HttpResponseRedirect("/register/")
-    else:
-        form = UserCreationForm()
-    if 'source' in request.POST and request.POST['source'] == 'checkout':
-        return render_to_response('checkout.djhtml', {'creationForm': form,
-                                                      'products_in_cart': True,
-                                                      'step':2},
-                                  context_instance=RequestContext(request))
-    else:
-        return render(request, "registerView.html", {
-            'form': form,
-        })
 
 def singleProduct(request, name):
     product = Product.objects.get(name=name)

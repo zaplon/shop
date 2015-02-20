@@ -42,7 +42,9 @@
                         {% sorter %}
                     </div>
                 </div>
-
+                <button class="btn btn-primary product-filter-action">
+                    {% trans 'Filter' %}
+                </button>
                 <div class="widget">
                      <h3>{% trans 'Price' %}</h3>
                     <div class="panel panel-body">
@@ -53,8 +55,7 @@
                     {% productFilter type=f limited=1 %}
                 {% endfor %}
                 {% productCategories limited=1 %}
-                <button data-spy="affix" data-offset-top="60" data-target=".page-container"
-                        class="btn btn-primary col-md-10 col-md-offset-1" id="product-filter">
+                <button class="btn btn-primary product-filter-action">
                     {% trans 'Filter' %}
                 </button>
             </div>
@@ -110,7 +111,7 @@
             }
         }
         shop.getProducts('products');
-        $('#product-filter').click(function(){
+        $('.product-filter-action').click(function(){
             shop.currentPage = 1;
             shop.getProducts('products');
         });

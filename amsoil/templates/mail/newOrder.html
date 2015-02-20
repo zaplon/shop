@@ -13,6 +13,7 @@
         <p>{{order.paymentMethod.instructions}}</p>
     </div>
     <div>
+        <p></p>
         <p>Podsumowanie zamówienia:</p>
         {% cartItems noButtons="1" order=order %}
         {% if order.shippingMethod.needsShipping %}

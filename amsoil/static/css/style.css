@@ -78,7 +78,7 @@ header {
     float: left;
     width: calc(100% - 590px); }
     header #main #search-main {
-      border: 4px solid #009cf2; }
+      border: 3px solid #009cf2; }
       header #main #search-main #submit-box {
         background-color: #007dc6;
         text-align: center;
@@ -176,7 +176,7 @@ h1.page-title {
 
 .button {
   border-radius: 10px;
-  border: 4px solid #009cf2;
+  border: 3px solid #009cf2;
   border-color: #fad000;
   padding: 10px;
   cursor: pointer;
@@ -255,7 +255,7 @@ h1.page-title {
   border-radius: 10px;
   position: absolute;
   z-index: 1000;
-  border: 4px solid #009cf2;
+  border: 3px solid #009cf2;
   border-color: #009cf2;
   background-color: white; }
   .window .title {
@@ -532,7 +532,6 @@ button.close:hover {
   opacity: 0.6;
   z-index: 2;
   position: absolute;
-  width: 100%;
   background-color: #eeeeee; }
 
 .container-fluid {
@@ -544,5 +543,9 @@ button.close:hover {
 
 .slider .slider-horizontal {
   width: 100%; }
+
+button.product-filter-action {
+  width: 100%;
+  margin: 10px 0; }
 
 /*# sourceMappingURL=style.css.map */
