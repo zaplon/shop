@@ -63,6 +63,7 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = (VariationsInline,)
     list_display = ['name','mainImage']
     list_editable = ['name']
+    search_fields = ['name']
     fields = ('name','shortName','description',('attributes','mainImage'),('categories','tags'),)
     #pass
 
