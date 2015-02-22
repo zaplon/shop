@@ -34,7 +34,9 @@ def register(request):
         if form.is_valid():
             new_user = form.save()
             if 'source' in request.POST:
-                return HttpResponseRedirect("/" + request.POST['source'] + "/")
+                #authenticate(username=request.POST['email'], password=request.POST['password1'])
+                #return HttpResponseRedirect("/" + request.POST['source'] + "/")
+                return render_to_response('registration_complete.html', {}, context_instance=RequestContext(request) )
             else:
                 return render_to_response('registration_complete.html', {}, context_instance=RequestContext(request) )
     else:

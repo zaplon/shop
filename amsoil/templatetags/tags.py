@@ -98,7 +98,7 @@ def priceFilter(context,limited=None,*args, **kwargs):
 @register.inclusion_tag('productsTabs.html')
 def productsTabs():
     newest = ProductVariation.objects.all().order_by('added_date')[0:4]
-    best = ProductVariation.objects.all().order_by('total_sales')[0:4]
+    best = ProductVariation.objects.all().order_by('-total_sales')[0:4]
     promo = ProductVariation.objects.filter(product__categories__name='promotion')[0:4]
     return {
         'cats': [

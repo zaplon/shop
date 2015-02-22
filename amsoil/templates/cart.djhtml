@@ -46,7 +46,7 @@
 
             {% if order %}
                 <tr>
-                    <td></td><td>{% trans 'Shipping' %} ({{ order.shippingMethod.name }}):</td><td></td>
+                    <td></td><td>Metoda Dostawy: ({{ order.shippingMethod.name }}):</td><td></td>
                     <td colspan="3" class="table-text-align">{{ order.shippingMethod.price|currency }}</td>
                 </tr>
             {% endif %}
@@ -58,7 +58,7 @@
         </tfoot>
     </table>
     {% if withCheckoutButton %}
-        <a class="btn btn-primary pull-right" href="/zamowienie">{% trans 'Checkout' %}</a>
+        <a class="btn btn-primary pull-right" href="/zamowienie">Zamówienie</a>
     {% endif %}
 
     <script>

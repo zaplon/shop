@@ -18,7 +18,7 @@
                    href="#personal">{% trans 'Personal data' %}</a></li>
             <li role="presentation" aria-controls="invoice" role="tab" data-toggle="tab">
                 <a aria-controls="invoice" role="tab" data-toggle="tab"
-                   href="#invoice">{% trans 'Invoice data' %}</a>
+                   href="#invoice">Dane do faktury</a>
             </li>
             <li role="presentation" aria-controls="shipment" role="tab" data-toggle="tab">
                 <a aria-controls="shipment" role="tab" data-toggle="tab"
@@ -77,7 +77,7 @@
             </div>
             <div role="tabpanel" class="tab-pane" id="personal">
                 <div class='col-md-12'>
-                     <h2>{% trans 'User data' %}</h2>
+                     <h2>Dane personalne</h2>
                      <form method="POST" action="/konto/">
                         {% csrf_token %}
                         {% for field in userChangeForm %}
@@ -97,7 +97,7 @@
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="invoice">
-                <h2>{% trans 'Invoice data' %}</h2>
+                <h2>Dane do faktury</h2>
                     <form method="POST" action="/konto/">
                         {% csrf_token %}
                         {% for field in invoiceForm %}

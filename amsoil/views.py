@@ -7,7 +7,7 @@ from amsoil.models import Page, Product, Cart, User, CartProduct, ProductVariati
 from rest_framework import viewsets
 from amsoil.serializers import ProductSerializer, PaymentMethodSerializer, ShippingMethodSerializer, \
     CartSerializer, CartProductSerializer, NewsletterReceiverSerializer, ProductVariationSerializer,\
-    ShopProductSerializer
+    ShopProductSerializer, OrderSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -275,6 +275,14 @@ def checkout(request):
 
             order.save()
 
+            #zmniejszamy stany magazynowe
+            for cp in order.cart.cartProducts.all():
+                pv = cp.productVariation
+                pv.amount -= 1
+                pv.total_sales += 1
+                pv.save()
+
+
             #wysyłanie emaili
             newOrder(order, request)
             orderNotification(order, request)
@@ -532,3 +540,7 @@ def search(request):
 class ProductVariationViewSet(viewsets.ModelViewSet):
     queryset = ProductVariation.objects.all()
     serializer_class = ProductVariationSerializer
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer

@@ -6,8 +6,12 @@ from models import Order
 
 #https://devtools-paypal.com/guide/pay_paypal/python?env=sandbox
 
+#nasze dane sandbox
 client_id = 'AcFQ22eerOUkPEWvKohBb3Pa2LUhLVjFYISwsXki6K38e_SYy1so-ZTZJbAeqhE6vCb4ALpm2377J5ed'
 client_secret = 'EO-aiZGoaQCyPKm_OjdFHuvmfEUlfr69sbVQIfVAn3uYco3iZdRfiFPp0yeRGmNN3dnhvf5LNYRaJ9Ft'
+
+client_id = 'AQ3y0RAPNZ_J2HJqCFX9e5pECIx_6t1p1UFdmtYA_--7CZDmZLIAuJLla2_n'
+client_secret = 'EHXM0BDLoYpRi0o-1ynYmKFbcpmcZrJCUeaHx7p9--ACFxZ3I11wcyMGAr82'
 
 #sandbox
 #client_id = 'AQ3y0RAPNZ_J2HJqCFX9e5pECIx_6t1p1UFdmtYA_--7CZDmZLIAuJLla2_n'

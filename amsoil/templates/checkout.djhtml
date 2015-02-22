@@ -71,7 +71,7 @@
                                             </div>
                                          {% endfor %}
 
-                                        <input type="hidden" value="checkout" name="source"></input>
+                                        <input type="hidden" value="zamowienie" name="source"></input>
                                         <div>
                                             <button class="btn btn-primary" type="submit">{% trans 'Register' %}</button>
                                         </div>

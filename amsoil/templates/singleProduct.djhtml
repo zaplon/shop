@@ -23,7 +23,7 @@
                  <div class="product-title col-md-12">
                     <h1>{{ product.name }}</h1>
                 </div>
-                <img src="{{ MEDIA_URL }}{{ product.mainImage }}"></img>
+                <img style="max-height:300px;" src="{{ MEDIA_URL }}{{ product.mainImage }}"></img>
             </div>
             <div class="col-md-4 col-sm-6 panel panel-default" id="single-col-2">
                 <div class="panel-body">

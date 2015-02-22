@@ -28,7 +28,9 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
-
+    class Meta:
+        verbose_name = 'Użytkownik'
+        verbose_name_plural = 'Użytkownicy'
     username = models.CharField(max_length=30, verbose_name='Nazwa użytkownika')
     email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=False)
