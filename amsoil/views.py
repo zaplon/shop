@@ -177,19 +177,27 @@ def minicart(request):
         }))
 
 
+def checkout_processed(request,id):
+    order = Order.objects.get(id=id)
+    order.status = 'FINISHED'
+    order.save()
+    msg = CHECKOUT_THANK_YOU
+    return render_to_response('checkout_success.html', {'message':msg})
+
+
+
 def checkout(request):
 
     #potwierdzenie z paypal
-    if request.method == 'GET' and 'paymentId' in request.GET:
-        order = paypal_step_2(request)
-        if not order:
-            return render_to_response('checkout_success.html', {'message':CHECKOUT_FAILED})
-        order.save()
-        msg = CHECKOUT_THANK_YOU
-        return render_to_response('checkout_success.html', {'message':msg})
+    # if request.method == 'GET' and 'paymentId' in request.GET:
+    #     order = paypal_step_2(request)
+    #     if not order:
+    #         return render_to_response('checkout_success.html', {'message':CHECKOUT_FAILED})
+    #     order.save()
+    #     msg = CHECKOUT_THANK_YOU
+    #     return render_to_response('checkout_success.html', {'message':msg})
 
-
-    elif request.method == 'POST':
+    if request.method == 'POST':
         hasErrors = False
         data = json.loads(request.POST['data'])
         sm = ShippingMethod.objects.get(id=data['shippingMethod'])
@@ -369,7 +377,6 @@ def checkout(request):
                                'hasInvoice': True if 'hasInvoice' in data and data['hasInvoice']==True else False,
                                'buyerAsReceiver': True if not 'receiver' in data else False,
                                'products_in_cart': products_in_cart,
-                               'step': request.user.is_authenticated() if 2 else 1,
                                'shippingMethod': data['shippingMethod'] if 'data' in request.POST else 0,
                                'paymentMethod': data['paymentMethod'] if 'data' in request.POST else 0,
                                'step': 3 if 'data' in request.POST else 2 if request.user.is_authenticated() else 1,

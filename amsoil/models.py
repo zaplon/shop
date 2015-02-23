@@ -317,7 +317,7 @@ class Order(models.Model):
     token = models.CharField(max_length=30, blank=True, null=True)
     paypalData = models.CharField(max_length=300, blank=True, null=True)
     def get_absolute_url(self):
-        return reverse('order_detail', kwargs={'pk': self.pk})
+        return reverse('checkout-processed', kwargs={'pk': self.pk})
 
 getpaid.register_to_payment(Order, unique=False, related_name='payments')
 
