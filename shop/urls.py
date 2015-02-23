@@ -34,6 +34,10 @@ urlpatterns = patterns('',
     url(r'^takeCart/', views.takeCart, name='takeCart'),
     url(r'^getOrderOptions/', views.getOrderOptions, name='checkoutOptions'),
 
+    url(r'', include('getpaid.urls')),
+
+    url(r'^test/(?P<pk>\d+)/$', views.OrderView.as_view(), name='test'),
+
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^authentication/', include('authentication.urls', namespace='authentication')),

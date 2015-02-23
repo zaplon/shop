@@ -7,6 +7,8 @@ from ckeditor.fields import RichTextField
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
 from django.db.models import Sum, Count
+import getpaid
+from django.core.urlresolvers import reverse
 
 from authentication.models import User
 
@@ -314,6 +316,10 @@ class Order(models.Model):
     total = models.FloatField(default=0)
     token = models.CharField(max_length=30, blank=True, null=True)
     paypalData = models.CharField(max_length=300, blank=True, null=True)
+    def get_absolute_url(self):
+        return reverse('order_detail', kwargs={'pk': self.pk})
+
+getpaid.register_to_payment(Order, unique=False, related_name='payments')
 
 @receiver(pre_save, sender=Order)
 def createOrderNr(instance, sender, **kwargs):

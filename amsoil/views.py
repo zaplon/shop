@@ -26,8 +26,22 @@ from shop.settings import CHECKOUT_THANK_YOU, CHECKOUT_FAILED
 from payments import paypal_step_1, paypal_step_2
 
 from amsoil.mails import newOrder, orderNotification
-
 from authentication.admin import UserCreationForm
+
+from getpaid.forms import PaymentMethodForm
+from getpaid.views import NewPaymentView
+
+from django.views.generic.detail import DetailView
+from getpaid.forms import PaymentMethodForm
+from .models import Order
+
+class OrderView(DetailView):
+    model=Order
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderView, self).get_context_data(**kwargs)
+        context['payment_form'] = PaymentMethodForm("PLN", initial={'order': Order})
+        return context
 
 def home(request):
     return render_to_response('index.djhtml', {}, context_instance=RequestContext(request))
@@ -130,6 +144,14 @@ def account(request):
 def processOrder(order, request):
     if order.paymentMethod.code == 'pp':
         paypal_step_1(order,request)
+    else:
+        pmf = PaymentMethodForm(currency='PLN', data={'order': order.id, 'backend':'getpaid.backends.transferuj'})
+        if pmf.is_valid():
+            npv = NewPaymentView()
+            npv.request = request
+            return npv.form_valid(pmf)
+
+
 
 
 def takeCart(request):
@@ -235,7 +257,8 @@ def checkout(request):
             order.total += order.paymentMethod.price + order.shippingMethod.price
 
             if pm.needsProcessing:
-                processOrder(order,request)
+                order.save()
+                return processOrder(order,request)
                 processed = True
 
             c.json = CartSerializer(c).data
@@ -350,7 +373,7 @@ def checkout(request):
                                'shippingMethod': data['shippingMethod'] if 'data' in request.POST else 0,
                                'paymentMethod': data['paymentMethod'] if 'data' in request.POST else 0,
                                'step': 3 if 'data' in request.POST else 2 if request.user.is_authenticated() else 1,
-                               'terms': True if 'terms' in data and data['terms'] == True else False
+                               'terms': True if 'terms' in data and data['terms'] == True else False,
                               },
                               context_instance=RequestContext(request))
 
