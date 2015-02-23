@@ -1,5 +1,4 @@
 {% load i18n %}
-
 <div id="slider-{{ slider.name }}" class="col-md-12 slider">
     <div class="slide-left arrow pull-left"><span class="glyphicon glyphicon-chevron-left"></span></div>
     <ul class="slide pull-left text-center">
@@ -20,7 +19,7 @@
                     {% if slide.product %}
                         <img src="{{ root }}{{ slide.product.mainImage }}" />
                     {% else %}
-                        <img src="{{ MEDIA_URL }}{{ slide.image }}"/>
+                        <img src="{{ root }}{{ slide.image }}">
                     {% endif %}
                 </div>
             </li>
