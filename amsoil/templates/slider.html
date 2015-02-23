@@ -20,7 +20,7 @@
                     {% if slide.product %}
                         <img src="{{ root }}{{ slide.product.mainImage }}" />
                     {% else %}
-                        <img src="{{ slide.image }}"/>
+                        <img src="{{ MEDIA_URL }}{{ slide.image }}"/>
                     {% endif %}
                 </div>
             </li>
