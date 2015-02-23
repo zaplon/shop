@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'modeltranslation',
     'django.contrib.admin',
+    'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -59,7 +60,10 @@ INSTALLED_APPS = (
     #'registration',
     'authentication',
     'password_reset',
-    'corsheaders'
+    'corsheaders',
+    'reviews',
+    'getpaid',
+    'getpaid.backends.transferuj'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -171,3 +175,20 @@ AUTH_USER_MODEL = 'authentication.User'
 DEBUG = True
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+REVIEWS_SETTINGS = {
+    'model':'amsoil.Product'
+}
+
+
+GETPAID_BACKENDS = ('getpaid.backends.transferuj',)
+
+GETPAID_BACKENDS_SETTINGS = {
+    'getpaid.backends.transferuj' : {
+            'id' : 12132,
+            'key' : '781d7a740fbd2b2634b64967dfd887a26a504d14',
+            'signing' : True,       # optional
+        },
+}
+
+SITE_ID=1
