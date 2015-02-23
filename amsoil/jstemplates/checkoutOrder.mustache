@@ -7,7 +7,8 @@
     {{#shippingMethods}}
         <div class="radio">
             <label><input type="radio" name="shippingMethod" value="{{ id }}"/>
-                {{ name }} <strong>({{> price price }})</strong></label>
+                {{ name }}
+                <strong>({{> price price }})</strong></label>
         </div>
     {{/shippingMethods}}
     </form>
@@ -22,7 +23,12 @@
         <div class="radio">
             <label>
                 <input type="radio" name="paymentMethod" value="{{ id }}"/>
-                {{ name }} <strong>({{> price price}})</strong>
+                {{ name }}
+                {{#if instructions }}
+                    <span class="glyphicon glyphicon-info-sign"
+                          data-toggle="tooltip" data-placement="top" title="{{instructions}}"></span>
+                {{/if}}
+                <strong>({{> price price}})</strong>
             </label>
         </div>
     {{/paymentMethods}}

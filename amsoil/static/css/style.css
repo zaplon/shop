@@ -283,6 +283,7 @@ h1.page-title {
     margin-right: 10px; }
 
 .product-image {
+  background-repeat: no-repeat;
   width: 80px;
   height: 150px; }
   .product-image img {

@@ -37,7 +37,20 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     objects = UserManager()
-
+    def get_discount(self):
+        from amsoil.models import UserMeta
+        if UserMeta.getValue(self,'discount'):
+            return str(UserMeta.getValue(self,'discount')) + '%'
+        else:
+            return 'brak'
+    def get_discount_end(self):
+        from amsoil.models import UserMeta
+        if UserMeta.getValue(self,'discount'):
+            return str(UserMeta.getValue(self,'discount_ends'))
+        else:
+            return '-'
+    get_discount.short_description = 'Zniżka'
+    get_discount_end.short_description = 'Zniżka wygasa'
     REQUIRED_FIELDS = ['username']
 
     def get_full_name(self):

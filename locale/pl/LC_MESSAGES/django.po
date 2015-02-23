@@ -25,7 +25,7 @@ msgstr "Moje konto"
 
 #: amsoil/jstemplates/checkoutOrder.mustache:2
 msgid " In total"
-msgstr "W sumie:"
+msgstr "W sumie"
 
 #: amsoil/jstemplates/checkoutOrder.mustache:3
 msgid " Payment method "
