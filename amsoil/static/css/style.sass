@@ -423,19 +423,26 @@ ul.breadcrumbs
   .title
     position: relative
   .image
-    display: inline-block
+    display: block
+    position: relative
+    height: 320px
+    z-index: 1
+    img
+      height: 320px
   .buttons
     padding-top: 20px
     position: relative
   .text
     position: relative
   .data
+    top: -320px
     position: relative
     text-align: justify
     margin-right: 20px
-    display: inline-block
+    display: block
     width: 500px
     vertical-align: top
+    z-index: 2
   .arrow
     width: 40px
     cursor: pointer

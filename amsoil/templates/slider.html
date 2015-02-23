@@ -4,6 +4,13 @@
     <ul class="slide pull-left text-center">
         {% for slide in slides %}
             <li>
+                <div class="image">
+                    {% if slide.product %}
+                        <img src="{{ root }}{{ slide.product.mainImage }}" />
+                    {% else %}
+                        <img src="{{ root }}{{ slide.image }}">
+                    {% endif %}
+                </div>
                 <div class="data">
                     <div class="title"><h3>{{ slide.title }}</h3></div>
                     <div class="text">
@@ -14,13 +21,6 @@
                             <a href="{{ slide.button1Url }}" class="btn btn-primary">{% trans slide.button1Text %}</a>
                         {% endif %}
                     </div>
-                </div>
-                <div class="image">
-                    {% if slide.product %}
-                        <img src="{{ root }}{{ slide.product.mainImage }}" />
-                    {% else %}
-                        <img src="{{ root }}{{ slide.image }}">
-                    {% endif %}
                 </div>
             </li>
         {% endfor %}
