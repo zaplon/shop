@@ -396,7 +396,7 @@ class Slide(models.Model):
     button2Text = models.CharField(max_length=50, null=True, blank=True)
     button1Url = models.CharField(max_length=50, null=True, blank=True)
     product = models.ForeignKey(Product, blank=True, null=True)
-    image = models.URLField(blank=True, null=True)
+    image = models.ImageField(verbose_name='obrazek')
 
 class NewsletterReceiver(models.Model):
     email = models.EmailField(unique=True)
