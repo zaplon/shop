@@ -1,6 +1,6 @@
 from django.contrib import admin
 from amsoil.models import Menu, MenuItem, Product, Page, Category, ProductVariation, Attribute, AttributeGroup
-from amsoil.models import ShippingMethod, PaymentMethod, Order, Cart, Invoice, Slider, Slide, Shipment
+from amsoil.models import ShippingMethod, PaymentMethod, Order, Cart, Invoice, Slider, Slide, Shipment, Post
 from modeltranslation.admin import TranslationAdmin
 from shop.settings import ADMIN_TEMPLATES_ROOT
 
@@ -67,6 +67,11 @@ class ProductAdmin(admin.ModelAdmin):
     fields = ('name','shortName','description',('attributes','mainImage'),('categories','tags'),)
     #pass
 
+class PostAdmin(admin.ModelAdmin):
+    list_display = ['title','author']
+    readonly_fields = ('created_at',)
+    fields= ('title','url','body','created_at','author','categories','tags')
+admin.site.register(Post, PostAdmin)
 
 class ProductVariationAdmin(admin.ModelAdmin):
     model = ProductVariation

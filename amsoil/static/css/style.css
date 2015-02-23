@@ -24,7 +24,7 @@ input[type="number"] {
 body {
   background-color: white; }
 
-footer {
+footer.page {
   margin-top: 20px;
   background-color: black;
   background-image: url("../images/pattern_dark.png");
@@ -337,7 +337,7 @@ ul.errorlist {
 
 ul.breadcrumbs {
   list-style: none;
-  margin-left: -25px; }
+  padding-left: 0px; }
   ul.breadcrumbs li {
     display: inline-block;
     margin-right: 5px; }

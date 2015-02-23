@@ -27,8 +27,20 @@ class Page(models.Model):
     attributes = models.ManyToManyField('Attribute', blank = True, null = True, related_name='pages')
     isMain = models.BooleanField(default=0)
     full_width = models.BooleanField(default=0, verbose_name='Szerokość całej strony')
+    created_at = models.DateTimeField(auto_now=True)
     def __unicode__(self):
         return self.title
+
+class Post(Page):
+    class Meta:
+        verbose_name = 'Post'
+        verbose_name_plural = 'Posty'
+    author = models.ForeignKey(User, blank=True, null=True)
+
+@receiver(pre_save, sender=Post)
+def format_post_url(instance, sender, **kwargs):
+    if instance.url == '':
+        instance.url = instance.title
 
 
 @receiver(pre_save, sender=Page)

@@ -8,7 +8,7 @@ from authentication.views import loginView, logoutView, register
 
 from amsoil.views import ProductVariationViewSet, OrderViewSet
 from rest_framework.routers import DefaultRouter
-from reviews.views import MarkViewSet, OpinionViewSet
+from reviews.views import MarkViewSet, OpinionViewSet, opinions_view
 
 router = DefaultRouter()
 router.register(r'productVariations', ProductVariationViewSet)
@@ -22,6 +22,10 @@ urlpatterns = patterns('',
     #api
     url(r'api/', include(router.urls)),
     url(r'api/products/',views.ShopProductListView.as_view(), name='api-product-list'),
+
+    url(r'^najnowsze-informacje/(?P<url>.*)/$', views.postView, name='post'),
+    url(r'^najnowsze-informacje/', views.postsView, name='posts'),
+    url(r'^opinie/', opinions_view, name='opinions'),
 
     url(r'^$', views.home, name='home'),
     url(r'^sklep/kategoria/(?P<category>.*)/', views.shop, name='shopCategory'),

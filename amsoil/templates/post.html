@@ -1,0 +1,8 @@
+{% extends 'base_page.html' %}
+{% block header %}
+    {{ post.title }}
+{% endblock %}
+{% block content %}
+    {{ post.body|safe }}
+    <h6>Opublikowano: {{ post.created_at|date:"D d M Y" }}</h6>
+{% endblock %}

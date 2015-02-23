@@ -1,0 +1,12 @@
+{% extends 'base_page.html' %}
+{% block header %}
+    Opinie
+{% endblock %}
+{% block content %}
+    {% for o in opinions %}
+      <blockquote>
+          <p>{{o.content}}</p>
+          <footer>{{o.added_by}}</footer>
+      </blockquote>
+    {% endfor %}
+{% endblock %}

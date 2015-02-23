@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render_to_response, RequestContext, HttpResponse, HttpResponseRedirect, render
-from amsoil.models import Page, Product, Cart, User, CartProduct, ProductVariation, \
+from amsoil.models import Page, Product, Cart, User, CartProduct, ProductVariation, Post,\
     ShippingMethod, PaymentMethod, Order, Invoice, Shipment, Category, Attribute, UserMeta, NewsletterReceiver
 from rest_framework import viewsets
 from amsoil.serializers import ProductSerializer, PaymentMethodSerializer, ShippingMethodSerializer, \
@@ -507,6 +507,16 @@ class ProductFilter(django_filters.FilterSet):
 class NewsletterReceiverListCreateView(generics.ListCreateAPIView):
     queryset = NewsletterReceiver.objects.all()
     serializer_class = NewsletterReceiverSerializer
+
+
+def postsView(request):
+    posts = Post.objects.all().order_by('-created_at')
+    return render_to_response('posts.html', {'posts': posts}, context_instance=RequestContext(request))
+
+
+def postView(request, url):
+    post = Post.objects.get(url=url)
+    return render_to_response('post.html', {'post': post}, context_instance=RequestContext(request))
 
 
 class ProductListView(generics.ListAPIView):
