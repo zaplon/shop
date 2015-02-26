@@ -20,7 +20,7 @@ class Template(models.Model):
         verbose_name = 'Szablon'
         verbose_name_plural = 'Szablony'
     name = models.CharField(max_length=100)
-    body = RichTextField(max_length=1000)
+    body = RichTextField(max_length=3000)
     def __unicode__(self):
         return self.name
 
