@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from django import template
 from amsoil.models import MenuItem, Category, CartProduct, Cart, Invoice, Shipment, Order, Slider, Slide, \
-    Attribute, AttributeGroup, ProductVariation, UserMeta, Product
+    Attribute, AttributeGroup, ProductVariation, UserMeta, Product, Template
 from amsoil.models import getProductAttributesByGroupName
 from django.db.models import Sum, Count, Min, Max
 from amsoil.forms import QuickContactForm
@@ -16,6 +16,14 @@ from django.template import RequestContext
 from django.template import Template
 
 register = template.Library()
+
+@register.inclusion_tag('tags/template.html',takes_context=True)
+def display_template(context, name):
+    try:
+    	tem = Template.objects.get(name=name)
+    except:
+    	tem = False
+    return { 'template':tem}
 
 @register.inclusion_tag('tags/discount_info.html',takes_context=True)
 def discount_info(context):
