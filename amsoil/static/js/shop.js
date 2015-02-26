@@ -29,6 +29,11 @@ $(document).ready(function($){
         var variation = product.variations.filter(function(v){ if (v.id == selectedVariation) return true })[0];
         var amount = variation.amount;
 
+        if (variation.image)
+            $('div.product-image[data-product='+pId+']').css('background-image','url("'+variation.image+'")');
+        else
+            $('div.product-image[data-product='+pId+']').css('background-image','url("'+product.image+'")');
+
         button.removeClass('hidden');
         if (amount > 0){
             button.removeClass('btn-primary add-to-cart');
