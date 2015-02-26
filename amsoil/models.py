@@ -109,7 +109,11 @@ class Product(Page):
         for v in self.variations.all():
             if v.price < min:
                 min = v.price
-            res.append({ 'id':int(v.id), 'price':float(v.price), 'amount':int(v.amount) })
+                if v.image:
+                    image = image.url
+                else:
+                    image = False
+            res.append({ 'id':int(v.id), 'price':float(v.price), 'amount':int(v.amount), 'image': image })
         return {'min':min, 'vars':res}
     def getVariationsCount(self):
         return self.variations.count()
@@ -184,7 +188,7 @@ class AttributeGroup(models.Model):
 class Attribute(models.Model):
     class Meta:
         verbose_name = 'Atrybut'
-        verbose_name_plural = 'Grupy atrybutów'
+        verbose_name_plural = 'Atrybuty'
     name = models.CharField(max_length=100)
     value = models.CharField(max_length=100, blank = True, null = True)
     group = models.ForeignKey(AttributeGroup, related_name='attributes')
@@ -324,8 +328,8 @@ class Order(models.Model):
         verbose_name = 'Zamówienie'
         verbose_name_plural = 'Zamówienia'
     user = models.ForeignKey(User, null=True, blank=True)
-    status = models.CharField(choices=(('PE','pending'),('CA','cancelled'),
-                                       ('FI','finished')),max_length=20, default='PE')
+    status = models.CharField(choices=(('PE','Oczekujące'),('CA','Anulowane'),
+                                       ('FI','Zakończone')),max_length=20, default='PE')
     cart = models.ForeignKey(Cart)
     date = models.DateTimeField(auto_now=True)
     shippingMethod = models.ForeignKey(ShippingMethod)
