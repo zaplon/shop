@@ -1,0 +1,32 @@
+{% load staticfiles %}
+{% load tags %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}markitup/preview.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/slider.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/shop.js"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}js/mustache.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/handlebars.js"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-slider.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-slider.css" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">-->
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/theme2.css" >
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+
+    </head>
+    <body>
+    {{ preview|safe }}
+    </body>
+</html>
