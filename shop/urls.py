@@ -69,12 +69,11 @@ urlpatterns = patterns('',
 
     url(r'^newsletter-receiver/', views.NewsletterReceiverListCreateView.as_view(), name='newsletter-receiver'),
 
-
+    url(r'^markitup/', include('markitup.urls')),
     url(r'^(?P<title>.*)/$', views.page, name='page'),
 
 
     #(r'^accounts/', include('registration.backends.default.urls')),
-
 )
 
 urlpatterns = urlpatterns + static(MEDIA_URL, document_root=MEDIA_ROOT)

@@ -204,7 +204,7 @@ class prices:
                 ext = o['_thumbnail_id'].split('.')[1]
                 name = datetime.datetime.now().strftime('%s')+'.'+ext
                 name = name
-                urllib.urlretrieve(self.images_url+o['_thumbnail_id'], 'media/images/' + name)
+                urllib.urlretrieve(self.images_url+o['_thumbnail_id'], '/home/zaplon/webapps/static/media/images/' + name)
                 p = Product(description = o['content'], shortDescription = o['post_excerpt'], name = o['name'],
                             mainImage = 'images/'+name)
                 p.save()

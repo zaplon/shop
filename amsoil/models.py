@@ -9,8 +9,8 @@ from django.db.models.signals import pre_save
 from django.db.models import Sum, Count
 import getpaid
 from django.core.urlresolvers import reverse
-
 from authentication.models import User
+from markitup.fields import MarkupField
 
 class UserProfile(models.Model):
     pass
@@ -20,7 +20,7 @@ class Template(models.Model):
         verbose_name = 'Szablon'
         verbose_name_plural = 'Szablony'
     name = models.CharField(max_length=100)
-    body = RichTextField(max_length=3000)
+    body = MarkupField()
     def __unicode__(self):
         return self.name
 
