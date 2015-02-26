@@ -13,7 +13,7 @@ from amsoil.forms import ShippingForm
 
 from django import template
 from django.template import RequestContext
-from django.template import Template
+from django.template import Template as D_template
 
 register = template.Library()
 
@@ -57,7 +57,7 @@ def special_shop(context, *args, **kwargs):
 
 @register.inclusion_tag('render_tags.html',takes_context=True)
 def render_tags(context,value):
-    t = Template( '{%load tags%}' + value)
+    t = D_template( '{%load tags%}' + value)
     c = RequestContext(context['request'])
     return  { 'val':t.render(c) }
 
