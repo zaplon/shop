@@ -1,6 +1,6 @@
 from django.contrib import admin
 from amsoil.models import Menu, MenuItem, Product, Page, Category, ProductVariation, Attribute, AttributeGroup
-from amsoil.models import ShippingMethod, PaymentMethod, Order, Cart, Invoice, Slider, Slide, Shipment, Post
+from amsoil.models import ShippingMethod, PaymentMethod, Order, Cart, Invoice, Slider, Slide, Shipment, Post, Template
 from modeltranslation.admin import TranslationAdmin
 from shop.settings import ADMIN_TEMPLATES_ROOT
 
@@ -12,6 +12,10 @@ admin.site.register(Attribute)
 admin.site.register(AttributeGroup)
 admin.site.register(ShippingMethod)
 admin.site.register(PaymentMethod)
+
+class TemplateAdmin(admin.ModelAdmin):
+    model = Template
+admin.site.register(Template, TemplateAdmin)
 
 
 class PageAdmin(admin.ModelAdmin):
