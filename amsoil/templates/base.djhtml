@@ -45,7 +45,7 @@
                 </div>
 
                 <div style="clear:both"></div>
-                {% template name='footer' %}
+                {% display_template name='footer' %}
             </div>
     </body>
     {% block addScripts %}
