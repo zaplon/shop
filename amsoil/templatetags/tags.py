@@ -21,9 +21,10 @@ register = template.Library()
 def display_template(context, name):
     try:
     	tem = Template.objects.get(name=name)
+        text = render_tags(context, tem.body.rendered)['val']
     except:
     	tem = False
-    return { 'template':tem}
+    return { 'template':text if tem else '' }
 
 @register.inclusion_tag('tags/discount_info.html',takes_context=True)
 def discount_info(context):
@@ -57,7 +58,7 @@ def special_shop(context, *args, **kwargs):
 
 @register.inclusion_tag('render_tags.html',takes_context=True)
 def render_tags(context,value):
-    t = D_template( '{%load tags%}' + value)
+    t = D_template( '{%load tags%}{%load i18n%}' + value)
     c = RequestContext(context['request'])
     return  { 'val':t.render(c) }
 
