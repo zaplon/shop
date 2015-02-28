@@ -72,11 +72,11 @@ header {
     cursor: pointer; }
   header #meta {
     height: 50px;
-    width: 350px;
+    width: 375px;
     float: right; }
   header #main {
     float: left;
-    width: calc(100% - 590px); }
+    width: calc(100% - 615px); }
     header #main #search-main {
       border: 3px solid #009cf2; }
       header #main #search-main #submit-box {
