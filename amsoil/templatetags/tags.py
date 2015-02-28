@@ -9,13 +9,31 @@ from amsoil.forms import QuickContactForm
 from django.utils.translation import ugettext as _
 from shop.settings import MEDIA_URL
 from amsoil.forms import ShippingForm
-
-
+from django.shortcuts import RequestContext, render_to_response, redirect
+from django.core.mail import send_mail
 from django import template
 from django.template import RequestContext
 from django.template import Template as D_template
 
 register = template.Library()
+
+
+@register.inclusion_tag('tags/display_form.html',takes_context=True)
+def display_form(context, form=None, success=None, message=None):
+    exec 'from amsoil.forms import %s as FormClass' % form
+    request = context['request']
+    if request.method == 'POST':
+        form = FormClass(request.POST)
+        if form.is_valid():
+            if send_mail('Prośba o dobór produktów', 'Prośba o dobór produktów', request.POST['email'],
+                      ['janek.zapal@gmail.com'], fail_silently=False, html_message=form.as_table()):
+                message = '<h2>Dziękujemy</h2><p>Twoje zapytanie zostało przesłane</p>'
+            else:
+                message = '<h2>Błąd</h2><p>Przesłanie formularza nie powiodło się</p>'
+    else:
+        form = FormClass()
+    return { 'form':form, 'success':success, 'action':request.path, 'message':message }
+
 
 @register.inclusion_tag('tags/template.html',takes_context=True)
 def display_template(context, name):

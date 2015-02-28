@@ -31,12 +31,14 @@ class Page(models.Model):
     title = models.CharField(max_length=100)
     body = RichTextField(max_length=20000)
     url = models.CharField(default='', max_length=100)
-    tags = models.ManyToManyField('Tag', related_name='pages', blank=True)
-    categories = models.ManyToManyField('Category', related_name='pages', blank=True)
-    attributes = models.ManyToManyField('Attribute', blank = True, null = True, related_name='pages')
+    tags = models.ManyToManyField('Tag', related_name='pages', blank=True, verbose_name='Tagi')
+    categories = models.ManyToManyField('Category', related_name='pages', blank=True,
+                                        verbose_name='Kategorie')
+    attributes = models.ManyToManyField('Attribute', blank = True, null = True, related_name='pages',
+                                        verbose_name='Atrybuty')
     isMain = models.BooleanField(default=0)
     full_width = models.BooleanField(default=0, verbose_name='Szerokość całej strony')
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now=True, verbose_name='Utworzono')
     def __unicode__(self):
         return self.title
 
@@ -79,11 +81,14 @@ class Product(Page):
         verbose_name = 'Produkt'
         verbose_name_plural = 'Produkty'
     name = models.CharField(max_length=100)
-    shortName = models.CharField(max_length=100, default='', blank=True, null=True)
-    description = RichTextField(max_length=3000, default='', blank=True, null=True)
-    shortDescription = RichTextField(max_length=200, default='', blank=True, null=True)
-    mainImage = models.FileField(upload_to='images/', default=None, blank=True)
-    price = models.FloatField(default=0)
+    shortName = models.CharField(max_length=100, default='', blank=True, null=True,
+                                 verbose_name='Krótka nazwa')
+    description = RichTextField(max_length=3000, default='', blank=True, null=True, verbose_name='Opis')
+    shortDescription = RichTextField(max_length=200, default='', blank=True, null=True,
+                                     verbose_name='Krótki opis')
+    mainImage = models.FileField(upload_to='images/', default=None, blank=True,
+                                 verbose_name='Główne zdjęcie')
+    price = models.FloatField(default=0, verbose_name='Cena')
     def __unicode__(self):
         return self.name
     def getGroupedAttributes(self):

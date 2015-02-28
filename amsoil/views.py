@@ -35,6 +35,9 @@ from django.views.generic.detail import DetailView
 from getpaid.forms import PaymentMethodForm
 from .models import Order
 
+
+
+
 class OrderView(DetailView):
     model=Order
 
@@ -584,3 +587,6 @@ class ProductVariationViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
+def form_submitted(request):
+    return render_to_response('form_submitted.html', {}, context_instance=RequestContext(request))

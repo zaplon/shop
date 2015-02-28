@@ -26,6 +26,7 @@ urlpatterns = patterns('',
     url(r'^najnowsze-informacje/(?P<url>.*)/$', views.postView, name='post'),
     url(r'^najnowsze-informacje/', views.postsView, name='posts'),
     url(r'^opinie/', opinions_view, name='opinions'),
+    url(r'^formularz-przeslany/', views.form_submitted, name='form-submitted'),
 
     url(r'^$', views.home, name='home'),
     url(r'^sklep/kategoria/(?P<category>.*)/', views.shop, name='shopCategory'),
