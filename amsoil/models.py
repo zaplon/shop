@@ -83,7 +83,7 @@ class Product(Page):
     name = models.CharField(max_length=100)
     shortName = models.CharField(max_length=100, default='', blank=True, null=True,
                                  verbose_name='Krótka nazwa')
-    description = RichTextField(max_length=3000, default='', blank=True, null=True, verbose_name='Opis')
+    description = RichTextField(default='', blank=True, null=True, verbose_name='Opis')
     shortDescription = RichTextField(max_length=200, default='', blank=True, null=True,
                                      verbose_name='Krótki opis')
     mainImage = models.FileField(upload_to='images/', default=None, blank=True,

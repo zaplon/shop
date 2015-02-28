@@ -1,0 +1,142 @@
+{% extends 'base.djhtml' %}
+{% load i18n %}
+{% load tags %}
+
+{% block body %}
+    <div class="row" style="z-index:0; position:relative;">
+        <div class="hidden">
+            <div class="panel panel-primary">
+                <div class="panel-heading">{% trans 'Contact' %}</div>
+                <div class="panel-body">
+                    {% quickContact %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 gray slide-background" style="margin-bottom:20px;">
+            {% slider name='main' %}
+            <div class="col-md-12 hidden" style="margin-top:12px;">
+
+                <div class="panel panel-default hidden">
+                    <div class="panel-body">
+                        <span class="glyphicon glyphicon-usd main-color" style="font-size:23px">
+                        </span>
+                        <div style="position:relative; top:-5px; display:inline-block; margin-left:10px;">
+                            <span>
+                                Atrakcyjne rabaty dla stałych klientów
+                            </span>
+                            <span id="promo-more" class="main-color" data-toggle="tooltip" data-html="true"
+                                    data-placement="top"
+                                    title="Roczne zakupy powyżej 200zł = roczny rabat w wysokości 10%">
+                                Dowiedz się więcej
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+         <div class="col-md-3">
+            {% promoDiv image="static/images/archoil.gif" content='' background='black' size='64px' %}
+        </div>
+        <div class="col-md-3">
+            {% promoDiv content='Oleje do aut < 2006' background='darkred' %}
+        </div>
+        <div class="col-md-3">
+            {% promoDiv content='Oleje do aut > 2006' background='orange' %}
+        </div>
+        <div class="col-md-3">
+            {% promoDiv image="static/images/meguin.jpg" content='' background='white' size='64px' color='black' %}
+        </div>
+        <div style="clear:both"></div>
+    </div>
+    <div class="row margin-top10">
+        <div class="col-md-3">
+            {% promoDiv image="static/images/penrite.jpg" content='' background='white' size="64px" %}
+        </div>
+        <div class="col-md-3">
+            {% promoDiv content='Motorsport' background='green' size="32px" %}
+        </div>
+        <div class="col-md-3">
+            {% promoDiv content='Motocykle 2T 4T Marine' background='navy' size="32px" %}
+        </div>
+        <div class="col-md-3">
+            {% promoDiv image="static/images/amsoil.jpg" content='' background='white' size="64px" %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% productsTabs %}
+        </div>
+    </div>
+    <div class="row gray">
+        <div class="col-md-4 col-sm-12">
+            <div class="">
+                <div class="service-title text-center">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        <h4>Dlaczego syntetyk i nanotechnologia?</h4>
+                 </div>
+                <div class="service-body">
+                    <p>
+                        Oleje syntetyczne w motoryzacji to nowa era zapoczątkowana przez AMSOIL. Zapewniają one wyższą ochronę
+                        przed
+                        tarciem i zużyciem, dłuższe okresy wymiany, dłuższą żywotność sprzętu, niższe spalanie a także lepsze
+                        całoroczne właściwości w skrajnych temperaturach. Oleje w pełni syntetyczne są tworzone na poziomie
+                        molekuł
+                        w formie czystej i nie zawierają zbędnych komponentów mogących obniżyć ich parametry oraz skrócić okres
+                        przydatności. Nanotechnologiczne modyfikatory tarcia Archoil zapewniają najwyższą skuteczność redukcji
+                        tarcia i zużycia oraz najlepsze osiągi.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="">
+                <div class="service-title text-center">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        <h4>Dlaczego syntetyk i nanotechnologia?</h4>
+                 </div>
+                <div class="service-body">
+                    <p>
+                        Oleje syntetyczne w motoryzacji to nowa era zapoczątkowana przez AMSOIL. Zapewniają one wyższą ochronę
+                        przed
+                        tarciem i zużyciem, dłuższe okresy wymiany, dłuższą żywotność sprzętu, niższe spalanie a także lepsze
+                        całoroczne właściwości w skrajnych temperaturach. Oleje w pełni syntetyczne są tworzone na poziomie
+                        molekuł
+                        w formie czystej i nie zawierają zbędnych komponentów mogących obniżyć ich parametry oraz skrócić okres
+                        przydatności. Nanotechnologiczne modyfikatory tarcia Archoil zapewniają najwyższą skuteczność redukcji
+                        tarcia i zużycia oraz najlepsze osiągi.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="">
+                <div class="text-center service-title">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        <h4>Dlaczego AMSOIL, Red Line, Penrite, Archoil?</h4>
+                </div>
+                <div class="service-body">
+                    <p>
+                        AMSOIL to pionier olejów syntetycznych na świecie stawiany za wzór dla innych. Red Line Synthetic Oil
+                        Corporation od 1979r. niezłomnie oferuje najwyższej jakości oleje uznane w motorsporcie oparte wyłącznie
+                        o najlepsze estrowe oleje bazowe wbrew powszechnemu trendowi cięcia kosztów. Penrite to duma Australii
+                        od 1926 roku - obecnie oferuje oleje oparte o własne opatentowane syntetyczne technologie i zatwierdzone
+                        przez wszystkich renomowanych producentów motoryzacyjnych. Archoil to światowy lider nanotechnologii.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if message %}
+        <script>
+            shop.showMessage({{ message }},{{ message_icon }});
+        </script>
+    {% endif %}
+
+{% endblock %}
+
+{% block addScripts %}
+
+{% endblock %}
