@@ -26,7 +26,7 @@ def display_form(context, form=None, success=None, message=None):
         form = FormClass(request.POST)
         if form.is_valid():
             if send_mail('Prośba o dobór produktów', 'Prośba o dobór produktów', request.POST['email'],
-                      ['janek.zapal@gmail.com'], fail_silently=False, html_message=form.as_table()):
+                      ['info@najlepszysyntetyk.pl'], fail_silently=False, html_message=form.as_table()):
                 message = '<h2>Dziękujemy</h2><p>Twoje zapytanie zostało przesłane</p>'
             else:
                 message = '<h2>Błąd</h2><p>Przesłanie formularza nie powiodło się</p>'
