@@ -3,7 +3,8 @@
         <div class="border-in">
             <div class="promo-body" style="background-color:{{ background }};
                     color:{{ color }}; {% if image  %} text-align:center; {% endif %}
-                    {% if not icon and not image %} text-align:center; padding-top:27px; {% endif %}">
+                    {% if not icon and not image %} text-align:center; padding-top:27px; {% endif %}"
+                    {% if url %} onclick="window.location = '{{ url }}'" {% endif %} >
                 {% if image %}
                     <img src="{{ image }}" class="promo-icon" {% if size %} style="height:{{ size }}" {% endif %} />
                 {% endif %}

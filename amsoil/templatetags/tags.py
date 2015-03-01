@@ -81,14 +81,15 @@ def render_tags(context,value):
     return  { 'val':t.render(c) }
 
 @register.inclusion_tag('promoDiv.html')
-def promoDiv(content, color=None, background=None, icon=None, image=None, size=None):
+def promoDiv(content, color=None, background=None, icon=None, image=None, size=None, url=None):
     return {
         'color': color,
         'background': background,
         'content': content,
         'icon': icon,
         'image': image,
-        'size': size
+        'size': size,
+        'url' : url,
     }
 
 @register.filter(is_safe=True,needs_autoescape=False)
