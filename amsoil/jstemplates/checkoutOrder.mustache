@@ -1,7 +1,7 @@
 <div class="col-md-4">
-    <h4>{{#_}} Shipping method {{/_}}</h4>
+    <h4>Metoda odbioru</h4>
     <p class="bg-warning" id="no-shipping" style="display:none">
-        {{#_}} Please select a shipping method {{/_}}
+        Proszę wybrać metodę odbioru
     </p>
     <form id="shipping-method" role="form">
     {{#shippingMethods}}
@@ -14,9 +14,9 @@
     </form>
 </div>
 <div class="col-md-4">
-    <h4>{{#_}} Payment method {{/_}}</h4>
+    <h4>Metoda płatności</h4>
     <p class="bg-warning" id="no-payment" style="display:none">
-        {{#_}} Please select a payment method {{/_}}
+        Proszę wybrać metodę płatności
     </p>
     <form id="payment-method" role="form">
     {{#paymentMethods}}
@@ -35,16 +35,16 @@
     </form>
 </div>
 <div class="col-md-4">
-    <h4>{{#_}} Totals {{/_}}</h4>
+    <h4>Podsumowanie</h4>
 
-    <div>{{#_}} Products price{{/_}}:<span class="pull-right">
+    <div>Cena produktów:<span class="pull-right">
         <strong>{{  totals.products }}</strong></span></div>
-    <div>{{#_}} Shipping{{/_}}: <span class="pull-right"><strong>
+    <div>Wysyłka: <span class="pull-right"><strong>
         {{ totals.shipping }}</strong></span></div>
     {{#totals.discount}}
-        <div>{{#_}} Discount{{/_}}: <span class="pull-right"><strong>
+        <div>Zniżka: <span class="pull-right"><strong>
             {{ . }}</strong></span></div>
     {{/totals.discount}}
-    <div>{{#_}} In total{{/_}}: <span class="pull-right">
+    <div>W sumie: <span class="pull-right">
         <strong>{{ totals.total }}</strong></span></div>
 </div>
