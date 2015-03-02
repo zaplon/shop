@@ -573,9 +573,9 @@ def search(request):
     products = Product.objects.filter(Q(name__icontains=term) | Q(description__icontains=term))
     res = []
     for p in pages:
-        res.append({'id': p.id, 'except': p.body[0:200], 'title': p.title, 'link': '/page/' + p.name})
+        res.append({'id': p.id, 'except': p.body[0:200], 'title': p.title, 'link': '/' + p.name})
     for p in products:
-        res.append({'id': p.id, 'except': p.shortDescription[0:200], 'title': p.name, 'link': '/sklep/' + p.name + '/'})
+        res.append({'id': p.id, 'except': p.shortDescription[0:200], 'title': p.name, 'link': '/sklep/produkt/' + p.name + '/'})
     return render_to_response('search.html', {'results': res, 'count': len(res)},
                               context_instance=RequestContext(request))
 
