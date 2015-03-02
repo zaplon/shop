@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import datetime, re
 from django.db import models, connection
-from shop.settings import MEDIA_ROOT
+from shop.settings import MEDIA_ROOT, MEDIA_URL
 from ckeditor.fields import RichTextField
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
@@ -184,7 +184,7 @@ class Attachment(models.Model):
     file = models.FileField(upload_to=MEDIA_ROOT+'files/', verbose_name='plik')
     page = models.ForeignKey(Page, related_name='attachments')
     def get_url(self):
-        return MEDIA_ROOT + self.file.name
+        return MEDIA_URL + 'files/' + self.file.name.split('/')[-1]
     get_url.short_description = 'link'
 
 class AttributeGroup(models.Model):

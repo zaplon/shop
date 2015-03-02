@@ -30,20 +30,9 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
+ALLOWED_HOSTS = []
+
 gettext = lambda s: s
-
-class SetRemoteAddrFromForwardedFor(object):
-    def process_request(self, request):
-        try:
-            real_ip = request.META['HTTP_X_FORWARDED_FOR']
-        except KeyError:
-            pass
-        else:
-            # HTTP_X_FORWARDED_FOR can be a comma-separated list of IPs.
-            # Take just the first one.
-            real_ip = real_ip.split(",")[0]
-            request.META['REMOTE_ADDR'] = real_ip
-
 LANGUAGES = (
     ('pl', gettext('Polish')),
     ('en', gettext('English')),
@@ -52,16 +41,17 @@ LANGUAGES = (
 # Application definition
 
 INSTALLED_APPS = (
+    #'suit',
     'grappelli',
     'django_filters',
     'rest_framework',
     'modeltranslation',
     'django.contrib.admin',
+    'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.sites',	
     'django.contrib.staticfiles',
     'amsoil',
     'ckeditor',
@@ -71,27 +61,24 @@ INSTALLED_APPS = (
     'authentication',
     'password_reset',
     'corsheaders',
+    'reviews',
     'getpaid',
     'getpaid.backends.transferuj',
-    'reviews',
+    'rest_framework.authtoken',
     'markitup',
+    'crispy_forms'
 )
-
-CORS_URLS_REGEX = r'^/api/.*$'
-
-CORS_ORIGIN_ALLOW_ALL = False
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',	
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'SetRemoteAddrFromForwardedFor',
 )
 
 ROOT_URLCONF = 'shop.urls'
@@ -106,8 +93,8 @@ DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'shop',
-        'USER': 'shop_user',
-        'PASSWORD': 'shop_qaz!23',
+        'USER': 'root',
+        'PASSWORD': 'sadyba88',
         'HOST': 'localhost',
         'PORT': '',
         'OPTIONS': { 'init_command':'SET storage_engine=INNODB,character_set_connection=utf8,collation_connection=utf8_polish_ci'},
@@ -131,12 +118,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
-MEDIA_ROOT = '/home/zaplon/webapps/static/media/'
-MEDIA_URL = '/static/media/'
+MEDIA_ROOT = '/home/jan/PycharmProjects/shop/media/'
+MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/zaplon/webapps/static/'
-ADMIN_TEMPLATES_ROOT = '/home/webapps/zaplon/shop/templates/admin/'
+STATIC_ROOT = '/home/jan/PycharmProjects/shop/static/'
+ADMIN_TEMPLATES_ROOT = '/home/jan/PycharmProjects/shop/templates/admin/'
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
 )
@@ -149,6 +136,11 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
 }
 
@@ -169,14 +161,14 @@ FROM_MAIL = 'info@najlepszysyntetyk.pl'
 #EMAIL_USE_SSL = True
 #EMAIL_PORT = 25
 
-EMAIL_HOST = 'smtp.webfaction.com'
-EMAIL_HOST_USER = 'zamowienia'
-EMAIL_HOST_PASSWORD = "YUIOP{}|;'"
-DEFAULT_FROM_EMAIL = 'zamowienia@zaplon.webfactional.com'
-SERVER_EMAIL = 'zamowienia@zaplon.webfactional.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'oleje.amsoil@gmail.com'
+EMAIL_HOST_PASSWORD = "iskra123"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 LOCALE_PATHS = (
-    '/home/zaplon/webapps/shop/locale', # replace with correct path here
+    '/home/jan/PycharmProjects/shop/locale', # replace with correct path here
 )
 
 LANGUAGES = (
@@ -188,11 +180,14 @@ CHECKOUT_FAILED ='<h2>Błąd</h2><p>Podczas przetwarzania płatności wystąpił
 
 AUTH_USER_MODEL = 'authentication.User'
 
-ALLOWED_HOSTS = [
-	'.zaplon.webfactional.com',
-	'.najlepszysyntetyk.pl',
-	'.secure.transferuj.pl'
-]
+DEBUG = True
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+REVIEWS_SETTINGS = {
+    'model':'amsoil.Product'
+}
+
 
 GETPAID_BACKENDS = ('getpaid.backends.transferuj',)
 
@@ -206,11 +201,9 @@ GETPAID_BACKENDS_SETTINGS = {
 
 SITE_ID=1
 
-REVIEWS_SETTINGS = {
-    'model':'amsoil.Product'
-}
-
-MARKITUP_FILTER = ('markdown.markdown', {'safe_mode': False})
+MARKITUP_FILTER = ('utils.markdown', {})
 #MARKITUP_FILTER = ('django.contrib.markup.templatetags.markup.textile', {})
-#MARKITUP_FILTER = ('django_markup.markup.formatter', {'filter_name':'textile', 'safe_mode':False})
+#MARKITUP_FILTER = ('django_markup.markup.formatter', {'filter_name':'textile',$
 MARKITUP_AUTO_PREVIEW = True
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
