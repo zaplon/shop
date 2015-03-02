@@ -177,9 +177,15 @@ class Tag(models.Model):
 #    product = models.ForeignKey(Product, related_name='images')jq
 
 class Attachment(models.Model):
-    name = models.CharField(max_length=100)
-    file = models.FileField(upload_to=MEDIA_ROOT+'files/')
+    class Meta:
+        verbose_name = 'załącznik'
+        verbose_name_plural = 'załączniki'
+    name = models.CharField(max_length=100, verbose_name='nazwa')
+    file = models.FileField(upload_to=MEDIA_ROOT+'files/', verbose_name='plik')
     page = models.ForeignKey(Page, related_name='attachments')
+    def get_url(self):
+        return self.file.file.path
+    get_url.short_description = 'link'
 
 class AttributeGroup(models.Model):
     class Meta:

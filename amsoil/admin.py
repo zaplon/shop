@@ -1,6 +1,7 @@
 from django.contrib import admin
 from amsoil.models import Menu, MenuItem, Product, Page, Category, ProductVariation, Attribute, AttributeGroup
 from amsoil.models import ShippingMethod, PaymentMethod, Order, Cart, Invoice, Slider, Slide, Shipment, Post, Template
+from amsoil.models import Attachment
 from modeltranslation.admin import TranslationAdmin
 from shop.settings import ADMIN_TEMPLATES_ROOT
 
@@ -63,8 +64,14 @@ class VariationsInline(admin.TabularInline):
     readonly_fields = ('total_sales',)
     extra = 1
 
+class AttachmentsInline(admin.TabularInline):
+    model = Attachment
+    fields = ('name','file','get_url',)
+    readonly_fields = ('get_url',)
+    extra = 1
+
 class ProductAdmin(admin.ModelAdmin):
-    inlines = (VariationsInline,)
+    inlines = (VariationsInline, AttachmentsInline)
     list_display = ['name','mainImage']
     list_editable = ['name']
     search_fields = ['name']
