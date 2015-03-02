@@ -184,7 +184,7 @@ class Attachment(models.Model):
     file = models.FileField(upload_to=MEDIA_ROOT+'files/', verbose_name='plik')
     page = models.ForeignKey(Page, related_name='attachments')
     def get_url(self):
-        return self.file.path
+        return MEDIA_ROOT + self.file.name
     get_url.short_description = 'link'
 
 class AttributeGroup(models.Model):
