@@ -105,7 +105,7 @@ header {
   float: left;
   margin-top: 5px; }
   .sidebar-left .widget {
-    margin-left: 20px; }
+    margin-left: 0px; }
     .sidebar-left .widget h3 {
       font-weight: normal;
       font-size: 20px;
