@@ -144,7 +144,7 @@ def productsTabs():
 def nav(name=None):
     mi = MenuItem.objects.filter(menu__name='main').order_by('order')
     lp = getProductAttributesByGroupName('Lepkość')
-    pr = getProductAttributesByGroupName('Producent')
+    pr = getProductAttributesByGroupName('Marka')
     return {
         'brands': pr,
         'vis': lp,

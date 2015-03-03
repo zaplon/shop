@@ -22,7 +22,7 @@
                         {% endfor %}
                     </ul>
                     <ul class="col-md-4">
-                        <li role="presentation" class="dropdown-header">Producent</li>
+                        <li role="presentation" class="dropdown-header">Marka</li>
                         {% for b in brands %}
                             <li role="presentation"><a role="menuitem" href="/sklep/atrybuty/{{ b.name }}">{{ b.name }}</a></li>
                         {% endfor %}
