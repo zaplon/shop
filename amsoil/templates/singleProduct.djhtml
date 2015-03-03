@@ -74,6 +74,9 @@
             p = res.results[0];
             shop.products = res.results;
             p.grouped_variations = JSON.parse(p.grouped_variations.replace(/'/g, '"'));
+            p.variations.forEach(function(v){
+                v.price = v.price.toFixed(2);
+            });
             $('#product-variations-container').html(Handlebars.templates['variations'](
                     { 'addToCart': 'Do koszyka', 'product': p, 'showQuantity': true,
                     'buttonMargin':1}));

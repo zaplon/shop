@@ -4,6 +4,7 @@ from amsoil.models import ShippingMethod, PaymentMethod, Order, Cart, Invoice, S
 from amsoil.models import Attachment
 from modeltranslation.admin import TranslationAdmin
 from shop.settings import ADMIN_TEMPLATES_ROOT
+from django.forms import ModelChoiceField, ModelForm
 
 # Register your models here.
 admin.site.register(Menu)
@@ -70,12 +71,20 @@ class AttachmentsInline(admin.TabularInline):
     readonly_fields = ('get_url',)
     extra = 1
 
+
+#class ProductForm(ModelForm):
+#    atts = ModelChoiceField(queryset=Attribute.objects.all().order_by('group__name','name'))
+
 class ProductAdmin(admin.ModelAdmin):
+    #form = ProductForm
     inlines = (VariationsInline, AttachmentsInline)
     list_display = ['name','mainImage']
     list_editable = ['name']
+    filter_horizontal = ('attributes',)
     search_fields = ['name']
-    fields = ('name','shortName','description',('attributes','mainImage'),('categories','tags'),)
+    fields = ('name','shortName','description',
+              ('attributes'),('mainImage'),
+              ('categories','tags'),)
     #pass
 
 class PostAdmin(admin.ModelAdmin):

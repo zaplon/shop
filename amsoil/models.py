@@ -11,6 +11,7 @@ import getpaid
 from django.core.urlresolvers import reverse
 from authentication.models import User
 from markitup.fields import MarkupField
+#from tinymce import models as tinymce_models
 
 class UserProfile(models.Model):
     pass
