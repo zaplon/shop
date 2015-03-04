@@ -422,6 +422,7 @@ class Slide(models.Model):
     button1Url = models.CharField(max_length=50, null=True, blank=True)
     product = models.ForeignKey(Product, blank=True, null=True)
     image = models.ImageField(verbose_name='obrazek')
+    order = models.IntegerField(default=0, verbose_name='Kolejność')
 
 class NewsletterReceiver(models.Model):
     email = models.EmailField(unique=True)

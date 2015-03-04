@@ -296,7 +296,7 @@ def slider(*args, **kwargs):
     return {
         'root': MEDIA_URL,
         'slider': slider,
-        'slides': Slide.objects.filter(slider=slider)
+        'slides': Slide.objects.filter(slider=slider).order_by('order')
     }
 
 
