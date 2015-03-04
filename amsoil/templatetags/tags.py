@@ -269,7 +269,7 @@ def breadcrumbs(context):
     i = 1
     for e in els:
         if len(e) > 0:
-            if e not in ['product','category','atrybuty','kategorie']:
+            if e not in ['produkt','category','atrybuty','kategorie']:
                 res.append({'url': '/'.join(els[0:i]), 'name': e})
         i = i + 1
     res[-1]['last'] = True
