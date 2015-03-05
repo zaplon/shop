@@ -18,7 +18,7 @@ from django.template import Template as D_template
 register = template.Library()
 
 
-@register.inclusion_tag('tags/display_form.html',takes_context=True)
+@register.inclusion_tag('tags/display_form.html', takes_context=True)
 def display_form(context, form=None, success=None, message=None):
     exec 'from amsoil.forms import %s as FormClass' % form
     request = context['request']
@@ -26,41 +26,43 @@ def display_form(context, form=None, success=None, message=None):
         form = FormClass(request.POST)
         if form.is_valid():
             if send_mail('Prośba o dobór produktów', 'Prośba o dobór produktów', request.POST['email'],
-                      ['info@najlepszysyntetyk.pl'], fail_silently=False, html_message=form.as_table()):
+                         ['info@najlepszysyntetyk.pl'], fail_silently=False, html_message=form.as_table()):
                 message = '<h2>Dziękujemy</h2><p>Twoje zapytanie zostało przesłane</p>'
             else:
                 message = '<h2>Błąd</h2><p>Przesłanie formularza nie powiodło się</p>'
     else:
         form = FormClass()
-    return { 'form':form, 'success':success, 'action':request.path, 'message':message }
+    return {'form': form, 'success': success, 'action': request.path, 'message': message}
 
 
-@register.inclusion_tag('tags/template.html',takes_context=True)
+@register.inclusion_tag('tags/template.html', takes_context=True)
 def display_template(context, name):
     try:
-    	tem = Template.objects.get(name=name)
+        tem = Template.objects.get(name=name)
         text = render_tags(context, tem.body.rendered)['val']
     except:
-    	tem = False
-    return { 'template':text if tem else '' }
+        tem = False
+    return {'template': text if tem else ''}
 
-@register.inclusion_tag('tags/discount_info.html',takes_context=True)
+
+@register.inclusion_tag('tags/discount_info.html', takes_context=True)
 def discount_info(context):
     request = context['request']
-    if UserMeta.getValue(request.user,'discount'):
+    if UserMeta.getValue(request.user, 'discount'):
         return {
-            'discount': {'ends': UserMeta.getValue(request.user,'discount_ends'),
-                         'size': UserMeta.getValue(request.user,'discount') }
+            'discount': {'ends': UserMeta.getValue(request.user, 'discount_ends'),
+                         'size': UserMeta.getValue(request.user, 'discount')}
         }
     else:
         return {'discount': False}
 
-@register.inclusion_tag('special_shop.html',takes_context=True)
+
+@register.inclusion_tag('special_shop.html', takes_context=True)
 def special_shop(context, *args, **kwargs):
     categories_names = kwargs['filters'].encode('utf8').split(',') if 'filters' in kwargs else []
     attributes_names = kwargs['attributes'].encode('utf8').split(',') if 'attributes' in kwargs else []
-    attributes = Attribute.objects.filter(name__in = attributes_names)
-    categories = Category.objects.filter(name__in = categories_names)
+    attributes = Attribute.objects.filter(name__in=attributes_names)
+    categories = Category.objects.filter(name__in=categories_names)
     attributes_ids = [a.id for a in attributes]
     categories_ids = [c.id for c in categories]
 
@@ -74,11 +76,12 @@ def special_shop(context, *args, **kwargs):
     }
 
 
-@register.inclusion_tag('render_tags.html',takes_context=True)
-def render_tags(context,value):
-    t = D_template( '{%load tags%}{%load i18n%}' + value)
+@register.inclusion_tag('render_tags.html', takes_context=True)
+def render_tags(context, value):
+    t = D_template('{%load tags%}{%load i18n%}' + value)
     c = RequestContext(context['request'])
-    return  { 'val':t.render(c) }
+    return {'val': t.render(c)}
+
 
 @register.inclusion_tag('promoDiv.html')
 def promoDiv(content, color=None, background=None, icon=None, image=None, size=None, url=None):
@@ -89,39 +92,47 @@ def promoDiv(content, color=None, background=None, icon=None, image=None, size=N
         'icon': icon,
         'image': image,
         'size': size,
-        'url' : url,
+        'url': url,
     }
 
-@register.filter(is_safe=True,needs_autoescape=False)
-def currency(value):
-	#return '<span class="currency">PLN</span><span class="item-price">'+str(value)+'</span>'
-	return  "%.2f" % float(value) + ' zł'
-	
+
+@register.filter(is_safe=True, needs_autoescape=False)
+def currency(value, show_currency=True):
+    # return '<span class="currency">PLN</span><span class="item-price">'+str(value)+'</span>'
+    if show_currency:
+        return ("%.2f" % float(value)).replace('.',',') + ' zł'
+    else:
+        return ("%.2f" % float(value)).replace('.',',')
+
+
 def placeholder(value):
-	value.field.widget.attrs["placeholder"] = value.help_text
-	return value
+    value.field.widget.attrs["placeholder"] = value.help_text
+    return value
+
 
 register.filter(placeholder)
 
 
 @register.inclusion_tag('sorter.html')
 def sorter():
-   return {
-   }
+    return {
+    }
+
 
 @register.inclusion_tag('priceFilter.html', takes_context=True)
-def priceFilter(context,limited=None,*args, **kwargs):
+def priceFilter(context, limited=None, *args, **kwargs):
     if limited:
         products = get_products_query_set(context)
-        pvs = ProductVariation.objects.filter(product__in = products)
+        pvs = ProductVariation.objects.filter(product__in=products)
     else:
         pvs = ProductVariation.objects.all()
     minimum = int(pvs.aggregate(Min('price')).values()[0])
     maximum = int(pvs.aggregate(Max('price')).values()[0])
     return {
-    	'min': minimum,
-    	'max': maximum
+        'min': minimum,
+        'max': maximum
     }
+
 
 @register.inclusion_tag('productsTabs.html')
 def productsTabs():
@@ -159,7 +170,7 @@ def nav(name=None):
 def productCategories(context, limited=None, name=None, *args, **kwargs):
     if limited:
         products = get_products_query_set(context)
-        categories = Category.objects.filter(forProducts=True, pages__in = products).annotate(dcount=Count('pages__id'))
+        categories = Category.objects.filter(forProducts=True, pages__in=products).annotate(dcount=Count('pages__id'))
     else:
         categories = Category.objects.filter(forProducts=True).annotate(dcount=Count('pages__id'))
     return {
@@ -169,12 +180,12 @@ def productCategories(context, limited=None, name=None, *args, **kwargs):
 
 
 @register.inclusion_tag('productFilter.html', takes_context=True)
-def productFilter(context,limited=None, type=None, *args):
+def productFilter(context, limited=None, type=None, *args):
     if limited:
         products = get_products_query_set(context)
-        #options = Attribute.objects.filter(group__name=type, pages__isnull=False, products__in = products).\
+        # options = Attribute.objects.filter(group__name=type, pages__isnull=False, products__in = products).\
         #    annotate(dcount=Count('id'))
-        options = Attribute.objects.filter(group__name=type, products__in = products).annotate(dcount=Count('pages__id'))
+        options = Attribute.objects.filter(group__name=type, products__in=products).annotate(dcount=Count('pages__id'))
     else:
         options = Attribute.objects.filter(group__name=type, pages__isnull=False).annotate(dcount=Count('pages__id'))
     return {
@@ -210,11 +221,11 @@ def cartData(context, *args, **kwargs):
 @register.inclusion_tag('addresses.html', takes_context=True)
 def addresses(context, order, *args, **kwargs):
     try:
-        receiver = ShippingForm(instance=Shipment.objects.get(order=order,type='RE'))
+        receiver = ShippingForm(instance=Shipment.objects.get(order=order, type='RE'))
     except:
         receiver = False
     try:
-        buyer = ShippingForm(instance=Shipment.objects.get(order=order,type='BU'))
+        buyer = ShippingForm(instance=Shipment.objects.get(order=order, type='BU'))
     except:
         buyer = False
     return {
@@ -269,7 +280,7 @@ def breadcrumbs(context):
     i = 1
     for e in els:
         if len(e) > 0:
-            if e not in ['produkt','category','atrybuty','kategorie']:
+            if e not in ['produkt', 'category', 'atrybuty', 'kategorie']:
                 res.append({'url': '/'.join(els[0:i]), 'name': e})
         i = i + 1
     res[-1]['last'] = True
