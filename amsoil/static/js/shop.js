@@ -15,7 +15,11 @@ $(document).ready(function($){
             $('#'+$(this).attr('data-hide')).css('display','none');
         else
             $('#'+$(this).attr('data-hide')).css('display','block');
-    })
+    });
+
+    $('.container-fluid').delegate('.product-image').click(function(){
+       window.location = '/sklep/produkt/' + $(event.target).attr('data-product-name') + '/';
+    });
 
     $('.container-fluid').delegate('.variations-table select','change', function(){
         $(this).find('option')[0].setAttribute('disabled',true);

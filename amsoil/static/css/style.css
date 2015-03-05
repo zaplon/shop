@@ -25,7 +25,7 @@ body {
   background-color: white; }
 
 footer.page {
-  margin-top: 20px;
+  margin-top: 0px;
   background-color: black;
   background-image: url("../images/pattern_dark.png");
   bottom: 0px;
@@ -285,7 +285,8 @@ h1.page-title {
 .product-image {
   background-repeat: no-repeat;
   width: 80px;
-  height: 150px; }
+  height: 150px;
+  cursor: pointer; }
   .product-image img {
     margin: 0 auto; }
 
