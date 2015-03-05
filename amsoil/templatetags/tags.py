@@ -170,9 +170,9 @@ def nav(name=None):
 def productCategories(context, limited=None, name=None, *args, **kwargs):
     if limited:
         products = get_products_query_set(context)
-        categories = Category.objects.filter(forProducts=True, pages__in=products).annotate(dcount=Count('pages__id'))
+        categories = Category.objects.filter(forProducts=True, pages__in=products).annotate(dcount=Count('pages__id')).order_by('order')
     else:
-        categories = Category.objects.filter(forProducts=True).annotate(dcount=Count('pages__id'))
+        categories = Category.objects.filter(forProducts=True).annotate(dcount=Count('pages__id')).order_by('order')
     return {
         'asLink': 'asLink' in kwargs if True else False,
         'categories': categories,

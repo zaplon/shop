@@ -165,6 +165,7 @@ class Category(models.Model):
     forProducts = models.BooleanField(default=False)
     parent = models.ForeignKey('self', verbose_name='rodzic', blank=True, null=True, related_name='children')
     image = models.FileField(upload_to=MEDIA_ROOT+'images/', default='', blank=True)
+    order = models.IntegerField(default=0)
     def __unicode__(self):
         return self.name
 
