@@ -5,12 +5,13 @@ from amsoil.models import Attachment
 from modeltranslation.admin import TranslationAdmin
 from shop.settings import ADMIN_TEMPLATES_ROOT
 from django.forms import ModelChoiceField, ModelForm
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from django import forms
 
 # Register your models here.
 admin.site.register(Menu)
 admin.site.register(MenuItem)
 admin.site.register(Category,TranslationAdmin)
-admin.site.register(Attribute)
 admin.site.register(AttributeGroup)
 admin.site.register(ShippingMethod)
 admin.site.register(PaymentMethod)
@@ -104,3 +105,61 @@ admin.site.register(ProductVariation, ProductVariationAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Slider, SliderAdmin)
+
+class ProductsInline(admin.TabularInline):
+    model = Product.attributes.through
+    extra = 3
+
+# class AttributeAdmin(admin.ModelAdmin):
+#     model = Attribute
+#     products = forms.ModelMultipleChoiceField(
+#         queryset=Product.objects.all(),
+#         required=False,
+#         widget=FilteredSelectMultiple(
+#           verbose_name= 'Produkty',
+#           is_stacked=False
+#         )
+#     )
+#     list_display  = ['name']
+#     list_editable = ['name']
+#     fields = ['name','group', 'products']
+#     #inlines = [ProductsInline]
+
+
+class AttributeAdminForm(forms.ModelForm):
+  products = forms.ModelMultipleChoiceField(
+    queryset=Product.objects.all(),
+    required=False,
+    widget=FilteredSelectMultiple(
+      verbose_name= 'Produkty',
+      is_stacked=False
+    )
+  )
+
+  class Meta:
+    model = Attribute
+
+  def __init__(self, *args, **kwargs):
+    super(AttributeAdminForm, self).__init__(*args, **kwargs)
+
+    if self.instance and self.instance.pk:
+      self.fields['products'].initial = self.instance.pages.all()
+
+  def save(self, commit=True):
+    Attribute = super(AttributeAdminForm, self).save(commit=False)
+
+    if commit:
+      Attribute.save()
+
+    if Attribute.pk:
+      Attribute.pages = self.cleaned_data['products']
+      self.save_m2m()
+
+    return Attribute
+
+class AttributeAdmin(admin.ModelAdmin):
+  form = AttributeAdminForm
+
+
+
+admin.site.register(Attribute, AttributeAdmin)
