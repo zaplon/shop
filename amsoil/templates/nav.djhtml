@@ -15,22 +15,16 @@
               <ul class="dropdown-menu nav-dropdown" role="menu" style="width:500px;">
                 <li>
                   <div class="row">
-                    <ul class="col-md-4">
+                    <ul class="col-md-6">
                         <li role="presentation" class="dropdown-header">{% trans 'Categories' %}</li>
                         {% for c in categories %}
                             <li role="presentation"><a role="menuitem" href="/sklep/kategorie/{{ c.name }}">{{ c.name }}</a></li>
                         {% endfor %}
                     </ul>
-                    <ul class="col-md-4">
+                    <ul class="col-md-6">
                         <li role="presentation" class="dropdown-header">Marka</li>
                         {% for b in brands %}
                             <li role="presentation"><a role="menuitem" href="/sklep/atrybuty/{{ b.name }}">{{ b.name }}</a></li>
-                        {% endfor %}
-                    </ul>
-                     <ul class="col-md-4">
-                        <li role="presentation" class="dropdown-header">Lepkość</li>
-                        {% for v in vis %}
-                            <li role="presentation"><a role="menuitem" href="/sklep/atrybuty/{{ v.name }}">{{ v.name }}</a></li>
                         {% endfor %}
                     </ul>
                   </div>

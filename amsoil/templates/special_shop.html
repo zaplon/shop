@@ -6,18 +6,11 @@
 
 {% block body %}
     <form id="shop-variables">
-        {% if categories_ids %}
-            <input name="category" type="hidden" value="{{ categories_ids|join:"," }}"></input>
+        {% if category_id > 0 %}
+            <input name="category" type="hidden" value="{{ category_id }}"></input>
         {% endif %}
-        {% if attributes_ids %}
-            <input name="attributes" type="hidden" value="{{ attributes_ids|join:","  }}"></input>
-        {% endif %}
-
-         {% if categories_ids %}
-            <input name="only_category" type="hidden" value="{{ categories_ids|join:"," }}"></input>
-        {% endif %}
-        {% if attributes_ids %}
-            <input name="only_attributes" type="hidden" value="{{ attributes_ids|join:","  }}"></input>
+        {% if attributes_id > 0 %}
+            <input name="attributes" type="hidden" value="{{ attributes_id }}"></input>
         {% endif %}
 
     </form>
@@ -48,13 +41,13 @@
                 <div class="widget">
                      <h3>{% trans 'Price' %}</h3>
                     <div class="panel panel-body">
-                        {% priceFilter limited=1 %}
+                        {% priceFilter %}
                     </div>
                 </div>
                 {% for f in filters %}
-                    {% productFilter type=f limited=1 %}
+                    {% productFilter type=f %}
                 {% endfor %}
-                {% productCategories limited=1 %}
+                {% productCategories %}
                 <button class="btn btn-primary product-filter-action">
                     {% trans 'Filter' %}
                 </button>
@@ -82,11 +75,6 @@
 
 {% block addScripts %}
     <script>
-
-        if ($('#shop-variables input[name="only_category"]').val())
-            shop.filters.onlyCategories = $('#shop-variables input[name="only_category"]').val();
-        if ($('#shop-variables input[name="only_attributes"]').val())
-            shop.filters.onlyAttributes = $('#shop-variables input[name="only_attributes"]').val();
 
         var cat = $('#shop-variables input[name="category"]').val();
         if ( $('#shop-variables input[name="attributes"]').length )

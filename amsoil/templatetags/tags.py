@@ -29,8 +29,8 @@ def is_shop_limited(context):
         except:
             pass
         try:
-            ind = context.dicts[1].index(k)
-            params[k] = context.dicts[1][ind+1].split(',')
+            ind = context.dicts[1][k]
+            params[k] = ind
         except:
             pass
 
@@ -81,19 +81,19 @@ def discount_info(context):
 
 @register.inclusion_tag('special_shop.html', takes_context=True)
 def special_shop(context, *args, **kwargs):
-    categories_names = kwargs['filters'].encode('utf8').split(',') if 'filters' in kwargs else []
-    attributes_names = kwargs['attributes'].encode('utf8').split(',') if 'attributes' in kwargs else []
+    categories_names = kwargs['kategorie'].encode('utf8').split(',') if 'kategorie' in kwargs else ''
+    attributes_names = kwargs['atrybuty'].encode('utf8').split(',') if 'atrybuty' in kwargs else ''
     attributes = Attribute.objects.filter(name__in=attributes_names)
     categories = Category.objects.filter(name__in=categories_names)
-    attributes_ids = [a.id for a in attributes]
-    categories_ids = [c.id for c in categories]
+    attributes_ids = [str(a.id) for a in attributes]
+    categories_ids = [str(c.id) for c in categories]
 
     return {
-        'filters': kwargs['filters'].encode('utf8').split(',') if 'filters' in kwargs else [],
-        'attributes': attributes_names,
-        'categories': categories_names,
-        'categories_ids': categories_ids,
-        'attributes_ids': attributes_ids,
+        'filtry': kwargs['filtry'].encode('utf8').split(',') if 'filtry' in kwargs else [],
+        'atrybuty': attributes_names,
+        'kategorie': categories_names,
+        'category_id':  ','.join(categories_ids) if len(categories_ids) > 0 else -1,
+        'attributes_id':  ','.join(attributes_ids) if len(attributes_ids) > 0 else -1,
         'request': context['request']
     }
 
@@ -335,8 +335,8 @@ def slider(*args, **kwargs):
 
 def get_products_query_set(params):
     pr = Product.objects.all()
-    if 'atrybuty' in params:
+    if 'atrybuty' in params and len(params['atrybuty']) > 0:
         pr = Product.objects.filter(attributes__name__in=params['atrybuty'])
-    if 'kategorie' in params:
+    if 'kategorie' in params and len(params['kategorie']) > 0:
         pr = pr & Product.objects.filter(categories__name__in=params['kategorie'])
     return pr
