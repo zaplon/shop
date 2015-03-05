@@ -47,10 +47,13 @@
                         {% priceFilter %}
                     </div>
                 </div>
-
-                {% productFilter type='Lepkość' %}
-                {% productFilter type='Marka' %}
-                {% productCategories %}
+                {% if attributes_id <= 0 %}
+                    {% productFilter type='Lepkość' %}
+                    {% productFilter type='Marka' %}
+                {% endif %}
+                {% if category_id <= 0 %}
+                    {% productCategories %}
+                {% endif %}
                 <button class="btn btn-primary product-filter-action">
                     {% trans 'Filter' %}
                 </button>

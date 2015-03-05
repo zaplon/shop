@@ -18,6 +18,28 @@ from django.template import Template as D_template
 register = template.Library()
 
 
+def is_shop_limited(context):
+    params = {}
+    keys = ['atrybuty','kategorie']
+    urls = context['request'].path.split('/')
+    for k in keys:
+        try:
+            ind = urls.index(k)
+            params[k] = urls[ind + 1].split(',')
+        except:
+            pass
+        try:
+            ind = context.dicts[1].index(k)
+            params[k] = context.dicts[1][ind+1].split(',')
+        except:
+            pass
+
+    if len(params) > 0:
+        return get_products_query_set(params)
+    else:
+        return False
+
+
 @register.inclusion_tag('tags/display_form.html', takes_context=True)
 def display_form(context, form=None, success=None, message=None):
     exec 'from amsoil.forms import %s as FormClass' % form
@@ -120,9 +142,9 @@ def sorter():
 
 
 @register.inclusion_tag('priceFilter.html', takes_context=True)
-def priceFilter(context, limited=None, *args, **kwargs):
-    if limited:
-        products = get_products_query_set(context)
+def priceFilter(context, *args, **kwargs):
+    products = is_shop_limited(context)
+    if products:
         pvs = ProductVariation.objects.filter(product__in=products)
     else:
         pvs = ProductVariation.objects.all()
@@ -167,9 +189,9 @@ def nav(name=None):
 
 
 @register.inclusion_tag('productCategories.djhtml', takes_context=True)
-def productCategories(context, limited=None, name=None, *args, **kwargs):
-    if limited:
-        products = get_products_query_set(context)
+def productCategories(context, name=None, *args, **kwargs):
+    products = is_shop_limited(context)
+    if products:
         categories = Category.objects.filter(forProducts=True, pages__in=products).annotate(dcount=Count('pages__id')).order_by('order')
     else:
         categories = Category.objects.filter(forProducts=True).annotate(dcount=Count('pages__id')).order_by('order')
@@ -180,9 +202,9 @@ def productCategories(context, limited=None, name=None, *args, **kwargs):
 
 
 @register.inclusion_tag('productFilter.html', takes_context=True)
-def productFilter(context, limited=None, type=None, *args):
-    if limited:
-        products = get_products_query_set(context)
+def productFilter(context, type=None, *args):
+    products = is_shop_limited(context)
+    if products:
         # options = Attribute.objects.filter(group__name=type, pages__isnull=False, products__in = products).\
         #    annotate(dcount=Count('id'))
         options = Attribute.objects.filter(group__name=type, products__in=products).annotate(dcount=Count('pages__id'))
@@ -311,10 +333,10 @@ def slider(*args, **kwargs):
     }
 
 
-def get_products_query_set(context):
+def get_products_query_set(params):
     pr = Product.objects.all()
-    if 'attributes' in context.dicts[1]:
-        pr = Product.objects.filter(attributes__name__in=context.dicts[1]['attributes'])
-    if 'categories' in context.dicts[1]:
-        pr = pr | Product.objects.filter(categories__name__in=context.dicts[1]['categories'])
+    if 'atrybuty' in params:
+        pr = Product.objects.filter(attributes__name__in=params['atrybuty'])
+    if 'kategorie' in params:
+        pr = pr & Product.objects.filter(categories__name__in=params['kategorie'])
     return pr

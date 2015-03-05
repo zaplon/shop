@@ -18,7 +18,7 @@
                     <ul class="col-md-4">
                         <li role="presentation" class="dropdown-header">{% trans 'Categories' %}</li>
                         {% for c in categories %}
-                            <li role="presentation"><a role="menuitem" href="/sklep/category/{{ c.name }}">{{ c.name }}</a></li>
+                            <li role="presentation"><a role="menuitem" href="/sklep/kategorie/{{ c.name }}">{{ c.name }}</a></li>
                         {% endfor %}
                     </ul>
                     <ul class="col-md-4">

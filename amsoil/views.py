@@ -74,7 +74,7 @@ def shop(request):
 
     category_id = -1
     try:
-        cat_ind = path.index('category')
+        cat_ind = path.index('kategorie')
         category_id = Category.objects.get(name=path[cat_ind + 1]).id
         # return render_to_response('shop.djhtml', {'category_id': category_id}, context_instance=RequestContext(request))
     except:
