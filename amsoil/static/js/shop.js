@@ -17,7 +17,7 @@ $(document).ready(function($){
             $('#'+$(this).attr('data-hide')).css('display','block');
     });
 
-    $('.container-fluid').delegate('.product-image').click(function(){
+    $('div#products').delegate('.product-image').click(function(){
        window.location = '/sklep/produkt/' + $(event.target).attr('data-product-name') + '/';
     });
 
