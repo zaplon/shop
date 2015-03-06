@@ -374,15 +374,14 @@ shop = {
                else
                 res.results[r].noVars = false;
 
+               p = res.results[r];
+               p.grouped_variations = JSON.parse(p.grouped_variations.replace(/'/g, '"'));
+
                if (shop.displayAs == 'grid') {
-                   p = res.results[r];
-                   p.grouped_variations = JSON.parse(p.grouped_variations.replace(/'/g, '"'));
                    $(div).html(Handlebars.templates['productSmall']( {'addToCart': 'Do koszyka', 'product': p }));
                    //$(div).html(Mustache.to_html(Mustache.TEMPLATES.productSmall, {'addToCart': 'Do koszyka', 'product': res.results[r] }));
                }
                else {
-                   p = res.results[r];
-                   p.grouped_variations = JSON.parse(p.grouped_variations.replace(/'/g, '"'));
                    $(div).html(Handlebars.templates['product']({'addToCart': 'Do koszyka', 'product': p }));
                    //$(div).html(Mustache.to_html(Mustache.TEMPLATES.product, { 'addToCart':'Do koszyka', 'product': res.results[r] }));
                }

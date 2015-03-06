@@ -69,7 +69,7 @@
         </div>
     </div>
     <script>
-        $("#single-col-2").height($("#single-col-1").height());
+        $("#single-col-2").css('min-height', $("#single-col-1").height()+'px' );
         $.get('/api/products?id={{product.id}}').success(function(res){
             p = res.results[0];
             shop.products = res.results;

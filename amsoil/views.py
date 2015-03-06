@@ -543,7 +543,6 @@ class ShopProductListView(generics.ListAPIView):
         list = self.list(request)
         for p in list.data['results']:
             p['min_price'] = min(p['variations'], key=lambda x: x['price'])['price']
-
         return list
 
 def singleProduct(request, name):
