@@ -40,7 +40,8 @@ class prices:
 
         metas = dict(metas.items() + billing.items() + shipping.items() + invoice.items())
 
-        db = sqlsoup.SQLSoup('mysql://shop_user:shop_qaz!23@archoil.pl/amsoil_new?charset=utf8')
+        db = sqlsoup.SQLSoup('mysql://sklep:234dee4c-f423-4dd8-a0ba-625f3d801b22@archoil.pl/najlepszysyntetykpl?charset=utf8')
+
         users = db.wp_users.all()
         keys = self.getKeys(metas)
         for user in users:
@@ -54,9 +55,9 @@ class prices:
             for row in rows:
                 if row[2] in billing:
                     try:
-                        sh = Shipment.objects.get(user__username=user.user_login, type='PA')
+                        sh = Shipment.objects.get(user__username=user.user_login, type='BU')
                     except:
-                        sh = Shipment(user = User.objects.get(username=user.user_login), type='PA')
+                        sh = Shipment(user = User.objects.get(username=user.user_login), type='BU')
                         sh.save()
                     setattr(sh,billing[row[2]],row[3])
                     #sh[billing[row[2]]] = row[3]
@@ -87,7 +88,7 @@ class prices:
 
     def doPrices(self):    
 
-        db = sqlsoup.SQLSoup('mysql://shop_user:shop_qaz!23@archoil.pl/amsoil_new?charset=utf8')
+        db = sqlsoup.SQLSoup('mysql://sklep:234dee4c-f423-4dd8-a0ba-625f3d801b22@archoil.pl/najlepszysyntetykpl?charset=utf8')
     
         where = (db.wp_posts.post_type =='product')
         posts = db.wp_posts.filter(where).all()
@@ -232,11 +233,11 @@ class prices:
 class Command(BaseCommand):
 
   def handle(self,*args,**options):
-    Category.objects.all().delete()
-    Attribute.objects.all().delete()
-    AttributeGroup.objects.all().delete()
-    ProductVariation.objects.all().delete()
-    Product.objects.all().delete()
+    #Category.objects.all().delete()
+    #Attribute.objects.all().delete()
+    #AttributeGroup.objects.all().delete()
+    #ProductVariation.objects.all().delete()
+    #Product.objects.all().delete()
     p = prices()
-    p.doPrices()
-    #p.doUsers()
+    #p.doPrices()
+    p.doUsers()

@@ -95,7 +95,7 @@ class Product(Page):
     def getGroupedAttributes(self):
         cursor = connection.cursor()
         cursor.execute("""
-            SELECT ag.name, GROUP_CONCAT(a.name ORDER BY ag.name) as atts
+            SELECT ag.name, GROUP_CONCAT(a.name ORDER BY ag.name SEPARATOR ', ') as atts
             FROM amsoil_attribute a
             INNER JOIN amsoil_attributegroup ag ON ag.id=a.group_id
             INNER JOIN amsoil_page_attributes pa ON pa.attribute_id = a.id
