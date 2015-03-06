@@ -207,7 +207,7 @@ def productFilter(context, type=None, *args):
     if products:
         # options = Attribute.objects.filter(group__name=type, pages__isnull=False, products__in = products).\
         #    annotate(dcount=Count('id'))
-        options = Attribute.objects.filter(group__name=type, products__in=products).annotate(dcount=Count('pages__id'))
+        options = Attribute.objects.filter(group__name=type, pages__in=products).annotate(dcount=Count('pages__id'))
     else:
         options = Attribute.objects.filter(group__name=type, pages__isnull=False).annotate(dcount=Count('pages__id'))
     return {
