@@ -21,7 +21,7 @@
             <input type="hidden" value="{{ shippingMethod }}" name="shippingMethod"></input>
             <input type="hidden" value="{{ paymentMethod }}" name="paymentMethod"></input>
         </form>
-        <div id="checkout">
+        <div id="checkout" style="margin-bottom:20px;">
             <div class="row">
                 <div class="col-md-12">
                      <div id="checkout-control">
@@ -248,7 +248,7 @@
                         <button id="checkout-process" class="pull-right btn btn-primary col-md-2">{% trans 'Purchase' %}</button>
                     </div>
                 </div>
-
+                <div style="clear:both; height:20px;"></div>
             </div>
             <div class="checkout-step" step="4">
                 <div class="row">

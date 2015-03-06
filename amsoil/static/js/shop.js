@@ -351,12 +351,15 @@ shop = {
           });
 
           $(aPage).addClass('active');
-           shop.products = res.results;
-           for (r in res.results) {
+
+          shop.products = res.results;
+          for (r in res.results) {
+
                res.results[r].min_price = res.results[r].min_price.toFixed(2).replace('.',',');
                res.results[r].variations.forEach(function(v){
                    v.price = v.price.toFixed(2).replace('.',',');
                });
+
                if ((r) % 3 == 0)
                 $(cont).append('<div style="clear:both"></div>');
                var div = document.createElement('div');
@@ -385,7 +388,7 @@ shop = {
                }
            }
            shop.decorate();
-        });;
+        });
     }
 }
 

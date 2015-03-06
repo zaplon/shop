@@ -498,6 +498,8 @@ class ProductFilter(django_filters.FilterSet):
     price_in = GeekRangeFilter(name='variations__price', lookup_type='range')
     #price_in = django_filters.RangeFilter(name='variations__price', distinct=True)
 
+    def get_order_by(self, order_value):
+        return [order_value]
     class Meta:
         model = Product
         distinct = True

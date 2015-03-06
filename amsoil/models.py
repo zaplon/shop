@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import datetime, re
+import datetime, re, json
 from django.db import models, connection
 from shop.settings import MEDIA_ROOT, MEDIA_URL
 from ckeditor.fields import RichTextField
@@ -125,7 +125,7 @@ class Product(Page):
         return self.variations.count()
     def getVariations(self):
         options = {}
-        for v in self.variations.all():
+        for v in self.variations.all().order_by('price'):
             for a in v.attributes.all():
                 if not str(a.group.name) in options:
                     options[str(a.group.name)] = {}

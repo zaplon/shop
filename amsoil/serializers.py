@@ -66,10 +66,10 @@ class ShopProductSerializer(serializers.ModelSerializer):
     image = serializers.CharField(source='getMainImage', read_only=True)
     variations = ShopProductVariationSerializer(many=True, read_only=True)
     grouped_variations = serializers.CharField(source='getVariations', read_only=True)
-
+    
     class Meta:
         model = Product
-        fields = ('id','name','image','shortDescription','categories', 'variations','grouped_variations',
+        fields = ('id', 'name', 'image', 'shortDescription','categories', 'variations', 'grouped_variations',
                   'hasManyVariations')
 
 
