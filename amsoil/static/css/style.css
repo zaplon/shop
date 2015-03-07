@@ -558,6 +558,9 @@ button.product-filter-action {
   margin: 10px 0; }
 
 .cart-table tfoot {
-  font-weight: bolds; }
+  font-weight: bold; }
+
+.dropdown-menu {
+  z-index: 2000 !important; }
 
 /*# sourceMappingURL=style.css.map */
