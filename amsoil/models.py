@@ -92,6 +92,19 @@ class Product(Page):
     price = models.FloatField(default=0, verbose_name='Cena')
     def __unicode__(self):
         return self.name
+    def getGroupedVariations(self):
+        cursor = connection.cursor()
+        cursor.execute("""
+        SELECT ag.name, GROUP_CONCAT(CONCAT('[', a.name, ', ', pv.id, ']') ORDER BY ag.name SEPARATOR ', ') as atts
+            FROM amsoil_attribute a
+            INNER JOIN amsoil_attributegroup ag ON ag.id=a.group_id
+            INNER JOIN amsoil_productvariation_attributes pa ON pa.attribute_id = a.id
+                INNER JOIN amsoil_productvariation pv ON pv.id = pa.productvariation_id
+                INNER JOIN amsoil_product p ON pv.product_id = p.page_ptr_id
+            WHERE p.page_ptr_id = %s
+            GROUP BY ag.id
+        """ % self.id)
+        return dictfetchall(cursor)
     def getGroupedAttributes(self):
         cursor = connection.cursor()
         cursor.execute("""

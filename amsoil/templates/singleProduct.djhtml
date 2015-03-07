@@ -33,9 +33,7 @@
                     <div style="margin-top:10px">
                         <span style="font-weight:bold">{% trans 'Categories' %}: </span>
                         <span>
-                            {% for c in product.categories.all %}
-                                {{ c.name }}
-                            {% endfor %}
+                            {{ product.categories.all|join_by_attr:"name" }}
                         </span>
                     </div>
                     <div>
