@@ -11,7 +11,7 @@
 {% mustachejs "registerForm" %}
 {% mustachejs "miniCart" %}
 
-<div id="top">
+<div id="top" style="margin-bottom:75px;">
      <div id="info" class="hidden-sm visible-md visible-lg">
         <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
         <span>+48 502 819 238</span>
@@ -50,7 +50,7 @@
     <div style="clear:both"></div>
 </div>
 
-<header>
+<header class="navbar-fixed-top" style="width: 1126px; top:43px; margin: 0 auto;">
     <div id="logo"></div>
     <div id="main" class="visible-md visible-lg">
         <form method="get" action="/szukaj">

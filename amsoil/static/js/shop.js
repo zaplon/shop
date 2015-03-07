@@ -1,5 +1,15 @@
 $(document).ready(function($){
 
+    $(window).scroll(function(ev) {
+      var y = window.scrollY;
+      var h = 43;
+      var offset = 43 - y;
+      if (offset > 0)
+        $('header').css('top', offset+'px');
+      else
+        $('header').css('top', '0px');
+    });
+
     //footer zawsze na dole strony
 //    var minh = $(document).height() - $('footer').height() - $('#top').height() - $('header').height();
 //    if ($('.container-fluid').height() < minh)

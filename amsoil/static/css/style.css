@@ -557,4 +557,7 @@ button.product-filter-action {
   width: 100%;
   margin: 10px 0; }
 
+.cart-table tfoot {
+  font-weight: bolds; }
+
 /*# sourceMappingURL=style.css.map */
