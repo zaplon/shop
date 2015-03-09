@@ -162,16 +162,15 @@ def priceFilter(context, *args, **kwargs):
 
 @register.inclusion_tag('productsTabs.html')
 def productsTabs():
-    newest = ProductVariation.objects.all().order_by('added_date')[0:4]
-    best = ProductVariation.objects.all().order_by('-total_sales')[0:4]
-    promo = ProductVariation.objects.filter(product__categories__name='promotion')[0:4]
+    #newest = ProductVariation.objects.all().order_by('added_date')[0:4]
+    #best = ProductVariation.objects.all().order_by('-total_sales')[0:4]
+    promo = ProductVariation.objects.filter(product__categories__name='Promocje')[0:4]
+    newest = ProductVariation.objects.filter(product__categories__name='Nowości')[0:4]
     return {
         'cats': [
-            {'name': 'Nowości', 'id': 'newest', 'products': newest, 'first': True,
+            {'name': 'Promocje', 'id': 'newest', 'products': promo, 'first': True,
              'width': 3},
-            {'name': 'Bestsellery', 'id': 'best', 'products': best,
-             'width': 3},
-            {'name': 'Promocje', 'id': 'promo', 'products': promo,
+            {'name': 'Nowości', 'id': 'best', 'products': newest,
              'width': 3}
         ]
     }
