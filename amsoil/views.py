@@ -535,7 +535,7 @@ class ProductListView(generics.ListAPIView):
 
 
 class ShopProductListView(generics.ListAPIView):
-    queryset = Product.objects.all()
+    queryset = Product.objects.filter(is_published=True)
     serializer_class = ShopProductSerializer
     filter_class = ProductFilter
     paginate_by = 9

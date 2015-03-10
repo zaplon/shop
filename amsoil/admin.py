@@ -85,7 +85,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ['name']
     fields = ('name','shortName','description',
               ('attributes'),('mainImage'),
-              ('categories','tags'),)
+              ('categories','tags'),'is_published')
     #pass
 
 class PostAdmin(admin.ModelAdmin):

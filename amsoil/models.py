@@ -40,6 +40,7 @@ class Page(models.Model):
     isMain = models.BooleanField(default=0)
     full_width = models.BooleanField(default=0, verbose_name='Szerokość całej strony')
     created_at = models.DateTimeField(auto_now=True, verbose_name='Utworzono')
+    is_published = models.BooleanField(default=True, verbose_name='Opublikowane')
     def __unicode__(self):
         return self.title
 
