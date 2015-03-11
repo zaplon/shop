@@ -540,9 +540,14 @@ class ShopProductListView(generics.ListAPIView):
     filter_class = ProductFilter
     paginate_by = 9
     def get(self, request, format=None):
+        try:
+            cId = Category.objects.get(name='Promocje').id
+        except:
+            cId = 0
         list = self.list(request)
         for p in list.data['results']:
             p['min_price'] = min(p['variations'], key=lambda x: x['price'])['price']
+            p['on_promotion'] = cId in p['categories']
         return list
 
 def singleProduct(request, name):

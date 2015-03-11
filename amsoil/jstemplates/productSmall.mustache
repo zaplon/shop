@@ -1,7 +1,10 @@
 <div class="panel panel-default product-container">
     <div class="panel-body">
+        {{#if product.on_promotion}}
+            <div class="promotion-label"></div>
+        {{/if}}
         <div data-product="product.id" data-product-name="{{product.name}}" class="product-image" style="background-image:url('{{ product.image }}'); background-size:contain;
-                margin: auto;">
+        margin: auto;">
         </div>
         <div class="product-data">
             <h4><a href="/sklep/produkt/{{product.name}}/">{{ product.name }}</a></h4>

@@ -563,4 +563,14 @@ button.product-filter-action {
 .dropdown-menu {
   z-index: 2000 !important; }
 
+.promotion-label {
+  z-index: 2;
+  position: absolute;
+  background-image: url("../images/promocja.png");
+  width: 180px;
+  height: 100px;
+  background-repeat: no-repeat;
+  top: 10px;
+  left: 10px; }
+
 /*# sourceMappingURL=style.css.map */
