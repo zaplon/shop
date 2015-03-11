@@ -271,7 +271,7 @@ class Cart(models.Model):
 
         promotion_price = sum(r['price']*r['quantity'] for r in on_promotion)
 
-        total = self.getTotal() - promotion_price
+        total = self.getTotal() - int(promotion_price)
         if total >= 1000:
             discount = 20
         elif total >= 500:
