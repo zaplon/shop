@@ -168,9 +168,9 @@ def productsTabs():
     newest = ProductVariation.objects.filter(product__categories__name='Nowości')[0:4]
     return {
         'cats': [
-            {'name': 'Promocje', 'id': 'newest', 'products': promo, 'first': True,
+            {'name': 'Promocje', 'id': 'best', 'products': promo, 'first': True,
              'width': 3},
-            {'name': 'Nowości', 'id': 'best', 'products': newest,
+            {'name': 'Nowości', 'id': 'newest', 'products': newest,
              'width': 3}
         ]
     }

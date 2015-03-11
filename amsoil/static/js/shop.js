@@ -1,7 +1,7 @@
 $(document).ready(function($){
 
     $(window).scroll(function(ev) {
-      var y = window.scrollY;
+      var y = window.pageYOffset;
       var h = 43;
       var offset = 43 - y;
       if (offset > 0)

@@ -19,6 +19,25 @@
     {{/each}}
 </div>
 <div class="input-group form-inline variations-table" data-product="{{ product.id }}">
+    <!--{{#each product.grouped_variations }}-->
+            <!--<div class="form-group">-->
+                <!--<label>{{name}}</label>-->
+            <!--</div>-->
+            <!--<div class="input-group">-->
+                <!--{{#if ../product.hasManyVariations }}-->
+                    <!--<select class="form-control pull-right" data-product="{{ ../../product.id }}">-->
+                        <!--<option class="default">Wybierz...</option>-->
+                        <!--{{#each atts }}-->
+                            <!--<option data-variations="{{#each .}}{{id}} {{/each}}" value="{{#each .}}{{id}} {{/each}}">-->
+                                <!--{{@key}}-->
+                            <!--</option>-->
+                        <!--{{/each}}-->
+                    <!--</select>-->
+                <!--{{else}}-->
+                    <!--<span style="position:relative; top:-3px;">{{#each . }}{{@key}}{{/each}}</span>-->
+                <!--{{/if}}-->
+            <!--</div>-->
+    <!--{{/each}}-->
     {{#each product.grouped_variations }}
             <div class="form-group">
                 <label>{{@key}}</label>

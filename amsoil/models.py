@@ -266,7 +266,12 @@ class Cart(models.Model):
     def getDiscount(self,user):
         discount = 0
         database_discount = 0
-        total = self.getTotal()
+
+        on_promotion = self.cartProducts.all().filter(product__categories__name='Promocje').values('price', 'quantity')
+
+        promotion_price = sum(r['price']*r['quantity'] for r in on_promotion)
+
+        total = self.getTotal() - promotion_price
         if total >= 1000:
             discount = 20
         elif total >= 500:
