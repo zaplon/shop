@@ -262,7 +262,11 @@ class Cart(models.Model):
     json = models.CharField(max_length=1000)
     #order = models.ForeignKey('Order', default = None,null = True)
     def getTotal(self):
-        return CartProduct.objects.filter(cart=self).aggregate(total=Sum('price', field="price*quantity"))['total']
+        total = CartProduct.objects.filter(cart=self).aggregate(total=Sum('price', field="price*quantity"))['total']
+        if not total:
+            return 0
+        else:
+            return total
     def getDiscount(self,user):
         discount = 0
         database_discount = 0
