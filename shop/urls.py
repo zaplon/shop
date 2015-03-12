@@ -14,7 +14,7 @@ router = DefaultRouter()
 router.register(r'productVariations', ProductVariationViewSet)
 router.register(r'marks', MarkViewSet)
 router.register(r'opinions', OpinionViewSet)
-router.register(r'opinions', OrderViewSet)
+router.register(r'orders', OrderViewSet)
 
 #urlpatterns = router.urls
 urlpatterns = patterns('',
