@@ -141,11 +141,12 @@ class Product(Page):
         options = {}
         for v in self.variations.all().order_by('price'):
             for a in v.attributes.all():
-                if not str(a.group.name) in options:
-                    options[str(a.group.name)] = {}
-                if not str(a.name) in options[str(a.group.name)]:
-                    options[str(a.group.name)][str(a.name)] = []
-                options[str(a.group.name)][str(a.name)].append( { 'id':int(v.id), 'price': float(v.price) })
+                if not a.group.name.encode('utf-8') in options:
+                    options[a.group.name.encode('utf-8')] = {}
+                if not a.name.encode('utf-8') in options[a.group.name.encode('utf-8')]:
+                    options[a.group.name.encode('utf-8')][a.name.encode('utf-8')] = []
+                options[a.group.name.encode('utf-8')][a.name.encode('utf-8')].append(
+                    { 'id':int(v.id), 'price': float(v.price) })
         return options
     def getMainImage(self):
         try:
