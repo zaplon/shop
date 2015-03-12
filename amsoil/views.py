@@ -12,7 +12,7 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-import django_filters, json, datetime
+import django_filters, json, datetime, simplejson
 from amsoil.forms import ShippingForm, InvoiceForm, QuickContactForm, CheckoutBasicForm, UserEditForm
 from authentication.admin import UserCreationForm
 from amsoil.templatetags.tags import currency
@@ -546,7 +546,7 @@ class ShopProductListView(generics.ListAPIView):
             cId = 0
         list = self.list(request)
         for p in list.data['results']:
-            p['grouped_variations'] = json.loads(p['grouped_variations'].replace("'",'"'))
+            p['grouped_variations'] = simplejson.loads(p['grouped_variations'].replace("'",'"'),'utf-8')
             p['min_price'] = min(p['variations'], key=lambda x: x['price'])['price']
             p['on_promotion'] = cId in p['categories']
         return list
