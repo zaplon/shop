@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     url(r'api/', include(router.urls)),
     url(r'api/products/',views.ShopProductListView.as_view(), name='api-product-list'),
 
+    url(r'^tinymce/', include('tinymce.urls')),
     url(r'^najnowsze-informacje/(?P<url>.*)/$', views.postView, name='post'),
     url(r'^najnowsze-informacje/', views.postsView, name='posts'),
     url(r'^opinie/', opinions_view, name='opinions'),

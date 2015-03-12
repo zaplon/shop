@@ -546,6 +546,7 @@ class ShopProductListView(generics.ListAPIView):
             cId = 0
         list = self.list(request)
         for p in list.data['results']:
+            p['grouped_variations'] = json.loads(p['grouped_variations'])
             p['min_price'] = min(p['variations'], key=lambda x: x['price'])['price']
             p['on_promotion'] = cId in p['categories']
         return list

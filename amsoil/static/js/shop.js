@@ -385,7 +385,7 @@ shop = {
                 res.results[r].noVars = false;
 
                p = res.results[r];
-               p.grouped_variations = JSON.parse(p.grouped_variations.replace(/'/g, '"'));
+               //p.grouped_variations = JSON.parse(p.grouped_variations.replace(/'/g, '"'));
 
                if (shop.displayAs == 'grid') {
                    $(div).html(Handlebars.templates['productSmall']( {'addToCart': 'Do koszyka', 'product': p }));

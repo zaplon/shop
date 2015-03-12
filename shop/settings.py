@@ -66,7 +66,8 @@ INSTALLED_APPS = (
     'getpaid.backends.transferuj',
     'rest_framework.authtoken',
     'markitup',
-    'crispy_forms'
+    'crispy_forms',
+    'tinymce'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -134,6 +135,20 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+    },
+}
+
+TINYMCE_DEFAULT_CONFIG = {
+    'plugins': "table,spellchecker,paste,searchreplace",
+    #'theme': "default",
+    "height": 600,
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 10,
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
