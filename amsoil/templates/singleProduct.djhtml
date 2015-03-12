@@ -71,7 +71,6 @@
         $.get('/api/products?id={{product.id}}').success(function(res){
             p = res.results[0];
             shop.products = res.results;
-            p.grouped_variations = JSON.parse(p.grouped_variations.replace(/'/g, '"'));
             p.variations.forEach(function(v){
                 v.price = v.price.toFixed(2);
             });
