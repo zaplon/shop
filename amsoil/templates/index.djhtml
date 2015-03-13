@@ -10,7 +10,6 @@
             shop.showMessage({{ message }},{{ message_icon }});
         </script>
     {% endif %}
-
 {% endblock %}
 
 {% block addScripts %}

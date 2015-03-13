@@ -486,6 +486,15 @@ button.close:hover {
     width: 248px;
     text-align: center; }
 
+.products-tab .arrow {
+  position: relative;
+  top: 80px;
+  cursor: pointer;
+  font-size: 18px; }
+
+.products-tab .arrow:hover {
+  color: #009cf2; }
+
 .product-tab-item {
   cursor: pointer; }
 

@@ -6,7 +6,7 @@ from shop.settings import MEDIA_ROOT, MEDIA_URL
 from ckeditor.fields import RichTextField
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, Min
 import getpaid
 from django.core.urlresolvers import reverse
 from authentication.models import User
@@ -148,6 +148,9 @@ class Product(Page):
                 options[a.group.name.encode('utf-8')][a.name.encode('utf-8')].append(
                     { 'id':int(v.id), 'price': float(v.price) })
         return options
+    def get_min_price(self):
+        p = ProductVariation.objects.filter(product=self).aggregate(min_price=Min('price', field="price"))['min_price']
+        return p
     def getMainImage(self):
         try:
             return self.mainImage.url

@@ -164,8 +164,8 @@ def priceFilter(context, *args, **kwargs):
 def productsTabs():
     #newest = ProductVariation.objects.all().order_by('added_date')[0:4]
     #best = ProductVariation.objects.all().order_by('-total_sales')[0:4]
-    promo = ProductVariation.objects.filter(product__categories__name='Promocje')[0:4]
-    newest = ProductVariation.objects.filter(product__categories__name='Nowości')[0:4]
+    promo = Product.objects.filter(categories__name='Promocje')
+    newest = Product.objects.filter(categories__name='Nowości')
     return {
         'cats': [
             {'name': 'Promocje', 'id': 'best', 'products': promo, 'first': True,
