@@ -17,6 +17,7 @@ $.widget( "geekman.productSlider", {
             me.navigate(1);
         });
         this.navigate(0);
+        //window.setInterval(function(){ me.navigate(1); }, 3000);
     },
     navigate: function(dir){
         this.offset += this.step*dir;
