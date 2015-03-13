@@ -495,7 +495,7 @@ button.close:hover {
 .products-tab .arrow:hover {
   color: #009cf2; }
 
-#productsTabs .products-container {
+.products-tab .products-container {
   min-height: 205px; }
 
 .product-tab-item {
