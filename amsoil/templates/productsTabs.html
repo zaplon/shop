@@ -18,7 +18,7 @@
             {% for p in cat.products %}
               <div data-nr="{{ forloop.counter }}" data-product="{{p.product.name}}"
                    class="col-md-{{cat.width}} product-tab-item">
-                <h5>{{p.product.name}}</h5>
+                <h5 class="text-center">{{p.product.name}}</h5>
             <div class="row text-center">
                     <img style="height:100px;" src="{{p.product.getMainImage}}" />
                 </div>

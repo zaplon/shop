@@ -11,6 +11,7 @@ $.widget( "geekman.slider", {
         this.slidesList = this.element.find('ul');
         this.arrowLeft = this.element.find('.slide-left');
         this.arrowRight = this.element.find('.slide-right');
+        this.lastNavigated = 0;
 
         var me = this;
 
