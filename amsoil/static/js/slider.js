@@ -29,7 +29,7 @@ $.widget( "geekman.slider", {
         this.hideSlideElements();
         this.animateSlide();
 
-        window.setInterval(function(){ me.navigate(1); }, 5000);
+        //window.setInterval(function(){ me.navigate(1); }, 5000);
 
     },
     hideSlideElements: function(){

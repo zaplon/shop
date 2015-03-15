@@ -3,11 +3,22 @@
         width: 100% !important;
     }
     .slider .image {
+        height: initial!important;
     }
     .slider .image img {
         width: 100%!important;
+        height: initial!important;
     }
     .slider .data {
         width: 100%!important;
+    }
+    .slide {
+        height: initial!important;
+    }
+    .slider .data {
+        top: initial!important;
+    }
+    .slider {
+        height: initial!important;
     }
 }
