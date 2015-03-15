@@ -1,0 +1,13 @@
+@media (max-width: 600px) {
+    header.page-header {
+        width: 100% !important;
+    }
+    .slider .image {
+    }
+    .slider .image img {
+        width: 100%!important;
+    }
+    .slider .data {
+        width: 100%!important;
+    }
+}

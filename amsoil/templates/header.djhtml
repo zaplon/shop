@@ -50,7 +50,10 @@
     <div style="clear:both"></div>
 </div>
 
-<header class="navbar-fixed-top" style="width: 1126px; top:43px; margin: 0 auto;">
+<header class="navbar-fixed-top col-xs-12 col-sm-12 page-header" style="">
+
+    {% nav mobile=True %}
+
     <div id="logo"></div>
     <div id="main" class="visible-md visible-lg">
         <form method="get" action="/szukaj">
@@ -66,9 +69,12 @@
             </div>
         </form>
     </div>
+    <a class="glyphicon glyphicon-shopping-cart btn
+     visible-sm-inline-block visible-xs-inline-block pull-right" id="mobile-cart" href="/koszyk"></a>
     <div id="meta" class="visible-lg visible-md">
         {% cartData %}
     </div>
+
     <div style="clear:both"></div>
 </header>
 

@@ -13,12 +13,14 @@
   {% for cat in cats %}
     {% if cat.products.count > 0 %}
       <div class="tab-pane {% if cat.first %} active {% endif %}" id="{{ cat.id }}">
-        <div class="slide-left arrow col-md-1"><span class="glyphicon glyphicon-chevron-left"></span></div>
-        <div class="products-container col-md-10">
-            <div class="col-md-12">
+        <div class="slide-left col-sm-1 col-xs-1 arrow col-md-1">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </div>
+        <div class="products-container col-md-10 col-sm-10 col-xs-10">
+            <div>
                 {% for p in cat.products %}
                   <div data-nr="{{ forloop.counter }}" data-product="{{p.product.name}}"
-                       class="col-md-{{cat.width}} product-tab-item">
+                       class="col-sm-12 col-xs-12 col-md-{{cat.width}} product-tab-item">
                     <h5 class="text-center">{{p.product.name}}</h5>
                 <div class="row text-center">
                         <img style="height:100px;" src="{{p.product.getMainImage}}" />
@@ -32,7 +34,9 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="slide-right arrow col-md-1 text-right"><span class="glyphicon glyphicon-chevron-right"></span></div>
+        <div class="slide-right arrow col-md-1 col-sm-1 col-xs-1 text-right">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </div>
       </div>
     {% endif %}
   {% endfor %}

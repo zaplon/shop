@@ -20,7 +20,12 @@
     <div class="row">
         {% mustachejs 'product' %}
         {% block sidebar %}
-            <div class="sidebar-left col-md-3">
+{#            <div class="col-sm-1 col-sx-1">#}
+{#                <button class="btn btn-primary">#}
+{#                    <span id="mobile-filters">Filtry</span>#}
+{#                </button>#}
+{#            </div>#}
+            <div class="sidebar-left col-md-3 hidden-sm hidden-xs">
                 <div class="widget" id="view-as">
                      <h3>{% trans 'View as' %}</h3>
                     <div class="panel panel-body">
@@ -58,7 +63,7 @@
                 </button>
             </div>
         {% endblock %}
-        <div id="content-shop" class="col-md-9">
+        <div id="content-shop" class="col-md-9 col-sm-11 col-xs-11">
             <div id="shop-top" class="col-md-12">
                    <h1 class="page-title">{% trans 'Shop' %}</h1>
             </div>

@@ -6,8 +6,10 @@ $.widget( "geekman.productSlider", {
         this.slidesNr = this.slidesList.length;
         this.step = 1;
         this.offset = 0;
-        this.visible = 4;
-
+        if (window.screen.availWidth > 640)
+            this.visible = 4;
+       else
+            this.visible = 1;
         var me = this;
 
         this.arrowLeft.click(function () {

@@ -15,7 +15,6 @@
 
         </script>
 
-        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css" />
         <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}js/slider.js"></script>
@@ -32,11 +31,12 @@
 
 
         <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ie.css" />
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/small-devices.css" />
 
         <!-- Optional theme -->
         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">-->
         <link rel="stylesheet" href="{{ STATIC_URL }}css/theme2.css" >
-
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css" />
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 

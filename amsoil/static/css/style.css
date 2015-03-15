@@ -56,13 +56,15 @@ footer.page {
   top: 0px;
   z-index: 100; }
 
-header {
-  width: 100%;
+header.page-header {
+  width: 1125px;
+  top: 43px;
+  margin: 0 auto;
   height: 75px;
   background-color: #007dc6;
   padding: 10px;
   color: white; }
-  header #logo {
+  header.page-header #logo {
     height: 100%;
     float: left;
     width: 220px;
@@ -70,27 +72,27 @@ header {
     background-size: cover;
     margin-right: 20px;
     cursor: pointer; }
-  header #meta {
+  header.page-header #meta {
     height: 50px;
     width: 375px;
     float: right; }
-  header #main {
+  header.page-header #main {
     float: left;
     width: calc(100% - 615px); }
-    header #main #search-main {
+    header.page-header #main #search-main {
       border: 3px solid #009cf2; }
-      header #main #search-main #submit-box {
+      header.page-header #main #search-main #submit-box {
         background-color: #007dc6;
         text-align: center;
         float: right;
         width: 50px; }
-      header #main #search-main #submit {
+      header.page-header #main #search-main #submit {
         margin: 3px auto 0 auto;
         cursor: pointer;
         width: 35px;
         height: 35px;
         font-size: 30px; }
-      header #main #search-main #search {
+      header.page-header #main #search-main #search {
         border: none;
         float: left;
         width: calc(100% - 50px);
@@ -451,7 +453,8 @@ button.close:hover {
   height: 60px;
   margin-top: 0px; }
 .product-grid .variations-table {
-  height: 70px; }
+  height: 70px;
+  margin: 0 auto; }
 
 .variations-table label {
   margin-right: 10px; }
@@ -487,8 +490,7 @@ button.close:hover {
     text-align: center; }
 
 .products-tab .arrow {
-  position: relative;
-  top: 80px;
+  margin-top: 80px;
   cursor: pointer;
   font-size: 18px; }
 
@@ -591,5 +593,12 @@ button.product-filter-action {
     margin: 0; }
   .main-boxes .promo-div {
     padding: 0; }
+
+#mobile-cart {
+  font-size: 24px;
+  color: white; }
+
+#mobile-filters span {
+  transform: rotate(-90deg); }
 
 /*# sourceMappingURL=style.css.map */

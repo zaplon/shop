@@ -177,11 +177,12 @@ def productsTabs():
 
 
 @register.inclusion_tag('nav.djhtml')
-def nav(name=None):
+def nav(name=None, mobile=False):
     mi = MenuItem.objects.filter(menu__name='main').order_by('order')
     lp = getProductAttributesByGroupName('Lepkość')
     pr = getProductAttributesByGroupName('Marka')
     return {
+        'mobile': mobile,
         'brands': pr,
         'vis': lp,
         'categories': Category.objects.filter(forProducts=True),

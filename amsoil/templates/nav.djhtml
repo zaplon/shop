@@ -1,45 +1,63 @@
 {% load i18n %}
-<nav style="">
-    <ul>
-        <li style="width: calc(100%/{{ count }} - {{offset}}px)">
-            <a href="/" class="glyphicon glyphicon-home"></a>
-        </li>
-        <li style="width: calc(100%/{{ count }} - {{offset}}px)">
-
-            <div class="btn-group">
-              <a href="/sklep">Sklep</a>
-              <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                <span class="caret"></span>
-                <span class="sr-only">{% trans 'Toggle Dropdown' %}</span>
-              </a>
-              <ul class="dropdown-menu nav-dropdown" role="menu" style="width:500px;">
-                <li>
-                  <div class="row">
-                    <ul class="col-md-6">
-                        <li role="presentation" class="dropdown-header">{% trans 'Categories' %}</li>
-                        {% for c in categories %}
-                            <li role="presentation"><a role="menuitem" href="/sklep/kategorie/{{ c.name }}">{{ c.name }}</a></li>
-                        {% endfor %}
-                    </ul>
-                    <ul class="col-md-6">
-                        <li role="presentation" class="dropdown-header">Marka</li>
-                        {% for b in brands %}
-                            <li role="presentation"><a role="menuitem" href="/sklep/atrybuty/{{ b.name }}">{{ b.name }}</a></li>
-                        {% endfor %}
-                    </ul>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-        </li>
-        {% for item in menuItems %}
-            <li style="width: calc(100%/{{ count }} - {{offset}}px)">
-                <a href="{{ item.getUrl }}">{{ item.name }}</a>
+{% if mobile %}
+    <div style="margin-top:5px;"
+         class="dropdown visible-xs-inline-block visible-sm-inline-block hidden-md hidden-lg pull-left">
+        <button class="btn btn-default dropdown-toggle"
+                type="button" id="main-menu-toggle" data-toggle="dropdown">
+            <span class="caret"></span></button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="main-menu-toggle">
+            <li role="presentation"><a href="/">Strona domowa</a></li>
+            <li role="presentation"><a href="/sklep">Sklep</a></li>
+            {% for item in menuItems %}
+                <li role="presentation"><a href="{{ item.getUrl }}">{{ item.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% else %}
+    <nav class="hidden-sm hidden-xs" style="">
+        <ul>
+            <li style="width: calc(100%/{{ count }} - {{ offset }}px)">
+                <a href="/" class="glyphicon glyphicon-home"></a>
             </li>
-        {% endfor %}
-    </ul>
-    <canvas class="dec" height="25">
+            <li style="width: calc(100%/{{ count }} - {{ offset }}px)">
 
-    </canvas>
-</nav>
+                <div class="btn-group">
+                    <a href="/sklep">Sklep</a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">{% trans 'Toggle Dropdown' %}</span>
+                    </a>
+                    <ul class="dropdown-menu nav-dropdown" role="menu" style="width:500px;">
+                        <li>
+                            <div class="row">
+                                <ul class="col-md-6">
+                                    <li role="presentation" class="dropdown-header">{% trans 'Categories' %}</li>
+                                    {% for c in categories %}
+                                        <li role="presentation"><a role="menuitem"
+                                                                   href="/sklep/kategorie/{{ c.name }}">{{ c.name }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                <ul class="col-md-6">
+                                    <li role="presentation" class="dropdown-header">Marka</li>
+                                    {% for b in brands %}
+                                        <li role="presentation"><a role="menuitem"
+                                                                   href="/sklep/atrybuty/{{ b.name }}">{{ b.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </li>
+            {% for item in menuItems %}
+                <li style="width: calc(100%/{{ count }} - {{ offset }}px)">
+                    <a href="{{ item.getUrl }}">{{ item.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <canvas class="dec" height="25">
+        </canvas>
+    </nav>
+{% endif %}
