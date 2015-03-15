@@ -4,14 +4,14 @@
     <ul class="slide pull-left text-center">
         {% for slide in slides %}
             <li>
-                <div class="image">
+                <div class="image col-md-12 col-sm-12 col-xs-12">
                     {% if slide.product %}
                         <img src="{{ root }}{{ slide.product.mainImage }}" />
                     {% else %}
                         <img src="{{ root }}{{ slide.image }}">
                     {% endif %}
                 </div>
-                <div class="data">
+                <div class="data col-md-12 col-sm-12 col-xs-12">
                     <div class="title"><h3>{{ slide.title }}</h3></div>
                     <div class="text">
                         {{ slide.text|safe }}

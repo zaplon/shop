@@ -11,14 +11,11 @@
     }
     .slider .data {
         width: 100%!important;
+        top: 0px;
+        position: initial!important;
     }
-    .slide {
+    #slider-main {
         height: initial!important;
-    }
-    .slider .data {
-        top: initial!important;
-    }
-    .slider {
-        height: initial!important;
+        min-height: 300px;
     }
 }
