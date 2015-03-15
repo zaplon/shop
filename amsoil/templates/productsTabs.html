@@ -15,20 +15,22 @@
       <div class="tab-pane {% if cat.first %} active {% endif %}" id="{{ cat.id }}">
         <div class="slide-left arrow col-md-1"><span class="glyphicon glyphicon-chevron-left"></span></div>
         <div class="products-container col-md-10">
-            {% for p in cat.products %}
-              <div data-nr="{{ forloop.counter }}" data-product="{{p.product.name}}"
-                   class="col-md-{{cat.width}} product-tab-item">
-                <h5 class="text-center">{{p.product.name}}</h5>
-            <div class="row text-center">
-                    <img style="height:100px;" src="{{p.product.getMainImage}}" />
+            <div class="col-md-12">
+                {% for p in cat.products %}
+                  <div data-nr="{{ forloop.counter }}" data-product="{{p.product.name}}"
+                       class="col-md-{{cat.width}} product-tab-item">
+                    <h5 class="text-center">{{p.product.name}}</h5>
+                <div class="row text-center">
+                        <img style="height:100px;" src="{{p.product.getMainImage}}" />
+                    </div>
+                <div class="row text-center">
+                    <span class="item-price"><span class="currency">od</span>
+                        {{p.get_min_price|currency:False}}</span>
+                    <span class="currency">zł</span>
                 </div>
-            <div class="row text-center">
-                <span class="item-price"><span class="currency">od</span>
-                    {{p.get_min_price|currency:False}}</span>
-                <span class="currency">zł</span>
+                  </div>
+                {% endfor %}
             </div>
-              </div>
-            {% endfor %}
         </div>
         <div class="slide-right arrow col-md-1 text-right"><span class="glyphicon glyphicon-chevron-right"></span></div>
       </div>
