@@ -4,7 +4,7 @@
     <ul class="slide pull-left text-center">
         {% for slide in slides %}
             <li>
-                <div class="image col-md-12 col-sm-12 col-xs-12">
+                <div class="image hidden-sm hidden-xs">
                     {% if slide.product %}
                         <img src="{{ root }}{{ slide.product.mainImage }}" />
                     {% else %}

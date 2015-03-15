@@ -1,13 +1,15 @@
-@media (max-width: 600px) {
+@media (max-width: 700px) {
     header.page-header {
         width: 100% !important;
     }
     .slider .image {
         height: initial!important;
+        display: none;
     }
     .slider .image img {
         width: 100%!important;
         height: initial!important;
+        display: none;
     }
     .slider .data {
         width: 100%!important;
@@ -16,6 +18,10 @@
     }
     #slider-main {
         height: initial!important;
-        min-height: 300px;
+        width: 100%;
+        min-height: 150px;
+    }
+    .slider .arrow {
+        top: 50px!important;
     }
 }
