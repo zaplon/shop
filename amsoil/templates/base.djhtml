@@ -14,7 +14,7 @@
           ga('send', 'pageview');
 
         </script>
-        
+
         <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css" />
         <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
