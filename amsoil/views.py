@@ -184,8 +184,11 @@ def checkout_finished(id,msg,status, request):
     if order.status == 'PENDING' and status == 'FINISHED':
         newOrder(order, request)
         orderNotification(order, request)
-    order.status = status
-    order.save()
+    if order.status != 'PENDING':
+        msg = '<h2>Błąd,</h2><p>To zamówienie zostało już zakończone</p>'
+    else:
+        order.status = status
+        order.save()
     return render_to_response('checkout_success.html', {'message':msg}, context_instance=RequestContext(request))
 
 def checkout_failure(request,pk):
