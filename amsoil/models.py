@@ -368,8 +368,8 @@ class Order(models.Model):
         verbose_name = 'Zamówienie'
         verbose_name_plural = 'Zamówienia'
     user = models.ForeignKey(User, null=True, blank=True)
-    status = models.CharField(choices=(('PE','Oczekujące'),('CA','Anulowane'),
-                                       ('FI','Zakończone')),max_length=20, default='PE')
+    status = models.CharField(choices=(('PE','PENDING'),('CA','CANCELLED'),
+                                       ('FI','FINISHED'), ('FA','FAILED')),max_length=20, default='PE')
     cart = models.ForeignKey(Cart)
     date = models.DateTimeField(auto_now=True)
     shippingMethod = models.ForeignKey(ShippingMethod)

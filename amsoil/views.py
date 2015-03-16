@@ -179,20 +179,20 @@ def minicart(request):
         }))
 
 
-def checkout_failure(request,pk):
+def checkout_finished(id,msg,status, request):
     order = Order.objects.get(id=id)
-    order.status = 'FAILED'
+    if order.status == 'PENDING' and status == 'FINISHED':
+        newOrder(order, request)
+        orderNotification(order, request)
+    order.status = status
     order.save()
-    msg = CHECKOUT_FAILED
     return render_to_response('checkout_success.html', {'message':msg}, context_instance=RequestContext(request))
 
+def checkout_failure(request,pk):
+    checkout_finished(pk,CHECKOUT_FAILED,'FAILED',request)
 
 def checkout_processed(request,pk):
-    order = Order.objects.get(id=pk)
-    order.status = 'FINISHED'
-    order.save()
-    msg = CHECKOUT_THANK_YOU
-    return render_to_response('checkout_success.html', {'message':msg}, context_instance=RequestContext(request))
+    checkout_finished(pk,CHECKOUT_THANK_YOU,'FINISHED',request)
 
 
 def checkout(request):
