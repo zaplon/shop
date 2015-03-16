@@ -10,6 +10,9 @@
 }
 
 @media (max-width: 768px) {
+    #logo {
+        margin-right: 0px!important;
+    }
     .slider .image {
         height: initial!important;
         display: none;

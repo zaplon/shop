@@ -12,7 +12,7 @@
 <div class="tab-content products-tab">
   {% for cat in cats %}
     {% if cat.products.count > 0 %}
-      <div class="tab-pane {% if cat.first %} active {% endif %}" id="{{ cat.id }}">
+      <div class="row tab-pane {% if cat.first %} active {% endif %}" id="{{ cat.id }}">
         <div class="slide-left col-sm-1 col-xs-1 arrow col-md-1">
             <span class="glyphicon glyphicon-chevron-left"></span>
         </div>
