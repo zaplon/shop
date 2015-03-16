@@ -10,6 +10,8 @@ $(document).ready(function($){
         $('header').css('top', '0px');
     });
 
+    //$('header').css('width',$('#top').width()+'px');
+
     //footer zawsze na dole strony
 //    var minh = $(document).height() - $('footer').height() - $('#top').height() - $('header').height();
 //    if ($('.container-fluid').height() < minh)
