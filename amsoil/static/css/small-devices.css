@@ -10,8 +10,11 @@
 }
 
 @media (max-width: 768px) {
+    .breadcrumbs{
+        margin-top: 5px!important;
+    }
     #newsletter {
-        margin-top: 20px;
+        margin-top: 20px!important;
     }
     #logo {
         margin-right: 0px!important;
