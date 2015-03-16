@@ -6,58 +6,45 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/checkout.js"></script>
 {% endblock %}
 {% block body %}
-    {% if not products_in_cart %}
-        <div id="checkout">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    {% trans 'No products in the cart' %}
+    <form id="checkout-variables">
+        <input type="hidden" value="4" name="step"></input>
+    </form>
+    <div id="checkout">
+        <div class="row">
+            <div class="col-md-12">
+                 <div id="checkout-control">
+                     <div class="col-md-3 inactive" step="1">{% trans 'Login' %}</div>
+                     <div class="col-md-3 inactive" step="2">{% trans 'Cart' %}</div>
+                     <div class="col-md-3 inactive" step="3">{% trans 'Order' %}</div>
+                     <div class="col-md-3" step="4">{% trans 'Confirmation' %}</div>
+                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                 <div class="progress">
+                      <div class="progress-bar progress-bar-striped" role="progressbar"
+                           aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                        <span class="sr-only"></span>
+                      </div>
                 </div>
             </div>
         </div>
-    {% else %}
-        <form id="checkout-variables">
-            <input type="hidden" value="{{ step }}" name="step"></input>
-            <input type="hidden" value="{{ shippingMethod }}" name="shippingMethod"></input>
-            <input type="hidden" value="{{ paymentMethod }}" name="paymentMethod"></input>
-        </form>
-        <div id="checkout">
+
+
+        <div class="checkout-step" step="1"></div>
+
+        <div class="checkout-step" step="2"></div>
+
+        <div class="checkout-step col-md-12" step="3" id="checkout-3"></div>
+
+        <div class="checkout-step" step="4">
             <div class="row">
-                <div class="col-md-12">
-                     <div id="checkout-control">
-                         <div class="col-md-3 inactive" step="1">{% trans 'Login' %}</div>
-                         <div class="col-md-3 inactive" step="2">{% trans 'Cart' %}</div>
-                         <div class="col-md-3 inactive" step="3">{% trans 'Order' %}</div>
-                         <div class="col-md-3" step="4">{% trans 'Confirmation' %}</div>
-                     </div>
+                <div class="col-md-12" id="confirmation">
+                    {{ message|safe }}
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                     <div class="progress">
-                          <div class="progress-bar progress-bar-striped" role="progressbar"
-                               aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                            <span class="sr-only"></span>
-                          </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="checkout-step" step="1"></div>
-
-            <div class="checkout-step" step="2"></div>
-
-            <div class="checkout-step col-md-12" step="3" id="checkout-3"></div>
-
-            <div class="checkout-step" step="4">
-                <div class="row">
-                    <div class="col-md-12" id="confirmation">
-                        {% message %}
-                    </div>
-                </div>
-            </div>
-
         </div>
-    {% endif %}
 
+    </div>
 {% endblock %}

@@ -184,7 +184,7 @@ def checkout_failure(request,pk):
     order.status = 'FAILED'
     order.save()
     msg = CHECKOUT_FAILED
-    return render_to_response('checkout_success.html', {'message':msg})
+    return render_to_response('checkout_success.html', {'message':msg}, context_instance=RequestContext(request))
 
 
 def checkout_processed(request,pk):
@@ -192,7 +192,7 @@ def checkout_processed(request,pk):
     order.status = 'FINISHED'
     order.save()
     msg = CHECKOUT_THANK_YOU
-    return render_to_response('checkout_success.html', {'message':msg})
+    return render_to_response('checkout_success.html', {'message':msg}, context_instance=RequestContext(request))
 
 
 def checkout(request):
