@@ -149,8 +149,10 @@ checkout = {
             success: function(res){
                 if (res[0] == '{'){
                     res = JSON.parse(res);
-                    if (res.url)
+                    if (res.url) {
                         window.location = res.url;
+                        return;
+                    }
                     $('#checkout-control div').addClass('inactive');
                     $('#checkout-control div').last().removeClass('inactive');
                     checkout.forward(document.getElementById('checkout-process'));

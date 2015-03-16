@@ -179,7 +179,7 @@ def minicart(request):
         }))
 
 
-def checkout_failure(request,id):
+def checkout_failure(request,pk):
     order = Order.objects.get(id=id)
     order.status = 'FAILED'
     order.save()
@@ -187,8 +187,8 @@ def checkout_failure(request,id):
     return render_to_response('checkout_success.html', {'message':msg})
 
 
-def checkout_processed(request,id):
-    order = Order.objects.get(id=id)
+def checkout_processed(request,pk):
+    order = Order.objects.get(id=pk)
     order.status = 'FINISHED'
     order.save()
     msg = CHECKOUT_THANK_YOU
