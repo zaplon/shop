@@ -23,7 +23,6 @@ from django.core import serializers
 from django.core.mail import send_mail
 from django.db.models import Q
 from shop.settings import CHECKOUT_THANK_YOU, CHECKOUT_FAILED
-from payments import paypal_step_1, paypal_step_2
 
 from amsoil.mails import newOrder, orderNotification
 from authentication.admin import UserCreationForm
@@ -146,7 +145,7 @@ def account(request):
 
 def processOrder(order, request):
     if order.paymentMethod.code == 'pp':
-        paypal_step_1(order,request)
+        pass
     else:
         pmf = PaymentMethodForm(currency='PLN', data={'order': order.id, 'backend':'getpaid.backends.transferuj'})
         if pmf.is_valid():
@@ -180,13 +179,20 @@ def minicart(request):
         }))
 
 
+def checkout_failure(request,id):
+    order = Order.objects.get(id=id)
+    order.status = 'FAILED'
+    order.save()
+    msg = CHECKOUT_FAILED
+    return render_to_response('checkout_success.html', {'message':msg})
+
+
 def checkout_processed(request,id):
     order = Order.objects.get(id=id)
     order.status = 'FINISHED'
     order.save()
     msg = CHECKOUT_THANK_YOU
     return render_to_response('checkout_success.html', {'message':msg})
-
 
 
 def checkout(request):
@@ -269,9 +275,9 @@ def checkout(request):
 
             if pm.needsProcessing:
                 order.save()
-                return processOrder(order,request)
+                res = processOrder(order,request)
                 processed = True
-
+                return res
             c.json = CartSerializer(c).data
             # c.order = order
             c.save()

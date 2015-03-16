@@ -154,7 +154,6 @@ nav {
       nav ul li a {
         font-weight: bold;
         letter-spacing: 1px;
-        text-transform: uppercase;
         font-size: 14px; }
 
 .widget.sidebar h3 {
@@ -226,7 +225,7 @@ h1.page-title {
       text-align: center; }
       #products .product-grid .product-container .product-data h4 {
         font-size: 14px;
-        height: 20px; }
+        height: 30px; }
 
 #mini-cart #cart-controls {
   float: right;

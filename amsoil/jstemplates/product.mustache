@@ -1,7 +1,7 @@
     <div class="panel panel-default product-container">
         <div class="panel-body">
         {{#if product.on_promotion}}
-            <div class="promotion-label"></div>
+            <div class="promotion-label" style="top:0px; left:15px;"></div>
         {{/if}}
         <div data-product="product.id" data-product-name="{{product.name}}"
              class="product-image pull-left" style="background-image:url('{{ product.image }}'); background-size:contain;
@@ -11,7 +11,7 @@
             <div class="product-description">
                 <div class="pull-left col-md-9">
                     <h4><a href="/sklep/produkt/{{product.name}}/">{{ product.name }}</a></h4>
-                    {{ product.shortDescription }}
+                    {{{ product.shortDescription }}}
                 </div>
             </div>
             <div class="pull-right col-md-3">

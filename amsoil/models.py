@@ -461,3 +461,4 @@ class NewsletterReceiver(models.Model):
 #        return False
 #    return True
 
+import payments
