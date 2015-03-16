@@ -276,8 +276,7 @@ def checkout(request):
             if pm.needsProcessing:
                 order.save()
                 res = processOrder(order,request)
-                processed = True
-                return res
+                return HttpResponse(json.dumps( {'success': True, 'url': res.url } ))
             c.json = CartSerializer(c).data
             # c.order = order
             c.save()

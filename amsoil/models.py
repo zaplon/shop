@@ -383,6 +383,8 @@ class Order(models.Model):
     paypalData = models.CharField(max_length=300, blank=True, null=True)
     def get_absolute_url(self):
         return reverse('checkout-processed', kwargs={'pk': self.pk})
+    def __unicode__(self):
+        return 'Zamówienie nr ' + self.number
 
 getpaid.register_to_payment(Order, unique=False, related_name='payments')
 

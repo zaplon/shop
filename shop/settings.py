@@ -30,7 +30,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.transferuj.pl']
 
 gettext = lambda s: s
 LANGUAGES = (
@@ -70,6 +70,19 @@ INSTALLED_APPS = (
     'tinymce'
 )
 
+
+class SetRemoteAddrFromForwardedFor(object):
+    def process_request(self, request):
+        try:
+            real_ip = request.META['HTTP_X_FORWARDED_FOR']
+        except KeyError:
+            pass
+        else:
+            # HTTP_X_FORWARDED_FOR can be a comma-separated list of IPs.
+            # Take just the first one.
+            real_ip = real_ip.split(",")[0]
+            request.META['REMOTE_ADDR'] = real_ip
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -80,6 +93,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'shop.settings.SetRemoteAddrFromForwardedFor',
 )
 
 ROOT_URLCONF = 'shop.urls'
@@ -203,16 +217,18 @@ REVIEWS_SETTINGS = {
     'model':'amsoil.Product'
 }
 
-
 GETPAID_BACKENDS = ('getpaid.backends.transferuj',)
 
 GETPAID_BACKENDS_SETTINGS = {
     'getpaid.backends.transferuj' : {
             'id' : 12132,
-            'key' : '781d7a740fbd2b2634b64967dfd887a26a504d14',
+            'key' : 'sadyba',
             'signing' : True,       # optional
         },
 }
+
+GETPAID_SUCCESS_URL_NAME = 'amsoil.views.checkout_processed'
+GETPAID_FAILURE_URL_NAME = 'amsoil.views.checkout_failure'
 
 SITE_ID=1
 
@@ -222,3 +238,5 @@ MARKITUP_FILTER = ('utils.markdown', {})
 MARKITUP_AUTO_PREVIEW = True
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+CORS_ORIGIN_WHITELIST = ('.transferuj.pl',)
