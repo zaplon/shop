@@ -192,10 +192,10 @@ def checkout_finished(id,msg,status, request):
     return render_to_response('checkout_success.html', {'message':msg}, context_instance=RequestContext(request))
 
 def checkout_failure(request,pk):
-    checkout_finished(pk,CHECKOUT_FAILED,'FAILED',request)
+    return checkout_finished(pk,CHECKOUT_FAILED,'FAILED',request)
 
 def checkout_processed(request,pk):
-    checkout_finished(pk,CHECKOUT_THANK_YOU,'FINISHED',request)
+    return checkout_finished(pk,CHECKOUT_THANK_YOU,'FINISHED',request)
 
 
 def checkout(request):
