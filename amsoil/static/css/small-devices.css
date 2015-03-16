@@ -10,6 +10,9 @@
 }
 
 @media (max-width: 768px) {
+    #newsletter {
+        margin-top: 20px;
+    }
     #logo {
         margin-right: 0px!important;
     }
