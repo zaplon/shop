@@ -471,6 +471,8 @@ class NewsletterReceiver(models.Model):
 
 @receiver(pre_save, sender=NewsletterReceiver)
 def pre_receiver_save(instance, sender, **kwargs):
+    if not instance.email:
+        instance.email = instance.token + '@wp.pl'
     return True
 
 

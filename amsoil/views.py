@@ -526,8 +526,12 @@ class NewsletterReceiverListCreateView(generics.ListCreateAPIView):
                 nr = NewsletterReceiver.objects.get(token=request.GET['token'])
             except:
                 return render_to_response('newsletter_register_error.html', context_instance=RequestContext(request))
-            nr.email = request.GET['email']
-            nr.save()
+            try:
+                nr.email = request.GET['email']
+                nr.save()
+            except:
+                nr.delete()
+                return render_to_response('newsletter_register_error.html', context_instance=RequestContext(request))
             return render_to_response('newsletter_register_end.html', context_instance=RequestContext(request))
         else:
             return self.list(request, *args, **kwargs)
