@@ -7,17 +7,26 @@
                 <h1>Zarejestruj</h1>
             </div>
         </div>
-        <div class="row">
-            <form class="form-horizontal" role="form" action="/zarejestruj/" method="POST">
-                {% for field in form %}
+        <form class="form-horizontal" role="form" action="/zarejestruj/" method="POST">
+            <div class="row">
+                <div class="col-md-12">
+                    {% for field in form %}
+                        <div class="form-group">
+                            {{ field.errors }}
+                            {{ field.label_tag }} {{ field }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <div class="form-group">
-                        {{ field.errors }}
-                        {{ field.label_tag }} {{ field }}
+                        <button type="submit" class="btn btn-primary">{% trans 'Register' %}</button>
+
                     </div>
-                {% endfor %}
-                <button type="submit" class="btn btn-primary">{% trans 'Register' %}</button>
-            </form>
-        </div>
+                </div>
+            </div>
+        </form>
     </div>
 
     <script>
