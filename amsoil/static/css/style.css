@@ -80,7 +80,7 @@ header.page-header {
     float: right; }
   header.page-header #main {
     float: left;
-    width: calc(100% - 615px); }
+    width: calc(100% - 630px); }
     header.page-header #main #search-main {
       border: 3px solid #009cf2; }
       header.page-header #main #search-main #submit-box {
@@ -598,5 +598,8 @@ button.product-filter-action {
 
 #mobile-filters span {
   transform: rotate(-90deg); }
+
+.bg-warning {
+  padding: 10px; }
 
 /*# sourceMappingURL=style.css.map */
