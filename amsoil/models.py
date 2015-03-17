@@ -455,6 +455,9 @@ class Slide(models.Model):
     order = models.IntegerField(default=0, verbose_name='Kolejność')
 
 class NewsletterReceiver(models.Model):
+    class Meta:
+        verbose_name = 'Odbiorca newslettera'
+        verbose_name_plural = 'Odbiorcy newsletterów'
     email = models.EmailField(unique=True)
     def __unicode__(self):
         return self.email
