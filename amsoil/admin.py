@@ -1,7 +1,5 @@
 from django.contrib import admin
-from amsoil.models import Menu, MenuItem, Product, Page, Category, ProductVariation, Attribute, AttributeGroup
-from amsoil.models import ShippingMethod, PaymentMethod, Order, Cart, Invoice, Slider, Slide, Shipment, Post, Template
-from amsoil.models import Attachment
+from amsoil.models import *
 from modeltranslation.admin import TranslationAdmin
 from shop.settings import ADMIN_TEMPLATES_ROOT
 from django.forms import ModelChoiceField, ModelForm
@@ -159,7 +157,6 @@ class AttributeAdminForm(forms.ModelForm):
 
 class AttributeAdmin(admin.ModelAdmin):
   form = AttributeAdminForm
-
-
-
 admin.site.register(Attribute, AttributeAdmin)
+
+admin.site.register(NewsletterReceiver)

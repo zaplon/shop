@@ -10,6 +10,9 @@
 }
 
 @media (max-width: 768px) {
+    .buttons a {
+        max-width: 200px;
+    }
     .breadcrumbs{
         margin-top: 5px!important;
     }

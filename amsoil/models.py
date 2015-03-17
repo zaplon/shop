@@ -456,6 +456,8 @@ class Slide(models.Model):
 
 class NewsletterReceiver(models.Model):
     email = models.EmailField(unique=True)
+    def __unicode__(self):
+        return self.email
 
 #@receiver(pre_save, sender=NewsletterReceiver)
 #def ensure_receiver_not_exists(instance, sender, **kwargs):
