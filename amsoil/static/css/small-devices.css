@@ -10,6 +10,9 @@
 }
 
 @media (max-width: 768px) {
+    .single-col-2 {
+        min-height: 1px!important;
+    }
     .buttons a {
         font-size: 12px;
     }

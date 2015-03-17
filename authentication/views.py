@@ -33,10 +33,12 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             new_user = form.save()
+            user = authenticate(username=request.POST['email'], password=request.POST['password1'])
+            if user.is_active:
+                login(request, user)
             if 'source' in request.POST:
-                #authenticate(username=request.POST['email'], password=request.POST['password1'])
-                #return HttpResponseRedirect("/" + request.POST['source'] + "/")
-                return render_to_response('registration_complete.html', {}, context_instance=RequestContext(request) )
+                return HttpResponseRedirect("/" + request.POST['source'] + "/")
+                #return render_to_response('registration_complete.html', {}, context_instance=RequestContext(request) )
             else:
                 return render_to_response('registration_complete.html', {}, context_instance=RequestContext(request) )
     else:

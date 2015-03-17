@@ -33,7 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = 'Użytkownicy'
     username = models.CharField(max_length=30, verbose_name='Nazwa użytkownika')
     email = models.EmailField(unique=True)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     objects = UserManager()
