@@ -25,4 +25,14 @@ def orderNotification(order, request):
     html = html.render(c)
 
     send_mail('Nowe zamówienie', translation.ugettext('New order'), FROM_MAIL,
-              ('janek.zapal@gmail.com',), fail_silently=False, html_message=html)
+              ('janek.zapal@gmail.com',FROM_MAIL,), fail_silently=False, html_message=html)
+
+
+
+def newsletter_register_mail(request,email, token):
+    html = get_template('mail/newsletter_register.html')
+    c = Context({'request':request, 'email':email, 'token':token})
+    html = html.render(c)
+
+    send_mail('Rejestracja do systemu newsletter', 'Rejestracja do systemu newsletter', FROM_MAIL,
+              (email,), fail_silently=False, html_message=html)

@@ -160,3 +160,4 @@ class AttributeAdmin(admin.ModelAdmin):
 admin.site.register(Attribute, AttributeAdmin)
 
 admin.site.register(NewsletterReceiver)
+admin.site.register(Tag)

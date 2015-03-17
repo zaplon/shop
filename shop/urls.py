@@ -23,7 +23,6 @@ urlpatterns = patterns('',
     url(r'api/', include(router.urls)),
     url(r'api/products/',views.ShopProductListView.as_view(), name='api-product-list'),
 
-    url(r'^tinymce/', include('tinymce.urls')),
     url(r'^najnowsze-informacje/(?P<url>.*)/$', views.postView, name='post'),
     url(r'^najnowsze-informacje/', views.postsView, name='posts'),
     url(r'^opinie/', opinions_view, name='opinions'),
@@ -70,6 +69,8 @@ urlpatterns = patterns('',
     url(r'^szukaj/', views.search, name='search'),
 
     url(r'^newsletter-receiver/', views.NewsletterReceiverListCreateView.as_view(), name='newsletter-receiver'),
+    url(r'^newsletter-rejestracja/', views.newsletter_register, name='newsletter-register'),
+
 
     url(r'^markitup/', include('markitup.urls')),
     url(r'^(?P<title>.*)/$', views.page, name='page'),

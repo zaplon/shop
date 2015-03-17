@@ -24,7 +24,7 @@ from django.core.mail import send_mail
 from django.db.models import Q
 from shop.settings import CHECKOUT_THANK_YOU, CHECKOUT_FAILED
 
-from amsoil.mails import newOrder, orderNotification
+from amsoil.mails import newOrder, orderNotification, newsletter_register_mail
 from authentication.admin import UserCreationForm
 
 from getpaid.forms import PaymentMethodForm
@@ -520,6 +520,17 @@ class ProductFilter(django_filters.FilterSet):
 class NewsletterReceiverListCreateView(generics.ListCreateAPIView):
     queryset = NewsletterReceiver.objects.all()
     serializer_class = NewsletterReceiverSerializer
+    def get(self, request, *args, **kwargs):
+        if 'email' in request.GET:
+            try:
+                nr = NewsletterReceiver.objects.get(token=request.GET['token'])
+            except:
+                return render_to_response('newsletter_register_error.html', context_instance=RequestContext(request))
+            nr.email = request.GET['email']
+            nr.save()
+            return render_to_response('newsletter_register_end.html', context_instance=RequestContext(request))
+        else:
+            return self.list(request, *args, **kwargs)
 
 
 def postsView(request):
@@ -605,3 +616,12 @@ class OrderViewSet(viewsets.ModelViewSet):
 
 def form_submitted(request):
     return render_to_response('form_submitted.html', {}, context_instance=RequestContext(request))
+
+def newsletter_register(request):
+    if 'email' in request.POST:
+        nr = NewsletterReceiver(token=NewsletterReceiver.get_token())
+        nr.save()
+        newsletter_register_mail(request,request.POST['email'], nr.token)
+        return render_to_response('newsletter_register_send.html', {}, context_instance=RequestContext(request))
+    else:
+        return HttpResponseRedirect('/')

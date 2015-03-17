@@ -89,7 +89,7 @@ $(document).ready(function($){
 
     $('#account #login').click(function(){
         var password_reset = $('input[name="password-reset"]').val();
-        shop.showWindow(tr('Log in'), Mustache.render(Mustache.TEMPLATES['loginForm'], {'password-reset':password_reset} ) );
+        shop.showWindow(tr('Zaloguj'), Mustache.render(Mustache.TEMPLATES['loginForm'], {'password-reset':password_reset} ) );
         $('#doLogin').click(function(){
             $.post('/login/', $('#login-form').serialize(), function(res){
                 res = JSON.parse(res);

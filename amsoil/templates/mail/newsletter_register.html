@@ -1,0 +1,21 @@
+{% extends 'mail/base.html' %}
+{% load tags %}
+{% load i18n %}
+
+{% block title %}
+    <h1>Rejestracja w systemie newsletter</h1>
+{% endblock %}
+
+{% block content %}
+    <div>
+        <p>
+        Klikając w poniższy link zgadzasz się na otrzymywanie informacji o aktualnych promocjach i
+        nowościach w sklepie internetowym najlepszysyntetyk.pl
+        </p>
+        <p>
+            <a href='http://najlepszysyntetyk.pl/newsletter-receiver/?email={{ email }}&token={{ token }}'>
+                Zarejestruj
+            </a>
+        </p>
+    </div>
+{% endblock %}

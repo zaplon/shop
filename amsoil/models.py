@@ -188,6 +188,9 @@ class Category(models.Model):
         return self.name
 
 class Tag(models.Model):
+    class Meta:
+        verbose_name = 'Tag'
+        verbose_name_plural = 'Tagi'
     name = models.CharField(max_length=100)
 
 #class ProductImage(models.Model):
@@ -459,8 +462,17 @@ class NewsletterReceiver(models.Model):
         verbose_name = 'Odbiorca newslettera'
         verbose_name_plural = 'Odbiorcy newsletterów'
     email = models.EmailField(unique=True)
+    token = models.CharField(max_length=30)
     def __unicode__(self):
         return self.email
+    @staticmethod
+    def get_token():
+        return datetime.datetime.now().strftime('%s')
+
+@receiver(pre_save, sender=NewsletterReceiver)
+def pre_receiver_save(instance, sender, **kwargs):
+    return True
+
 
 #@receiver(pre_save, sender=NewsletterReceiver)
 #def ensure_receiver_not_exists(instance, sender, **kwargs):
