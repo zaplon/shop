@@ -118,8 +118,7 @@ header.page-header {
       list-style: none; }
 
 .widget ul.list-group {
-  overflow-y: auto;
-  max-height: 500px; }
+  overflow-y: auto; }
 .widget .body {
   padding: 10px;
   background-color: white; }
@@ -596,8 +595,8 @@ button.product-filter-action {
   font-size: 24px;
   color: white; }
 
-#mobile-filters span {
-  transform: rotate(-90deg); }
+#mobile-filters {
+  display: none; }
 
 .bg-warning {
   padding: 10px; }
