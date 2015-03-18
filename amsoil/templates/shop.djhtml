@@ -25,7 +25,7 @@
 {#                    <span id="mobile-filters">Filtry</span>#}
 {#                </button>#}
 {#            </div>#}
-            <div class="sidebar-left col-md-3 hidden-sm hidden-xs">
+            <div id="filters-container" class="sidebar-left col-md-3 hidden-sm hidden-xs">
                 <div class="widget" id="view-as">
                      <h3>{% trans 'View as' %}</h3>
                     <div class="panel panel-body">
@@ -63,15 +63,23 @@
                 </button>
             </div>
         {% endblock %}
-        <div id="content-shop" class="col-md-9 col-sm-11 col-xs-11">
-            <div id="shop-top" class="col-md-12">
-                   <h1 class="page-title">{% trans 'Shop' %}</h1>
+        <div id="content-shop" class="col-md-9 col-sm-12 col-xs-12">
+            <div id="shop-top" class="">
+                    <div class="col-md-12 col-sm-6 col-xs-6">
+                        <h1 class="page-title">{% trans 'Shop' %}</h1>
+                    </div>
+                    <div class="col-sm-6 col-xs-6 visible-xs visible-sm text-right">
+                        <button type="button" class="btn btn-primary btn-sm" id="show-filters">
+                            Filtry
+                        </button>
+                    </div>
             </div>
             <div id="page-meta" class="group">
             </div>
             {% handlebarsjs 'productSmall' precompile %}
             {% handlebarsjs 'product' precompile %}
             {% handlebarsjs 'variations' register_partials %}
+            {% handlebarsjs 'filters-dialog' precompile %}
             <div id="products"></div>
             <div style="clear:both"></div>
             <div class="text-center">
@@ -85,11 +93,7 @@
 
 {% block addScripts %}
     <script>
-        //var paths = window.location.pathname.split('/');
-        //if (paths.indexOf('category') > -1) {
-        //    var cat = paths[paths.indexOf('category') + 1];
-        //    shop.filters.categories[cat] = 1;
-        //}
+
         var cat = $('#shop-variables input[name="category"]').val();
         if ( $('#shop-variables input[name="attributes"]').length )
             var atts = $('#shop-variables input[name="attributes"]').val().split(',');
@@ -125,5 +129,32 @@
            shop.displayAs = 'list';
            shop.getProducts('products');
         });
+
+        //$('body').append(Handlebars.templates['filters-dialog']);
+        //$('#filters-dialog .modal-body').html($('#filters-container #product-categories').html());
+
+        $('#show-filters').click(function(){
+            bootbox.dialog({
+              message: document.getElementById('product-categories').outerHTML,
+              title: "Filtry",
+              buttons: {
+                zastosuj: {
+                  label: "Zastosuj",
+                  className: "btn-primary",
+                  callback: function() {
+                    shop.currentPage = 1;
+                    shop.getProducts('products');
+                  }
+                },
+                zamknij: {
+                  label: "Zamknij",
+                  className: "btn-default",
+                  callback: function() {
+
+                  }
+                }
+              }
+            });
+        })
     </script>
 {% endblock %}

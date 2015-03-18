@@ -130,7 +130,7 @@ $(document).ready(function($){
        }
     });
 
-    $('#product-categories .thick-box').click(function(){
+    $('body').delegate('#product-categories .thick-box', 'click', function(){
        if ($(this).hasClass('filter-active')){
            $(this).removeClass('filter-active');
            $(this).removeClass('glyphicon glyphicon-ok');
@@ -142,7 +142,6 @@ $(document).ready(function($){
            shop.filters.categories[$(this).attr('category')] = true;
        }
     });
-
 
 
     shop.decorate();
