@@ -140,6 +140,13 @@
               message: document.getElementById('mobile-filters').innerHTML,
               title: "Filtry",
               buttons: {
+                zamknij: {
+                  label: "Zamknij",
+                  className: "btn-default",
+                  callback: function() {
+
+                  }
+                },
                 zastosuj: {
                   label: "Zastosuj",
                   className: "btn-primary",
@@ -147,13 +154,6 @@
                     shop.currentPage = 1;
                     shop.getProducts('products');
                     $('#mobile-filters').html($('.modal-content .modal-body .bootbox-body').html());
-                  }
-                },
-                zamknij: {
-                  label: "Zamknij",
-                  className: "btn-default",
-                  callback: function() {
-
                   }
                 }
               }
