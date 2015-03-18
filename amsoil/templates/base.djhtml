@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 {% load tags %}
+{% load compress %}
 <html lang="pl">
 	<head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,33 +15,33 @@
           ga('send', 'pageview');
 
         </script>
+        {% compress js %}
+            <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}js/slider.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}js/productSlider.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}js/shop.js"></script>
 
-        <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}js/slider.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}js/productSlider.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}js/shop.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}js/mustache.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}js/handlebars.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}js/bootbox.min.js"></script>
 
-        <script type="text/javascript" src="{{ STATIC_URL }}js/mustache.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}js/handlebars.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}js/bootbox.min.js"></script>
-        
-	<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-slider.js"></script>
-    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
-	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-slider.css" />
-	
+            <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-slider.js"></script>
+
+        {% endcompress %}
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-
-
-        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ie.css" />
-        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/small-devices.css" />
-
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
+        {% compress css %}
+            <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-slider.css" />
+            <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ie.css" />
+            <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/small-devices.css" />
+        {% endcompress %}
         <!-- Optional theme -->
         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">-->
         <link rel="stylesheet" href="{{ STATIC_URL }}css/theme2.css" >
         <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css" />
         <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
         {% block scripts %}
         {% endblock %}
