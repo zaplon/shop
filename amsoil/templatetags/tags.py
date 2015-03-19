@@ -336,6 +336,12 @@ def slider(*args, **kwargs):
         'slides': Slide.objects.filter(slider=slider).order_by('order')
     }
 
+@register.inclusion_tag('tags/order_info.html')
+def order_info(order, *args, **kwargs):
+    return {
+        'order': order
+    }
+
 
 def get_products_query_set(params):
     pr = Product.objects.all()

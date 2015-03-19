@@ -46,8 +46,12 @@
 
             {% if order %}
                 <tr>
-                    <td></td><td>Metoda Dostawy: ({{ order.shippingMethod.name }}):</td><td></td>
+                    <td></td><td>Metoda Dostawy ({{ order.shippingMethod.name }}):</td><td></td>
                     <td colspan="3" class="table-text-align">{{ order.shippingMethod.price|currency }}</td>
+                </tr>
+                 <tr>
+                    <td></td><td>Metoda Zapłaty ({{ order.paymentMethod.name }}):</td><td></td>
+                    <td colspan="3" class="table-text-align">{{ order.paymentMethod.price|currency }}</td>
                 </tr>
             {% endif %}
 
@@ -59,6 +63,17 @@
     </table>
     {% if withCheckoutButton %}
         <a class="btn btn-primary pull-right" href="/zamowienie">Zamówienie</a>
+    {% endif %}
+
+    {% if order %}
+        {% if order.paymentMethod.instructions %}
+            <h2>Instrukcje dotyczące metody zapłaty</h2>
+            <p>{{ order.paymentMethod.instructions|safe }}</p>
+        {% endif %}
+         {% if order.shippingMethod.instructions %}
+            <h2>Instrukcje dotyczące metody dostawy</h2>
+            <p>{{ order.shippingMethod.instructions|safe }}</p>
+        {% endif %}
     {% endif %}
 
     <script>

@@ -14,7 +14,7 @@
         <p>Podsumowanie zamówienia:</p>
     </div>
     {% cartItems noButtons="1" order=order %}
-
+    {% order_info order=order %}
     {% if order.shippingMethod.needsShipping %}
         {% addresses order=order %}
     {% endif %}
