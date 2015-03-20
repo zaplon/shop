@@ -67,7 +67,7 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'markitup',
     'crispy_forms',
-    'tinymce'
+    'compressor'
 )
 
 
@@ -240,3 +240,13 @@ MARKITUP_AUTO_PREVIEW = True
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 CORS_ORIGIN_WHITELIST = ('.transferuj.pl',)
+
+COMPRESS_ENABLED = False
+COMPRESS_JS_FILTERS = ['compressor.filters.yui.YUIJSFilter']
+COMPRESS_YUI_BINARY = '/home/jan/PycharmProjects/shop/yuicompressor-2.4.8.jar'
+
+STATICFILES_FINDERS = (
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "compressor.finders.CompressorFinder"
+)

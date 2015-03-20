@@ -353,7 +353,7 @@ class PaymentMethod(Method):
         verbose_name = 'Metoda zapłaty'
         verbose_name_plural = 'Metody zapłaty'
     instructions = models.CharField(max_length=500, blank = True, null = True)
-    code = models.CharField(max_length='3')
+    code = models.CharField(max_length='3') 
     needsProcessing = models.BooleanField(default = False)
     price = models.FloatField(default=0, blank = True, null = True)
 
