@@ -363,6 +363,7 @@ class ShippingMethod(Method):
         verbose_name_plural = 'Metody wysyłki'
     needsShipping = models.BooleanField(default = False)
     price = models.FloatField(default=0)
+    instructions = models.CharField(max_length=500, blank = True, null = True)
     paymentMethods = models.ManyToManyField(PaymentMethod, related_name='shippingMethods')
     pass
 
