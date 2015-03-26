@@ -353,7 +353,7 @@ class PaymentMethod(Method):
         verbose_name = 'Metoda zapłaty'
         verbose_name_plural = 'Metody zapłaty'
     instructions = models.CharField(max_length=500, blank = True, null = True)
-    code = models.CharField(max_length='3') 
+    code = models.CharField(max_length='3')
     needsProcessing = models.BooleanField(default = False)
     price = models.FloatField(default=0, blank = True, null = True)
 
@@ -385,6 +385,9 @@ class Order(models.Model):
     total = models.FloatField(default=0)
     token = models.CharField(max_length=30, blank=True, null=True)
     paypalData = models.CharField(max_length=300, blank=True, null=True)
+    def resend_mail(self):
+        return '<div id="resend-mail" class="admin-button"  data-id='+str(self.id)+'>Wyślij mail</div>'
+    resend_mail.short_description = 'Wyślij mail ponownie'
     def get_absolute_url(self):
         return reverse('checkout-processed', kwargs={'pk': self.pk})
     def __unicode__(self):

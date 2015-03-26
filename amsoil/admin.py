@@ -53,10 +53,10 @@ class ShipmentInline(admin.StackedInline):
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('id','number','status', 'date','email')
     inlines = (ShipmentInline, InvoiceInline,)
-    readonly_fields = ('date',)
+    readonly_fields = ('date','resend_mail')
     change_form_template = ADMIN_TEMPLATES_ROOT + 'change_order.html'
     fields = ('status','number','date','paymentMethod','shippingMethod',
-              'notes','email','phone')
+              'notes','email','phone', 'resend_mail')
 
 class VariationsInline(admin.TabularInline):
     model = ProductVariation

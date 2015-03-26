@@ -265,6 +265,8 @@ def cartItems(context, order=False, *args, **kwargs):
     request = context['request']
     if 'cart' in kwargs:
         cartId = kwargs['cart'].id
+    if order:
+        cartId = order.cart.id
     elif 'orderId' in kwargs:
         order = Order.objects.get(id=kwargs['orderId'])
         cartId = order.cart.id

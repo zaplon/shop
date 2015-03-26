@@ -8,4 +8,18 @@
         {% cartItems orderId=object_id noButtons=True %}
      </div>
  {% endif %}
+    <script>
+        $('#resend-mail').click(function(){
+            var me = this;
+            $.get('/resend_order', {'id':$(me).attr('data-id')}).success(function(){
+               alert('Wiadomość przesłana poprawnie');
+            });
+        });
+    </script>
+    <style>
+        .admin-button{
+            cursor: pointer;
+            font-weight: bold;
+         }
+    </style>
 {% endblock %}

@@ -1,7 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from amsoil import views
-from amsoil.models import Product
+from amsoil import views, mails
 from shop.settings import MEDIA_URL, MEDIA_ROOT
 from django.conf.urls.static import static
 from authentication.views import loginView, logoutView, register
@@ -16,7 +15,6 @@ router.register(r'marks', MarkViewSet)
 router.register(r'opinions', OpinionViewSet)
 router.register(r'orders', OrderViewSet)
 
-#urlpatterns = router.urls
 urlpatterns = patterns('',
 
     #api
@@ -44,8 +42,6 @@ urlpatterns = patterns('',
 
     url(r'^test/(?P<pk>\d+)/$', views.OrderView.as_view(), name='test'),
 
-    # url(r'^blog/', include('blog.urls')),
-
     url(r'^authentication/', include('authentication.urls', namespace='authentication')),
     url(r'^',include('password_reset.urls')),
 
@@ -55,7 +51,6 @@ urlpatterns = patterns('',
     url(r'^ckeditor/', include('ckeditor.urls')),
     url(r'^miniCart/', views.minicart, name='minicart'),
     url(r'^produkty/', views.ProductListView.as_view(), name='product-list'),
-    #url(r'^carts/', views.CartDetail.as_view()),
 
     url(r'^login/', loginView, name='login'),
     url(r'^logout/', logoutView, name='logout'),
@@ -71,12 +66,12 @@ urlpatterns = patterns('',
     url(r'^newsletter-receiver/', views.NewsletterReceiverListCreateView.as_view(), name='newsletter-receiver'),
     url(r'^newsletter-rejestracja/', views.newsletter_register, name='newsletter-register'),
 
-
     url(r'^markitup/', include('markitup.urls')),
+
+    url(r'^resend_order/', mails.resend_order, name='resend-mail'),
+
     url(r'^(?P<title>.*)/$', views.page, name='page'),
 
-
-    #(r'^accounts/', include('registration.backends.default.urls')),
 )
 
 urlpatterns = urlpatterns + static(MEDIA_URL, document_root=MEDIA_ROOT)
