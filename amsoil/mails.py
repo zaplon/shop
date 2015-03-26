@@ -18,8 +18,8 @@ def resend_order(request):
     CHECKOUT_THANK_YOU = """<h2>Szanowny kliencie,</h2>
     <p>Odnotowaliśmy, że z powodu migracji sklepu na nowy serwer, nie udało Ci się złożyć zamówienia
     w sklepie najlepszysyntetyk.pl. Pragnąc poprawić ten błąd przesyłamy poniżej potwierdzenie zamówienia.
-    Jeżeli nadal chcesz otrzymać zamówione produkty, proszę potwierdź to odpisując na tą wiadomość bądź
-    dzwoniąc pod numer telefonu <strong>502-819-238 </strong></p>
+    Jeżeli nadal chcesz otrzymać zamówione produkty, proszę potwierdź to odpisując na tę wiadomość bądź
+    dzwoniąc pod numer telefonu <strong>502-819-238 </strong>. Prosimy także o przekazanie adresu dostawy</p>
     <p>Za wszystkie powstałe utrudnienia serdecznie przepraszamy i zapraszamy ponownie</p>"""
     c = Context({'request':request, 'order':order, 'thank_you':CHECKOUT_THANK_YOU})
     html = html.render(c)
