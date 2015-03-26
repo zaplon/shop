@@ -56,7 +56,7 @@ class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ('date',)
     change_form_template = ADMIN_TEMPLATES_ROOT + 'change_order.html'
     fields = ('status','number','date','paymentMethod','shippingMethod',
-              'notes')
+              'notes','email','phone')
 
 class VariationsInline(admin.TabularInline):
     model = ProductVariation
