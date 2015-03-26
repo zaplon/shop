@@ -5,12 +5,14 @@
             <th colspan="2">{% trans 'Buyer address' %}</th>
         </tr>
     </thead>
-    {% for field in buyer %}
-        <tr>
-            <td>{{ field.help_text }}</td>
-            <td>{{ field.value }}</td>
-        </tr>
-    {% endfor %}
+    {% if buyer %}
+        {% for field in buyer %}
+            <tr>
+                <td>{{ field.help_text }}</td>
+                <td>{{ field.value }}</td>
+            </tr>
+        {% endfor %}
+    {% endif %}
 </table>
 
 {% if receiver %}
