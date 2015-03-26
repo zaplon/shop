@@ -68,7 +68,7 @@ urlpatterns = patterns('',
 
     url(r'^markitup/', include('markitup.urls')),
 
-    url(r'^amsoil/resend_order/', mails.resend_order, name='resend-mail'),
+    url(r'^resend_order/', mails.resend_order, name='resend-mail'),
 
     url(r'^(?P<title>.*)/$', views.page, name='page'),
 
