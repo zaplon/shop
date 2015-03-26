@@ -11,7 +11,7 @@
     <script>
         $('#resend-mail').click(function(){
             var me = this;
-            $.get('admin/resend_order', {'id':$(me).attr('data-id')}).success(function(){
+            $.get('/admin/resend_order', {'id':$(me).attr('data-id')}).success(function(){
                alert('Wiadomość przesłana poprawnie');
             });
         });
