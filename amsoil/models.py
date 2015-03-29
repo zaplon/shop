@@ -319,6 +319,7 @@ class Shipment(models.Model):
     phone = models.CharField(max_length=15, verbose_name='Telefon')
     name = models.CharField(max_length=100, verbose_name='Imię')
     surname = models.CharField(max_length=100, verbose_name='Nazwisko')
+    city = models.CharField(max_length=150, verbose_name='Miejscowość')
     type = models.CharField(max_length=20,  choices=( ('BU','buyer'),('RE','receiver') ) )
     user = models.ForeignKey(User, blank=True, null=True)
     order = models.ForeignKey('Order', related_name='shipment', blank=True, null=True)

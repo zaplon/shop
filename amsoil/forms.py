@@ -87,13 +87,14 @@ class CheckoutBasicForm(Form):
 class ShippingForm(ModelForm):
     class Meta:
         model = Shipment
-        fields = ['name', 'surname', 'address','postalCode', 'phone']
+        fields = ['name', 'surname', 'address', 'postalCode', 'city', 'phone']
         help_texts = {
             'name': 'Imię',
             'email': 'Email',
             'postalCode': 'Kod pocztowy',
             'phone': 'Telefon',
             'address': 'Adres',
+            'city': 'Miejscowość',
             'surname': 'Nazwisko'
         }
 
