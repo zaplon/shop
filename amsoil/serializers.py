@@ -76,4 +76,4 @@ class OrderSerializer(serializers.ModelSerializer):
     cart = CartSerializer()
     class Meta:
         model = Order
-        fields = ('date', 'email', 'total', 'cart', 'get_status', 'id', 'nr')
+        fields = ('date', 'email', 'total', 'cart', 'get_status', 'id', 'number')
