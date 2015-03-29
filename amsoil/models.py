@@ -385,6 +385,8 @@ class Order(models.Model):
     total = models.FloatField(default=0)
     token = models.CharField(max_length=30, blank=True, null=True)
     paypalData = models.CharField(max_length=300, blank=True, null=True)
+    def get_status(self):
+        return self.status
     def resend_mail(self):
         return '<div id="resend-mail" class="admin-button"  data-id='+str(self.id)+'>Wyślij mail</div>'
     resend_mail.short_description = 'Wyślij mail ponownie'

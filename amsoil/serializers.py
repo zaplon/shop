@@ -48,8 +48,6 @@ class NewsletterReceiverSerializer(serializers.ModelSerializer):
         model = NewsletterReceiver
 
 
-
-
 class ShopAttributeSerializer(serializers.ModelSerializer):
     group = serializers.CharField(source='group.name', read_only=True)
     class Meta:
@@ -75,6 +73,7 @@ class ShopProductSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    cart = CartSerializer()
     class Meta:
         model = Order
-        fields = ('date',)
+        fields = ('date', 'email', 'total', 'cart', 'get_status', 'id', 'nr')
