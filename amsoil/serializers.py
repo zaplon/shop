@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from amsoil.models import Product, Cart, CartProduct, ProductVariation, ShippingMethod, PaymentMethod, NewsletterReceiver,\
-    Attribute, Order
+    Attribute, Order, Shipment
 
 class ShippingMethodSerializer(serializers.ModelSerializer):
     class Meta:
@@ -72,8 +72,24 @@ class ShopProductSerializer(serializers.ModelSerializer):
 
 
 
+class ShipmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Shipment
+
+class PaymentMethodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PaymentMethod
+
+class ShippingMethod(serializers.ModelSerializer):
+    class Meta:
+        model = ShippingMethod
+
 class OrderSerializer(serializers.ModelSerializer):
     cart = CartSerializer()
+    paymentMethod = PaymentMethodSerializer()
+    shipment = ShipmentSerializer(many=True, read_only=True)
+    shippingMethod = ShippingMethodSerializer()
     class Meta:
         model = Order
-        fields = ('date', 'email', 'total', 'cart', 'get_status', 'id', 'number')
+        fields = ('date', 'email', 'total', 'cart', 'get_status', 'id', 'number','shipment',
+        'paymentMethod', 'shippingMethod',)
