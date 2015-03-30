@@ -614,9 +614,25 @@ class ProductVariationViewSet(viewsets.ModelViewSet):
     queryset = ProductVariation.objects.all()
     serializer_class = ProductVariationSerializer
 
+
+class OrderFilter(django_filters.FilterSet):
+    def get_order_by(self, order_value):
+        if not order_value:
+            return ['-date']
+        else:
+            return [order_value]
+    class Meta:
+        model = Order
+        distinct = True
+        order_by = ['-date','date']
+        fields = ('date',)
+
+
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    filter_class = OrderFilter
+
 
 def form_submitted(request):
     return render_to_response('form_submitted.html', {}, context_instance=RequestContext(request))
