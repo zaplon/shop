@@ -316,6 +316,9 @@ def checkout(request):
                 if 'receiver' in data:
                     receiver.save()
 
+            if request.user.is_authenticated():
+                order.user = request.user
+
             order.save()
 
             #zmniejszamy stany magazynowe
