@@ -88,7 +88,7 @@ msgstr "Adres nabywcy"
 
 #: amsoil/templates/addresses.html:20 amsoil/templates/checkout.djhtml:183
 msgid "Receiver address"
-msgstr "Adres nabywcy"
+msgstr "Adres odbiorcy"
 
 #: amsoil/templates/admin/cart.html:7 amsoil/templates/cart.djhtml:8
 msgid "Name"
