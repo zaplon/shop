@@ -18,5 +18,9 @@
     {% if order.shippingMethod.needsShipping %}
         {% addresses order=order %}
     {% endif %}
+    {% if order.notes %}
+        <h2>Notatki do zamówienia</h2>
+        {{ order.notes }}
+    {% endif %}
 
 {% endblock %}

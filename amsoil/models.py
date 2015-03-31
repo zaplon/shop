@@ -339,7 +339,7 @@ class Invoice(models.Model):
     name = models.CharField(max_length=100, verbose_name='Nazwa')
     address = models.CharField(max_length=150, verbose_name='Adres')
     user = models.ForeignKey(User, blank=True, null=True)
-    order = models.ForeignKey('Order', blank=True, null=True)
+    order = models.OneToOneField('Order', blank=True, null=True, related_name='invoice')
 
 class Method(models.Model):
     #class Meta:

@@ -340,8 +340,13 @@ def slider(*args, **kwargs):
 
 @register.inclusion_tag('tags/order_info.html')
 def order_info(order, *args, **kwargs):
+    try:
+        invoice = order.invoice
+    except:
+        invoice = False
     return {
-        'order': order
+        'order': order,
+        'invoice': invoice
     }
 
 

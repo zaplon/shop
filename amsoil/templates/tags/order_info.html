@@ -11,3 +11,29 @@
         </tr>
     </tbody>
 </table>
+
+{% if invoice %}
+    <table>
+        <thead>
+            <tr>
+                <th colspan="2">
+                    Dane do faktury
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Nazwa firmy</td>
+                <td>{{ invoice.name }}</td>
+            </tr>
+            <tr>
+                <td>Adres firmy</td>
+                <td>{{ invoice.address }}</td>
+            </tr>
+            <tr>
+                <td>NIP firmy</td>
+                <td>{{ invoice.NIP }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endif %}

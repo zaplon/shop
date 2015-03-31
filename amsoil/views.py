@@ -288,6 +288,7 @@ def checkout(request):
 
             #pierwsze i ostanie zapisanie faktury
             if data['hasInvoice']:
+                invoice = invoice.save(commit=False)
                 invoice.order = order
                 invoice.save()
 
@@ -320,8 +321,8 @@ def checkout(request):
             #zmniejszamy stany magazynowe
             for cp in order.cart.cartProducts.all():
                 pv = cp.productVariation
-                pv.amount -= 1
-                pv.total_sales += 1
+                pv.amount -= cp.quantity
+                pv.total_sales += cp.quantity
                 pv.save()
 
 
