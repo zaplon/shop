@@ -6,6 +6,7 @@ from django.forms import ModelChoiceField, ModelForm
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django import forms
 
+
 # Register your models here.
 admin.site.register(Menu)
 admin.site.register(MenuItem)

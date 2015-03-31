@@ -5,7 +5,7 @@ from django.db import models, connection
 from shop.settings import MEDIA_ROOT, MEDIA_URL
 from ckeditor.fields import RichTextField
 from django.dispatch import receiver
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, pre_delete
 from django.db.models import Sum, Count, Min
 import getpaid
 from django.core.urlresolvers import reverse
@@ -401,6 +401,14 @@ getpaid.register_to_payment(Order, unique=False, related_name='payments')
 @receiver(pre_save, sender=Order)
 def createOrderNr(instance, sender, **kwargs):
     instance.number = str(datetime.datetime.now().strftime('%s'))
+
+@receiver(pre_delete, sender=Order)
+def correctQuantities(instance, sender, **kwargs):
+    for cp in instance.cart.cartProducts.all():
+        pv = cp.productVariation
+        pv.amount += cp.quantity
+        pv.total_sales -= cp.quantity
+        pv.save()
 
 
 class MetaData(models.Model):
