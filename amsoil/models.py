@@ -192,6 +192,8 @@ class Tag(models.Model):
         verbose_name = 'Tag'
         verbose_name_plural = 'Tagi'
     name = models.CharField(max_length=100)
+    def __unicode__(self):
+        return self.name
 
 #class ProductImage(models.Model):
 #    name = models.CharField(max_length=100)
