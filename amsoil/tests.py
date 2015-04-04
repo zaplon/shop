@@ -5,7 +5,6 @@
 from django.test import TestCase
 from models import Product, ProductVariation, Attribute, AttributeGroup
 from payments import paypal_step_1, paypal_step_2
-# Create your tests here.
 
 class AttributeGroupTestCase(TestCase):
     def setUp(self):

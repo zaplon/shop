@@ -388,6 +388,7 @@ class Order(models.Model):
     total = models.FloatField(default=0)
     token = models.CharField(max_length=30, blank=True, null=True)
     paypalData = models.CharField(max_length=300, blank=True, null=True)
+    discount = models.FloatField(default=0)
     def get_status(self):
         return self.status
     def resend_mail(self):

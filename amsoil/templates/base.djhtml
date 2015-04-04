@@ -41,11 +41,9 @@
             <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ie.css" />
             <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/small-devices.css" />
         {% endcompress %}
-        <!-- Optional theme -->
-        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">-->
+
         <link rel="stylesheet" href="{{ STATIC_URL }}css/theme2.css" >
         <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css" />
-        <!-- Latest compiled and minified JavaScript -->
 
         {% block scripts %}
         {% endblock %}

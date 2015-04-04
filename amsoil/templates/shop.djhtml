@@ -131,9 +131,6 @@
            shop.getProducts('products');
         });
 
-        //$('body').append(Handlebars.templates['filters-dialog']);
-        //$('#filters-dialog .modal-body').html($('#filters-container #product-categories').html());
-
         $('#mobile-filters').html(document.getElementById('product-categories').outerHTML);
         $('#show-filters').click(function(){
             bootbox.dialog({

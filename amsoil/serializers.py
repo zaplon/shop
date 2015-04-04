@@ -88,5 +88,5 @@ class OrderSerializer(serializers.ModelSerializer):
     invoice = InvoiceSerializer()
     class Meta:
         model = Order
-        fields = ('date', 'email', 'total', 'cart', 'get_status', 'id', 'number','shipment',
+        fields = ('date', 'email', 'total', 'cart', 'get_status', 'id', 'number','shipment', 'discount',
         'paymentMethod', 'shippingMethod', 'invoice')

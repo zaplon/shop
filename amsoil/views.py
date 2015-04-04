@@ -272,6 +272,7 @@ def checkout(request):
                 if UserMeta.getValue(request.user,'discount'):
                     end_date = datetime.datetime.strptime(UserMeta.getValue(request.user,'discount_ends'),'%Y-%m-%d')
                     if end_date > now_date:
+                        order.discount = order.total * float(UserMeta.getValue(request.user,'discount'))/100
                         order.total = order.total - order.total * float(UserMeta.getValue(request.user,'discount'))/100
 
             order.total += order.paymentMethod.price + order.shippingMethod.price
