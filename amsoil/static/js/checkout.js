@@ -134,8 +134,11 @@ checkout = {
           $('#no-payment').css('display', 'block');
       }
 
-      if (!data.paymentMethod || !data.shippingMethod || !data.terms )
-        return;
+      if (!data.paymentMethod || !data.shippingMethod || !data.terms ){
+          window.scrollTo(0,0);
+          return;
+      }
+
 
       data.hasInvoice = $('input[name="invoice"]').is(':checked');
       data.invoice = this.getFormData($('form#invoice-form'));
