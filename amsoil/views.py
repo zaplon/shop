@@ -480,7 +480,7 @@ def addToCart(request):
         else:
             pv = ProductVariation.objects.get(id=request.POST['productVariation'])
             if pv.amount < int(quantity):
-                return HttpResponse(json.dumps({'success': False}))
+                return HttpResponse(json.dumps({'success': False, 'message': 'Nie ma tylu dostępnych egzemplarzy'}))
             cp = CartProduct(productVariation=pv, cart=c, price=pv.price,
                              quantity=quantity)
         cp.save()

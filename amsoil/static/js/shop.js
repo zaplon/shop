@@ -259,12 +259,17 @@ shop = {
             method: 'POST',
             data: data,
             success: function (res) {
-                $.get('/miniCart',{},function(res){
-                    $('#mini-cart').html(Mustache.to_html(Mustache.TEMPLATES.miniCart,
-                        JSON.parse(res)));
-                    //shop.showTopMessage(tr('Product added to cart'));
-                    shop.showMessage(tr('Produkt dodany do koszyka'),'glyphicon glyphicon-shopping-cart');
-                });
+                if (res.success == false){
+                    shop.showMessage(tr(res.message), 'glyphicon glyphicon-remove');
+                }
+                else {
+                    $.get('/miniCart', {}, function (res) {
+                        $('#mini-cart').html(Mustache.to_html(Mustache.TEMPLATES.miniCart,
+                            JSON.parse(res)));
+                        //shop.showTopMessage(tr('Product added to cart'));
+                        shop.showMessage(tr('Produkt dodany do koszyka'), 'glyphicon glyphicon-shopping-cart');
+                    });
+                }
             }
         });
     },
