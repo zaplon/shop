@@ -480,13 +480,14 @@ def addToCart(request):
         else:
             pv = ProductVariation.objects.get(id=request.POST['productVariation'])
             if pv.amount < int(quantity):
-                return HttpResponse(json.dumps({'success': False, 'message': 'Nie ma tylu dostępnych egzemplarzy'}))
+                return HttpResponse(json.dumps({'success': False, 'message': 'Nie ma tylu dostępnych egzemplarzy'}),
+                                    content_type='application/json')
             cp = CartProduct(productVariation=pv, cart=c, price=pv.price,
                              quantity=quantity)
         cp.save()
-        return HttpResponse(json.dumps({'success': True}))
+        return HttpResponse(json.dumps({'success': True}), content_type='application/json')
     else:
-        return HttpResponse(json.dumps({'success': False}))
+        return HttpResponse(json.dumps({'success': False}), content_type='application/json')
 
 
 class IntegerListFilter(django_filters.Filter):
