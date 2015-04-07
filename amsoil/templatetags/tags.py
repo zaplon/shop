@@ -125,6 +125,10 @@ def promoDiv(content, color=None, background=None, icon=None, image=None, size=N
 @register.filter(is_safe=True, needs_autoescape=False)
 def currency(value, show_currency=True):
     # return '<span class="currency">PLN</span><span class="item-price">'+str(value)+'</span>'
+
+    if float(value) == 0:
+        return 'bez dopłaty'
+
     if show_currency:
         return ("%.2f" % float(value)).replace('.',',') + ' zł'
     else:
