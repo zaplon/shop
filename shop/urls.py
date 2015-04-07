@@ -70,6 +70,8 @@ urlpatterns = patterns('',
 
     url(r'^resend_order/', mails.resend_order, name='resend-mail'),
 
+    url(r'^robots.txt', views.robots, name='robots'),
+
     url(r'^(?P<title>.*)/$', views.page, name='page'),
 
 )

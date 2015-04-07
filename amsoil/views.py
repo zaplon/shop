@@ -651,3 +651,8 @@ def newsletter_register(request):
         return render_to_response('newsletter_register_send.html', {}, context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect('/')
+
+
+def robots(request):
+    txt = 'User-agent: *\nDisallow: /'
+    return HttpResponse(txt, content_type='text/plain')
