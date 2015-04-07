@@ -277,10 +277,6 @@ def checkout(request):
 
             order.total += order.paymentMethod.price + order.shippingMethod.price
 
-            if pm.needsProcessing:
-                order.save()
-                res = processOrder(order,request)
-                return HttpResponse(json.dumps( {'success': True, 'url': res.url } ))
             c.json = CartSerializer(c).data
             # c.order = order
             c.save()
@@ -319,6 +315,11 @@ def checkout(request):
 
             if request.user.is_authenticated():
                 order.user = request.user
+
+            if pm.needsProcessing:
+                order.save()
+                res = processOrder(order,request)
+                return HttpResponse(json.dumps( {'success': True, 'url': res.url } ))
 
             order.save()
 
