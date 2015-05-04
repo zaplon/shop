@@ -1,3 +1,11 @@
+{{#each product.attributes }}
+    {{#displayProductAtt group}}
+        <div class="form-group" style="margin-bottom:0px;">
+            <label>{{group}}</label>
+            <span>{{name}}</span>
+        </div>
+    {{/displayProductAtt}}
+{{/each}}
 <div class="variations-details" data-product="{{product.id}}">
     {{#if product.hasManyVariations}}
         <div class="price-from">

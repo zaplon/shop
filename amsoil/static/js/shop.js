@@ -1,5 +1,19 @@
 $(document).ready(function($){
 
+    Handlebars.registerHelper("displayProductAtt", function(name, options) {
+      if (name == 'Lepkość')
+        return options.fn(this);
+      else
+        return options.inverse(this);
+    });
+
+    $('#accept-cookies').click(function(){
+        var me = this;
+        $.get('/accept-cookies').success(function(){
+            $(me).parent().remove();
+        });
+    });
+
     $(window).scroll(function(ev) {
       var y = window.pageYOffset;
       var h = 43;

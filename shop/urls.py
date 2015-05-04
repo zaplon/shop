@@ -72,6 +72,8 @@ urlpatterns = patterns('',
 
     url(r'^robots.txt', views.robots, name='robots'),
 
+    url(r'^accept-cookies/', views.accept_cookies, name='accept-cookies'),
+
     url(r'^(?P<title>.*)/$', views.page, name='page'),
 
 )

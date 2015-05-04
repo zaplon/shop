@@ -50,6 +50,16 @@
 
     </head>
     <body>
+
+        {% if not request.session.accept_cookies %}
+            <div id='cookie-warning'>
+                <span class='pull-left' style="margin-top:5px;">
+                    Ta strona korzysta z plików cookies. Korzystanie ze strony oznacza akceptację tego faktu
+                </span>
+                <button id="accept-cookies" class="btn btn-primary btn-sm pull-right">Ok, rozumiem</button>
+            </div>
+        {% endif %}
+
         <div style="padding:0px; border-width:0px" class="alert alert-success" role="alert" id="top-message">
 
         </div>

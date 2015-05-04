@@ -41,9 +41,10 @@ class NewsletterReceiverSerializer(serializers.ModelSerializer):
 
 class ShopAttributeSerializer(serializers.ModelSerializer):
     group = serializers.CharField(source='group.name', read_only=True)
+    for_variations = serializers.BooleanField(source='group.forProductVariations', read_only=True)
     class Meta:
         model = Attribute
-        fields = ('id','name','group')
+        fields = ('id','name','group', 'for_variations')
 
 class ShopProductVariationSerializer(serializers.ModelSerializer):
     attributes = ShopAttributeSerializer(many=True, read_only=True)
@@ -52,6 +53,7 @@ class ShopProductVariationSerializer(serializers.ModelSerializer):
         fields = ('id', 'price','amount','image','attributes')
 
 class ShopProductSerializer(serializers.ModelSerializer):
+    attributes = ShopAttributeSerializer(many=True, read_only=True)
     image = serializers.CharField(source='getMainImage', read_only=True)
     variations = ShopProductVariationSerializer(many=True, read_only=True)
     grouped_variations = serializers.CharField(source='getVariations', read_only=True)
@@ -59,7 +61,7 @@ class ShopProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ('id', 'name', 'image', 'shortDescription','categories', 'variations', 'grouped_variations',
-                  'hasManyVariations')
+                  'hasManyVariations', 'attributes')
 
 
 
