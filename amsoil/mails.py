@@ -40,7 +40,7 @@ def orderNotification(order, request):
     html = html.render(c)
 
     send_mail('Nowe zamówienie', translation.ugettext('New order'), FROM_MAIL,
-              ('janek.zapal@gmail.com',FROM_MAIL,), fail_silently=False, html_message=html)
+              (FROM_MAIL,'zamowienia@najlepszysyntetyk.pl'), fail_silently=False, html_message=html)
 
 
 
