@@ -19,7 +19,11 @@
                 {% if i.product %}
                     <td>{{ i.product.name }}</td>
                 {% else %}
-                    <td>{{ i.productVariation.product.name }}</td>
+                    <td>{{ i.productVariation.product.name }} (
+                        {% for a in i.productVariation.attributes.all %}
+                            {{a.group.name}} {{a.name}}
+                        {% endfor %} )
+                    </td>
                 {% endif %}
                 {% if noButtons %}
                     <td class="table-text-align">{{i.quantity}}</td>
