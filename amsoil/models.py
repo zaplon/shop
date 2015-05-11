@@ -5,7 +5,7 @@ from django.db import models, connection
 from shop.settings import MEDIA_ROOT, MEDIA_URL
 from ckeditor.fields import RichTextField
 from django.dispatch import receiver
-from django.db.models.signals import pre_save, pre_delete
+from django.db.models.signals import pre_save, pre_delete, post_save
 from django.db.models import Sum, Count, Min
 import getpaid
 from django.core.urlresolvers import reverse
@@ -174,6 +174,33 @@ class ProductVariation(models.Model):
         for a in self.attributes.all():
             name = name + " " + a.group.name + " " + a.name
         return name
+
+@receiver(post_save, sender=ProductVariation)
+def post_product_save(instance, sender, **kwargs):
+    from WooCommerceClient import WooCommerceClient
+    wc_client = WooCommerceClient('ck_5e5692af317c09ca4581be6bc5596714', 'cs_3115cf0868e4ae29117257e13cec6248', 'http://archoil.pl/')
+
+    params = {
+         "variations":[
+              {
+                   "id":"81",
+                   "price":"10.00",
+                   "regular_price":"10.00",
+                   "attributes": [
+                        {
+                             "name":"pa_tamanho",
+                             "option":"m"
+                        },
+                        {
+                             "name":"pa_cor",
+                             "option":"verde"
+                        }
+                   ]
+              }
+         ]
+    }
+
+    wc_client.endpoint_call( '', params = {'quantity'} , method = 'GET' )
 
 class Category(models.Model):
     class Meta:
@@ -348,6 +375,7 @@ class Method(models.Model):
     #    abstract = True
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=300, blank = True, null = True)
+    is_enabled = models.BooleanField(default=True, verbose_name='Włączona')
     def __unicode__(self):
         return self.name
 

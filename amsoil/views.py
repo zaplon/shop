@@ -412,7 +412,7 @@ def getOrderOptions(request):
     try:
         sm = ShippingMethod.objects.get(id=request.GET['shipping'])
         totals['shipping'] = sm.price
-        paymentMethods = PaymentMethod.objects.filter(shippingMethods=sm)
+        paymentMethods = PaymentMethod.objects.filter(shippingMethods=sm, is_enabled=True)
         needsShipping = sm.needsShipping
     except:
         totals['shipping'] = ShippingMethod.objects.first().price
@@ -423,7 +423,7 @@ def getOrderOptions(request):
     totals['shipping'] = currency(totals['shipping'])
     totals['discount'] = currency(totals['discount'])
     totals['products'] = currency(totals['products'])
-    shippingMethods = ShippingMethodSerializer(ShippingMethod.objects.all(), many=True).data
+    shippingMethods = ShippingMethodSerializer(ShippingMethod.objects.filter(is_enabled=True), many=True).data
     paymentMethods = PaymentMethodSerializer(paymentMethods, many=True).data
 
     return HttpResponse(json.dumps({'success': True, 'totals': totals, 'shippingMethods': shippingMethods,
