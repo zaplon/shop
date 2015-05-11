@@ -175,32 +175,32 @@ class ProductVariation(models.Model):
             name = name + " " + a.group.name + " " + a.name
         return name
 
-@receiver(post_save, sender=ProductVariation)
-def post_product_save(instance, sender, **kwargs):
-    from WooCommerceClient import WooCommerceClient
-    wc_client = WooCommerceClient('ck_5e5692af317c09ca4581be6bc5596714', 'cs_3115cf0868e4ae29117257e13cec6248', 'http://archoil.pl/')
-
-    params = {
-         "variations":[
-              {
-                   "id":"81",
-                   "price":"10.00",
-                   "regular_price":"10.00",
-                   "attributes": [
-                        {
-                             "name":"pa_tamanho",
-                             "option":"m"
-                        },
-                        {
-                             "name":"pa_cor",
-                             "option":"verde"
-                        }
-                   ]
-              }
-         ]
-    }
-
-    wc_client.endpoint_call( '', params = {'quantity'} , method = 'GET' )
+# @receiver(post_save, sender=ProductVariation)
+# def post_product_save(instance, sender, **kwargs):
+#     from WooCommerceClient import WooCommerceClient
+#     wc_client = WooCommerceClient('ck_5e5692af317c09ca4581be6bc5596714', 'cs_3115cf0868e4ae29117257e13cec6248', 'http://archoil.pl/')
+#
+#     params = {
+#          "variations":[
+#               {
+#                    "id":"81",
+#                    "price":"10.00",
+#                    "regular_price":"10.00",
+#                    "attributes": [
+#                         {
+#                              "name":"pa_tamanho",
+#                              "option":"m"
+#                         },
+#                         {
+#                              "name":"pa_cor",
+#                              "option":"verde"
+#                         }
+#                    ]
+#               }
+#          ]
+#     }
+#
+#     wc_client.endpoint_call( '', params = {'quantity'} , method = 'GET' )
 
 class Category(models.Model):
     class Meta:
