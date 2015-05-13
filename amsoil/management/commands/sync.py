@@ -34,21 +34,32 @@ class sync:
                 i = i + 1
             new_rows.append(new_row)
         rows = new_rows
-        print new_rows
         for r in rows:
             try:
                 pv = ProductVariation.objects.get(archoil_id=r['id'])
-                if pv.quantity > r['quantity']:
-                    pv.quantity = r['quantity']
+
+                quantity = int(r['quantity'])
+                print str(quantity) + ' ' + str(pv.amount)
+                if pv.amount > quantity:
+                    print 'ns more'
+                    pv.amount = quantity
                     pv.save()
-                elif pv.quantity < r['quantity']:
+                elif pv.amount < quantity:
+                    print 'archoil more'
+                    q = 'SELECT * FROM arc_postmeta meta WHERE meta.meta_key="_stock" AND meta.post_id=%s' % pv.archoil_id
+                    res = self.archoil.execute(q).fetchall()
                     q = """
-                        UPDATE arc_postmeta meta
-                        SET meta.value = %s WHERE (meta.value='_stock' AND meta.post_id=%s)
-                    """ % (pv.quantity, pv.archoil_id)
-                    self.archoil.execute(query)
+                        UPDATE arc_postmeta
+                        SET meta_value = %s
+                        WHERE meta_key='_stock' AND post_id='%i'
+                    """ % (pv.amount, pv.archoil_id)
+                    self.archoil.execute(q)
+                    self.archoil.commit()
+                    print 'end'
+                else:
+                    print 'the same'
             except:
-                print 'no match'
+                #print 'no match'
                 continue
 
 class Command(BaseCommand):
