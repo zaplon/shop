@@ -71,6 +71,10 @@ class AttachmentsInline(admin.TabularInline):
     readonly_fields = ('get_url',)
     extra = 1
 
+class MetaInline(admin.TabularInline):
+    model = PageMeta
+    fields = ('key','value',)
+    extra = 1
 
 #class ProductForm(ModelForm):
 #    atts = ModelChoiceField(queryset=Attribute.objects.all().order_by('group__name','name'))
@@ -96,8 +100,8 @@ admin.site.register(Post, PostAdmin)
 class ProductVariationAdmin(admin.ModelAdmin):
     model = ProductVariation
     search_fields = ['product']
-    list_display = ['product','getAttributesString','price','amount','total_sales']
-    list_editable = ['price','amount']
+    list_display = ['product','getAttributesString','price','amount','total_sales','archoil_id']
+    list_editable = ['price','amount','archoil_id']
 
 admin.site.register(ProductVariation, ProductVariationAdmin)
 

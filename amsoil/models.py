@@ -169,6 +169,7 @@ class ProductVariation(models.Model):
     amount = models.IntegerField(default=0)
     total_sales = models.IntegerField(default=0)
     added_date = models.DateTimeField(auto_now=True)
+    archoil_id = models.IntegerField(blank=True, null=True)
     def getAttributesString(self):
         name = ''
         for a in self.attributes.all():
