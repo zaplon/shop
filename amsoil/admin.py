@@ -99,7 +99,7 @@ admin.site.register(Post, PostAdmin)
 
 class ProductVariationAdmin(admin.ModelAdmin):
     model = ProductVariation
-    search_fields = ['product']
+    search_fields = ['product__name']
     list_display = ['product','getAttributesString','price','amount','total_sales','archoil_id']
     list_editable = ['price','amount','archoil_id']
 
