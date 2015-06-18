@@ -48,7 +48,7 @@ $(document).ready(function($){
     });
 
     $('.container-fluid').delegate('.variations-table select','change', function(){
-        $(this).find('option')[0].setAttribute('disabled',true);
+        $(this).find('option')[0].setAttribute('disabled',false);
         var pId = $(this).attr('data-product');
         var button = $('button[data-product='+pId+']');
         var div = $('.variations-table[data-product='+$(this).attr('data-product')+']');
