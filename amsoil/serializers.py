@@ -86,9 +86,10 @@ class OrderSerializer(serializers.ModelSerializer):
     cart = CartSerializer()
     paymentMethod = PaymentMethodSerializer()
     shipment = ShipmentSerializer(many=True, read_only=True)
+    profit = serializers.FloatField(source='get_profit', read_only=True)
     shippingMethod = ShippingMethodSerializer()
     invoice = InvoiceSerializer()
     class Meta:
         model = Order
         fields = ('date', 'email', 'total', 'cart', 'get_status', 'id', 'number','shipment', 'discount',
-        'paymentMethod', 'shippingMethod', 'invoice')
+        'paymentMethod', 'shippingMethod', 'invoice', 'profit')
