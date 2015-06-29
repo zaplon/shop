@@ -170,6 +170,7 @@ class ProductVariation(models.Model):
     total_sales = models.IntegerField(default=0)
     added_date = models.DateTimeField(auto_now=True)
     archoil_id = models.IntegerField(blank=True, null=True)
+    purchase_price = models.FloatField(default=0)
     def getAttributesString(self):
         name = ''
         for a in self.attributes.all():
@@ -292,7 +293,7 @@ class CartProduct(models.Model):
     cart = models.ForeignKey('Cart', related_name='cartProducts')
     quantity = models.IntegerField(default=1)
     price = models.FloatField(default=0)
-    productVariation = models.ForeignKey(ProductVariation, default=None, null = True, blank = True)
+    productVariation = models.ForeignKey(ProductVariation, default=None, null = True, blank = True, related_name='cartProducts')
 
 class Cart(models.Model):
     type = models.CharField(choices=(('FI','finished'),('TE','temporary')),max_length=20)
@@ -406,7 +407,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, null=True, blank=True)
     status = models.CharField(choices=(('PE','PENDING'),('CA','CANCELLED'),
                                        ('FI','FINISHED'), ('FA','FAILED')),max_length=20, default='PE')
-    cart = models.ForeignKey(Cart)
+    cart = models.ForeignKey(Cart, related_name='order')
     date = models.DateTimeField(auto_now=True)
     shippingMethod = models.ForeignKey(ShippingMethod)
     paymentMethod = models.ForeignKey(PaymentMethod)
@@ -418,6 +419,12 @@ class Order(models.Model):
     token = models.CharField(max_length=30, blank=True, null=True)
     paypalData = models.CharField(max_length=300, blank=True, null=True)
     discount = models.FloatField(default=0)
+    def get_profit(self):
+        cost = ProductVariation.objects.filter(cartProducts__cart__order=self).aggregate(cost=Sum(F('purchase_price'), output_field=FloatField())['cost']
+        profit = self.total - cost
+        if self.invoice:
+            profit = profit * 0.78
+        return profit    
     def get_status(self):
         return self.status
     def resend_mail(self):
