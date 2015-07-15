@@ -11,6 +11,8 @@ import getpaid
 from django.core.urlresolvers import reverse
 from authentication.models import User
 from markitup.fields import MarkupField
+from django.core import urlresolvers
+from django.contrib.auth.models import Group
 #from tinymce import models as tinymce_models
 
 class UserProfile(models.Model):
@@ -158,6 +160,14 @@ class Product(Page):
             return 'no image'
 
 class ProductVariation(models.Model):
+    @staticmethod
+    def autocomplete_search_fields():
+        return ("name__iexact", "product__name__icontains",)
+    def __unicode__(self):
+        pr = self.product.name
+        for a in self.attributes.all():
+            pr += ' ' + a.group.name + ' ' + a.name
+        return pr
     class Meta:
         verbose_name = 'Wariant produktu'
         verbose_name_plural = 'Warianty produktów'
@@ -165,6 +175,7 @@ class ProductVariation(models.Model):
     attributes = models.ManyToManyField('Attribute', related_name='products')
     name = models.CharField(max_length=100, blank=True, null=True)
     price = models.FloatField(default=0)
+    purchase_price = models.FloatField(default=0, verbose_name="Cena zakupu")
     image = models.ImageField(upload_to='images/',blank=True, null=True)
     amount = models.IntegerField(default=0)
     total_sales = models.IntegerField(default=0)
@@ -288,15 +299,85 @@ class MenuItem(models.Model):
             return self.url
 
 class CartProduct(models.Model):
-    product = models.ForeignKey(Product,null = True, blank = True)
+    def get_actual_price(self):
+        return self.productVariation.price
+    get_actual_price.short_description = 'Aktualna cena'
+    def get_mine_price(self):
+        pv = self.productVariation
+        try:
+            us = self.cart.order.user
+        except:
+            us = None
+
+        #dla promocji nie ma juz znizek
+        try:
+            on_promotion = pv.product.categories.get(name__iexact='promocje')
+            return pv.price
+        except:
+            pass
+        if us is not None:
+            discount = ( ( UserDiscount.objects.filter(user=us) |
+                           UserDiscount.objects.filter(group__in=us.groups.all()) ) & \
+                      (UserDiscount.objects.filter(product=pv) |
+                       UserDiscount.objects.filter(attribute__in=pv.product.attributes.all()) )).order_by('value')
+            if len(discount) > 0:
+               discount = discount[0].value
+            else:
+               discount = 0
+        else:
+            discount = 0
+
+        order_discount = self.cart.getUserDiscount(us,True)
+        if order_discount > discount:
+           discount = order_discount
+        return pv.price*(1-float(discount)/100)
+
+
+    class Meta:
+        verbose_name = 'Element koszyka'
+        verbose_name_plural = 'Elementy koszyka'
+    product = models.ForeignKey(Product,null = True, blank = True, verbose_name='Produkt')
     cart = models.ForeignKey('Cart', related_name='cartProducts')
-    quantity = models.IntegerField(default=1)
-    price = models.FloatField(default=0)
-    productVariation = models.ForeignKey(ProductVariation, default=None, null = True, blank = True)
+    quantity = models.IntegerField(default=1, verbose_name='Ilość')
+    price = models.FloatField(default=0, verbose_name='Cena')
+    productVariation = models.ForeignKey(ProductVariation, default=None, null = True, blank = True, related_name='cartProduct', verbose_name='Wariant produktu')
+
+class UserDiscount(models.Model):
+   def __unicode__(self):
+       if self.user:
+        return str(self.user)
+       if self.group:
+           return str(self.group.name)
+       else:
+           return str(self.value) + '%'
+   class Meta:
+       verbose_name = 'Zniżka'
+       verbose_name_plural = 'Zniżki'
+   user = models.ForeignKey(User, related_name='discounts', verbose_name='Użytkownik', blank=True, null=True)
+   group = models.ForeignKey(Group, related_name='discounts', verbose_name='Grupa użytkowników', blank=True, null=True)
+   attribute = models.ForeignKey(Attribute, blank=True, null=True, verbose_name='Atrybut')
+   product = models.ForeignKey(ProductVariation, blank=True, null=True, verbose_name='Produkt')
+   value = models.FloatField(default=0, verbose_name='Wysokość zniżki w %')
 
 class Cart(models.Model):
-    type = models.CharField(choices=(('FI','finished'),('TE','temporary')),max_length=20)
-    json = models.CharField(max_length=1000)
+    def __unicode__(self):
+        return str(self.id)
+    def updatePrices(self):
+        td = 0
+        t = 0
+        for cp in self.cartProducts.all():
+            cp.price = cp.get_mine_price()
+            cp.save()
+        try:
+            self.order
+        except:
+            return True
+    class Meta:
+        verbose_name = 'Koszyk'
+        verbose_name_plural = 'Koszyki'
+    type = models.CharField(choices=(('FI','finished'),('TE','temporary')),max_length=20, default='FI')
+    json = models.CharField(max_length=1500, default='{}')
+    #user = models.ForeignKey(User, blank=True, null=True)
     #order = models.ForeignKey('Order', default = None,null = True)
     def getTotal(self):
         total = CartProduct.objects.filter(cart=self).aggregate(total=Sum('price', field="price*quantity"))['total']
@@ -304,7 +385,17 @@ class Cart(models.Model):
             return 0
         else:
             return total
-    def getDiscount(self,user):
+    getTotal.short_description = 'Produkty w sumie'
+
+    def getDiscount(self, user=None, as_percent=False):
+        cps = CartProduct.objects.filter(cart=self)
+        d = 0
+        for cp in cps:
+            d += (cp.productVariation.price - cp.price)*cp.quantity
+        return d
+        #return CartProduct.objects.filter(cart=self).aggregate(total=Sum('price', field="price*quantity"))['total']
+
+    def getUserDiscount(self, user, as_percent=False):
         discount = 0
         database_discount = 0
 
@@ -319,16 +410,19 @@ class Cart(models.Model):
             discount = 15
         elif total >= 300:
             discount = 10
-        if user.is_authenticated():
+        if user and user.is_authenticated():
             if UserMeta.getValue(user,'discount'):
                 database_discount = UserMeta.getValue(user,'discount')
         if int(database_discount) > discount:
             try:
-                discount = total * float(UserMeta.getValue(user,'discount'))/100
+                if not as_percent:
+                    discount = total * float(UserMeta.getValue(user,'discount'))/100
+                else:
+                    discount = float(UserMeta.getValue(user,'discount'))
             except:
                 pass
         else:
-            if total is not None:
+            if total is not None and not as_percent:
                 discount = total * discount/100
         return discount
     #quantity = models.IntegerField(default=1)
@@ -403,21 +497,31 @@ class Order(models.Model):
     class Meta:
         verbose_name = 'Zamówienie'
         verbose_name_plural = 'Zamówienia'
-    user = models.ForeignKey(User, null=True, blank=True)
+    user = models.ForeignKey(User, null=True, blank=True, verbose_name='Użytkownik')
     status = models.CharField(choices=(('PE','PENDING'),('CA','CANCELLED'),
-                                       ('FI','FINISHED'), ('FA','FAILED')),max_length=20, default='PE')
-    cart = models.ForeignKey(Cart)
-    date = models.DateTimeField(auto_now=True)
-    shippingMethod = models.ForeignKey(ShippingMethod)
-    paymentMethod = models.ForeignKey(PaymentMethod)
-    notes = models.CharField(max_length=200, blank=True, null=True)
-    email = models.EmailField()
-    number = models.CharField(max_length=20, default='')
-    phone = models.CharField(max_length=15, default=0)
-    total = models.FloatField(default=0)
+                                       ('FI','FINISHED'), ('WC','WAITING FOR CASH')), max_length=20, default='PE')
+    cart = models.OneToOneField(Cart, related_name='order')
+    date = models.DateTimeField(auto_now=True, verbose_name='Data')
+    shippingMethod = models.ForeignKey(ShippingMethod, verbose_name='Metoda wysyłki')
+    paymentMethod = models.ForeignKey(PaymentMethod, verbose_name='Metoda zapłaty')
+    notes = models.CharField(max_length=200, blank=True, null=True, verbose_name='Uwagi')
+    email = models.EmailField(verbose_name='Email')
+    number = models.CharField(max_length=20, default='', verbose_name='Numer zamówienia', blank=True, null=True)
+    phone = models.CharField(max_length=15, default=0, verbose_name='Telefon')
+    total = models.FloatField(default=0, verbose_name='W sumie')
     token = models.CharField(max_length=30, blank=True, null=True)
     paypalData = models.CharField(max_length=300, blank=True, null=True)
-    discount = models.FloatField(default=0)
+    discount = models.FloatField(default=0, verbose_name='Zniżka')
+    mail_sended = models.BooleanField(default=False, verbose_name='Mail przesłany')
+
+    def get_cart_url(self):
+        if self.cart:
+            link =  urlresolvers.reverse("admin:%s_%s_change" %
+                (self._meta.app_label, 'cart'), args=(self.cart.pk,))
+            return '<a target="_blank" href="%s">Edytuj</a>' % link
+        else:
+            return ''
+    get_cart_url.short_description = 'Koszyk'
     def get_status(self):
         return self.status
     def resend_mail(self):
@@ -432,7 +536,20 @@ getpaid.register_to_payment(Order, unique=False, related_name='payments')
 
 @receiver(pre_save, sender=Order)
 def createOrderNr(instance, sender, **kwargs):
+    try:
+        instance.cart
+        instance.total = instance.cart.getTotal() + instance.shippingMethod.price + instance.paymentMethod.price
+        instance.discount = instance.cart.getDiscount()
+    except:
+        c = Cart()
+        c.save()
+        instance.cart = c
     instance.number = str(datetime.datetime.now().strftime('%s'))
+
+@receiver(pre_save, sender=Cart)
+def preCartSave(instance, sender, **kwargs):
+    #if cp.cart.order.status is not 'FINISHED':
+    instance.updatePrices()
 
 @receiver(pre_delete, sender=Order)
 def correctQuantities(instance, sender, **kwargs):

@@ -30,7 +30,14 @@
                 {% else %}
                     <td class="table-text-align"><input product="{{ i.id }}" name="product-quantity" class="form-control" type="number" value="{{ i.quantity }}" min="0"></input></td>
                 {% endif %}
-                <td class="table-text-align">{{ i.price|currency}}</td>
+                <td class="table-text-align">
+                    {% if i.price < i.productVariation.price %}
+                       <span class="old-price">{{ i.productVariation.price|currency }}</span>
+                       {{ i.price|currency}}
+                    {% else %}
+                        {{ i.price|currency}}
+                    {% endif %}
+                </td>
                 {% if not noButtons %}
                     <td><button product="{{ i.id }}" class="update-cart btn btn-primary">
                         {% trans 'Update' %}

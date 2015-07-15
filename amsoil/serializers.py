@@ -39,6 +39,11 @@ class NewsletterReceiverSerializer(serializers.ModelSerializer):
         model = NewsletterReceiver
 
 
+class ClientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id','username','email']
+
 class ShopAttributeSerializer(serializers.ModelSerializer):
     group = serializers.CharField(source='group.name', read_only=True)
     for_variations = serializers.BooleanField(source='group.forProductVariations', read_only=True)
@@ -88,7 +93,8 @@ class OrderSerializer(serializers.ModelSerializer):
     shipment = ShipmentSerializer(many=True, read_only=True)
     shippingMethod = ShippingMethodSerializer()
     invoice = InvoiceSerializer()
+    user = ClientSerializer()
     class Meta:
         model = Order
         fields = ('date', 'email', 'total', 'cart', 'get_status', 'id', 'number','shipment', 'discount',
-        'paymentMethod', 'shippingMethod', 'invoice')
+        'paymentMethod', 'shippingMethod', 'invoice', 'user')

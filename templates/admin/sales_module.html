@@ -1,0 +1,22 @@
+{% extends "grappelli/dashboard/module.html" %}
+{% load i18n grp_dashboard_tags %}
+{% block module_content %}
+   <table style="width:100%;">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Klient</th>
+            <th>Kwota</th>
+        </tr>
+    </thead>
+   <tbody>
+    {% for o in module.orders %}
+       <tr>
+        <td>{{ o.date }}</td>
+        <td>{{ o.email }}</td>
+        <td>{{ o.total }}zł</td>
+       </tr>
+   {% endfor  %}
+   </tbody>
+   </table>
+{% endblock %}

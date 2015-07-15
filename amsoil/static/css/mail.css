@@ -92,3 +92,7 @@
 			font-weight: bold;
 			font-size: 24px;
 		}
+        .old-price{
+            text-decoration: line-through;
+            font-size: 12px;
+        }

@@ -27,11 +27,14 @@ class UserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser, PermissionsMixin):
+    @staticmethod
+    def autocomplete_search_fields():
+        return ("username__iexact",)
     USERNAME_FIELD = 'email'
     class Meta:
         verbose_name = 'Użytkownik'
         verbose_name_plural = 'Użytkownicy'
-    username = models.CharField(max_length=30, verbose_name='Nazwa użytkownika')
+    username = models.CharField(max_length=30, verbose_name=u'Nazwa użytkownika')
     email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

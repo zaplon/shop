@@ -52,12 +52,18 @@ class ShipmentInline(admin.StackedInline):
     readonly_fields = ('getTypeString',)
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id','number','status', 'date','email')
+    raw_id_fields = ['user']
+    autocomplete_lookup_fields = {
+        'fk': ['user']
+    }
+    list_display = ('id','number','status', 'date','email','total')
     inlines = (ShipmentInline, InvoiceInline,)
-    readonly_fields = ('date','resend_mail')
-    change_form_template = ADMIN_TEMPLATES_ROOT + 'change_order.html'
-    fields = ('status','number','date','paymentMethod','shippingMethod',
-              'notes','email','phone', 'resend_mail')
+    readonly_fields = ('date','resend_mail','get_cart_url', 'number')
+    list_editable = ('status',)
+    list_filter = ('status','date', 'user')
+    #change_form_template = ADMIN_TEMPLATES_ROOT + 'change_order.html'
+    fields = ('status',['total','discount'],['number','date'],'user',['paymentMethod','shippingMethod'],
+              ['email','phone'], 'notes', 'resend_mail', 'get_cart_url')
 
 class VariationsInline(admin.TabularInline):
     model = ProductVariation
@@ -160,9 +166,24 @@ class AttributeAdminForm(forms.ModelForm):
 
     return Attribute
 
+class CartProductVariationsInline(admin.TabularInline):
+    raw_id_fields = ['productVariation']
+    readonly_fields = ['get_actual_price']
+    autocomplete_lookup_fields = {
+        'fk': ['productVariation']
+    }
+    model = CartProduct
+    fields = ['productVariation','price','quantity','get_actual_price']
+
+class CartAdmin(admin.ModelAdmin):
+    inlines = (CartProductVariationsInline,)
+    readonly_fields = ['getTotal']
+    fields = ['getTotal']
+
 class AttributeAdmin(admin.ModelAdmin):
   form = AttributeAdminForm
 admin.site.register(Attribute, AttributeAdmin)
-
+admin.site.register(Cart, CartAdmin)
 admin.site.register(NewsletterReceiver)
 admin.site.register(Tag)
+admin.site.register(UserDiscount)

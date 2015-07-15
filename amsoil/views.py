@@ -5,9 +5,7 @@ from django.shortcuts import render_to_response, RequestContext, HttpResponse, H
 from amsoil.models import Page, Product, Cart, User, CartProduct, ProductVariation, Post,\
     ShippingMethod, PaymentMethod, Order, Invoice, Shipment, Category, Attribute, UserMeta, NewsletterReceiver
 from rest_framework import viewsets
-from amsoil.serializers import ProductSerializer, PaymentMethodSerializer, ShippingMethodSerializer, \
-    CartSerializer, CartProductSerializer, NewsletterReceiverSerializer, ProductVariationSerializer,\
-    ShopProductSerializer, OrderSerializer
+from amsoil.serializers import *
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -251,31 +249,31 @@ def checkout(request):
                               status='PENDING')
 
 
-            order.total = order.cart.getTotal()
             #znizki
             if request.user.is_authenticated():
                 now_date=datetime.datetime.now()
                 next_year = now_date + datetime.timedelta(days=365)
 
-                last_12_months = Order.objects.filter(user=request.user,date__gte=now_date-datetime.timedelta(days=365)).\
-                    aggregate(Sum('total')).values()[0]
-                if last_12_months > 1000:
-                    UserMeta.setValue(request.user,'discount','20')
-                    UserMeta.setValue(request.user,'discount_ends',next_year.strftime('%Y-%m-%d'))
-                elif last_12_months > 500:
-                    UserMeta.setValue(request.user,'discount','15')
-                    UserMeta.setValue(request.user,'discount_ends',next_year.strftime('%Y-%m-%d'))
-                elif last_12_months > 300:
-                    UserMeta.setValue(request.user,'discount','10')
-                    UserMeta.setValue(request.user,'discount_ends',next_year.strftime('%Y-%m-%d'))
+                # last_12_months = Order.objects.filter(user=request.user,date__gte=now_date-datetime.timedelta(days=365)).\
+                #     aggregate(Sum('total')).values()[0]
+                # if last_12_months > 1000:
+                #     UserMeta.setValue(request.user,'discount','20')
+                #     UserMeta.setValue(request.user,'discount_ends',next_year.strftime('%Y-%m-%d'))
+                # elif last_12_months > 500:
+                #     UserMeta.setValue(request.user,'discount','15')
+                #     UserMeta.setValue(request.user,'discount_ends',next_year.strftime('%Y-%m-%d'))
+                # elif last_12_months > 300:
+                #     UserMeta.setValue(request.user,'discount','10')
+                #     UserMeta.setValue(request.user,'discount_ends',next_year.strftime('%Y-%m-%d'))
+                #
+                # if UserMeta.getValue(request.user,'discount'):
+                #     end_date = datetime.datetime.strptime(UserMeta.getValue(request.user,'discount_ends'),'%Y-%m-%d')
+                #     if end_date > now_date:
+                #         order.discount = order.total * float(UserMeta.getValue(request.user,'discount'))/100
+                #         order.total = order.total - order.total * float(UserMeta.getValue(request.user,'discount'))/100
 
-                if UserMeta.getValue(request.user,'discount'):
-                    end_date = datetime.datetime.strptime(UserMeta.getValue(request.user,'discount_ends'),'%Y-%m-%d')
-                    if end_date > now_date:
-                        order.discount = order.total * float(UserMeta.getValue(request.user,'discount'))/100
-                        order.total = order.total - order.total * float(UserMeta.getValue(request.user,'discount'))/100
 
-            order.total += order.paymentMethod.price + order.shippingMethod.price
+            #order.total += order.paymentMethod.price + order.shippingMethod.price
 
             c.json = CartSerializer(c).data
             # c.order = order
@@ -419,7 +417,7 @@ def getOrderOptions(request):
         paymentMethods = PaymentMethod.objects.all()
         needsShipping = False
     totals['discount'] = cart.getDiscount(request.user)
-    totals['total'] = currency(totals['products'] + totals['shipping'] - totals['discount'])
+    totals['total'] = currency(totals['products'] + totals['shipping'])
     totals['shipping'] = currency(totals['shipping'])
     totals['discount'] = currency(totals['discount'])
     totals['products'] = currency(totals['products'])
@@ -449,7 +447,9 @@ def getOrderOptions(request):
 
 def removeFromCart(request):
     id = request.GET['product']
-    CartProduct.objects.get(id=id).delete()
+    cp = CartProduct.objects.get(id=id)
+    cp.delete()
+    cp.cart.updatePrices()
     return HttpResponse(json.dumps({'success': True}))
 
 
@@ -459,6 +459,7 @@ def updateCart(request):
     cp = CartProduct.objects.get(id=id)
     cp.quantity = quantity
     cp.save()
+    cp.cart.updatePrices()
     return HttpResponse(json.dumps({'success': True}))
 
 
@@ -477,7 +478,7 @@ def addToCart(request):
         if 'product' in request.POST:
             p = Product.objects.get(id=request.POST['product'])
             pv = p.variations.first()
-            cp = CartProduct(productVariation=pv, cart=c, price=pv.price, quantity=quantity)
+            cp = CartProduct(productVariation=pv, cart=c, price=pv.price, quantity=quantity, purchase_price=pv.purchase_price)
         else:
             pv = ProductVariation.objects.get(id=request.POST['productVariation'])
             if pv.amount < int(quantity):
@@ -486,6 +487,7 @@ def addToCart(request):
             cp = CartProduct(productVariation=pv, cart=c, price=pv.price,
                              quantity=quantity)
         cp.save()
+        c.updatePrices()
         return HttpResponse(json.dumps({'success': True}), content_type='application/json')
     else:
         return HttpResponse(json.dumps({'success': False}), content_type='application/json')
@@ -641,6 +643,12 @@ class OrderViewSet(viewsets.ModelViewSet):
     filter_class = OrderFilter
 
 
+class ClientViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = ClientSerializer
+    #def get_queryset(self):
+    #    return User.objects.filter()
+
 def form_submitted(request):
     return render_to_response('form_submitted.html', {}, context_instance=RequestContext(request))
 
@@ -655,7 +663,7 @@ def newsletter_register(request):
 
 
 def robots(request):
-    txt = 'User-agent: *\nDisallow: /'
+    txt = 'User-agent: *\nDisallow:'
     return HttpResponse(txt, content_type='text/plain')
 
 def accept_cookies(request):
