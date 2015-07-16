@@ -5,7 +5,7 @@ from shop.settings import MEDIA_URL, MEDIA_ROOT
 from django.conf.urls.static import static
 from authentication.views import loginView, logoutView, register
 
-from amsoil.views import ProductVariationViewSet, OrderViewSet
+from amsoil.views import ProductVariationViewSet, OrderViewSet, ClientViewSet
 from rest_framework.routers import DefaultRouter
 from reviews.views import MarkViewSet, OpinionViewSet, opinions_view
 
@@ -14,8 +14,12 @@ router.register(r'productVariations', ProductVariationViewSet)
 router.register(r'marks', MarkViewSet)
 router.register(r'opinions', OpinionViewSet)
 router.register(r'orders', OrderViewSet)
+router.register(r'clients', ClientViewSet)
 
 urlpatterns = patterns('',
+
+    #admin-toos
+    #url(r'^admin_tools/', include('admin_tools.urls')),
 
     #api
     url(r'api/', include(router.urls)),

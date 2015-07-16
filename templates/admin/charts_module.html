@@ -1,0 +1,27 @@
+{% extends "grappelli/dashboard/module.html" %}
+{% load i18n grp_dashboard_tags %}
+{% block module_content %}
+    <div id="charts-toolbar" class="toolbar-widget">
+        <button data-target="sale-chart" class="grp-button">Sprzedaż</button>
+        <button data-target="products-chart" class="grp-button">Produkty</button>
+    </div>
+   {% load chartit %}
+   {{ module.charts|load_charts:"sale-chart, products-chart" }}
+   <div id="charts-container">
+       <div id="sale-chart" class="show-chart"></div>
+       <div id="products-chart"></div>
+   </div>
+    <script>
+        $(document).ready(function(){
+            $('#charts-toolbar button').click(function(){
+                console.log('click');
+                $('#charts-container div').removeClass('show-chart');
+                var target = $(this).attr('data-target');
+                target = $('#'+target);
+                if (!$(target).hasClass('show-cart'))
+                    $(target).addClass('show-chart');
+            });
+        });
+    </script>
+
+{% endblock %}

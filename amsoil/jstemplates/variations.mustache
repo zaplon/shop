@@ -71,7 +71,7 @@
         <input style="margin-right:10px;" type="number" aria-valuemin="1" min="1" value="1" id="quantity"
                class="pull-left form-control" />
     {{/if}}
-    <button class="btn add-to-cart {{#if product.variations.0.amount}}btn-primary{{else}}disabled btn-default{{/if}}
+    <button class="btn add-to-cart {{#if product.variations.0.amount}}btn-primary{{else}} btn-default{{/if}}
         {{#if product.hasManyVariations}}variable hidden{{else}}single-var{{/if}}
         {{#if showQuantity}}pull-left{{/if}}" data-product="{{product.id}}"
             style="margin-top:{{#if buttonMargin }}{{buttonMargin}}px{{else}}20px{{/if}};">

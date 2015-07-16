@@ -1,0 +1,10 @@
+.toolbar-widget{
+    margin: 5px;
+}
+.toolbar-widget button{
+    width: inherit;
+}
+
+#charts-container div:not(.show-chart) .highcharts-container{
+    height: 0px!important;
+}

@@ -30,8 +30,10 @@ def newOrder(order, request):
     c = Context({'request':request, 'order':order, 'thank_you':CHECKOUT_THANK_YOU})
     html = html.render(c)
 
-    send_mail(translation.ugettext('New order'), translation.ugettext('New order'), FROM_MAIL,
-              (order.email,), fail_silently=False, html_message=html)
+    if send_mail(translation.ugettext('New order'), translation.ugettext('New order'), FROM_MAIL,
+              (order.email,), fail_silently=False, html_message=html):
+        order.mail_sended = True
+        order.save()
 
 
 def orderNotification(order, request):

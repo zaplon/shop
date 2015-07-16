@@ -51,7 +51,7 @@ def display_form(context, form=None, success=None, message=None):
     if request.method == 'POST':
         form = FormClass(request.POST)
         if form.is_valid():
-            if send_mail('Prośba o dobór produktów', 'Prośba o dobór produktów', request.POST['email'],
+            if send_mail('Prośba o dobór produktów', 'Prośba o dobór produktów', 'info@najlepszysyntetyk.pl',
                          ['info@najlepszysyntetyk.pl'], fail_silently=False, html_message=form.as_table()):
                 message = '<h2>Dziękujemy</h2><p>Twoje zapytanie zostało przesłane</p>'
             else:
@@ -232,12 +232,12 @@ def cartData(context, *args, **kwargs):
     else:
         noButtons = False
     if 'cartId' in request.session:
-        items = CartProduct.objects.filter(cart__id=request.session['cartId'])
+        cart = Cart.objects.get(id=request.session['cartId'])
+        items = CartProduct.objects.filter(cart=cart)
         return {
             'noButtons': noButtons,
             'items': items,
-            'total': items.aggregate(
-                total=Sum('price', field="price*quantity"))['total'],
+            'total': cart.getTotal(),
             'count': items.aggregate(Sum('quantity')).values()[0]
         }
     else:
@@ -283,8 +283,6 @@ def cartItems(context, order=False, *args, **kwargs):
         items = CartProduct.objects.filter(cart=cart)
         total = cart.getTotal()
         discount = cart.getDiscount(request.user)
-        if discount:
-            total -= discount
         if order:
             total = total + order.shippingMethod.price
         return {

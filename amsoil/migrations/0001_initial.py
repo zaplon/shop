@@ -2,8 +2,9 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-from django.conf import settings
 import ckeditor.fields
+import markitup.fields
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
@@ -17,10 +18,12 @@ class Migration(migrations.Migration):
             name='Attachment',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=100)),
-                ('file', models.FileField(upload_to=b'/home/jan/PycharmProjects/shop/media/files/')),
+                ('name', models.CharField(max_length=100, verbose_name=b'nazwa')),
+                ('file', models.FileField(upload_to=b'/home/jan/PycharmProjects/shop/media/files/', verbose_name=b'plik')),
             ],
             options={
+                'verbose_name': 'za\u0142\u0105cznik',
+                'verbose_name_plural': 'za\u0142\u0105czniki',
             },
             bases=(models.Model,),
         ),
@@ -33,7 +36,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'verbose_name': 'Atrybut',
-                'verbose_name_plural': 'Grupy atrybut\xf3w',
+                'verbose_name_plural': 'Atrybuty',
             },
             bases=(models.Model,),
         ),
@@ -54,10 +57,12 @@ class Migration(migrations.Migration):
             name='Cart',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('type', models.CharField(max_length=20, choices=[(b'FI', b'finished'), (b'TE', b'temporary')])),
-                ('json', models.CharField(max_length=1000)),
+                ('type', models.CharField(default=b'FI', max_length=20, choices=[(b'FI', b'finished'), (b'TE', b'temporary')])),
+                ('json', models.CharField(default=b'{}', max_length=1000)),
             ],
             options={
+                'verbose_name': 'Koszyk',
+                'verbose_name_plural': 'Koszyki',
             },
             bases=(models.Model,),
         ),
@@ -65,11 +70,13 @@ class Migration(migrations.Migration):
             name='CartProduct',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('quantity', models.IntegerField(default=1)),
-                ('price', models.FloatField(default=0)),
+                ('quantity', models.IntegerField(default=1, verbose_name=b'Ilo\xc5\x9b\xc4\x87')),
+                ('price', models.FloatField(default=0, verbose_name=b'Cena')),
                 ('cart', models.ForeignKey(related_name=b'cartProducts', to='amsoil.Cart')),
             ],
             options={
+                'verbose_name': 'Element koszyka',
+                'verbose_name_plural': 'Elementy koszyka',
             },
             bases=(models.Model,),
         ),
@@ -81,6 +88,8 @@ class Migration(migrations.Migration):
                 ('name_pl', models.CharField(max_length=100, null=True)),
                 ('forProducts', models.BooleanField(default=False)),
                 ('image', models.FileField(default=b'', upload_to=b'/home/jan/PycharmProjects/shop/media/images/', blank=True)),
+                ('order', models.IntegerField(default=0)),
+                ('parent', models.ForeignKey(related_name=b'children', verbose_name=b'rodzic', blank=True, to='amsoil.Category', null=True)),
             ],
             options={
                 'verbose_name': 'Kategoria',
@@ -93,8 +102,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('NIP', models.CharField(max_length=20)),
-                ('name', models.CharField(max_length=100)),
-                ('address', models.CharField(max_length=150)),
+                ('name', models.CharField(max_length=100, verbose_name=b'Nazwa')),
+                ('address', models.CharField(max_length=150, verbose_name=b'Adres')),
             ],
             options={
                 'verbose_name': 'Faktura',
@@ -131,6 +140,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=100)),
                 ('description', models.CharField(max_length=300, null=True, blank=True)),
+                ('is_enabled', models.BooleanField(default=True, verbose_name=b'W\xc5\x82\xc4\x85czona')),
             ],
             options={
             },
@@ -153,8 +163,11 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('email', models.EmailField(unique=True, max_length=75)),
+                ('token', models.CharField(max_length=30)),
             ],
             options={
+                'verbose_name': 'Odbiorca newslettera',
+                'verbose_name_plural': 'Odbiorcy newsletter\xf3w',
             },
             bases=(models.Model,),
         ),
@@ -162,16 +175,17 @@ class Migration(migrations.Migration):
             name='Order',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('status', models.CharField(default=b'PE', max_length=20, choices=[(b'PE', b'pending'), (b'CA', b'cancelled'), (b'FI', b'finished')])),
-                ('date', models.DateTimeField(auto_now=True)),
-                ('notes', models.CharField(max_length=200, null=True, blank=True)),
-                ('email', models.EmailField(max_length=75)),
-                ('number', models.CharField(default=b'', max_length=20)),
-                ('phone', models.CharField(default=0, max_length=15)),
-                ('total', models.FloatField(default=0)),
+                ('status', models.CharField(default=b'PE', max_length=20, choices=[(b'PE', b'PENDING'), (b'CA', b'CANCELLED'), (b'FI', b'FINISHED'), (b'FA', b'FAILED')])),
+                ('date', models.DateTimeField(auto_now=True, verbose_name=b'Data')),
+                ('notes', models.CharField(max_length=200, null=True, verbose_name=b'Uwagi', blank=True)),
+                ('email', models.EmailField(max_length=75, verbose_name=b'Email')),
+                ('number', models.CharField(default=b'', max_length=20, verbose_name=b'Numer zam\xc3\xb3wienia')),
+                ('phone', models.CharField(default=0, max_length=15, verbose_name=b'Telefon')),
+                ('total', models.FloatField(default=0, verbose_name=b'W sumie')),
                 ('token', models.CharField(max_length=30, null=True, blank=True)),
                 ('paypalData', models.CharField(max_length=300, null=True, blank=True)),
-                ('cart', models.ForeignKey(to='amsoil.Cart')),
+                ('discount', models.FloatField(default=0, verbose_name=b'Zni\xc5\xbcka')),
+                ('cart', models.OneToOneField(related_name=b'order', to='amsoil.Cart')),
             ],
             options={
                 'verbose_name': 'Zam\xf3wienie',
@@ -188,6 +202,8 @@ class Migration(migrations.Migration):
                 ('url', models.CharField(default=b'', max_length=100)),
                 ('isMain', models.BooleanField(default=0)),
                 ('full_width', models.BooleanField(default=0, verbose_name=b'Szeroko\xc5\x9b\xc4\x87 ca\xc5\x82ej strony')),
+                ('created_at', models.DateTimeField(auto_now=True, verbose_name=b'Utworzono')),
+                ('is_published', models.BooleanField(default=True, verbose_name=b'Opublikowane')),
             ],
             options={
                 'verbose_name': 'Strona',
@@ -223,15 +239,27 @@ class Migration(migrations.Migration):
             bases=('amsoil.method',),
         ),
         migrations.CreateModel(
+            name='Post',
+            fields=[
+                ('page_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='amsoil.Page')),
+                ('author', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+            ],
+            options={
+                'verbose_name': 'Post',
+                'verbose_name_plural': 'Posty',
+            },
+            bases=('amsoil.page',),
+        ),
+        migrations.CreateModel(
             name='Product',
             fields=[
                 ('page_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='amsoil.Page')),
                 ('name', models.CharField(max_length=100)),
-                ('shortName', models.CharField(default=b'', max_length=100, null=True, blank=True)),
-                ('description', ckeditor.fields.RichTextField(default=b'', max_length=3000, null=True, blank=True)),
-                ('shortDescription', ckeditor.fields.RichTextField(default=b'', max_length=200, null=True, blank=True)),
-                ('mainImage', models.FileField(default=None, upload_to=b'images/', blank=True)),
-                ('price', models.FloatField(default=0)),
+                ('shortName', models.CharField(default=b'', max_length=100, null=True, verbose_name=b'Kr\xc3\xb3tka nazwa', blank=True)),
+                ('description', ckeditor.fields.RichTextField(default=b'', null=True, verbose_name=b'Opis', blank=True)),
+                ('shortDescription', ckeditor.fields.RichTextField(default=b'', max_length=200, null=True, verbose_name=b'Kr\xc3\xb3tki opis', blank=True)),
+                ('mainImage', models.FileField(default=None, upload_to=b'images/', verbose_name=b'G\xc5\x82\xc3\xb3wne zdj\xc4\x99cie', blank=True)),
+                ('price', models.FloatField(default=0, verbose_name=b'Cena')),
             ],
             options={
                 'verbose_name': 'Produkt',
@@ -245,10 +273,12 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=100, null=True, blank=True)),
                 ('price', models.FloatField(default=0)),
+                ('purchase_price', models.FloatField(default=0, verbose_name=b'Cena zakupu')),
                 ('image', models.ImageField(null=True, upload_to=b'images/', blank=True)),
                 ('amount', models.IntegerField(default=0)),
                 ('total_sales', models.IntegerField(default=0)),
                 ('added_date', models.DateTimeField(auto_now=True)),
+                ('archoil_id', models.IntegerField(null=True, blank=True)),
                 ('attributes', models.ManyToManyField(related_name=b'products', to='amsoil.Attribute')),
                 ('product', models.ForeignKey(related_name=b'variations', to='amsoil.Product')),
             ],
@@ -262,11 +292,12 @@ class Migration(migrations.Migration):
             name='Shipment',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('address', models.CharField(max_length=150)),
-                ('postalCode', models.CharField(max_length=6)),
-                ('phone', models.CharField(max_length=15)),
-                ('name', models.CharField(max_length=100)),
-                ('surname', models.CharField(max_length=100)),
+                ('address', models.CharField(max_length=150, verbose_name=b'Adres')),
+                ('postalCode', models.CharField(max_length=6, verbose_name=b'Kod pocztowy')),
+                ('phone', models.CharField(max_length=15, verbose_name=b'Telefon')),
+                ('name', models.CharField(max_length=100, verbose_name=b'Imi\xc4\x99')),
+                ('surname', models.CharField(max_length=100, verbose_name=b'Nazwisko')),
+                ('city', models.CharField(max_length=150, verbose_name=b'Miejscowo\xc5\x9b\xc4\x87')),
                 ('type', models.CharField(max_length=20, choices=[(b'BU', b'buyer'), (b'RE', b'receiver')])),
                 ('order', models.ForeignKey(related_name=b'shipment', blank=True, to='amsoil.Order', null=True)),
                 ('user', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
@@ -283,6 +314,7 @@ class Migration(migrations.Migration):
                 ('method_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='amsoil.Method')),
                 ('needsShipping', models.BooleanField(default=False)),
                 ('price', models.FloatField(default=0)),
+                ('instructions', models.CharField(max_length=500, null=True, blank=True)),
                 ('paymentMethods', models.ManyToManyField(related_name=b'shippingMethods', to='amsoil.PaymentMethod')),
             ],
             options={
@@ -312,7 +344,8 @@ class Migration(migrations.Migration):
                 ('button1Text', models.CharField(default=b'Read more', max_length=50)),
                 ('button2Text', models.CharField(max_length=50, null=True, blank=True)),
                 ('button1Url', models.CharField(max_length=50, null=True, blank=True)),
-                ('image', models.URLField(null=True, blank=True)),
+                ('image', models.ImageField(upload_to=b'', verbose_name=b'obrazek')),
+                ('order', models.IntegerField(default=0, verbose_name=b'Kolejno\xc5\x9b\xc4\x87')),
                 ('product', models.ForeignKey(blank=True, to='amsoil.Product', null=True)),
             ],
             options={
@@ -336,6 +369,22 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=100)),
             ],
             options={
+                'verbose_name': 'Tag',
+                'verbose_name_plural': 'Tagi',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Template',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=100)),
+                ('body', markitup.fields.MarkupField(no_rendered_field=True)),
+                ('_body_rendered', models.TextField(editable=False, blank=True)),
+            ],
+            options={
+                'verbose_name': 'Szablon',
+                'verbose_name_plural': 'Szablony',
             },
             bases=(models.Model,),
         ),
@@ -376,37 +425,37 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='page',
             name='attributes',
-            field=models.ManyToManyField(related_name=b'pages', null=True, to='amsoil.Attribute', blank=True),
+            field=models.ManyToManyField(related_name=b'pages', null=True, verbose_name=b'Atrybuty', to='amsoil.Attribute', blank=True),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='page',
             name='categories',
-            field=models.ManyToManyField(related_name=b'pages', to='amsoil.Category', blank=True),
+            field=models.ManyToManyField(related_name=b'pages', verbose_name=b'Kategorie', to='amsoil.Category', blank=True),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='page',
             name='tags',
-            field=models.ManyToManyField(related_name=b'pages', to='amsoil.Tag', blank=True),
+            field=models.ManyToManyField(related_name=b'pages', verbose_name=b'Tagi', to='amsoil.Tag', blank=True),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='order',
             name='paymentMethod',
-            field=models.ForeignKey(to='amsoil.PaymentMethod'),
+            field=models.ForeignKey(verbose_name=b'Metoda zap\xc5\x82aty', to='amsoil.PaymentMethod'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='order',
             name='shippingMethod',
-            field=models.ForeignKey(to='amsoil.ShippingMethod'),
+            field=models.ForeignKey(verbose_name=b'Metoda wysy\xc5\x82ki', to='amsoil.ShippingMethod'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='order',
             name='user',
-            field=models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True),
+            field=models.ForeignKey(verbose_name=b'U\xc5\xbcytkownik', blank=True, to=settings.AUTH_USER_MODEL, null=True),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -424,7 +473,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='invoice',
             name='order',
-            field=models.ForeignKey(blank=True, to='amsoil.Order', null=True),
+            field=models.OneToOneField(related_name=b'invoice', null=True, blank=True, to='amsoil.Order'),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -436,13 +485,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='cartproduct',
             name='product',
-            field=models.ForeignKey(blank=True, to='amsoil.Product', null=True),
+            field=models.ForeignKey(verbose_name=b'Produkt', blank=True, to='amsoil.Product', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='cartproduct',
             name='productVariation',
-            field=models.ForeignKey(default=None, blank=True, to='amsoil.ProductVariation', null=True),
+            field=models.ForeignKey(related_name=b'cartProduct', default=None, blank=True, to='amsoil.ProductVariation', null=True, verbose_name=b'Wariant produktu'),
             preserve_default=True,
         ),
         migrations.AddField(

@@ -612,4 +612,8 @@ button.product-filter-action {
   width: 100%;
   z-index: 9999; }
 
+.old-price{
+    text-decoration: line-through;
+    font-size: 12px;
+}
 /*# sourceMappingURL=style.css.map */
