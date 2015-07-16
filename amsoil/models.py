@@ -302,7 +302,7 @@ class CartProduct(models.Model):
     def get_actual_price(self):
         return self.productVariation.price
     get_actual_price.short_description = 'Aktualna cena'
-    def get_mine_price(self):
+    def get_mine_price(self, order_discount=False):
         pv = self.productVariation
         try:
             us = self.cart.order.user
@@ -326,8 +326,8 @@ class CartProduct(models.Model):
                discount = 0
         else:
             discount = 0
-
-        order_discount = self.cart.getUserDiscount(us,True)
+        if not order_discount:
+            order_discount = self.cart.getUserDiscount(us,True)
         if order_discount > discount:
            discount = order_discount
         return pv.price*(1-float(discount)/100)
@@ -399,7 +399,7 @@ class Cart(models.Model):
         discount = 0
         database_discount = 0
 
-        on_promotion = self.cartProducts.all().filter(product__categories__name='Promocje').values('price', 'quantity')
+        on_promotion = self.cartProducts.filter(productVariation__product__categories__name__iexact='Promocje').values('price', 'quantity')
 
         promotion_price = sum(r['price']*r['quantity'] for r in on_promotion)
 
