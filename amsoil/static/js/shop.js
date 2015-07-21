@@ -66,6 +66,7 @@ $(document).ready(function($){
 
         button.removeClass('hidden');
         if (amount > 0){
+            button.removeClass('disabled');
             button.removeClass('btn-primary add-to-cart');
             button.addClass('btn-primary add-to-cart');
             //button.attr('data-variation',selectedVariation);
