@@ -76,6 +76,7 @@ $(document).ready(function($){
         else {
             button.removeClass('btn-default btn-primary');
             button.addClass('btn-default');
+            button.addClass('disabled');
             button.prop('disabled', true);
             button.html('Brak w magazynie');
         }
