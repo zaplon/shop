@@ -72,6 +72,9 @@ urlpatterns = patterns('',
 
     url(r'^markitup/', include('markitup.urls')),
 
+    #przesylanie z sklep.archoil.pl
+    url(r'^archoil_order/', views.archoil_order, name='archoil_order'),
+
     url(r'^resend_order/', mails.resend_order, name='resend-mail'),
 
     url(r'^robots.txt', views.robots, name='robots'),
