@@ -669,7 +669,7 @@ def robots(request):
     return HttpResponse(txt, content_type='text/plain')
 
 def accept_cookies(request):
-    request.session['accept_cookies'] = 1;
+    request.session['accept_cookies'] = 1
     return HttpResponse(json.dumps({'success':True}), content_type='application/json')
 
 
