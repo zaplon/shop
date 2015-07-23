@@ -68,11 +68,13 @@ def selectionFormSubmit(request):
 class InvoiceForm(ModelForm):
     class Meta:
         model = Invoice
-        fields = ['NIP','name','address']
+        fields = ['NIP','name','address','postalCode','city']
         help_texts = {
             'NIP':'NIP',
             'name':'Nazwa firmy',
-            'address':'Adres firmy'
+            'address':'Adres firmy',
+            'postalCode': 'Kod pocztowy',
+            'city': 'Miejscowość'
         }
 
 

@@ -328,6 +328,8 @@ def checkout(request):
                 pv.total_sales += cp.quantity
                 pv.save()
 
+            #ifirma api
+            order.ifirma()
 
             #wysyłanie emaili
             newOrder(order, request)
@@ -668,4 +670,23 @@ def robots(request):
 
 def accept_cookies(request):
     request.session['accept_cookies'] = 1;
+    return HttpResponse(json.dumps({'success':True}), content_type='application/json')
+
+
+def archoil_order(request):
+    data = json.loads(request.POST['data'])
+    c = Cart()
+    c.save()
+    for cp in data['cps']:
+        cp = CartProduct(cart=c, productVariation=ProductVariation.objects.get(archoil_id=cp['id']), price=cp['price'],
+                         quantity=cp['quantity'])
+        cp.save()
+    o = Order(cart=c)
+    o.save()
+    s = Shipment(**data['buyer'])
+    s.order = o
+    s.save()
+    s = Shipment(**data['receiver'])
+    s.order = o
+    s.save()
     return HttpResponse(json.dumps({'success':True}), content_type='application/json')
