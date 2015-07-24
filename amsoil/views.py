@@ -672,7 +672,7 @@ def accept_cookies(request):
     request.session['accept_cookies'] = 1
     return HttpResponse(json.dumps({'success':True}), content_type='application/json')
 
-
+@csrf_exempt
 def archoil_order(request):
     data = json.loads(request.POST['data'])
     c = Cart()
