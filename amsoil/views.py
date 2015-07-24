@@ -698,7 +698,7 @@ def archoil_order(request):
         cp = CartProduct(cart=c, productVariation=ProductVariation.objects.get(archoil_id=cp['id']), price=cp['price'],
                          quantity=cp['quantity'])
         cp.save()
-    o = Order(cart=c, email=data['email'])
+    o = Order(cart=c, email=data['email'], archoil_id=data['id'])
     if data['pm'].find('przelew') > -1:
         pm_code = 'prz'
     elif data['pm'].find('w sklepie') > -1:
