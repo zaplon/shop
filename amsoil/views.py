@@ -675,13 +675,32 @@ def accept_cookies(request):
 @csrf_exempt
 def archoil_order(request):
     data = json.loads(request.POST['data'])
+    try:
+        Order.objects.get(archoil_id=data['cart_id'])
+        return HttpResponse(json.dumps{'success':False})
+    except:
+        pass
     c = Cart()
     c.save()
     for cp in data['cps']:
         cp = CartProduct(cart=c, productVariation=ProductVariation.objects.get(archoil_id=cp['id']), price=cp['price'],
                          quantity=cp['quantity'])
         cp.save()
-    o = Order(cart=c)
+    o = Order(cart=c, email=data['email'])
+    if data['pm'].find('przelew') > -1:
+	pm_code = 'prz'
+    elif data['pm'].find('w sklepie') > -1:
+	pm_code = 'got'
+    else:
+	pm_code = 'tr'
+    if data['sm'].find('kurierska (przelew)') > -1:
+	sm_id = 11
+    elif data['sm'].find('osobisty') > -1:
+        sm_id = 10
+    else:
+	sm_id = 12	
+    o.paymentMethod = PaymentMethod.objects.get(code=pm_code)
+    o.shippingMethod = ShippingMethod.objects.get(id=sm_id)
     o.save()
     s = Shipment(**data['buyer'])
     s.order = o
