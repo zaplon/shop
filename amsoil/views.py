@@ -688,7 +688,7 @@ def accept_cookies(request):
 def archoil_order(request):
     data = json.loads(request.POST['data'])
     try:
-        Order.objects.get(archoil_id=data['cart_id'])
+        Order.objects.get(archoil_id=data['id'])
         return HttpResponse(json.dumps({'success': False}))
     except:
         pass
