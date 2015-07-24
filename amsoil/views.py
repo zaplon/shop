@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import render_to_response, RequestContext, HttpResponse, HttpResponseRedirect, render
-from amsoil.models import Page, Product, Cart, User, CartProduct, ProductVariation, Post,\
+from amsoil.models import Page, Product, Cart, User, CartProduct, ProductVariation, Post, \
     ShippingMethod, PaymentMethod, Order, Invoice, Shipment, Category, Attribute, UserMeta, NewsletterReceiver
 from rest_framework import viewsets
 from amsoil.serializers import *
@@ -33,15 +33,14 @@ from getpaid.forms import PaymentMethodForm
 from .models import Order
 
 
-
-
 class OrderView(DetailView):
-    model=Order
+    model = Order
 
     def get_context_data(self, **kwargs):
         context = super(OrderView, self).get_context_data(**kwargs)
         context['payment_form'] = PaymentMethodForm("PLN", initial={'order': Order})
         return context
+
 
 def home(request):
     return render_to_response('index.djhtml', {}, context_instance=RequestContext(request))
@@ -145,13 +144,11 @@ def processOrder(order, request):
     if order.paymentMethod.code == 'pp':
         pass
     else:
-        pmf = PaymentMethodForm(currency='PLN', data={'order': order.id, 'backend':'getpaid.backends.transferuj'})
+        pmf = PaymentMethodForm(currency='PLN', data={'order': order.id, 'backend': 'getpaid.backends.transferuj'})
         if pmf.is_valid():
             npv = NewPaymentView()
             npv.request = request
             return npv.form_valid(pmf)
-
-
 
 
 def takeCart(request):
@@ -177,7 +174,7 @@ def minicart(request):
         }))
 
 
-def checkout_finished(id,msg,status, request):
+def checkout_finished(id, msg, status, request):
     order = Order.objects.get(id=id)
     if order.status == 'PENDING' and status == 'FINISHED':
         newOrder(order, request)
@@ -187,18 +184,19 @@ def checkout_finished(id,msg,status, request):
     else:
         order.status = status
         order.save()
-    return render_to_response('checkout_success.html', {'message':msg}, context_instance=RequestContext(request))
+    return render_to_response('checkout_success.html', {'message': msg}, context_instance=RequestContext(request))
 
-def checkout_failure(request,pk):
-    return checkout_finished(pk,CHECKOUT_FAILED,'FAILED',request)
 
-def checkout_processed(request,pk):
-    return checkout_finished(pk,CHECKOUT_THANK_YOU,'FINISHED',request)
+def checkout_failure(request, pk):
+    return checkout_finished(pk, CHECKOUT_FAILED, 'FAILED', request)
+
+
+def checkout_processed(request, pk):
+    return checkout_finished(pk, CHECKOUT_THANK_YOU, 'FINISHED', request)
 
 
 def checkout(request):
-
-    #potwierdzenie z paypal
+    # potwierdzenie z paypal
     # if request.method == 'GET' and 'paymentId' in request.GET:
     #     order = paypal_step_2(request)
     #     if not order:
@@ -245,13 +243,13 @@ def checkout(request):
             processed = False
 
             order = Order(paymentMethod=pm, shippingMethod=sm, cart=c, email=basics.cleaned_data['email'],
-                              phone=basics.cleaned_data['tel'], date=datetime.datetime.now(), notes=data['notes'],
-                              status='PENDING')
+                          phone=basics.cleaned_data['tel'], date=datetime.datetime.now(), notes=data['notes'],
+                          status='PENDING')
 
 
             #znizki
             if request.user.is_authenticated():
-                now_date=datetime.datetime.now()
+                now_date = datetime.datetime.now()
                 next_year = now_date + datetime.timedelta(days=365)
 
                 # last_12_months = Order.objects.filter(user=request.user,date__gte=now_date-datetime.timedelta(days=365)).\
@@ -316,8 +314,8 @@ def checkout(request):
 
             if pm.needsProcessing:
                 order.save()
-                res = processOrder(order,request)
-                return HttpResponse(json.dumps( {'success': True, 'url': res.url } ))
+                res = processOrder(order, request)
+                return HttpResponse(json.dumps({'success': True, 'url': res.url}))
 
             order.save()
 
@@ -337,7 +335,8 @@ def checkout(request):
 
             del request.session['cartId']
             thanks_message = CHECKOUT_THANK_YOU
-            return HttpResponse(json.dumps({'success': True, 'message': thanks_message+pm.instructions.encode('utf8')}))
+            return HttpResponse(
+                json.dumps({'success': True, 'message': thanks_message + pm.instructions.encode('utf8')}))
 
     else:
         if request.user.is_authenticated():
@@ -390,8 +389,8 @@ def checkout(request):
                               {'BuyerForm': buyer, 'ReceiverForm': receiver, 'creationForm': creationForm,
                                'ShippingMethods': shippingMethods, 'InvoiceForm': invoice,
                                'CheckoutBasicForm': basics,
-                               'notes':  data['notes'] if 'notes' in data else False,
-                               'hasInvoice': True if 'hasInvoice' in data and data['hasInvoice']==True else False,
+                               'notes': data['notes'] if 'notes' in data else False,
+                               'hasInvoice': True if 'hasInvoice' in data and data['hasInvoice'] == True else False,
                                'buyerAsReceiver': True if not 'receiver' in data else False,
                                'products_in_cart': products_in_cart,
                                'shippingMethod': data['shippingMethod'] if 'data' in request.POST else 0,
@@ -434,7 +433,7 @@ def getOrderOptions(request):
 # class CartProductsList(APIView):
 # """
 # List all snippets, or create a new snippet.
-#     """
+# """
 #     def get(self, request, format=None):
 #         cartProducts = ProductCart.objects.all()
 #         serializer = CartProductSerializer(cartProducts, many=True)
@@ -480,7 +479,8 @@ def addToCart(request):
         if 'product' in request.POST:
             p = Product.objects.get(id=request.POST['product'])
             pv = p.variations.first()
-            cp = CartProduct(productVariation=pv, cart=c, price=pv.price, quantity=quantity, purchase_price=pv.purchase_price)
+            cp = CartProduct(productVariation=pv, cart=c, price=pv.price, quantity=quantity,
+                             purchase_price=pv.purchase_price)
         else:
             pv = ProductVariation.objects.get(id=request.POST['productVariation'])
             if pv.amount < int(quantity):
@@ -502,12 +502,14 @@ class IntegerListFilter(django_filters.Filter):
             return qs.filter(**{'%s__%s' % (self.name, self.lookup_type): integers})
         return qs
 
+
 class GeekRangeFilter(django_filters.Filter):
     def filter(self, qs, value):
         if value not in (None, ''):
             integers = [int(v) for v in value.split(',')]
             return qs.filter(**{'%s__%s' % (self.name, self.lookup_type): integers}).distinct()
         return qs
+
 
 class ProductFilter(django_filters.FilterSet):
     min_price = django_filters.NumberFilter(name="variations__price", lookup_type='gte')
@@ -519,18 +521,20 @@ class ProductFilter(django_filters.FilterSet):
 
     def get_order_by(self, order_value):
         return [order_value]
+
     class Meta:
         model = Product
         distinct = True
-        order_by = ['name','-name','variations__added_date','variations__price','-variations__added_date','-variations__price']
-        fields = ('id', 'min_price', 'max_price', 'categories_in', 'attributes_in','price_in',
-                  'variations__added_date','variations__price','attributes__id','categories__id')
-
+        order_by = ['name', '-name', 'variations__added_date', 'variations__price', '-variations__added_date',
+                    '-variations__price']
+        fields = ('id', 'min_price', 'max_price', 'categories_in', 'attributes_in', 'price_in',
+                  'variations__added_date', 'variations__price', 'attributes__id', 'categories__id')
 
 
 class NewsletterReceiverListCreateView(generics.ListCreateAPIView):
     queryset = NewsletterReceiver.objects.all()
     serializer_class = NewsletterReceiverSerializer
+
     def get(self, request, *args, **kwargs):
         if 'email' in request.GET:
             try:
@@ -573,6 +577,7 @@ class ShopProductListView(generics.ListAPIView):
     serializer_class = ShopProductSerializer
     filter_class = ProductFilter
     paginate_by = 9
+
     def get(self, request, format=None):
         try:
             cId = Category.objects.get(name='Promocje').id
@@ -580,10 +585,11 @@ class ShopProductListView(generics.ListAPIView):
             cId = 0
         list = self.list(request)
         for p in list.data['results']:
-            p['grouped_variations'] = simplejson.loads(p['grouped_variations'].replace("'",'"'),'utf-8')
+            p['grouped_variations'] = simplejson.loads(p['grouped_variations'].replace("'", '"'), 'utf-8')
             p['min_price'] = min(p['variations'], key=lambda x: x['price'])['price']
             p['on_promotion'] = cId in p['categories']
         return list
+
 
 def singleProduct(request, name):
     product = Product.objects.get(name=name)
@@ -594,14 +600,14 @@ def quickContact(request):
     qc = QuickContactForm(request.POST)
     if qc.is_valid():
         if send_mail('Wiadomość kontaktowa', request.POST['body'], request.POST['email'],
-                  ['oleje.amsoil@gmail.com'], fail_silently=False):
+                     ['oleje.amsoil@gmail.com'], fail_silently=False):
             return render_to_response('index.djhtml',
-                                      {'message':'Wiadomość wysłana','message_icon':'glyphicon glyphicon-ok'},
+                                      {'message': 'Wiadomość wysłana', 'message_icon': 'glyphicon glyphicon-ok'},
                                       context_instance=RequestContext(request))
         else:
             return render_to_response('index.djhtml',
-                                      {'message':'Wystąpił błąd podczas wysyłania wiadomości',
-                                       'message_icon':'glyphicon glyphicon-remove'},
+                                      {'message': 'Wystąpił błąd podczas wysyłania wiadomości',
+                                       'message_icon': 'glyphicon glyphicon-remove'},
                                       context_instance=RequestContext(request))
 
     else:
@@ -616,7 +622,8 @@ def search(request):
     for p in pages:
         res.append({'id': p.id, 'except': p.body[0:200], 'title': p.title, 'link': '/' + p.url})
     for p in products:
-        res.append({'id': p.id, 'except': p.shortDescription[0:200], 'title': p.name, 'link': '/sklep/produkt/' + p.name + '/'})
+        res.append({'id': p.id, 'except': p.shortDescription[0:200], 'title': p.name,
+                    'link': '/sklep/produkt/' + p.name + '/'})
     return render_to_response('search.html', {'results': res, 'count': len(res)},
                               context_instance=RequestContext(request))
 
@@ -632,10 +639,11 @@ class OrderFilter(django_filters.FilterSet):
             return ['-date']
         else:
             return [order_value]
+
     class Meta:
         model = Order
         distinct = True
-        order_by = ['-date','date']
+        order_by = ['-date', 'date']
         fields = ('date',)
 
 
@@ -651,14 +659,16 @@ class ClientViewSet(viewsets.ModelViewSet):
     #def get_queryset(self):
     #    return User.objects.filter()
 
+
 def form_submitted(request):
     return render_to_response('form_submitted.html', {}, context_instance=RequestContext(request))
+
 
 def newsletter_register(request):
     if 'email' in request.POST:
         nr = NewsletterReceiver(token=NewsletterReceiver.get_token())
         nr.save()
-        newsletter_register_mail(request,request.POST['email'], nr.token)
+        newsletter_register_mail(request, request.POST['email'], nr.token)
         return render_to_response('newsletter_register_send.html', {}, context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect('/')
@@ -668,16 +678,18 @@ def robots(request):
     txt = 'User-agent: *\nDisallow:'
     return HttpResponse(txt, content_type='text/plain')
 
+
 def accept_cookies(request):
     request.session['accept_cookies'] = 1
-    return HttpResponse(json.dumps({'success':True}), content_type='application/json')
+    return HttpResponse(json.dumps({'success': True}), content_type='application/json')
+
 
 @csrf_exempt
 def archoil_order(request):
     data = json.loads(request.POST['data'])
     try:
         Order.objects.get(archoil_id=data['cart_id'])
-        return HttpResponse(json.dumps{'success':False})
+        return HttpResponse(json.dumps({'success': False}))
     except:
         pass
     c = Cart()
@@ -688,17 +700,17 @@ def archoil_order(request):
         cp.save()
     o = Order(cart=c, email=data['email'])
     if data['pm'].find('przelew') > -1:
-	pm_code = 'prz'
+        pm_code = 'prz'
     elif data['pm'].find('w sklepie') > -1:
-	pm_code = 'got'
+        pm_code = 'got'
     else:
-	pm_code = 'tr'
+        pm_code = 'tr'
     if data['sm'].find('kurierska (przelew)') > -1:
-	sm_id = 11
+        sm_id = 11
     elif data['sm'].find('osobisty') > -1:
         sm_id = 10
     else:
-	sm_id = 12	
+        sm_id = 12
     o.paymentMethod = PaymentMethod.objects.get(code=pm_code)
     o.shippingMethod = ShippingMethod.objects.get(id=sm_id)
     o.save()
@@ -708,4 +720,4 @@ def archoil_order(request):
     s = Shipment(**data['receiver'])
     s.order = o
     s.save()
-    return HttpResponse(json.dumps({'success':True}), content_type='application/json')
+    return HttpResponse(json.dumps({'success': True}), content_type='application/json')
