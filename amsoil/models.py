@@ -704,9 +704,13 @@ class Order(models.Model):
             res = requests.post(url, headers=headers, data=req)
 
         #res = json.loads(res)
-        if 'response' in res and res['response']['Kod'] == 0:
-            return True
-        else:
+        try:
+            code = json.loads(res.text)['response']['Kod']
+            if code == 0:
+                return True
+            else:
+                return False
+        except:
             return False
     def get_cart_url(self):
         if self.cart:
