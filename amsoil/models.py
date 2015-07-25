@@ -621,7 +621,7 @@ class Order(models.Model):
         elif instance.paymentMethod.code == 'tr':
             sz = ' KAR'
         else:
-            sz = 'GOT'
+            sz = 'GTK'
         poz = []
 
         try:
