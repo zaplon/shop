@@ -319,13 +319,6 @@ def checkout(request):
 
             order.save()
 
-            #zmniejszamy stany magazynowe
-            for cp in order.cart.cartProducts.all():
-                pv = cp.productVariation
-                pv.amount -= cp.quantity
-                pv.total_sales += cp.quantity
-                pv.save()
-
             #ifirma api
             order.ifirma()
 

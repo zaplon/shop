@@ -6,6 +6,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from amsoil.models import Shipment, Invoice
 
 from authentication.models import User
 
@@ -56,15 +57,24 @@ class UserChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 
+class AddressesInline(admin.StackedInline):
+    model = Shipment
+    extra = 1
+
+class InvoiceInline(admin.StackedInline):
+    model = Invoice
+    extra = 1
+    fields = ['NIP', 'name', 'address', 'postalCode', 'city']
+
 class UserAdmin(UserAdmin):
     # The forms to add and change user instances
     form = UserChangeForm
     add_form = UserCreationForm
-
+    inlines = [AddressesInline, InvoiceInline]
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('email', 'username', 'is_admin','get_discount','get_discount_end')
+    list_display = ('id', 'email', 'username', 'is_admin','get_discount','get_discount_end')
     list_filter = ('is_admin',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),

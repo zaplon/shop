@@ -531,7 +531,7 @@ class Invoice(models.Model):
     address = models.CharField(max_length=150, verbose_name='Adres')
     postalCode = models.CharField(max_length=6, verbose_name='Kod')
     city = models.CharField(max_length=150, verbose_name='Miejscowość')
-    user = models.ForeignKey(User, blank=True, null=True)
+    user = models.OneToOneField(User, blank=True, null=True)
     order = models.OneToOneField('Order', blank=True, null=True, related_name='invoice')
 
 
@@ -591,7 +591,7 @@ class Order(models.Model):
     discount = models.FloatField(default=0, verbose_name='Zniżka')
     mail_sended = models.BooleanField(default=False, verbose_name='Mail przesłany')
     archoil_id = models.IntegerField(default=0)
-
+    ifirma = models.BooleanField(default=False, verbose_name='Zaksięgowane')
 
     def ifirma(self):
         instance = self
@@ -692,6 +692,8 @@ class Order(models.Model):
                    'Authentication': 'IAPIS user=info@najlepszysyntetyk.pl, hmac-sha1=' + hash_string }
             res = requests.post(url, headers=headers, data=req)
 
+        return True
+
     def get_cart_url(self):
         if self.cart:
             link = urlresolvers.reverse("admin:%s_%s_change" %
@@ -730,6 +732,18 @@ def createOrderNr(instance, sender, **kwargs):
         c = Cart()
         c.save()
         instance.cart = c
+
+    #zmniejszamy stany magazynowe
+    for cp in instance.cart.cartProducts.all():
+        pv = cp.productVariation
+        pv.amount -= cp.quantity
+        pv.total_sales += cp.quantity
+        pv.save()
+
+    if instance.status == 'FI':
+        if instance.ifirma():
+            instance.ifirma = True
+
     instance.number = str(datetime.datetime.now().strftime('%s'))
 
 
