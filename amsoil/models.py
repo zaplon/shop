@@ -366,6 +366,8 @@ class CartProduct(models.Model):
         except:
             pass
         if us is not None:
+            #product_discounts = UserDiscount.objects.filter(product=pv) | \
+            #                    UserDiscount.objects.filter(attribute__in=pv.product.attributes.all())
             discount = ( ( UserDiscount.objects.filter(user=us) |
                            UserDiscount.objects.filter(group__in=us.groups.all()) ) & \
                          (UserDiscount.objects.filter(product=pv) |
@@ -398,9 +400,9 @@ class CartProduct(models.Model):
 class UserDiscount(models.Model):
     def __unicode__(self):
         if self.user:
-            return str(self.user)
+            return str(self.user) + ' ' + str(self.value)
         if self.group:
-            return str(self.group.name)
+            return str(self.group.name) + ' ' + str(self.value)
         else:
             return str(self.value) + '%'
 
@@ -526,6 +528,8 @@ class Invoice(models.Model):
         verbose_name = 'Faktura'
         verbose_name_plural = 'Faktury'
 
+    def __unicode__(self):
+        return self.name
     NIP = models.CharField(max_length=20)
     name = models.CharField(max_length=100, verbose_name='Nazwa')
     address = models.CharField(max_length=150, verbose_name='Adres')
@@ -739,6 +743,25 @@ def createOrderNr(instance, sender, **kwargs):
         pv.amount -= cp.quantity
         pv.total_sales += cp.quantity
         pv.save()
+
+    #dodajemy adresy i faktury jeśli trzeba
+    if len(instance.shipment.all()) == 0:
+        shs = Shipment.objects.filter(user=instance.user)
+        for s in shs:
+            s.id = None
+            s.order = instance
+            s.save()
+    try:
+        instance.invoice
+    except:
+        try:
+            inv = Invoice.objects.get(user=instance.user)
+            inv.id = None
+            inv.order = instance
+            inv.user = None
+            inv.save()
+        except:
+            pass
 
     if instance.status == 'FI':
         if instance.ifirma():
