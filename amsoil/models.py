@@ -615,7 +615,7 @@ class Order(models.Model):
         #                  '"Miejscowosc":"Miejscowość","Email":"em@il.pl","Telefon":"111111111",' \
         #                  '"OsobaFizyczna":true}}'
         nr = '14116022020000000213128273'
-        dt = datetime.datetime.now().strftime('%Y-%m-%d')
+        dt = instance.date.strftime('%Y-%m-%d')
         if instance.paymentMethod.code == 'prz':
             sz = 'PRZ'
         elif instance.paymentMethod.code == 'tr':
