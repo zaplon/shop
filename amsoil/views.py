@@ -706,6 +706,10 @@ def archoil_order(request):
         sm_id = 12
     o.paymentMethod = PaymentMethod.objects.get(code=pm_code)
     o.shippingMethod = ShippingMethod.objects.get(id=sm_id)
+    if 'invoice' in data:
+        inv = Invoice(**data['invoice'])
+        inv.order = o
+        inv.save()
     o.save()
     s = Shipment(**data['buyer'])
     s.order = o
