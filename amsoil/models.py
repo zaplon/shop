@@ -703,7 +703,7 @@ class Order(models.Model):
                    'Authentication': 'IAPIS user=info@najlepszysyntetyk.pl, hmac-sha1=' + hash_string }
             res = requests.post(url, headers=headers, data=req)
 
-        res = json.loads(res)
+        #res = json.loads(res)
         if 'response' in res and res['response']['Kod'] == 0:
             return True
         else:
