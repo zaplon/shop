@@ -640,26 +640,27 @@ class Order(models.Model):
                             'NazwaPelna': cp.productVariation.product.name + ' ' + cp.productVariation.getAttributesString(),
                             'Jednostka': 'sztuk'})
 
-            #koszt przesylki
-            if inv:
-                poz.append({'StawkaVat':0.23, 'Ilosc': 1, 'CenaJednostkowa': instance.shippingMethod.price,
-                            'NazwaPelna': instance.shippingMethod.name, 'Jednostka': 'sztuk', 'PKWiU':'', 'TypStawkiVat':'PRC'})
-            else:
-                poz.append({'Ilosc': 1, 'CenaJednostkowa': instance.shippingMethod.price, 'NazwaPelna': instance.shippingMethod.name,
-                            'Jednostka': 'sztuk'})
+        #koszt przesylki
+        if inv:
+            poz.append({'StawkaVat':0.23, 'Ilosc': 1, 'CenaJednostkowa': instance.shippingMethod.price,
+                        'NazwaPelna': instance.shippingMethod.name, 'Jednostka': 'sztuk', 'PKWiU':'', 'TypStawkiVat':'PRC'})
+        else:
+            poz.append({'Ilosc': 1, 'CenaJednostkowa': instance.shippingMethod.price, 'NazwaPelna': instance.shippingMethod.name,
+                        'Jednostka': 'sztuk'})
 
         if inv:
+            tr = (datetime.datetime.now() + datetime.timedelta(days=7) ).strftime('%Y-%m-%d')
             inv = instance.invoice
             key = '904567BFF6B88C50'
             key_name = 'faktura'
             url = 'https://www.ifirma.pl/iapi/fakturakraj.json'
-            kon = {'Nazwa': inv.name, 'NIP': inv.NIP, 'Email': instance.email, 'Ulica': inv.address, 'Miejscowosc': inv.city,
-                   'KodPocztowy': inv.postalCode }
+            kon = {'Nazwa': inv.name, 'NIP': inv.NIP.replace('-',''), 'Email': instance.email, 'Ulica': inv.address, 'Miejscowosc': inv.city,
+                   'KodPocztowy': inv.postalCode, 'JestDostawca': False }
             if instance.user:
-                kon['id'] = instance.user.id
+                kon['Identyfikator'] = instance.user.id
             req = {'Zaplacono': instance.total, 'LiczOd':'BRT', 'NumerKontaBankowego': nr, 'DataWystawienia': dt, 'MiejsceWystawienia':'Warszawa',
-                   'DataSprzedazy': dt, 'FormatDatySprzedazy':'DZN', 'TerminPlatnosci': None, 'SposobZaplaty':sz, "RodzajPodpisuOdbiorcy": "OUP",
-                   'WidocznyNumerGios': True, 'Numer': None, 'Pozycje': poz, 'ZaplaconoNaDokumencie': 0, 'Kontrahent': kon}
+                   'DataSprzedazy': dt, 'FormatDatySprzedazy':'DZN', 'TerminPlatnosci': tr, 'SposobZaplaty':sz, "RodzajPodpisuOdbiorcy": "OUP",
+                   'WidocznyNumerGios': True, 'Numer': None, 'Pozycje': poz, 'Kontrahent': kon}
 
             req = json.dumps(req)
             hash = hmac.new(key.decode('hex'),url+'info@najlepszysyntetyk.pl'+key_name+req, sha1)
@@ -756,6 +757,7 @@ def createOrderNr(instance, sender, **kwargs):
     except:
         try:
             inv = Invoice.objects.get(user=instance.user)
+            inv.NIP = inv.NIP.replace('-','')
             inv.id = None
             inv.order = instance
             inv.user = None
@@ -766,6 +768,7 @@ def createOrderNr(instance, sender, **kwargs):
     if instance.status == 'FI':
         if instance.ifirma():
             instance.ifirma = True
+
 
     instance.number = str(datetime.datetime.now().strftime('%s'))
 
