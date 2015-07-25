@@ -582,7 +582,7 @@ class Order(models.Model):
     status = models.CharField(choices=(('PE', 'PENDING'), ('CA', 'CANCELLED'),
                                        ('FI', 'FINISHED'), ('WC', 'WAITING FOR CASH')), max_length=20, default='PE')
     cart = models.OneToOneField(Cart, related_name='order')
-    date = models.DateTimeField(auto_now=True, verbose_name='Data')
+    date = models.DateTimeField(auto_now_add=True, verbose_name='Data')
     shippingMethod = models.ForeignKey(ShippingMethod, verbose_name='Metoda wysyłki')
     paymentMethod = models.ForeignKey(PaymentMethod, verbose_name='Metoda zapłaty')
     notes = models.CharField(max_length=200, blank=True, null=True, verbose_name='Uwagi')
