@@ -641,12 +641,13 @@ class Order(models.Model):
                             'Jednostka': 'sztuk'})
 
         #koszt przesylki
-        if inv:
-            poz.append({'StawkaVat':0.23, 'Ilosc': 1, 'CenaJednostkowa': instance.shippingMethod.price,
-                        'NazwaPelna': instance.shippingMethod.name, 'Jednostka': 'sztuk', 'PKWiU':'', 'TypStawkiVat':'PRC'})
-        else:
-            poz.append({'Ilosc': 1, 'CenaJednostkowa': instance.shippingMethod.price, 'NazwaPelna': instance.shippingMethod.name,
-                        'Jednostka': 'sztuk'})
+        if instance.shippingMethod.price > 0:
+            if inv:
+                poz.append({'StawkaVat':0.23, 'Ilosc': 1, 'CenaJednostkowa': instance.shippingMethod.price,
+                            'NazwaPelna': instance.shippingMethod.name, 'Jednostka': 'sztuk', 'PKWiU':'', 'TypStawkiVat':'PRC'})
+            else:
+                poz.append({'Ilosc': 1, 'CenaJednostkowa': instance.shippingMethod.price, 'NazwaPelna': instance.shippingMethod.name,
+                            'Jednostka': 'sztuk'})
 
         if inv:
             tr = (datetime.datetime.now() + datetime.timedelta(days=7) ).strftime('%Y-%m-%d')
