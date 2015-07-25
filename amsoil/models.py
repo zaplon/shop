@@ -595,7 +595,7 @@ class Order(models.Model):
     discount = models.FloatField(default=0, verbose_name='Zniżka')
     mail_sended = models.BooleanField(default=False, verbose_name='Mail przesłany')
     archoil_id = models.IntegerField(default=0)
-    ifirma = models.BooleanField(default=False, verbose_name='Zaksięgowane')
+    in_ifirma = models.BooleanField(default=False, verbose_name='Zaksięgowane')
 
     def ifirma(self):
         instance = self
@@ -662,7 +662,8 @@ class Order(models.Model):
             req = {'Zaplacono': instance.total, 'LiczOd':'BRT', 'NumerKontaBankowego': nr, 'DataWystawienia': dt, 'MiejsceWystawienia':'Warszawa',
                    'DataSprzedazy': dt, 'FormatDatySprzedazy':'DZN', 'TerminPlatnosci': tr, 'SposobZaplaty':sz, "RodzajPodpisuOdbiorcy": "OUP",
                    'WidocznyNumerGios': True, 'Numer': None, 'Pozycje': poz, 'Kontrahent': kon}
-
+            if instance.user:
+                req['IdentyfikatorKontrahenta'] = instance.user.id
             req = json.dumps(req)
             hash = hmac.new(key.decode('hex'),url+'info@najlepszysyntetyk.pl'+key_name+req, sha1)
             hash_string = hash.hexdigest()
@@ -676,9 +677,10 @@ class Order(models.Model):
             key_name = 'rachunek'
             url = 'https://www.ifirma.pl/iapi/rachunekkraj.json'
             rec = Shipment.objects.get(order=instance, type='BU')
-            kon = {'Nazwa': rec.name + ' ' + rec.surname, 'Ulica': rec.address, 'KodPocztowy': rec.postalCode, 'Miejscowosc': rec.city}
+            kon = {'Nazwa': rec.name + ' ' + rec.surname, 'Ulica': rec.address, 'KodPocztowy': rec.postalCode, 'Miejscowosc': rec.city,
+                   'JestDostawca': False, 'OsobaFizyczna': True}
             if instance.user:
-                kon['id'] = instance.user.id
+                kon['Identyfikator'] = instance.user.id
             # '{"Zaplacono": 78,"NumerKontaBankowego": null,"DataWystawienia": "2010-03-25","MiejsceWystawienia": "Miasto",' \
             # '"DataSprzedazy": "2010-03-25","FormatDatySprzedazy": "DZN","TerminPlatnosci": null,"SposobZaplaty": "PRZ",' \
             # '"NazwaSeriiNumeracji": "default","NazwaSzablonu": "logo","WpisDoKpir": "TOW","PodpisOdbiorcy": "Odbiorca",' \
@@ -686,9 +688,12 @@ class Order(models.Model):
             # '"NazwaPelna": "cos","Jednostka": "sztuk"}],"Kontrahent":{"Nazwa": "Imie Nazwisko","Identyfikator": null,' \
             # '"PrefiksUE": null,"NIP": null,"Ulica": "Ulica","KodPocztowy": "11-111","Kraj": "Polska","Miejscowosc": "Miejscowość",' \
             # '"Email": "em@il.pl","Telefon": "111111111","OsobaFizyczna": true}}';
+
             req = {'Zaplacono': instance.total, 'NumerKontaBankowego': nr, 'DataWystawienia': dt, 'MiejsceWystawienia': 'Warszawa',
                    'DataSprzedazy': dt, 'FormatDatySprzedazy': 'DZN', 'TerminPlatnosci': None, 'SposobZaplaty': sz, 'Pozycje': poz,
-                   'Kontrahent': kon, 'ZaplaconoNaDokumencie': 0, 'WpisDoKpir':'TOW', 'Numer': None, 'JestDostawca': False}
+                   'Kontrahent': kon, 'WpisDoKpir':'TOW', 'Numer': None}
+            if instance.user:
+                req['IdentyfikatorKontrahenta'] = instance.user.id
 
             req = json.dumps(req)
             hash = hmac.new(key.decode('hex'),url+'info@najlepszysyntetyk.pl'+key_name+req, sha1)
@@ -698,8 +703,11 @@ class Order(models.Model):
                    'Authentication': 'IAPIS user=info@najlepszysyntetyk.pl, hmac-sha1=' + hash_string }
             res = requests.post(url, headers=headers, data=req)
 
-        return True
-
+        res = json.loads(res)
+        if 'response' in res and res['response']['Kod'] == 0:
+            return True
+        else:
+            return False
     def get_cart_url(self):
         if self.cart:
             link = urlresolvers.reverse("admin:%s_%s_change" %
@@ -766,9 +774,9 @@ def createOrderNr(instance, sender, **kwargs):
         except:
             pass
 
-    if instance.status == 'FI':
+    if instance.status == 'FI' and not instance.in_ifirma:
         if instance.ifirma():
-            instance.ifirma = True
+            instance.in_ifirma = True
 
 
     instance.number = str(datetime.datetime.now().strftime('%s'))
