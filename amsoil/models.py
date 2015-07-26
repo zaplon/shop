@@ -650,7 +650,7 @@ class Order(models.Model):
                             'Jednostka': 'sztuk'})
 
         #koszt przesylki
-        if instance.shippingMethod.price > 0:
+        if instance.shippingMethod.price > 0 and not instance.free_shipping:
             if inv:
                 poz.append({'StawkaVat':0.23, 'Ilosc': 1, 'CenaJednostkowa': instance.shippingMethod.price,
                             'NazwaPelna': instance.shippingMethod.name, 'Jednostka': 'sztuk', 'PKWiU':'', 'TypStawkiVat':'PRC'})
