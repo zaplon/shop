@@ -752,7 +752,7 @@ getpaid.register_to_payment(Order, unique=False, related_name='payments')
 
 @receiver(pre_save, sender=CartProduct)
 def addBoughtPrice(instance, sender, **kwargs):
-    instance.purchase_price = instance.productVartion.purchase_price
+    instance.purchase_price = instance.productVariation.purchase_price
 
 @receiver(pre_save, sender=Order)
 def createOrderNr(instance, sender, **kwargs):
