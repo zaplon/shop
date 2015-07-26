@@ -62,7 +62,8 @@ class OrderAdmin(admin.ModelAdmin):
     list_editable = ('status',)
     list_filter = ('status','date', 'user')
     #change_form_template = ADMIN_TEMPLATES_ROOT + 'change_order.html'
-    fields = (['status', 'in_ifirma'],['total','discount','income','margin'],['number','date'],'user',['paymentMethod','shippingMethod'],
+    fields = (['status', 'in_ifirma', 'deadline'],['total','discount','income','margin'],['number','date'],'user',
+              ['paymentMethod','shippingMethod','free_shipping'],
               ['email','phone'], 'notes', 'resend_mail', 'get_cart_url')
 
 class VariationsInline(admin.TabularInline):

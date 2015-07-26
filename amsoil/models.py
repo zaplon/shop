@@ -758,7 +758,9 @@ def addBoughtPrice(instance, sender, **kwargs):
 def createOrderNr(instance, sender, **kwargs):
     try:
         instance.cart
-        instance.total = instance.cart.getTotal() + instance.shippingMethod.price + instance.paymentMethod.price
+        instance.total = instance.cart.getTotal() + instance.paymentMethod.price
+        if not instance.free_shipping:
+            instance.total += instance.shippingMethod.price
         instance.discount = instance.cart.getDiscount()
         instance.income = instance.get_income()
         instance.margin = instance.get_margin()
