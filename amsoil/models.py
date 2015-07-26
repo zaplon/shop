@@ -599,6 +599,8 @@ class Order(models.Model):
     income = models.FloatField(default=0, verbose_name='Zysk')
     margin = models.FloatField(default=0, verbose_name='Marża')
     in_ifirma = models.BooleanField(default=False, verbose_name='Zaksięgowane')
+    free_shipping = models.BooleanField(default=False, verbose_name='Darmowa wysyłka')
+    deadline = models.DateTimeField(verbose_name='Termin płatności')
 
     def get_income(self):
         return CartProduct.objects.aggregate(total=Sum('price', field='price-purchase_price'))['total']
@@ -657,7 +659,7 @@ class Order(models.Model):
                             'Jednostka': 'sztuk'})
 
         if inv:
-            tr = (datetime.datetime.now() + datetime.timedelta(days=7) ).strftime('%Y-%m-%d')
+            tr = instance.deadline.strftime('%Y-%m-%d')
             inv = instance.invoice
             key = '904567BFF6B88C50'
             key_name = 'faktura'
@@ -798,9 +800,8 @@ def createOrderNr(instance, sender, **kwargs):
 
 
     instance.number = str(datetime.datetime.now().strftime('%s'))
-
-
-
+    if not instance.deadline:
+        instance.deadline = ( datetime.datetime.now() + datetime.timedelta(days=7) )
 
 
 @receiver(pre_save, sender=Cart)
