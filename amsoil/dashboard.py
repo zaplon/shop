@@ -22,20 +22,31 @@ from django.shortcuts import render_to_response
 
 def orders_by_month():
 
-    q = Order.objects.all().extra({'order_month':'MONTH(date)'})\
-            .values('order_month').annotate(count=Sum('total'))
+    q1 = Order.objects.all().extra({'order_month':'MONTH(date)'})\
+            .values('order_month').annotate(przychod=Sum('total'))
+
+    q2 = Order.objects.all().extra({'order_month2':'MONTH(date)'})\
+            .values('order_month2').\
+        annotate(dochod=Sum('income'))
+
 
     #Step 1: Create a DataPool with the data we want to retrieve.
     data = \
         DataPool(
            series=
             [{'options': {
-               'source': q},
+               'source': q1},
               'terms': [
                 'order_month',
-                'count'
+                'przychod',
+                ]},
+             {'options': {
+               'source': q2},
+              'terms': [
+                'order_month2',
+                'dochod'
                 ]}
-             ])
+             ],)
 
     #Step 2: Create the Chart object
     cht = Chart(
@@ -46,8 +57,11 @@ def orders_by_month():
                   'stacking': False},
                 'terms':{
                     'order_month': [
-                        'count'
-                    ]
+                        'przychod'
+                    ],
+                    'order_month2': [
+                        'dochod'
+                    ],
                   }}],
             chart_options =
               {'title': {
@@ -61,6 +75,7 @@ def orders_by_month():
 
     #Step 3: Send the chart object to the template.
     return cht
+
 
 
 def top_sales():

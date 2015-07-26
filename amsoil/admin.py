@@ -56,13 +56,13 @@ class OrderAdmin(admin.ModelAdmin):
     autocomplete_lookup_fields = {
         'fk': ['user']
     }
-    list_display = ('id','number','status', 'date','email','total', 'in_ifirma')
+    list_display = ('id','number','status', 'date','email','total','income','margin','in_ifirma')
     inlines = (ShipmentInline, InvoiceInline,)
     readonly_fields = ('date','resend_mail','get_cart_url', 'number')
     list_editable = ('status',)
     list_filter = ('status','date', 'user')
     #change_form_template = ADMIN_TEMPLATES_ROOT + 'change_order.html'
-    fields = (['status', 'in_ifirma'],['total','discount'],['number','date'],'user',['paymentMethod','shippingMethod'],
+    fields = (['status', 'in_ifirma'],['total','discount','income','margin'],['number','date'],'user',['paymentMethod','shippingMethod'],
               ['email','phone'], 'notes', 'resend_mail', 'get_cart_url')
 
 class VariationsInline(admin.TabularInline):
@@ -106,8 +106,8 @@ admin.site.register(Post, PostAdmin)
 class ProductVariationAdmin(admin.ModelAdmin):
     model = ProductVariation
     search_fields = ['product__name']
-    list_display = ['product','getAttributesString','price','amount','total_sales','archoil_id']
-    list_editable = ['price','amount','archoil_id']
+    list_display = ['product','getAttributesString','price','purchase_price','amount','total_sales','archoil_id']
+    list_editable = ['price','amount','purchase_price','archoil_id']
 
 admin.site.register(ProductVariation, ProductVariationAdmin)
 

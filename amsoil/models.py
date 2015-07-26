@@ -6,7 +6,7 @@ from shop.settings import MEDIA_ROOT, MEDIA_URL
 from ckeditor.fields import RichTextField
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, pre_delete, post_save
-from django.db.models import Sum, Count, Min
+from django.db.models import Sum, Count, Min, F
 import getpaid, hmac, requests
 from django.core.urlresolvers import reverse
 from authentication.models import User
@@ -393,6 +393,7 @@ class CartProduct(models.Model):
     cart = models.ForeignKey('Cart', related_name='cartProducts')
     quantity = models.IntegerField(default=1, verbose_name='Ilość')
     price = models.FloatField(default=0, verbose_name='Cena')
+    purchase_price = models.FloatField(default=0, verbose_name="Cena zakupu")
     productVariation = models.ForeignKey(ProductVariation, default=None, null=True, blank=True,
                                          related_name='cartProduct', verbose_name='Wariant produktu')
 
@@ -595,8 +596,14 @@ class Order(models.Model):
     discount = models.FloatField(default=0, verbose_name='Zniżka')
     mail_sended = models.BooleanField(default=False, verbose_name='Mail przesłany')
     archoil_id = models.IntegerField(default=0)
+    income = models.FloatField(default=0, verbose_name='Zysk')
+    margin = models.FloatField(default=0, verbose_name='Marża')
     in_ifirma = models.BooleanField(default=False, verbose_name='Zaksięgowane')
 
+    def get_income(self):
+        return CartProduct.objects.aggregate(total=Sum('price', field='price-purchase_price'))['total']
+    def get_margin(self):
+        return CartProduct.objects.aggregate(total=Sum('price', field='(price-purchase_price)/purchase_price'))['total']
     def ifirma(self):
         instance = self
             #api ifirma
@@ -673,6 +680,7 @@ class Order(models.Model):
             res = requests.post(url, headers=headers, data=req)
 
         else:
+            return False
             key = 'D7377223A92F12D2'
             key_name = 'rachunek'
             url = 'https://www.ifirma.pl/iapi/rachunekkraj.json'
@@ -740,12 +748,18 @@ class Order(models.Model):
 getpaid.register_to_payment(Order, unique=False, related_name='payments')
 
 
+@receiver(pre_save, sender=CartProduct)
+def addBoughtPrice(instance, sender, **kwargs):
+    instance.purchase_price = instance.productVartion.purchase_price
+
 @receiver(pre_save, sender=Order)
 def createOrderNr(instance, sender, **kwargs):
     try:
         instance.cart
         instance.total = instance.cart.getTotal() + instance.shippingMethod.price + instance.paymentMethod.price
         instance.discount = instance.cart.getDiscount()
+        instance.income = instance.get_income()
+        instance.margin = instance.get_margin()
     except:
         c = Cart()
         c.save()
