@@ -20,7 +20,11 @@
         <div {{#if ../product.hasManyVariations }}style="display:none;"{{/if}}
                 class="variation-details" data-variation="{{id}}">
             <span class="item-price">
-                {{ price }}
+                {{#if old_price }}
+                  <span class="old-price">{{old_price}}</span> {{ price }}
+                {{else}}
+                    {{ price }}
+                {{/if}}
             </span>
             <span class="currency">zł</span>
         </div>

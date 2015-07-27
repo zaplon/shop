@@ -197,12 +197,13 @@ class ProductVariation(models.Model):
 
     product = models.ForeignKey(Product, related_name='variations')
     attributes = models.ManyToManyField('Attribute', related_name='products')
-    name = models.CharField(max_length=100, blank=True, null=True)
-    price = models.FloatField(default=0)
+    name = models.CharField(max_length=100, blank=True, null=True, verbose_name='Nazwa')
+    price = models.FloatField(default=0, verbose_name='Cena')
     purchase_price = models.FloatField(default=0, verbose_name="Cena zakupu")
-    image = models.ImageField(upload_to='images/', blank=True, null=True)
-    amount = models.IntegerField(default=0)
-    total_sales = models.IntegerField(default=0)
+    image = models.ImageField(upload_to='images/', blank=True, null=True, verbose_name='Obrazek')
+    amount = models.IntegerField(default=0, verbose_name='Ilość')
+    total_sales = models.IntegerField(default=0, verbose_name='Sprzedano')
+    old_price = models.IntegerField(default=0, verbose_name='Stara cena')
     added_date = models.DateTimeField(auto_now=True)
     archoil_id = models.IntegerField(blank=True, null=True)
 
@@ -603,9 +604,12 @@ class Order(models.Model):
     deadline = models.DateTimeField(verbose_name='Termin płatności')
 
     def get_income(self):
-        return CartProduct.objects.aggregate(total=Sum('price', field='price-purchase_price'))['total']
+        return CartProduct.objects.filter(cart__order=self).aggregate(total=Sum('price', field='price-purchase_price'))['total']
     def get_margin(self):
-        return CartProduct.objects.aggregate(total=Sum('price', field='(price-purchase_price)/purchase_price'))['total']
+        try:
+            return CartProduct.objects.filter(cart__order=self).aggregate(total=Sum('price', field='(price-purchase_price)/purchase_price'))['total']
+        except:
+            return 0
     def ifirma(self):
         instance = self
             #api ifirma

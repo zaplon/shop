@@ -68,7 +68,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 class VariationsInline(admin.TabularInline):
     model = ProductVariation
-    fields = ('attributes','price','amount','total_sales','image',)
+    fields = ('attributes','price','purchase_price','amount','total_sales','image',)
     readonly_fields = ('total_sales',)
     extra = 1
 
