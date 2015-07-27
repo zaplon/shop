@@ -612,11 +612,17 @@ def search(request):
     pages = Page.objects.filter(Q(body__icontains=term) | Q(title__icontains=term))
     products = Product.objects.filter(Q(name__icontains=term) | Q(description__icontains=term))
     res = []
+    prods = []
+    pages = []
     for p in pages:
-        res.append({'id': p.id, 'except': p.body[0:200], 'title': p.title, 'link': '/' + p.url})
+        pages.append({'id': p.id, 'except': p.body, 'title': p.title, 'link': '/' + p.url})
     for p in products:
-        res.append({'id': p.id, 'except': p.shortDescription[0:200], 'title': p.name,
+        prods.append({'id': p.id, 'except': p.shortDescription, 'title': p.name, 'image': p.mainImage,
                     'link': '/sklep/produkt/' + p.name + '/'})
+
+
+    res = prods + pages
+
     return render_to_response('search.html', {'results': res, 'count': len(res)},
                               context_instance=RequestContext(request))
 

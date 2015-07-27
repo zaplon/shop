@@ -14,19 +14,24 @@
                 </div>
             {% endif %}
             {% for r in results %}
-                <div class="panel panel-default text-left search-result">
-                    <div class="panel-title">
-                        {{ r.title }}
-                    </div>
-                    <div class="panel-body">
-                        <div>
-                            {{ r.except|safe }}...
+                {% autoescape off %}
+                    <div class="panel panel-default text-left search-result">
+                        <div class="panel-title">
+                            {{ r.title }}
                         </div>
-                        <div>
-                            <a href="{{ r.link }}">{% trans 'Read more' %}</a>
+                        <div class="panel-body">
+                            {%if r.image.url %}
+                                <img src="{{ r.image.url }}" />
+                            {% endif %}
+                            <div>
+                                {{ r.except|truncatewords:50 }}
+                            </div>
+                            <div>
+                                <a href="{{ r.link }}">{% trans 'Read more' %}</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endautoescape %}
             {% endfor %}
         </div>
     </div>
