@@ -233,6 +233,12 @@ def cartData(context, *args, **kwargs):
         noButtons = False
     if 'cartId' in request.session:
         cart = Cart.objects.get(id=request.session['cartId'])
+
+        if request.user.is_authenticated():
+            if not cart.user:
+                cart.user = request.user
+                cart.save()
+
         items = CartProduct.objects.filter(cart=cart)
         return {
             'noButtons': noButtons,
