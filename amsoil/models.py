@@ -366,7 +366,13 @@ class CartProduct(models.Model):
             return pv.price
         except:
             pass
+        user_discount = 0
         if us is not None:
+
+            #znizka z bazy danych
+            de = UserMeta.getValue(us,'discount_ends')
+            if datetime.datetime.strptime(de, '%Y-%m-%d') > datetime.datetime.now():
+                user_discount = float(UserMeta.getValue(us,'discount'))
             #product_discounts = UserDiscount.objects.filter(product=pv) | \
             #                    UserDiscount.objects.filter(attribute__in=pv.product.attributes.all())
             discount = ( ( UserDiscount.objects.filter(user=us) |
@@ -381,9 +387,10 @@ class CartProduct(models.Model):
             discount = 0
         if not order_discount:
             order_discount = self.cart.getUserDiscount(us, True)
-        if order_discount > discount:
-            discount = order_discount
-        return pv.price * (1 - float(discount) / 100)
+
+        discount = max([discount, user_discount, order_discount])
+        if discount > 0:
+            return pv.price * (1 - float(discount) / 100)
 
 
     class Meta:
