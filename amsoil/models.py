@@ -356,9 +356,12 @@ class CartProduct(models.Model):
     def get_mine_price(self, order_discount=False):
         pv = self.productVariation
         try:
-            us = self.cart.order.user
+            us = self.cart.user
         except:
-            us = None
+            try:
+                us = self.cart.order.user
+            except:
+                us = None
 
         #dla promocji nie ma juz znizek
         try:
@@ -370,9 +373,9 @@ class CartProduct(models.Model):
         if us is not None:
 
             #znizka z bazy danych
-            de = UserMeta.getValue(us,'discount_ends')
-            if datetime.datetime.strptime(de, '%Y-%m-%d') > datetime.datetime.now():
-                user_discount = float(UserMeta.getValue(us,'discount'))
+            #de = UserMeta.getValue(us,'discount_ends')
+            #if de and datetime.datetime.strptime(de, '%Y-%m-%d') > datetime.datetime.now():
+            #    user_discount = float(UserMeta.getValue(us,'discount'))
             #product_discounts = UserDiscount.objects.filter(product=pv) | \
             #                    UserDiscount.objects.filter(attribute__in=pv.product.attributes.all())
             discount = ( ( UserDiscount.objects.filter(user=us) |
@@ -388,9 +391,11 @@ class CartProduct(models.Model):
         if not order_discount:
             order_discount = self.cart.getUserDiscount(us, True)
 
-        discount = max([discount, user_discount, order_discount])
+        discount = max([discount, order_discount])
         if discount > 0:
             return pv.price * (1 - float(discount) / 100)
+        else:
+            return pv.price
 
 
     class Meta:
@@ -447,7 +452,7 @@ class Cart(models.Model):
 
     type = models.CharField(choices=(('FI', 'finished'), ('TE', 'temporary')), max_length=20, default='FI')
     json = models.CharField(max_length=1500, default='{}')
-    #user = models.ForeignKey(User, blank=True, null=True)
+    user = models.ForeignKey(User, blank=True, null=True)
     #order = models.ForeignKey('Order', default = None,null = True)
     def getTotal(self):
         total = CartProduct.objects.filter(cart=self).aggregate(total=Sum('price', field="price*quantity"))['total']

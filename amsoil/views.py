@@ -469,6 +469,11 @@ def addToCart(request):
             request.session['cartId'] = c.id
         else:
             c = Cart.objects.get(id=request.session['cartId'])
+
+        if request.user.is_authenticated():
+           if not c.user:
+               c.user = request.user
+               c.save()
         if 'product' in request.POST:
             p = Product.objects.get(id=request.POST['product'])
             pv = p.variations.first()
