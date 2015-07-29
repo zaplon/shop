@@ -779,7 +779,7 @@ def createOrderNr(instance, sender, **kwargs):
             instance.total += instance.shippingMethod.price
         instance.discount = instance.cart.getDiscount()
         instance.income = instance.get_income()
-        instance.margin = instance.get_margin()
+        #instance.margin = instance.get_margin()
     except:
         c = Cart()
         c.save()
