@@ -355,13 +355,9 @@ class CartProduct(models.Model):
 
     def get_mine_price(self, order_discount=False):
         pv = self.productVariation
-        try:
-            us = self.cart.user
-        except:
-            try:
+        us = self.cart.user
+        if not us:
                 us = self.cart.order.user
-            except:
-                us = None
 
         #dla promocji nie ma juz znizek
         try:
