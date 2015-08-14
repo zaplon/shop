@@ -80,6 +80,8 @@ urlpatterns = patterns('',
     url(r'^robots.txt', views.robots, name='robots'),
 
     url(r'^accept-cookies/', views.accept_cookies, name='accept-cookies'),
+    url(r'^ifirma/', views.ifirma, name='ifirma'),
+
 
     url(r'^(?P<title>.*)/$', views.page, name='page'),
 

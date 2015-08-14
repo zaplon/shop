@@ -58,11 +58,11 @@ class OrderAdmin(admin.ModelAdmin):
     }
     list_display = ('id','number','status', 'date','email','total','income','margin','in_ifirma')
     inlines = (ShipmentInline, InvoiceInline,)
-    readonly_fields = ('date','resend_mail','get_cart_url', 'number')
+    readonly_fields = ('date','resend_mail','get_cart_url', 'number', 'do_ifirma')
     list_editable = ('status',)
     list_filter = ('status','date', 'user')
     #change_form_template = ADMIN_TEMPLATES_ROOT + 'change_order.html'
-    fields = (['status', 'in_ifirma', 'deadline'],['total','discount','income','margin'],['number','date'],'user',
+    fields = (['status', 'in_ifirma', 'do_ifirma', 'deadline'],['total','discount','income','margin'],['number','date'],'user',
               ['paymentMethod','shippingMethod','free_shipping'],
               ['email','phone'], 'notes', 'resend_mail', 'get_cart_url')
 

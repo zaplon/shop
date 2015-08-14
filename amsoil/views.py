@@ -729,3 +729,10 @@ def archoil_order(request):
     s.order = o
     s.save()
     return HttpResponse(json.dumps({'success': True}), content_type='application/json')
+
+
+def ifirma(request):
+    order = Order.objects.get(id = request.GET['id'])
+    order.ifirma()
+    return HttpResponse()
+

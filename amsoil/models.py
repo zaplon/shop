@@ -610,6 +610,8 @@ class Order(models.Model):
     in_ifirma = models.BooleanField(default=False, verbose_name='Zaksięgowane')
     free_shipping = models.BooleanField(default=False, verbose_name='Darmowa wysyłka')
     deadline = models.DateTimeField(verbose_name='Termin płatności')
+    def do_ifirma(self):
+        return '<a target="_blank" href="/ifirma/?id='+str(self.id)+'" class="grp-button grp-default">Zaksięguj</a>'
 
     def get_income(self):
         return CartProduct.objects.filter(cart__order=self).aggregate(total=Sum('price', field='price-purchase_price'))['total']
