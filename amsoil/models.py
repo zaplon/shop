@@ -357,8 +357,10 @@ class CartProduct(models.Model):
         pv = self.productVariation
         us = self.cart.user
         if not us:
+            try:
                 us = self.cart.order.user
-
+            except:
+                us = None
         #dla promocji nie ma juz znizek
         try:
             on_promotion = pv.product.categories.get(name__iexact='promocje')
