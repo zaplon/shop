@@ -611,7 +611,7 @@ class Order(models.Model):
     margin = models.FloatField(default=0, verbose_name='Marża')
     in_ifirma = models.BooleanField(default=False, verbose_name='Zaksięgowane')
     free_shipping = models.BooleanField(default=False, verbose_name='Darmowa wysyłka')
-    deadline = models.DateTimeField(verbose_name='Termin płatności')
+    deadline = models.DateField(verbose_name='Termin płatności')
     def do_ifirma(self):
         return '<a target="_blank" href="/ifirma/?id='+str(self.id)+'" class="grp-button grp-default">Zaksięguj</a>'
 
@@ -788,29 +788,33 @@ def createOrderNr(instance, sender, **kwargs):
     #zmniejszamy stany magazynowe
     for cp in instance.cart.cartProducts.all():
         pv = cp.productVariation
-        pv.amount -= cp.quantity
+        if pv.amount >= cp.quantity:
+            pv.amount -= cp.quantity
+        else:
+            pv.amount = 0
         pv.total_sales += cp.quantity
         pv.save()
 
     #dodajemy adresy i faktury jeśli trzeba
-    if len(instance.shipment.all()) == 0:
-        shs = Shipment.objects.filter(user=instance.user)
-        for s in shs:
-            s.id = None
-            s.order = instance
-            s.save()
-    try:
-        instance.invoice
-    except:
+    if instance.user is not None:
+        if len(instance.shipment.all()) == 0:
+            shs = Shipment.objects.filter(user=instance.user)
+            for s in shs:
+                s.id = None
+                s.order = instance
+                s.save()
         try:
-            inv = Invoice.objects.get(user=instance.user)
-            inv.NIP = inv.NIP.replace('-','')
-            inv.id = None
-            inv.order = instance
-            inv.user = None
-            inv.save()
+            instance.invoice
         except:
-            pass
+            try:
+                inv = Invoice.objects.get(user=instance.user)
+                inv.NIP = inv.NIP.replace('-','')
+                inv.id = None
+                inv.order = instance
+                inv.user = None
+                inv.save()
+            except:
+                pass
 
     if instance.status == 'FI' and not instance.in_ifirma:
         if instance.ifirma():
