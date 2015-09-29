@@ -622,6 +622,22 @@ class Order(models.Model):
             return CartProduct.objects.filter(cart__order=self).aggregate(total=Sum('price', field='(price-purchase_price)/purchase_price'))['total']
         except:
             return 0
+
+    def correctQuantities(self, dir=0):
+    #zmniejszamy stany magazynowe
+        for cp in self.cart.cartProducts.all():
+            pv = cp.productVariation
+            if dir == 1:
+                pv.amount += cp.quantity
+                pv.total_sales -= cp.quantity
+            else:
+                if pv.amount >= cp.quantity:
+                    pv.amount -= cp.quantity
+                else:
+                    pv.amount = 0
+                pv.total_sales += cp.quantity
+            pv.save()
+
     def ifirma(self):
         instance = self
             #api ifirma
@@ -784,16 +800,6 @@ def createOrderNr(instance, sender, **kwargs):
         c = Cart()
         c.save()
         instance.cart = c
-
-    #zmniejszamy stany magazynowe
-    for cp in instance.cart.cartProducts.all():
-        pv = cp.productVariation
-        if pv.amount >= cp.quantity:
-            pv.amount -= cp.quantity
-        else:
-            pv.amount = 0
-        pv.total_sales += cp.quantity
-        pv.save()
 
     #dodajemy adresy i faktury jeśli trzeba
     if instance.user is not None:

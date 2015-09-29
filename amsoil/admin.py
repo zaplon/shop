@@ -181,6 +181,15 @@ class CartAdmin(admin.ModelAdmin):
     readonly_fields = ['getTotal']
     fields = ['getTotal']
 
+    def save_related(self, request, form, formsets, change):
+        super(CartAdmin, self).save_related(request, form, formsets, change)
+        form.instance.order.correctQuantities(0)
+
+    def save_model(self, request, obj, form, change):
+        if obj.order:
+            obj.order.correctQuantities(1)
+        obj.save()
+
 class AttributeAdmin(admin.ModelAdmin):
   form = AttributeAdminForm
 admin.site.register(Attribute, AttributeAdmin)

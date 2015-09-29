@@ -277,6 +277,9 @@ def checkout(request):
             # c.order = order
             c.save()
 
+            if request.user.is_authenticated():
+                order.user = request.user
+
             order.save()
 
             #pierwsze i ostanie zapisanie faktury
@@ -309,15 +312,10 @@ def checkout(request):
                 if 'receiver' in data:
                     receiver.save()
 
-            if request.user.is_authenticated():
-                order.user = request.user
-
             if pm.needsProcessing:
                 order.save()
                 res = processOrder(order, request)
                 return HttpResponse(json.dumps({'success': True, 'url': res.url}))
-
-            order.save()
 
             #ifirma api
             order.ifirma()
@@ -325,6 +323,8 @@ def checkout(request):
             #wysyłanie emaili
             newOrder(order, request)
             orderNotification(order, request)
+
+            order.correctQuantities()
 
             del request.session['cartId']
             thanks_message = CHECKOUT_THANK_YOU
