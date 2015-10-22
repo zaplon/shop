@@ -96,7 +96,7 @@ class ProductAdmin(admin.ModelAdmin):
     fields = ('name','shortName','description',
               ('attributes'),('mainImage'),
               ('categories','tags'),'is_published')
-    #pass
+
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ['title','author']
@@ -107,8 +107,10 @@ admin.site.register(Post, PostAdmin)
 class ProductVariationAdmin(admin.ModelAdmin):
     model = ProductVariation
     search_fields = ['product__name']
-    list_display = ['product','getAttributesString','price','purchase_price','amount','total_sales','archoil_id']
+    list_display = ['product','getAttributesString','price','purchase_price','amount','total_sales','archoil_id', 'allegro']
     list_editable = ['price','amount','purchase_price','archoil_id']
+    readonly_fields = ['allegro', 'getAttributesString']
+    fields = ['product','getAttributesString','price','purchase_price','amount','total_sales','archoil_id', 'allegro']
 
 admin.site.register(ProductVariation, ProductVariationAdmin)
 

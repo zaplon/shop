@@ -736,3 +736,10 @@ def ifirma(request):
     order.ifirma()
     return HttpResponse()
 
+
+def allegro(request,id):
+    p = ProductVariation.objects.get(id=id)
+    opakowanie = p.attributes.filter(group__name='opakowanie')[0].value
+    return render_to_response('allegro.html', {'product': p.product, 'variation':p,
+                                               'opakowanie': opakowanie},
+                              context_instance=RequestContext(request))

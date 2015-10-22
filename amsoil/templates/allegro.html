@@ -1,0 +1,232 @@
+{% load tags %}
+{% load inlinecss %}
+{% load staticfiles %}
+
+<style>
+
+    .panel table{
+        border: none;
+        width: 100%;
+    }
+    .panel table td{
+        border: none;
+    }
+    .nav ul{
+        list-style: none;
+        padding: 0px 0px;
+        margin: 0;
+        box-shadow: 0px 10px 8px #ccc;
+        padding: 5px 0;
+    }
+    .nav ul li{
+        padding: 5px 10px;
+        background-color: white;
+        display: inline-block;
+    }
+    .nav ul li a{
+        color: #007dc6;
+        cursor: pointer;
+        text-decoration: none;
+    }
+   .panel {
+       margin-bottom: 21px;
+       background-color: #ffffff;
+       border: 1px solid transparent;
+       border-radius: 0;
+       -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+       box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+       border: 1px solid #ddd;
+       margin-top: 20px;
+   }
+   .panel-heading{
+       background-color: black;
+       background-image: url('http://najlepszysyntetyk.pl/static/images/pattern_dark.png');
+       color: white;
+       font-weight: bold;
+       font-size: 20px;
+       padding: 10px;
+       font-style: italic
+   }
+   .panel-body{
+       padding: 10px;
+   }
+    .item-price {
+        display: inline-block;
+        font-size: 24px;
+        font-weight: bold;
+        color: #007dc6;
+        margin-right: 2px;
+    }
+    .currency{
+        color: #007dc6;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+        font-family: "Source Sans Pro", Calibri, Candara, Arial, sans-serif;
+    }
+    h1.product-title {
+        font-size: 39px;
+        text-align: center;
+    }
+    .border{
+        border: 1px solid #dddddd;
+    }
+    footer.page {
+        margin-top: -10px;
+        background-color: black;
+        background-image: url("http://najlepszysyntetyk.pl/static/images/pattern_dark.png");
+        margin-bottom: 0px;
+        color: white;
+        padding: 15px;
+        padding-bottom: 0px;
+    }
+</style>
+
+    <div style="background-color: #dddddd !important; background-image: url('http://najlepszysyntetyk.pl/static/images/pattern_back.png'); background-repeat: repeat;width: 100%;">
+        <div style="width: 100%; margin:0 auto; background-color: white;">
+            <div style="background-color:#007dc6;height: 55px; padding:10px 0">
+                <a href="http://najlepszysyntetyk.pl" target="_blank" style="height: 100%; float: left; width: 220px;
+background-image: url('http://najlepszysyntetyk.pl/static/images/logo.png'); background-size: cover; margin-right: 20px; cursor: pointer;">
+                </a>
+            </div>
+            <div class="nav">
+                <ul>
+
+                    <li style="width: calc(100%/3 - 40px)">
+                        <a href="http://allegro.pl/my_page.php?us_id=1043233" target="_blank">O nas</a>
+                    </li>
+                    <li style="width: calc(100%/3 - 40px)">
+                        <a href="http://allegro.pl/listing/user/listing.php?us_id=1043233" target="_blank">Nasze aukcje</a>
+                    </li>
+                    <li style="width: calc(100%/3 - 40px)">
+                        <a target="_blank"
+                           href="http://allegro.pl/show_user.php?uid=1043233">Komentarze</a>
+                    </li>
+                </ul>
+            </div>
+            <div style="margin-top:15px; width:20%; float: left;" class="">
+                <div class="panel">
+                    <div class="panel-heading">Kontakt</div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td><span style="font-weight: bold">mail:</span></td>
+                                <td><a href="mailto:info@najlepszysyntetyk.pl">info@najlepszysyntetyk.pl</a></td>
+                            </tr>
+                            <tr>
+                                <td><span style="font-weight: bold">www:</span></td>
+                                <td><a href="http://najlepszysyntetyk.pl">http://najlepszysyntetyk.pl</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-heading">Płatności</div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td><span style="font-weight: bold">
+                                    Płatność kartą</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                   <span style="font-weight: bold">Płatność przelewem</span>
+                                    <br/>
+                                    <p style="margin-left: 10px; margin-top: 5px;">
+                                        Bank Millenium<br/>
+                                        Numer konta: 14116022020000000213128273<br/>
+                                        PHU ISKRA ZAPAŁ EWA<br/>
+                                        ul. Bodycha 77<br/>
+                                        05-820 Reguły<br/>
+                                    </p>
+                                </td></tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-heading">Regulamin</div>
+                    <div class="panel-body">
+                        <a href="http://najlepszysyntetyk.pl/regulamin" target="_blank">Czytaj tutaj</a>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div class="panel-heading">Dostawa</div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td style="font-weight:bold">Do 1000zł</td>
+                                <td>12zł</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold">Powyżej 1000zł</td>
+                                <td>Gratis!</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div style="padding:20px 0; width: 75%; float: right;">
+                <div style="float: left; width: 60%; text-align: center">
+                    <div class="product-title col-md-12">
+                        <h1 class="product-title">{{ product.name }}</h1>
+                        <img style="max-height:300px;"
+                             src="http://najlepszysyntetyk.pl/static/{{ product.mainImage.url }}">
+                    </div>
+                </div>
+                <div style="float: right; width:36%; margin-top:0px;">
+
+                    <div class="panel">
+                        <div class="panel-heading">
+                            Szczegóły produktu
+                        </div>
+                        <div class="panel-body">
+                            <table>
+                                <tr>
+                                    <td colspan="2">
+                                        <span class="item-price">
+                                            {{ variation.price }}
+                                        </span>
+                                        <span class="currency">zł</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+
+                                    </td>
+                                </tr>
+
+                                {%for a in product.getGroupedAttributes %}
+                                    <tr>
+                                        <td><span style="font-weight:bold">{{a.name}}:</span></td>
+                                        <td><span>{{a.atts}}</span></td>
+                                    </tr>
+                                {% endfor %}
+
+                            {% if opakowanie %}
+                                <tr>
+                                    <td><span style="font-weight:bold">Opakowanie:</span></td>
+                                    <td><span>{{ opakowanie }}</span></td>
+                                </tr>
+
+                            {% endif %}
+                        </table>
+                        </div>
+                    </div>
+
+                </div>
+                <div style="clear:both"></div>
+                <div class="border" style="border-bottom: none; padding: 10px; display:inline-block;
+                margin-top: 20px; padding-left: 20px; padding-right: 20px;">
+                    Opis produktu
+                </div>
+                <div style="border-top: 1px solid #ddd; padding: 10px; text-align:justify">
+                    {{ product.description|safe|linebreaks }}
+                </div>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+
+    </div>

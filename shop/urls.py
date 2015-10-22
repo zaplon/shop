@@ -82,7 +82,7 @@ urlpatterns = patterns('',
     url(r'^accept-cookies/', views.accept_cookies, name='accept-cookies'),
     url(r'^ifirma/', views.ifirma, name='ifirma'),
 
-
+    url(r'^allegro/(?P<id>[0-9]+)/$', views.allegro, name='allegro'),
     url(r'^(?P<title>.*)/$', views.page, name='page'),
 
 )

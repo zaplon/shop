@@ -191,6 +191,10 @@ class ProductVariation(models.Model):
             pr += ' ' + a.group.name + ' ' + a.name
         return pr
 
+    def allegro(self):
+        return '<a href="/allegro/%s" target="_blank">link</a>' % self.id
+    allegro.short_description = 'allegro'
+    allegro.allow_tags = True
     class Meta:
         verbose_name = 'Wariant produktu'
         verbose_name_plural = 'Warianty produktów'
