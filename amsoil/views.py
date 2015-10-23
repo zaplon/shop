@@ -43,7 +43,7 @@ class OrderView(DetailView):
 
 
 def home(request):
-    return render_to_response('index.djhtml', {}, context_instance=RequestContext(request))
+    return render_to_response('index.djhtml', {'title': 'Oleje silnikowe przekładniowe dodatki  | Amsoil | Archoil | Specol | Meguin'}, context_instance=RequestContext(request))
 
 
 def page(request, title):
