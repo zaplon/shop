@@ -43,7 +43,7 @@ class OrderView(DetailView):
 
 
 def home(request):
-    return render_to_response('index.djhtml', {}, context_instance=RequestContext(request))
+    return render_to_response('index.djhtml', {'title': 'Oleje silnikowe przekładniowe dodatki  | Amsoil | Archoil | Specol | Meguin'}, context_instance=RequestContext(request))
 
 
 def page(request, title):
@@ -51,7 +51,7 @@ def page(request, title):
         page = Page.objects.get(title=title)
     except:
         page = Page.objects.get(url=title)
-    return render_to_response('page.html', {'page': page}, context_instance=RequestContext(request))
+    return render_to_response('page.html', {'page': page, 'title': page.title}, context_instance=RequestContext(request))
 
 
 def shop(request):
@@ -591,7 +591,7 @@ class ShopProductListView(generics.ListAPIView):
 
 def singleProduct(request, name):
     product = Product.objects.get(name=name)
-    return render_to_response('singleProduct.djhtml', {'product': product}, context_instance=RequestContext(request))
+    return render_to_response('singleProduct.djhtml', {'product': product, 'title': product.name}, context_instance=RequestContext(request))
 
 
 def quickContact(request):
