@@ -19,18 +19,19 @@
           ga('send', 'pageview');
 
         </script>
+
+            <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.11.1.min.js" charset="utf-8"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui.min.js" charset="utf-8"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}js/slider.js" charset="utf-8"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}js/productSlider.js" charset="utf-8"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}js/shop.js" charset="utf-8"></script>
+
         {% compress js %}
-            <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}js/slider.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}js/productSlider.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}js/shop.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}js/mustache.js" charset="utf-8"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}js/handlebars.js" charset="utf-8"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}js/bootbox.min.js" charset="utf-8"></script>
 
-            <script type="text/javascript" src="{{ STATIC_URL }}js/mustache.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}js/handlebars.js"></script>
-            <script type="text/javascript" src="{{ STATIC_URL }}js/bootbox.min.js"></script>
-
-            <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-slider.js"></script>
+            <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-slider.js" charset="utf-8"></script>
 
         {% endcompress %}
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
@@ -40,9 +41,9 @@
             <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-slider.css" />
             <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ie.css" />
             <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/small-devices.css" />
+            <link rel="stylesheet" href="{{ STATIC_URL }}css/theme2.css" >
         {% endcompress %}
 
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/theme2.css" >
         <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css" />
 
         {% block scripts %}
