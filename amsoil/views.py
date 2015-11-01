@@ -614,11 +614,15 @@ def quickContact(request):
 
 def search(request):
     term = request.GET['term']
-    pages = Page.objects.filter(Q(body__icontains=term) | Q(title__icontains=term))
-    products = Product.objects.filter(Q(name__icontains=term) | Q(description__icontains=term))
+    pages_title = Page.objects.filter(Q(title__icontains=term))
+    pages_body = Page.objects.filter(Q(body__icontains=term))
+
+    products_title = Product.objects.filter(Q(name__icontains=term))
+    products_body = Product.objects.filter(Q(description__icontains=term))
     res = []
     prods = []
-    pages = []
+    pages = pages_title + pages_body
+    products = products_title + products_body
     for p in pages:
         pages.append({'id': p.id, 'except': p.body, 'title': p.title, 'link': '/' + p.url})
     for p in products:
