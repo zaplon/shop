@@ -621,11 +621,16 @@ def search(request):
     products_body = Product.objects.filter(Q(description__icontains=term))
     res = []
     prods = []
-    pages = pages_title + pages_body
+    pages = []
     products = products_title + products_body
-    for p in pages:
+    for p in pages_title:
         pages.append({'id': p.id, 'except': p.body, 'title': p.title, 'link': '/' + p.url})
-    for p in products:
+    for p in pages_body:
+        pages.append({'id': p.id, 'except': p.body, 'title': p.title, 'link': '/' + p.url})
+    for p in products_title:
+        prods.append({'id': p.id, 'except': p.shortDescription, 'title': p.name, 'image': p.mainImage,
+                    'link': '/sklep/produkt/' + p.name + '/'})
+    for p in products_body:
         prods.append({'id': p.id, 'except': p.shortDescription, 'title': p.name, 'image': p.mainImage,
                     'link': '/sklep/produkt/' + p.name + '/'})
 
