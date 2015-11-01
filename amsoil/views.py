@@ -622,7 +622,6 @@ def search(request):
     res = []
     prods = []
     pages = []
-    products = products_title + products_body
     for p in pages_title:
         pages.append({'id': p.id, 'except': p.body, 'title': p.title, 'link': '/' + p.url})
     for p in pages_body:
